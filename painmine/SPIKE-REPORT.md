@@ -95,11 +95,27 @@ limits and expected quality are documented per class in `painmine/sources.json`.
 | 11 | Integration/app marketplace reviews | disabled | Requires per-marketplace terms review |
 | 12 | Public spreadsheets/templates/checklists | disabled | Provenance/licensing risk |
 | 13 | Niche trade publications | disabled | Paywalls/republishing risk |
+| 14 | Discourse communities (public `/search.json`) | **implemented, disabled pending owner site approval** | Public read endpoint; each instance has its own terms/robots rules, so no site is enabled until the owner approves it. Added 2026-09-21 as a non-regulatory, buyer-side source class |
 
 The four live classes were exercised in one run. `reddit_public_json` produced
 0 items across 15 scheduled query attempts (1 real HTTP call -> 403, then 14
 attempts blocked by the exhausted request budget); this is recorded, not
 hidden.
+
+**Updated 2026-09-21 (opportunity-quality work).** Two Method 1.6 sweeps showed
+that the trawl finds real, cited pain but that widely-discussed pain is already
+monetised, so nearly every triage rejection was "a credible incumbent already
+occupies this seam". Three changes follow from that: query families now target
+spend, paid workarounds and named-system seams (`d_paid_workaround`,
+`e_unserved_seam` added; the generic "double entry excel process" query
+dropped); extraction has a `paid_workaround` cue group, because a problem
+someone already pays to work around is the strongest evidence it has a budget;
+and cross-run restatements may now hold a cluster together while remaining
+excluded from independent-source counts (`restated_count`), so an accumulated
+state no longer collapses to zero clusters. Vendor copy can no longer be
+exempted from the marketing filter by a `money_cost` or `paid_workaround` hit
+alone, since those patterns also fire on phrases like "we pay attention to
+detail".
 
 ## 4. Bounded PoC run
 

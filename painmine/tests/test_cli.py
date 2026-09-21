@@ -88,16 +88,37 @@ class TestCli(unittest.TestCase):
             cli.family_queries(SOURCES, "not-a-family")
 
     def test_known_families_are_non_empty(self):
-        for family in ("a_manual_rekey", "b_tooling_gap", "c_cost_pain"):
+        for family in (
+            "a_manual_rekey",
+            "b_tooling_gap",
+            "c_cost_pain",
+            "d_paid_workaround",
+            "e_unserved_seam",
+        ):
             self.assertTrue(cli.family_queries(SOURCES, family))
 
     def test_all_family_merges_every_family(self):
         merged = cli.family_queries(SOURCES, "all")
         expected = set()
-        for family in ("a_manual_rekey", "b_tooling_gap", "c_cost_pain"):
+        for family in (
+            "a_manual_rekey",
+            "b_tooling_gap",
+            "c_cost_pain",
+            "d_paid_workaround",
+            "e_unserved_seam",
+        ):
             expected.update(cli.family_queries(SOURCES, family))
         self.assertEqual(set(merged), expected)
         self.assertEqual(len(merged), len(set(merged)))
+
+    def test_query_families_target_spend_and_seams(self):
+        """Families must ask for spend/workarounds, not generic complaint chatter."""
+        spend = cli.family_queries(SOURCES, "d_paid_workaround")
+        self.assertTrue(any("pay" in q.lower() or "outsourc" in q.lower() for q in spend))
+        seam = cli.family_queries(SOURCES, "e_unserved_seam")
+        self.assertTrue(any("integrat" in q.lower() for q in seam))
+        every = cli.family_queries(SOURCES, "all")
+        self.assertFalse(any('"double entry" excel' in q.lower() for q in every))
 
     def test_max_requests_flag_only_lowers_cap(self):
         limits = cli.load_limits(cli.DEFAULT_LIMITS)

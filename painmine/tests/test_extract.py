@@ -4,7 +4,7 @@ import unittest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
-from painmine.extract import EXTRACTOR_VERSION, extract_many, named_systems  # noqa: E402
+from painmine.extract import EXTRACTOR_VERSION, extract_many, extract_signal, named_systems  # noqa: E402
 from painmine.fetch import load_fixture_items  # noqa: E402
 from painmine.schema import validate_signal  # noqa: E402
 from painmine.util import read_json  # noqa: E402
@@ -72,6 +72,43 @@ class TestExtract(unittest.TestCase):
     def test_named_systems_lexicon_is_bounded(self):
         self.assertEqual(named_systems("Nothing here"), [])
         self.assertIn("Xero", named_systems("we use Xero"))
+
+    def test_paid_workaround_is_a_strong_cue(self):
+        """Spend evidence must extract even without a manual/time cue."""
+        item = {
+            "source_type": "hn",
+            "source_id": "hn:paid-1",
+            "url": "https://example.test/paid-1",
+            "title": "Paying for data entry",
+            "text": (
+                "We pay a virtual assistant to keep our supplier records up to date "
+                "and it costs us a fortune every single month."
+            ),
+            "author": "paid_pat",
+            "published_at": "2026-09-01",
+        }
+        signal, reason = extract_signal(item, LIMITS)
+        self.assertEqual(reason, "")
+        self.assertIsNotNone(signal)
+        self.assertIn("paid_workaround", signal["extraction_provenance"]["cue_groups"])
+
+    def test_paid_workaround_does_not_rescue_vendor_marketing(self):
+        item = {
+            "source_type": "hn",
+            "source_id": "hn:paid-2",
+            "url": "https://example.test/paid-2",
+            "title": "Our platform",
+            "text": (
+                "Our platform helps teams reconcile supplier records every week. "
+                "Book a demo. Request a demo. We pay attention to detail and "
+                "outsourced teams love us."
+            ),
+            "author": "vendor",
+            "published_at": "2026-09-01",
+        }
+        signal, reason = extract_signal(item, LIMITS)
+        self.assertIsNone(signal)
+        self.assertEqual(reason, "vendor_marketing_only")
 
 
 if __name__ == "__main__":

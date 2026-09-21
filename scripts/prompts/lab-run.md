@@ -61,6 +61,16 @@ Discovery expectations for this run (method 1.6.0):
   becomes a candidate only after full fresh research (own evidence, hard filters,
   scorecard) and never inherits the parent's score or evidence level. Do not run a
   seed-only cycle: also search fresh opportunities.
+- Check for a pre-swept observation pool from the painmine collector: if
+  `observations/` contains a pool produced by `painmine` (header names painmine and a
+  `pm-` run id), read the most recent one and use its observations as additional,
+  already-cited inputs to your own sweep. They are inputs only: they carry no score,
+  no evidence level and no triage outcome, they cannot consume the three-candidate
+  limit, and you must still run your own 15-20 observation sweep, your own shallow
+  triage (including the sampled false-negative audit) and your own promotion decision.
+  Record in the summary which painmine pool you read and which observations you
+  re-used, re-triaged or rejected, with your own reasoning. If no such pool exists,
+  say so and proceed with a normal sweep.
 - For each promoted candidate, prefer a second-order operational seam (manual handoff,
   re-keying, reconciliation, exception handling, integration gap) over a generic
   compliance/dashboard product, or record why the first-order product is genuinely

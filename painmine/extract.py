@@ -59,6 +59,20 @@ CUE_GROUPS: dict[str, list[str]] = {
         r"\b(subscription|licen[cs]e|licensing) (cost|fee|is|are)\b",
         r"\bper (seat|user|month) pricing\b",
     ],
+    # Paid workarounds are the strongest evidence that a problem already has a
+    # budget: someone is paying a human or a tool to absorb it. Added 2026-09-21
+    # because extraction previously looked for pain, not spend.
+    "paid_workaround": [
+        r"\bwe pay (a|an|someone|people|staff|a va|a virtual assistant)\b",
+        r"\bpaying (a|an|someone|people|staff|a va)\b",
+        r"\b(hired|employ|employing|took on) (a|an|someone|staff|a va|a virtual assistant)\b",
+        r"\boutsourc\w*\b",
+        r"\bvirtual assistant\b",
+        r"\bdata entry (staff|agency|team|person|clerk)\b",
+        r"\bper (seat|user|licen[cs]e) (pricing|fee|cost)\b",
+        r"\b(minimum|annual|12[- ]month|two[- ]year) (contract|term|commitment)\b",
+        r"\bwe'?re locked in(to)?\b",
+    ],
     "dissatisfaction": [
         r"\b(frustrat\w*|annoy\w*|hate|painful|nightmare|mess|shambles)\b",
         r"\bdoesn'?t (work|support|integrate|handle|do)\b",
@@ -112,13 +126,22 @@ GROUP_WEIGHTS = {
     "workaround": 2,
     "time_cost": 2,
     "money_cost": 2,
+    "paid_workaround": 2,
     "dissatisfaction": 1,
     "integration": 1,
     "frequency": 1,
     "automation_wish": 1,
 }
 
-STRONG_GROUPS = {"manual", "workaround", "time_cost", "money_cost", "dissatisfaction", "automation_wish"}
+STRONG_GROUPS = {
+    "manual",
+    "workaround",
+    "time_cost",
+    "money_cost",
+    "paid_workaround",
+    "dissatisfaction",
+    "automation_wish",
+}
 
 SYSTEM_NAMES = [
     "Excel", "Google Sheets", "Airtable", "Notion", "SharePoint", "Microsoft Access",
@@ -264,8 +287,13 @@ def _first_clue(text: str, group: str) -> str | None:
 
 def _is_vendor_marketing(text: str, groups: dict[str, list[str]]) -> bool:
     vendor_hits = sum(1 for regex in VENDOR_MARKETING if regex.search(text))
+    # Only cues that describe the buyer's own labour or dissatisfaction can
+    # exempt vendor copy. money_cost and paid_workaround are excluded because
+    # their patterns also fire on vendor phrasing ("we pay attention to
+    # detail", "outsourced teams love us"), which would let marketing copy
+    # masquerade as first-person pain.
     first_person_pain = bool(FIRST_PERSON.search(text)) and bool(
-        set(groups) & {"manual", "workaround", "time_cost", "money_cost"}
+        set(groups) & {"manual", "workaround", "time_cost", "dissatisfaction", "automation_wish"}
     )
     return vendor_hits >= 2 and not first_person_pain
 

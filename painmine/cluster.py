@@ -148,10 +148,19 @@ def cluster(signals: list[dict], limits: dict) -> list[dict]:
     key_terms_n = int(cfg.get("key_terms", 8))
 
     all_vectors = build_tfidf(signals)
-    canonicals = [s for s in signals if not s.get("duplicate_of")]
+    # Cross-run restatements (duplicate_scope == "previous-run") are evidence
+    # that a pattern recurred, so they may hold a cluster together. They are
+    # still excluded from independent-source counts below, so recurrence is
+    # never inflated by a repost. Within-run duplicates keep travelling with
+    # their canonical and are not clusterable on their own.
+    canonicals = [
+        s
+        for s in signals
+        if not s.get("duplicate_of") or s.get("duplicate_scope") == "previous-run"
+    ]
     duplicates_by_canonical: dict[str, list[dict]] = {}
     for signal in signals:
-        if signal.get("duplicate_of"):
+        if signal.get("duplicate_of") and signal.get("duplicate_scope") != "previous-run":
             duplicates_by_canonical.setdefault(signal["duplicate_of"], []).append(signal)
 
     canonicals.sort(key=lambda s: (-float(s.get("confidence", 0)), s["signal_id"]))
@@ -221,6 +230,7 @@ def cluster(signals: list[dict], limits: dict) -> list[dict]:
         systems = sorted({sys for s in members for sys in (s.get("named_systems") or [])})
         source_types = sorted({s.get("source_type", "?") for s in members if not s.get("duplicate_of")})
         independent = len({independence_key(s) for s in members if not s.get("duplicate_of")})
+        restated = [s for s in members if s.get("duplicate_scope") == "previous-run"]
         cluster_id = "c-" + sha1_hex(
             "|".join(sorted(s["signal_id"] for s in members))[:400], 8
         )
@@ -235,6 +245,7 @@ def cluster(signals: list[dict], limits: dict) -> list[dict]:
                 "duplicate_signal_ids": [d["signal_id"] for d in duplicates],
                 "member_count": len(members),
                 "duplicate_count": len(duplicates),
+                "restated_count": len(restated),
                 "independent_sources": independent,
                 "source_types": source_types,
                 "named_systems": systems,

@@ -384,11 +384,64 @@ def fetch_reddit(query: str, cap: int, budget: Budget) -> tuple[list[dict], dict
     return items, status
 
 
+DISCOURSE_DEFAULT_SITE = "discuss.python.org"
+
+
+def fetch_discourse(
+    query: str, cap: int, budget: Budget, site: str = DISCOURSE_DEFAULT_SITE
+) -> tuple[list[dict], dict]:
+    """Public Discourse search (buyer-side communities, no auth).
+
+    Discourse instances expose a public ``/search.json`` endpoint. Only public
+    read access is used: no authentication, no private endpoints. The class is
+    disabled in sources.json until the owner has checked each site's terms and
+    robots policy.
+    """
+    url = f"https://{site}/search.json?" + urllib.parse.urlencode({"q": query, "page": 1})
+    data, status = http_get_json(url, budget)
+    status["source_id"] = "discourse_public_json"
+    status["query"] = query
+    status["site"] = site
+    items: list[dict] = []
+    if not status.get("ok") or not isinstance(data, dict):
+        status["items"] = 0
+        return items, status
+    topics = {t.get("id"): t for t in (data.get("topics") or []) if isinstance(t, dict)}
+    for post in data.get("posts") or []:
+        if not isinstance(post, dict):
+            continue
+        topic = topics.get(post.get("topic_id")) or {}
+        title = topic.get("title") or post.get("topic_title") or ""
+        text = post.get("blurb") or post.get("cooked") or ""
+        if not str(text).strip():
+            continue
+        topic_id = post.get("topic_id")
+        post_number = post.get("post_number") or post.get("id")
+        items.append(
+            _raw_item(
+                "discourse_public_json",
+                f"discourse:{site}:{topic_id}:{post_number}",
+                f"https://{site}/t/{topic.get('slug') or 'topic'}/{topic_id}/{post_number}",
+                title,
+                text,
+                post.get("username"),
+                post.get("created_at"),
+                post.get("reply_count") or 0,
+                {"site": site, "topic_id": topic_id},
+            )
+        )
+        if len(items) >= cap:
+            break
+    status["items"] = len(items)
+    return items, status
+
+
 COLLECTORS = {
     "hn_algolia": fetch_hn,
     "stack_exchange": fetch_stack_exchange,
     "github_issues": fetch_github,
     "reddit_public_json": fetch_reddit,
+    "discourse_public_json": fetch_discourse,
 }
 
 

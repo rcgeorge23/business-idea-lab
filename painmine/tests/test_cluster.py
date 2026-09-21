@@ -85,5 +85,70 @@ class TestCluster(unittest.TestCase):
         )
 
 
+class TestCrossRunRestatements(unittest.TestCase):
+    """Restatements of prior-run evidence may hold a cluster together.
+
+    They must never count towards independent sources (issue #10 semantics).
+    """
+
+    def _signal(self, signal_id, text, author, duplicate_of=None, scope=None):
+        signal = {
+            "signal_id": signal_id,
+            "source_type": "hn",
+            "source_id": signal_id,
+            "source_url": f"https://example.test/{signal_id}",
+            "retrieved_at": "2026-09-21T00:00:00Z",
+            "published_at": "2026-09-01",
+            "source_author": author,
+            "target_role": "Bookkeeper",
+            "pain_statement": text,
+            "current_workaround": "copy and paste into Excel",
+            "task": "reconcile the ledger",
+            "named_systems": ["Xero", "Excel"],
+            "confidence": 0.8,
+        }
+        if duplicate_of:
+            signal["duplicate_of"] = duplicate_of
+            signal["duplicate_scope"] = scope
+        return signal
+
+    def test_restatements_are_clusterable_but_not_independent(self):
+        text = (
+            "Every week I manually export the bank transactions from Xero to CSV "
+            "and re-key the reference numbers into Excel for the reconciliation."
+        )
+        signals = [
+            self._signal("s1", text, "alice"),
+            self._signal("s2", text, "bob"),
+            self._signal("s3", text, "carol"),
+            # A restatement of a signal first seen in an earlier run.
+            self._signal("s4", text, "dave", duplicate_of="prior-run-signal", scope="previous-run"),
+        ]
+        clusters = cluster(signals, LIMITS)
+        self.assertEqual(len(clusters), 1)
+        top = clusters[0]
+        self.assertEqual(top["member_count"], 4)
+        self.assertEqual(top["restated_count"], 1)
+        self.assertEqual(top["independent_sources"], 3)
+
+    def test_within_run_duplicates_still_travel_with_canonical(self):
+        text = (
+            "Every week I manually export the bank transactions from Xero to CSV "
+            "and re-key the reference numbers into Excel for the reconciliation."
+        )
+        signals = [
+            self._signal("s1", text, "alice"),
+            self._signal("s2", text, "bob"),
+            self._signal("s3", text, "carol"),
+            self._signal("s4", text, "dave", duplicate_of="s1", scope="within-run"),
+        ]
+        clusters = cluster(signals, LIMITS)
+        self.assertEqual(len(clusters), 1)
+        self.assertEqual(clusters[0]["member_count"], 3)
+        self.assertEqual(clusters[0]["duplicate_count"], 1)
+        self.assertEqual(clusters[0]["restated_count"], 0)
+        self.assertEqual(clusters[0]["independent_sources"], 3)
+
+
 if __name__ == "__main__":
     unittest.main()

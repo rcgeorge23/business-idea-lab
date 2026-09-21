@@ -16,7 +16,13 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from painmine.budget import Budget  # noqa: E402
-from painmine.fetch import collect, fetch_github, fetch_reddit, fetch_stack_exchange  # noqa: E402
+from painmine.fetch import (  # noqa: E402
+    collect,
+    fetch_discourse,
+    fetch_github,
+    fetch_reddit,
+    fetch_stack_exchange,
+)
 from painmine.util import read_json  # noqa: E402
 
 LIMITS = read_json(ROOT / "painmine" / "limits.json")
@@ -60,6 +66,72 @@ class TestSafeFailure(unittest.TestCase):
         self.assertEqual(items, [])
         self.assertFalse(status["ok"])
         self.assertEqual(status["source_id"], "reddit_public_json")
+
+
+class TestDiscourseCollector(unittest.TestCase):
+    """Public Discourse search: buyer-side communities, no auth."""
+
+    def _capture(self, payload):
+        captured: dict = {}
+
+        def fake(url, budget, headers=None):
+            captured["url"] = url
+            return payload, {"ok": True, "url": url}
+
+        return captured, fake
+
+    def test_search_json_used_and_item_ids_include_site(self):
+        captured, fake = self._capture(
+            {
+                "topics": [{"id": 77, "title": "Re-keying supplier invoices", "slug": "rekeying"}],
+                "posts": [
+                    {
+                        "topic_id": 77,
+                        "post_number": 3,
+                        "blurb": "We pay a virtual assistant to type these in every week.",
+                        "username": "buyer_bob",
+                        "created_at": "2026-08-01T10:00:00Z",
+                        "reply_count": 4,
+                    }
+                ],
+            }
+        )
+        with mock.patch("painmine.fetch.http_get_json", fake):
+            items, status = fetch_discourse(
+                "manual data entry", 10, Budget(LIMITS), site="community.example.org"
+            )
+        self.assertIn("community.example.org/search.json", captured["url"])
+        self.assertEqual(status["site"], "community.example.org")
+        self.assertEqual(status["source_id"], "discourse_public_json")
+        self.assertEqual(items[0]["source_id"], "discourse:community.example.org:77:3")
+        self.assertEqual(
+            items[0]["url"], "https://community.example.org/t/rekeying/77/3"
+        )
+        self.assertEqual(items[0]["extra"]["site"], "community.example.org")
+        self.assertEqual(items[0]["title"], "Re-keying supplier invoices")
+
+    def test_failure_returns_no_items_with_status(self):
+        def fake(url, budget, headers=None):
+            return None, {"ok": False, "error": "HTTP 403", "error_kind": "http_error"}
+
+        with mock.patch("painmine.fetch.http_get_json", fake):
+            items, status = fetch_discourse("q", 10, Budget(LIMITS), site="community.example.org")
+        self.assertEqual(items, [])
+        self.assertFalse(status["ok"])
+        self.assertEqual(status["source_id"], "discourse_public_json")
+
+    def test_cap_is_respected(self):
+        payload = {
+            "topics": [{"id": 1, "title": "t", "slug": "t"}],
+            "posts": [
+                {"topic_id": 1, "post_number": i, "blurb": f"post {i}", "username": "u"}
+                for i in range(1, 11)
+            ],
+        }
+        with mock.patch("painmine.fetch.http_get_json", lambda url, budget, headers=None: (payload, {"ok": True, "url": url})):
+            items, status = fetch_discourse("q", 3, Budget(LIMITS), site="community.example.org")
+        self.assertEqual(len(items), 3)
+        self.assertEqual(status["items"], 3)
 
 
 class TestStackExchangeSites(unittest.TestCase):

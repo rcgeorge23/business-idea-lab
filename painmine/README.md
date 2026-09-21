@@ -36,13 +36,27 @@ query families ──► bounded fetchers ──► schema extraction ──► 
   circumventing access controls. Enabled collectors may declare per-source
   options: Stack Exchange rotates across network sites (Stack Overflow, Web
   Applications, Money, Workplace, ...) by query position, so one query family
-  reaches business users without spending extra HTTP requests.
+  reaches business users without spending extra HTTP requests. A Discourse
+  collector (`discourse_public_json`, public `/search.json`) is implemented but
+  **disabled**: each instance has its own terms and robots rules, so the owner
+  must approve specific sites before any are added to `options.sites`.
 - **Part 3 retrieval/extraction/dedupe/clustering** — `fetch.py`, `extract.py`,
   `dedupe.py`, `cluster.py`. Retrieval is query-family driven and bounded;
   extraction is deterministic cue matching (no model needed); dedupe collapses
   exact reposts and near-duplicates and counts only genuinely independent
   authors; clustering is TF-IDF + cosine agglomeration with a role-compatibility
   guard so different buyer roles do not merge on shared vocabulary alone.
+  Query families target spend, paid workarounds and named-system seams rather
+  than generic complaint chatter: `a_manual_rekey`, `b_tooling_gap`,
+  `c_cost_pain`, `d_paid_workaround` ("we pay a virtual assistant...",
+  "outsourced data entry...", "per seat pricing...") and `e_unserved_seam`
+  ("doesn't integrate with our accounting software", "no integration between
+  systems", "manual workaround between two systems"). Extraction has a
+  `paid_workaround` cue group, because a problem someone already pays to work
+  around is the strongest evidence it has a budget. Cross-run restatements
+  (`duplicate_scope: previous-run`) may hold a cluster together but are excluded
+  from independent-source counts, so recurrence is never inflated; they are
+  reported separately as `restated_count`.
 - **Part 4 discovery-priority ranking** — `rank.py`. A 0-100 score built from
   independent recurrence, identifiable economic buyer, explicit cost evidence,
   manual workaround/re-keying, dissatisfaction/switching, incumbent integration
@@ -168,9 +182,10 @@ disabled and runs deterministic-only. It never substitutes another inference
 provider.
 
 Trigger manually: **Actions -> painmine-collect -> Run workflow**, choosing a
-query family (`a_manual_rekey`, `b_tooling_gap`, `c_cost_pain`, `all`) and a
-request cap, and optionally synthesis. The scheduled collector rotates the
-family by day-of-year; the weekly job uses `all`.
+query family (`a_manual_rekey`, `b_tooling_gap`, `c_cost_pain`,
+`d_paid_workaround`, `e_unserved_seam`, `all`) and a request cap, and optionally
+synthesis. Scheduled runs are disabled; the owner runs the pipeline locally, ad
+hoc.
 
 ## Local usage
 

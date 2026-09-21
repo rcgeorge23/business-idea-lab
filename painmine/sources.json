@@ -72,6 +72,24 @@
       "observed": "HTTP 403 Blocked from this network on 2026-09-21. Recorded as an access failure; no bypass attempted."
     },
     {
+      "class": "public_practitioner_forum",
+      "source_id": "discourse_public_json",
+      "name": "Discourse communities (public /search.json)",
+      "access": "Public read endpoint https://<site>/search.json (no auth). Site list is configurable.",
+      "terms_notes": "Discourse instances are self-hosted and their terms vary. Only public read endpoints are used; no authentication and no private endpoints. Each site must be checked by the owner for terms/robots before it is added to options.sites.",
+      "rate_limit": "Instance-dependent; the spike's per-run request cap applies.",
+      "expected_signal": "Medium-high: buyer-side professional communities (accounting, legal, trades, operations) discuss manual workarounds and paid staff more than developer forums do.",
+      "expected_volume": "Tens to hundreds of matching posts per query family, depending on the site list.",
+      "cost": "GBP 0",
+      "unattended_ok": true,
+      "enabled": false,
+      "options": {
+        "sites": [],
+        "site_rotation": "Query attempt i uses sites[i % len(sites)], so one family spreads across communities without extra HTTP requests. Item ids include the site because topic ids are only unique within an instance.",
+        "note": "Disabled until the owner approves specific sites. Add hostnames (e.g. 'community.example.org') to options.sites and set enabled true."
+      }
+    },
+    {
       "class": "software_app_reviews",
       "source_id": "review_platforms",
       "name": "Software review platforms (G2, Capterra, TrustRadius)",
@@ -199,20 +217,20 @@
     }
   ],
   "query_families": {
-    "$comment": "Rotated across scheduled runs so we do not hammer the same queries. Each family is a list of literal search strings tied to issue #9's example pain statements.",
+    "$comment": "Rotated across runs so we do not hammer the same queries. Each family is a list of literal search strings. Rewritten 2026-09-21: families now target spend, paid workarounds and named-system seams rather than generic complaint chatter, because widely-discussed pain is already monetised (see runs/20260921T122128Z-normal/issue-drafts-opportunity-quality.md).",
     "a_manual_rekey": [
-      "we still do this manually",
-      "\"copy and paste\" spreadsheet monthly report",
+      "\"we still do this manually\" spreadsheet",
+      "\"copy and paste\" between systems every week",
       "\"re-key\" data between systems",
-      "\"double entry\" excel process",
-      "\"manually export\" csv import"
+      "\"manually export\" csv import",
+      "\"double entry\" bookkeeping software"
     ],
     "b_tooling_gap": [
-      "\"is there software that\" small business",
-      "\"looking for an alternative to\" spreadsheet",
-      "\"our current software doesn't\"",
-      "\"wish it integrated with\"",
-      "\"there has to be a better way\" admin"
+      "\"our current software doesn't\" integrate",
+      "\"wish it integrated with\" accounting",
+      "\"no api\" export csv workaround",
+      "\"there has to be a better way\" admin",
+      "\"is there software that\" handles"
     ],
     "c_cost_pain": [
       "\"hours every week\" manual data entry",
@@ -220,6 +238,20 @@
       "\"too expensive\" small business software",
       "\"minimum contract\" software",
       "\"enterprise plan\" feature locked"
+    ],
+    "d_paid_workaround": [
+      "\"we pay a\" virtual assistant data entry",
+      "\"paying someone\" to copy data",
+      "\"hired a\" bookkeeper to reconcile",
+      "\"outsourced\" data entry spreadsheet",
+      "\"per seat\" pricing too expensive"
+    ],
+    "e_unserved_seam": [
+      "\"doesn't integrate with\" our accounting software",
+      "\"no integration\" between systems",
+      "\"we export to excel\" because",
+      "\"vendor won't\" add integration",
+      "\"manual workaround\" between two systems"
     ]
   }
 }
