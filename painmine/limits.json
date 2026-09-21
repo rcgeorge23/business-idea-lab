@@ -21,7 +21,8 @@
     "max_clusters": 40,
     "min_cluster_size": 3,
     "similarity_threshold": 0.17,
-    "key_terms": 8
+    "key_terms": 8,
+    "max_members_per_thread": 3
   },
   "llm": {
     "enabled": false,

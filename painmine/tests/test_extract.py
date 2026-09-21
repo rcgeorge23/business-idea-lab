@@ -110,6 +110,46 @@ class TestExtract(unittest.TestCase):
         self.assertIsNone(signal)
         self.assertEqual(reason, "vendor_marketing_only")
 
+    def test_auto_generated_digest_post_is_rejected(self):
+        """Digest/roundup posts are machine-written summaries, not buyer pain."""
+        item = {
+            "source_type": "github_issues",
+            "source_id": "gh:agents-radar#1",
+            "url": "https://example.test/agents-radar/1",
+            "title": "AI CLI Tools Digest",
+            "text": (
+                "AI CLI Tools Digest\n"
+                "Generated: 2026-09-20\n"
+                "Tools covered: 12\n"
+                "Hot Issues (Top 10 by Community Signal)\n"
+                "Releases *No new releases in the last 24 hours*\n"
+                "Developer Pain Points | Pain point | Frequency / impact | Typical workaround\n"
+                "We manually copy and paste data between tools every week."
+            ),
+            "author": "agents-radar-bot",
+            "published_at": "2026-09-20",
+        }
+        signal, reason = extract_signal(item, LIMITS)
+        self.assertIsNone(signal)
+        self.assertEqual(reason, "digest_post")
+
+    def test_ordinary_post_is_not_treated_as_a_digest(self):
+        item = {
+            "source_type": "hn",
+            "source_id": "hn:not-digest",
+            "url": "https://example.test/not-digest",
+            "title": "Weekly reconciliation",
+            "text": (
+                "Every week I manually export the bank transactions from Xero to CSV "
+                "and re-key the reference numbers into Excel for the reconciliation."
+            ),
+            "author": "ledger_lucy",
+            "published_at": "2026-09-01",
+        }
+        signal, reason = extract_signal(item, LIMITS)
+        self.assertEqual(reason, "")
+        self.assertIsNotNone(signal)
+
 
 if __name__ == "__main__":
     unittest.main()

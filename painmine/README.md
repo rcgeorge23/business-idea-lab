@@ -57,6 +57,15 @@ query families ──► bounded fetchers ──► schema extraction ──► 
   (`duplicate_scope: previous-run`) may hold a cluster together but are excluded
   from independent-source counts, so recurrence is never inflated; they are
   reported separately as `restated_count`.
+  Three precision gates keep commentary out of clusters (added 2026-09-21 after
+  a quality run produced false positives): auto-generated digest/roundup posts
+  are rejected at extraction (`digest_post`); a signal must name a system and
+  either describe a workaround or have a buyer role (`_has_buyer_substance`);
+  and a signal with no workaround, time cost or money cost is treated as
+  commentary and cannot hold a cluster together (`_is_commentary`). A
+  per-thread contribution cap (`cluster.max_members_per_thread`, default 3)
+  stops one long thread carrying a cluster on its own. `cluster_precision`
+  statistics in the report show how many signals each gate dropped.
 - **Part 4 discovery-priority ranking** — `rank.py`. A 0-100 score built from
   independent recurrence, identifiable economic buyer, explicit cost evidence,
   manual workaround/re-keying, dissatisfaction/switching, incumbent integration

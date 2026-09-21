@@ -150,5 +150,111 @@ class TestCrossRunRestatements(unittest.TestCase):
         self.assertEqual(clusters[0]["independent_sources"], 3)
 
 
+class TestPrecisionGates(unittest.TestCase):
+    """The 2026-09-21 quality run produced false-positive clusters from
+    literal query phrases and from one prolific thread. These tests pin the
+    gates that stop that."""
+
+    def _signal(self, signal_id, text, author, role="Bookkeeper", systems=None, workaround="copy and paste into a spreadsheet"):
+        return {
+            "signal_id": signal_id,
+            "source_type": "hn",
+            "source_id": signal_id,
+            "source_url": f"https://example.test/{signal_id}",
+            "retrieved_at": "2026-09-21T00:00:00Z",
+            "published_at": "2026-08-01",
+            "source_author": author,
+            "target_role": role,
+            "task": text,
+            "pain_statement": text,
+            "current_workaround": workaround,
+            "named_systems": systems or [],
+            "confidence": 0.8,
+        }
+
+    def test_role_less_signals_do_not_cluster(self):
+        # Three comments sharing a literal phrase but with no buyer role and no
+        # system/workaround must not form a cluster.
+        text = "There has to be a better way to handle this whole situation."
+        signals = [
+            self._signal("s1", text, "a", role=None),
+            self._signal("s2", text, "b", role=None),
+            self._signal("s3", text, "c", role=None),
+        ]
+        self.assertEqual(cluster(signals, LIMITS), [])
+
+    def test_signals_without_system_or_workaround_do_not_cluster(self):
+        text = "There has to be a better way to handle this whole situation."
+        signals = [
+            self._signal("s1", text, "a", systems=[], workaround=None),
+            self._signal("s2", text, "b", systems=[], workaround=None),
+            self._signal("s3", text, "c", systems=[], workaround=None),
+        ]
+        self.assertEqual(cluster(signals, LIMITS), [])
+
+    def test_per_thread_cap_prevents_one_thread_carrying_a_cluster(self):
+        text = (
+            "Every week I manually export the bank transactions from Xero to CSV "
+            "and re-key the reference numbers into Excel for the reconciliation."
+        )
+        # Four signals from the same source_id (one thread) plus one other.
+        signals = [
+            self._signal("s1", text, "a", systems=["Xero", "Excel"]),
+            self._signal("s2", text, "b", systems=["Xero", "Excel"]),
+            self._signal("s3", text, "c", systems=["Xero", "Excel"]),
+            self._signal("s4", text, "d", systems=["Xero", "Excel"]),
+        ]
+        for signal in signals:
+            signal["source_id"] = "hn:same-thread"
+        # Only 3 members survive the cap of 3, so the cluster still forms but
+        # is capped at 3 rather than 4.
+        clusters = cluster(signals, LIMITS)
+        self.assertEqual(len(clusters), 1)
+        self.assertEqual(clusters[0]["member_count"], 3)
+
+    def test_per_thread_cap_can_discard_a_cluster(self):
+        text = (
+            "Every week I manually export the bank transactions from Xero to CSV "
+            "and re-key the reference numbers into Excel for the reconciliation."
+        )
+        signals = [
+            self._signal("s1", text, "a", systems=["Xero", "Excel"]),
+            self._signal("s2", text, "b", systems=["Xero", "Excel"]),
+        ]
+        for signal in signals:
+            signal["source_id"] = "hn:same-thread"
+        # Two members from one thread, cap 3 -> only 2 remain, below min_size 3.
+        self.assertEqual(cluster(signals, LIMITS), [])
+
+    def test_commentary_signals_do_not_cluster(self):
+        # Definitional/philosophical posts name systems and roles but describe
+        # no recurring labour or spend of their own, so they are not buyer pain.
+        text = (
+            "Double-entry bookkeeping is a beautiful idea: every transaction has "
+            "two sides, and the ledger is tamper-resistant by construction."
+        )
+        signals = [
+            self._signal("s1", text, "a", systems=["Excel"], workaround=None),
+            self._signal("s2", text, "b", systems=["Excel"], workaround=None),
+            self._signal("s3", text, "c", systems=["Excel"], workaround=None),
+        ]
+        self.assertEqual(cluster(signals, LIMITS), [])
+
+    def test_buyer_side_signals_still_cluster(self):
+        # The same shape of signal with a described workaround is buyer pain.
+        text = (
+            "Every week I manually export the bank transactions from Xero to CSV "
+            "and re-key the reference numbers into Excel for the reconciliation."
+        )
+        signals = [
+            self._signal("s1", text, "a", systems=["Xero", "Excel"]),
+            self._signal("s2", text, "b", systems=["Xero", "Excel"]),
+            self._signal("s3", text, "c", systems=["Xero", "Excel"]),
+        ]
+        clusters = cluster(signals, LIMITS)
+        self.assertEqual(len(clusters), 1)
+        self.assertEqual(clusters[0]["member_count"], 3)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -14,6 +14,7 @@ import sys
 import time
 
 from .budget import Budget
+from .cluster import LAST_STATS as cluster_stats
 from .cluster import cluster as cluster_signals
 from .dedupe import dedupe
 from .extract import extract_many
@@ -368,6 +369,7 @@ def build_report(meta, budget, statuses, items, signals, rejects, dedupe_result,
             "clusters_band_b": bands.get("B", 0),
             "clusters_band_c": bands.get("C", 0),
             "clusters_independent_ge_3": sum(1 for c in clusters if (c.get("independent_sources") or 0) >= 3),
+            "cluster_precision": dict(cluster_stats),
         },
         "top_clusters": top_clusters,
         "vendor_led_risk_mix": vendor_risks,

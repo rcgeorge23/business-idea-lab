@@ -14,6 +14,10 @@ from collections import Counter
 from .dedupe import independence_key
 from .util import sha1_hex, tokenize
 
+# Populated by cluster() so callers can report precision-gate statistics
+# (how many signals were dropped for lacking buyer substance, etc.).
+LAST_STATS: dict[str, int] = {}
+
 ROLE_FAMILIES: dict[str, str] = {
     "accountant": "accounting",
     "bookkeeper": "accounting",
@@ -140,6 +144,41 @@ def _key_terms(signals: list[dict], vectors: dict[str, dict[str, float]], limit:
     return [term for term, _ in sorted(totals.items(), key=lambda item: -item[1])[:limit]]
 
 
+def _has_buyer_substance(signal: dict) -> bool:
+    """True when a signal carries evidence of a real buyer-side workflow.
+
+    A cluster of three comments that merely share a literal query phrase (for
+    example "there has to be a better way") is not an opportunity pattern. To
+    count towards a cluster a signal must describe an actual workflow: it must
+    name at least one system *and* describe a workaround, or name a system and
+    have an identifiable buyer role. A role alone is not enough (commentary
+    often names a role), and a workaround alone is not enough (generic tooling
+    chatter). This is the precision gate added after the 2026-09-21 quality
+    run, where a literal phrase produced an education-administrator cluster
+    from unrelated posts.
+    """
+    has_system = bool(signal.get("named_systems"))
+    has_workaround = bool((signal.get("current_workaround") or "").strip())
+    has_role = bool(signal.get("target_role"))
+    return has_system and (has_workaround or has_role)
+
+
+def _is_commentary(signal: dict) -> bool:
+    """True for definitional/philosophical commentary rather than buyer pain.
+
+    The 2026-09-21 quality run produced a band-A "Bookkeeper" cluster made of
+    HN posts about double-entry bookkeeping as a concept (bank clerks, virtual
+    subaccounts, tamper-resistant ledgers) spanning 2009-2025. Those posts name
+    systems and roles, so the substance gate alone does not catch them. A real
+    buyer-side signal describes their own recurring labour or spend: it carries
+    a workaround, a time cost or a money cost. Commentary carries none of those.
+    """
+    has_workaround = bool((signal.get("current_workaround") or "").strip())
+    has_time = bool((signal.get("time_cost_clue") or "").strip())
+    has_money = bool((signal.get("money_cost_clue") or "").strip())
+    return not (has_workaround or has_time or has_money)
+
+
 def cluster(signals: list[dict], limits: dict) -> list[dict]:
     """Agglomerate canonical signals into clusters. Duplicates travel with their canonical."""
     cfg = limits.get("cluster", {})
@@ -220,6 +259,55 @@ def cluster(signals: list[dict], limits: dict) -> list[dict]:
     min_size = int(cfg.get("min_cluster_size", 3))
     clusters = [c for c in clusters if len(c["_members"]) >= min_size]
 
+    # Buyer-substance gate: a cluster of comments that merely share a literal
+    # query phrase (for example "there has to be a better way") is not an
+    # opportunity pattern. A cluster must contain at least min_size members
+    # that each name a system or describe a workaround AND have a buyer role.
+    # This is applied to the cluster as a whole (not to individual canonicals)
+    # so the agglomeration order is unchanged; the 2026-09-21 quality run's
+    # education-administrator false positive is rejected here.
+    substance_dropped = 0
+    commentary_dropped = 0
+    substantive: list[dict] = []
+    for group in clusters:
+        members = group["_members"]
+        kept = [m for m in members if _has_buyer_substance(m)]
+        substance_dropped += len(members) - len(kept)
+        # Commentary (definitional/philosophical posts with no workaround,
+        # time or money evidence) is not buyer pain even when it names systems.
+        non_commentary = [m for m in kept if not _is_commentary(m)]
+        commentary_dropped += len(kept) - len(non_commentary)
+        kept = non_commentary
+        if len(kept) >= min_size:
+            group["_members"] = kept
+            group["_vectors"] = [all_vectors.get(m["signal_id"], {}) for m in kept]
+            group["_centroid"] = _centroid(group["_vectors"])
+            substantive.append(group)
+    clusters = substantive
+
+    # Per-thread contribution cap: one long thread (or one prolific author)
+    # must not be able to carry a cluster on its own. Members beyond the cap
+    # are dropped from the cluster; if that leaves fewer than min_size members
+    # the cluster is not an opportunity pattern and is discarded. This is the
+    # "per-thread contribution cap" next step from SPIKE-REPORT.
+    per_thread_cap = int(cfg.get("max_members_per_thread", 3))
+    capped: list[dict] = []
+    for group in clusters:
+        counts: Counter = Counter()
+        kept: list[dict] = []
+        for member in group["_members"]:
+            key = member.get("source_id") or member["signal_id"]
+            if counts[key] >= per_thread_cap:
+                continue
+            counts[key] += 1
+            kept.append(member)
+        if len(kept) >= min_size:
+            group["_members"] = kept
+            group["_vectors"] = [all_vectors.get(m["signal_id"], {}) for m in kept]
+            group["_centroid"] = _centroid(group["_vectors"])
+            capped.append(group)
+    clusters = capped
+
     result: list[dict] = []
     for group in clusters:
         members = group["_members"]
@@ -269,4 +357,15 @@ def cluster(signals: list[dict], limits: dict) -> list[dict]:
         )
 
     result.sort(key=lambda c: (-c["independent_sources"], -c["member_count"]))
+    LAST_STATS.clear()
+    LAST_STATS.update(
+        {
+            "signals_in": len(signals),
+            "canonicals_considered": len(canonicals),
+            "dropped_no_buyer_substance": substance_dropped,
+            "dropped_commentary": commentary_dropped,
+            "clusters_after_min_size": len(clusters),
+            "max_members_per_thread": per_thread_cap,
+        }
+    )
     return result

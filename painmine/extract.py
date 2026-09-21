@@ -285,6 +285,28 @@ def _first_clue(text: str, group: str) -> str | None:
     return None
 
 
+# Auto-generated digest/roundup posts (e.g. "AI CLI Tools Digest", "Ecosystem
+# Digest", "Hot Issues (Top 10 by Community Signal)") are long, keyword-dense
+# and match almost every query, but they are machine-written summaries of other
+# people's issues, not a buyer describing their own work. They were the source
+# of the construction/trade false-positive cluster in the 2026-09-21 quality
+# run, so they are rejected before cue matching.
+DIGEST_MARKERS = [
+    re.compile(r"\b(community|ecosystem|weekly|daily)\s+digest\b", re.IGNORECASE),
+    re.compile(r"\bhot issues\b.*\bcommunity signal\b", re.IGNORECASE),
+    re.compile(r"\bcross[- ]tool comparison\b", re.IGNORECASE),
+    re.compile(r"\bgenerated:\s*\d{4}-\d{2}-\d{2}", re.IGNORECASE),
+    re.compile(r"\btools covered:\s*\d+", re.IGNORECASE),
+    re.compile(r"\bno new releases in the last 24 hours\b", re.IGNORECASE),
+]
+
+
+def _is_digest_post(text: str) -> bool:
+    """True for auto-generated digest/roundup posts, which are not buyer pain."""
+    hits = sum(1 for regex in DIGEST_MARKERS if regex.search(text))
+    return hits >= 2
+
+
 def _is_vendor_marketing(text: str, groups: dict[str, list[str]]) -> bool:
     vendor_hits = sum(1 for regex in VENDOR_MARKETING if regex.search(text))
     # Only cues that describe the buyer's own labour or dissatisfaction can
@@ -314,6 +336,8 @@ def extract_signal(item: dict, limits: dict) -> tuple[dict | None, str]:
     text = strip_html(item.get("text") or "")
     if not text:
         return None, "empty_text"
+    if _is_digest_post(text):
+        return None, "digest_post"
     groups = matched_groups(text)
     if _is_vendor_marketing(text, groups):
         return None, "vendor_marketing_only"

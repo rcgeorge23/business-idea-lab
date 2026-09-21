@@ -117,6 +117,24 @@ exempted from the marketing filter by a `money_cost` or `paid_workaround` hit
 alone, since those patterns also fire on phrases like "we pay attention to
 detail".
 
+**Updated 2026-09-21 (clustering precision).** A follow-up run showed the
+remaining band-A clusters were false positives: auto-generated GitHub
+digest/roundup posts (13 of 21 GitHub items, from `agents-radar`/`gittok` repos)
+formed a construction/trade cluster, and three unrelated HN comments sharing the
+literal query phrase "there has to be a better way" formed an
+education-administrator cluster. Three gates now apply: digest posts are
+rejected at extraction (`digest_post`); a signal must name a system and either
+describe a workaround or have a buyer role (`_has_buyer_substance`); and a
+signal with no workaround, time cost or money cost is commentary and cannot hold
+a cluster together (`_is_commentary`). A per-thread contribution cap
+(`cluster.max_members_per_thread`, default 3) stops one thread carrying a
+cluster. The `"double entry" bookkeeping software` query was replaced with
+`"reconcile" bank transactions spreadsheet`. After these gates a fresh
+40-request run produced **zero** clusters: the noise is gone, but a single run
+does not yet surface three independent buyer-side signals on one seam. That is
+the honest current state - precision improved, recall is now the binding
+constraint.
+
 ## 4. Bounded PoC run
 
 Command (repo root):
