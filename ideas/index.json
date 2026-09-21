@@ -1,32 +1,43 @@
 {
   "schema_version": 1,
-  "method_version": "1.0.0",
-  "updated": "2026-09-20",
+  "method_version": "1.1.0",
+  "updated": "2026-09-21",
   "limits": {
     "max_unreviewed_before_generation_stops": 10,
     "max_new_candidates_per_run": 3,
     "max_validation_ready_advances_per_run": 1
   },
   "counts": {
-    "total": 4,
+    "total": 7,
     "unreviewed": 0,
     "by_state": {
-      "validation-ready": 1,
-      "killed": 3
+      "adversarially-researched": 2,
+      "killed": 5
     },
-    "killed": 3
+    "killed": 5
   },
   "ideas": [
     {
       "id": "geonerd",
       "slug": "geonerd",
       "title": "GeoNerd: AI visibility digest for UK accountancy practices",
-      "state": "validation-ready",
+      "state": "adversarially-researched",
       "discovered": "2026-09-20",
-      "updated": "2026-09-20",
-      "evidence_level": "Validation-ready",
-      "score": 65.3,
-      "confidence": "medium",
+      "updated": "2026-09-21",
+      "evidence_level": "Promising",
+      "score": 49.5,
+      "confidence": "low",
+      "why_now": {
+        "changed": "AI assistants became a mainstream surface for local service discovery (ChatGPT at scale from late 2023; Google AI Overviews rolled out from May 2024), creating an AI-visibility question for professional-services buyers that did not exist three years ago.",
+        "changed_date": "2024-05-14",
+        "evidence": [
+          "evidence/geonerd/2026-09-20-spike-findings.md",
+          "evidence/geonerd/2026-09-20-wedge-strategy.md"
+        ],
+        "why_it_matters": "The shift creates a new monitoring job for practices; without it this would not have been an attractive business three years ago.",
+        "competitors_responded": "Yes - TendorAI, Tramwai (£299/mo), AireStream and SearchScore already sell AI visibility to UK accountants, which weakens the wedge but does not remove the category shift.",
+        "strength": "strong"
+      },
       "fingerprint": {
         "buyer": "UK accountancy practices, 1-20 staff, owner/partner decision maker; first beachhead contractor/IR35 specialists",
         "problem": "Practices cannot see whether AI assistants recommend them when local business owners ask for an accountant, who is recommended instead, or why",
@@ -48,7 +59,7 @@
       },
       "review": {
         "status": "requested",
-        "path": "reviews/2026-09-20-geonerd-review-request.md"
+        "path": "reviews/2026-09-21-geonerd-review-request-v2.md"
       },
       "experiment": {
         "id": "geonerd-demand-spike",
@@ -66,10 +77,20 @@
       "title": "ShiftSwap: last-minute shift cover for UK hospitality",
       "state": "killed",
       "discovered": "2026-09-20",
-      "updated": "2026-09-20",
+      "updated": "2026-09-21",
       "evidence_level": "Plausible",
-      "score": 45.3,
+      "score": 44.2,
       "confidence": "medium",
+      "why_now": {
+        "changed": "None identified: shift-cover functionality is a long-standing commodity already bundled into low-cost UK rota products.",
+        "changed_date": null,
+        "evidence": [
+          "evidence/shiftswap/2026-09-20-incumbent-rota-software.md"
+        ],
+        "why_it_matters": "Without a discontinuity the idea is a me-too variant competing on price against bundled features; under method 1.1.0 that is a strong reason to reject at screening.",
+        "competitors_responded": "Yes - rota incumbents at £0-£49/mo already include self-service shift swaps.",
+        "strength": "absent"
+      },
       "fingerprint": {
         "buyer": "Small UK hospitality venue owners/GMs (1-5 sites); duty managers and hourly staff as users",
         "problem": "Last-minute absences leave shifts uncovered, forcing managers to phone around or close sections",
@@ -89,8 +110,8 @@
         "scorecard": "ideas/shiftswap/scorecard.json"
       },
       "review": {
-        "status": "not-required",
-        "path": null
+        "status": "requested",
+        "path": "reviews/2026-09-21-false-negative-audit-request.md"
       },
       "experiment": {
         "id": null,
@@ -108,10 +129,20 @@
       "title": "WonkyBox: local surplus-produce subscription",
       "state": "killed",
       "discovered": "2026-09-20",
-      "updated": "2026-09-20",
+      "updated": "2026-09-21",
       "evidence_level": "Plausible",
       "score": 36.8,
       "confidence": "medium",
+      "why_now": {
+        "changed": "None identified: surplus-produce subscriptions have been operated at scale by Oddbox since 2018 and its financials show category economics have not improved.",
+        "changed_date": null,
+        "evidence": [
+          "evidence/wonkybox/2026-09-20-oddbox-financials.md"
+        ],
+        "why_it_matters": "No regulatory, technical or platform change improves local delivery economics; the incumbent's widening losses are the relevant evidence.",
+        "competitors_responded": "Yes - Oddbox and Wonky Veg Boxes occupy the position; Oddbox's revenue fell after it cut new-customer marketing.",
+        "strength": "absent"
+      },
       "fingerprint": {
         "buyer": "Food-waste-conscious UK households buying a weekly grocery box",
         "problem": "Odd-shaped and surplus produce goes to waste while households want affordable fresh food",
@@ -150,10 +181,21 @@
       "title": "GrantScout: matched UK grant digest for small businesses",
       "state": "killed",
       "discovered": "2026-09-20",
-      "updated": "2026-09-20",
+      "updated": "2026-09-21",
       "evidence_level": "Plausible",
-      "score": 62.1,
+      "score": 55.8,
       "confidence": "medium",
+      "why_now": {
+        "changed": "No favourable discontinuity: GOV.UK 'Find a grant' already provides authoritative free discovery and the flat-fee paid position was already occupied (GovOwed) before this run.",
+        "changed_date": null,
+        "evidence": [
+          "evidence/grantscout/2026-09-20-free-government-grant-discovery.md",
+          "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
+        ],
+        "why_it_matters": "Absent a discontinuity the digest competes with a free authoritative service and contingency-priced incumbents; the observed value shift was toward application quality, not discovery (see seeds/grantscout-application-quality.md).",
+        "competitors_responded": "Yes - GOV.UK Find a grant (free), GovOwed (£29 one-time / £499 per year) and contingency-priced advisers.",
+        "strength": "absent"
+      },
       "fingerprint": {
         "buyer": "UK SME owners/directors, or their accountants and advisers",
         "problem": "Eligible grant schemes are hard to find and interpret, and missing funding is a direct loss",
@@ -184,6 +226,165 @@
           "granted": false
         },
         "plan": null
+      }
+    },
+    {
+      "id": "agentready",
+      "slug": "agentready",
+      "title": "Agent-ready checkout for independent merchants",
+      "state": "killed",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 49.0,
+      "confidence": "low",
+      "why_now": {
+        "changed": "OpenAI and Stripe launched ACP/Instant Checkout on 29 September 2025 and Shopify and Google published UCP; agent-mediated discovery and checkout became a live platform surface and the major platforms now bundle readiness for it.",
+        "changed_date": "2025-09-29",
+        "evidence": [
+          "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+        ],
+        "why_it_matters": "The change creates a genuine new integration job, but it is adverse to a standalone wedge: the parties that opened the surface give readiness away inside their standard offer.",
+        "competitors_responded": "Yes - Shopify/Google (UCP), OpenAI/Stripe (ACP), PayPal, WooCommerce, BigCommerce and Salesforce are all shipping, bundling readiness at no incremental fee.",
+        "strength": "strong"
+      },
+      "fingerprint": {
+        "buyer": "Independent/off-platform e-commerce merchants and their agencies",
+        "problem": "Merchants are not ready for agent-mediated discovery and checkout and may lose agent-driven sales",
+        "mechanism": "Guided product-feed preparation plus ACP/UCP checkout integration service/tooling",
+        "keywords": [
+          "agentic commerce",
+          "ACP",
+          "UCP",
+          "checkout",
+          "product feed",
+          "AI shopping"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/agentready",
+        "dossier": "ideas/agentready/dossier.md",
+        "decision": "ideas/agentready/decision.md",
+        "scorecard": "ideas/agentready/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    },
+    {
+      "id": "packproof",
+      "slug": "packproof",
+      "title": "PPWR packaging compliance for small UK brands and exporters",
+      "state": "killed",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 53.0,
+      "confidence": "low",
+      "why_now": {
+        "changed": "Regulation (EU) 2025/40 (PPWR) generally applies from 12 August 2026, adding PFAS limits in food-contact packaging, traceability/labelling, technical documentation, importer Declaration of Conformity retention and per-Member-State EPR registration for packaged goods placed on the EU market.",
+        "changed_date": "2026-08-12",
+        "evidence": [
+          "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+        ],
+        "why_it_matters": "A hard, dated EU-wide duty for a large population of brand owners and importers did not exist in this form three years ago.",
+        "competitors_responded": "Yes - PPWR Copilot (UK, GBP49-499/mo), PPWRify, PPWR Connect and Trace One (marketing to 9,000+ brands) already sell PPWR workflows.",
+        "strength": "strong"
+      },
+      "fingerprint": {
+        "buyer": "Small UK packaged-goods brands and importers selling into the EU, and their agents",
+        "problem": "New PPWR labelling, Declaration of Conformity and EPR duties with per-country variation are confusing and time-bound",
+        "mechanism": "Guided packaging dossier plus QR label and EU Declaration of Conformity generator",
+        "keywords": [
+          "PPWR",
+          "packaging compliance",
+          "UK exporter",
+          "EPR",
+          "declaration of conformity",
+          "QR labelling"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/packproof",
+        "dossier": "ideas/packproof/dossier.md",
+        "decision": "ideas/packproof/decision.md",
+        "scorecard": "ideas/packproof/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    },
+    {
+      "id": "reasonable-steps",
+      "slug": "reasonable-steps",
+      "title": "\"All reasonable steps\": harassment-prevention evidence for UK SMEs",
+      "state": "adversarially-researched",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Promising",
+      "score": 54.0,
+      "confidence": "low",
+      "why_now": {
+        "changed": "The Employment Rights Act 2025 (c.36) raises the preventive duty to 'all reasonable steps' (Equality Act 2010 s.40A) and adds a third-party harassment duty from 30 October 2026, with liability unless all reasonable steps were taken.",
+        "changed_date": "2026-10-30",
+        "evidence": [
+          "evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"
+        ],
+        "why_it_matters": "Both the standard of proof and the scope of the duty tighten on a fixed date, creating a new evidence/record-keeping job for employers that did not exist in this form before.",
+        "competitors_responded": "Partially - free Acas/EHRC guidance and paid generic training exist and HR platforms cover adjacent needs; no dedicated low-cost SME evidence tool was surfaced.",
+        "strength": "strong"
+      },
+      "fingerprint": {
+        "buyer": "UK SME employers with roughly 10-100 staff, no dedicated HR system, owner or office manager handling HR",
+        "problem": "Employers must be able to evidence 'all reasonable steps' and that they did not permit third-party harassment from 30 October 2026, with no system of record",
+        "mechanism": "Low-cost (GBP12-20/mo) 'all reasonable steps' evidence toolkit: guided risk assessment, incident log, policy acknowledgement and training records, exportable evidence pack",
+        "keywords": [
+          "Employment Rights Act 2025",
+          "harassment prevention",
+          "all reasonable steps",
+          "SME compliance",
+          "HR evidence",
+          "incident log"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/reasonable-steps",
+        "dossier": "ideas/reasonable-steps/dossier.md",
+        "decision": "ideas/reasonable-steps/decision.md",
+        "scorecard": "ideas/reasonable-steps/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": "reasonable-steps-willingness",
+        "status": "proposed",
+        "approval": {
+          "required": true,
+          "granted": false
+        },
+        "plan": "experiments/reasonable-steps-willingness/plan.md"
       }
     }
   ]

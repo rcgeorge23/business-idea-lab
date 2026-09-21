@@ -44,7 +44,8 @@ The distinction between "painful problem" and "sellable product" is the whole is
 
 ## False-negative audit (killed ideas only)
 
-- Audited: no — this is kill #1 of the run; `method/review-policy.md` triggers an audit every fifth killed idea.
-- Reviewer / date: n/a
-- Verdict: n/a
+- Audited: yes — worker self-audit on 2026-09-21, after `packproof` became the fifth killed idea and triggered `method/review-policy.md` trigger 6 (oldest un-audited kill). External confirmation requested in `reviews/2026-09-21-false-negative-audit-request.md`.
+- Reviewer / date: worker, 2026-09-21 (external review pending).
+- Verdict: kill upheld. The sourced evidence shows self-service shift swaps are bundled into low-cost rota products, so the idea fails `defensible_wedge`, `no_network_effects_needed` and `plausible_margins` independently of whether the labour-market pain is real.
+- Residual uncertainty: no direct venue-side research was done on paying a premium specifically for cover.
 - What new evidence would justify reopening: an independent survey showing venues pay extra for cover beyond their rota tool, or a novel non-paid staff-side channel.

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "method_version": "1.0.0",
-  "weights_version": "1.0.0",
+  "method_version": "1.1.0",
+  "weights_version": "1.1.0",
   "idea_id": "<slug>",
   "slug": "<slug>",
   "title": "<Idea title>",
@@ -80,15 +80,15 @@
     }
   },
   "hard_filters": {
-    "economic_buyer": { "status": "unknown", "note": "" },
-    "painful_frequent_or_budgeted": { "status": "unknown", "note": "" },
-    "non_paid_distribution": { "status": "unknown", "note": "" },
-    "defensible_wedge": { "status": "unknown", "note": "" },
-    "no_network_effects_needed": { "status": "unknown", "note": "" },
-    "plausible_margins": { "status": "unknown", "note": "" },
-    "acceptable_risk": { "status": "unknown", "note": "" },
-    "cheap_disconfirming_test": { "status": "unknown", "note": "" },
-    "not_all_optimistic": { "status": "unknown", "note": "" }
+    "economic_buyer": { "status": "unknown", "note": "", "evidence": [], "resolve_via": "" },
+    "painful_frequent_or_budgeted": { "status": "unknown", "note": "", "evidence": [], "resolve_via": "" },
+    "non_paid_distribution": { "status": "unknown", "note": "", "evidence": [], "resolve_via": "" },
+    "defensible_wedge": { "status": "unknown", "note": "", "evidence": [], "resolve_via": "" },
+    "no_network_effects_needed": { "status": "unknown", "note": "", "evidence": [], "resolve_via": "" },
+    "plausible_margins": { "status": "unknown", "note": "", "evidence": [], "resolve_via": "" },
+    "acceptable_risk": { "status": "unknown", "note": "", "evidence": [], "resolve_via": "" },
+    "cheap_disconfirming_test": { "status": "unknown", "note": "", "evidence": [], "resolve_via": "" },
+    "not_all_optimistic": { "status": "unknown", "note": "", "evidence": [], "resolve_via": "" }
   },
   "vetoes": [],
   "aggregate": {

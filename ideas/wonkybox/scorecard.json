@@ -1,67 +1,83 @@
 {
   "schema_version": 1,
-  "method_version": "1.0.0",
-  "weights_version": "1.0.0",
+  "method_version": "1.1.0",
+  "weights_version": "1.1.0",
   "idea_id": "wonkybox",
   "slug": "wonkybox",
   "title": "WonkyBox: local surplus-produce subscription",
   "state": "killed",
-  "updated": "2026-09-20",
+  "updated": "2026-09-21",
   "dimensions": {
     "problem_severity_frequency": {
       "weight": 15,
       "score": 2,
       "confidence": "medium",
-      "evidence": ["evidence/wonkybox/2026-09-20-oddbox-financials.md"],
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-oddbox-financials.md"
+      ],
       "rationale": "Food waste matters, but for consumers a surplus box is a preference competing with ordinary grocery, not a felt, budgeted pain."
     },
     "buyer_budget_clarity": {
       "weight": 15,
       "score": 2,
       "confidence": "medium",
-      "evidence": ["evidence/wonkybox/2026-09-20-incumbent-box-schemes.md"],
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-incumbent-box-schemes.md"
+      ],
       "rationale": "Consumers pay directly but the category is low-ticket (£10-£18/box) and price-sensitive, with delivery charged separately."
     },
     "evidence_strength": {
       "weight": 15,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/wonkybox/2026-09-20-oddbox-financials.md"],
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-oddbox-financials.md"
+      ],
       "rationale": "Four years of reported incumbent accounts from the trade press give a strong read on category economics; no primary buyer evidence."
     },
     "distribution": {
       "weight": 10,
       "score": 1,
       "confidence": "medium",
-      "evidence": ["evidence/wonkybox/2026-09-20-oddbox-financials.md"],
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-oddbox-financials.md"
+      ],
       "rationale": "DTC grocery requires paid acquisition; Oddbox stopped marketing and revenue fell, showing the weakness of organic routes."
     },
     "differentiation": {
       "weight": 10,
       "score": 1,
       "confidence": "medium",
-      "evidence": ["evidence/wonkybox/2026-09-20-incumbent-box-schemes.md"],
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-incumbent-box-schemes.md"
+      ],
       "rationale": "Oddbox (scale, £30m raised) and Wonky Veg Boxes already occupy the surplus-produce position; no distinct wedge."
     },
     "validation_speed_cost": {
       "weight": 10,
       "score": 2,
       "confidence": "medium",
-      "evidence": ["evidence/wonkybox/2026-09-20-oddbox-financials.md"],
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-oddbox-financials.md"
+      ],
       "rationale": "A single-city pre-order test is possible, but a decisive read on retention and unit economics takes months, not days."
     },
     "feasibility": {
       "weight": 5,
       "score": 2,
       "confidence": "medium",
-      "evidence": ["evidence/wonkybox/2026-09-20-oddbox-financials.md"],
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-oddbox-financials.md"
+      ],
       "rationale": "Operable, but cold-chain/logistics and spoilage make execution materially harder than software-only ideas."
     },
     "economics": {
       "weight": 10,
       "score": 1,
       "confidence": "medium",
-      "evidence": ["evidence/wonkybox/2026-09-20-oddbox-financials.md"],
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-oddbox-financials.md"
+      ],
       "rationale": "Category leader is loss-making at ~£27m revenue after ~£30m raised, with operating losses widening 98.7% in FY2025."
     },
     "founder_fit": {
@@ -75,55 +91,76 @@
       "weight": 5,
       "score": 2,
       "confidence": "medium",
-      "evidence": ["evidence/wonkybox/2026-09-20-incumbent-box-schemes.md"],
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-incumbent-box-schemes.md"
+      ],
       "rationale": "Food-handling and packaging risks are standard, but churn and capital intensity are structural and unresolved."
     }
   },
   "hard_filters": {
     "economic_buyer": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "Consumers pay directly and the purchase is frequent."
+      "note": "Consumers pay directly and the purchase is frequent.",
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-incumbent-box-schemes.md"
+      ],
+      "resolve_via": ""
     },
     "painful_frequent_or_budgeted": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "Weekly grocery is frequent and budgeted, though food-waste reduction is a preference rather than a need."
+      "note": "Weekly grocery is frequent and budgeted, though food-waste reduction is a preference rather than a need.",
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-oddbox-financials.md"
+      ],
+      "resolve_via": ""
     },
     "non_paid_distribution": {
       "status": "fail",
-      "date": "2026-09-20",
-      "note": "DTC grocery requires paid acquisition; Oddbox cut marketing to new customers and revenue then fell."
+      "note": "DTC grocery requires paid acquisition; Oddbox cut marketing to new customers and revenue then fell.",
+      "evidence": [],
+      "resolve_via": ""
     },
     "defensible_wedge": {
       "status": "fail",
-      "date": "2026-09-20",
-      "note": "Oddbox and Wonky Veg Boxes occupy the surplus-produce position; a local variant is not defensible against them."
+      "note": "Oddbox and Wonky Veg Boxes occupy the surplus-produce position; a local variant is not defensible against them.",
+      "evidence": [],
+      "resolve_via": ""
     },
     "no_network_effects_needed": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "A single subscriber gets full value; no network requirement."
+      "note": "A single subscriber gets full value; no network requirement.",
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-incumbent-box-schemes.md"
+      ],
+      "resolve_via": ""
     },
     "plausible_margins": {
       "status": "fail",
-      "date": "2026-09-20",
-      "note": "Category leader is loss-making at scale; delivery, spoilage and churn keep margins implausible."
+      "note": "Category leader is loss-making at scale; delivery, spoilage and churn keep margins implausible.",
+      "evidence": [],
+      "resolve_via": ""
     },
     "acceptable_risk": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "Food safety/handling and packaging are manageable with standard practices."
+      "note": "Food safety/handling and packaging are manageable with standard practices.",
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-incumbent-box-schemes.md"
+      ],
+      "resolve_via": ""
     },
     "cheap_disconfirming_test": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "A single-city pre-order and retention test is cheap to start."
+      "note": "A single-city pre-order and retention test is cheap to start.",
+      "evidence": [
+        "evidence/wonkybox/2026-09-20-incumbent-box-schemes.md"
+      ],
+      "resolve_via": ""
     },
     "not_all_optimistic": {
       "status": "fail",
-      "date": "2026-09-20",
-      "note": "Requires favourable CAC, retention and delivery density simultaneously against a funded incumbent."
+      "note": "Requires favourable CAC, retention and delivery density simultaneously against a funded incumbent.",
+      "evidence": [],
+      "resolve_via": ""
     }
   },
   "vetoes": [],

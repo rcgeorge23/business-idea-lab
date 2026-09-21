@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "method_version": "1.1.0",
+  "updated": "2026-09-21",
+  "counts": {
+    "total": 3,
+    "by_status": {
+      "unexplored": 3
+    }
+  },
+  "seeds": [
+    {
+      "id": "grantscout-application-quality",
+      "slug": "grantscout-application-quality",
+      "title": "Grant application quality / win-rate support for UK SMEs",
+      "origin_idea": "grantscout",
+      "observation": "The GrantScout adversarial pass observed that the value in UK grant funding may lie in application quality and win rate rather than discovery - discovery is free from GOV.UK Find a grant, while applications are long, competitive and often rejected.",
+      "why_materially_different": "A win-rate/application-quality proposition serves a different job (prepare a winning bid) from a £15-£29/mo discovery digest, likely with a different pricing model (contingency or per-application) and a different buyer. It must be researched from scratch and may fail the same margin, distribution and wedge filters.",
+      "recorded": "2026-09-21",
+      "status": "unexplored",
+      "evidence": [
+        "ideas/grantscout/decision.md",
+        "evidence/grantscout/2026-09-20-free-government-grant-discovery.md",
+        "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
+      ]
+    },
+    {
+      "id": "agent-checkout-offplatform",
+      "slug": "agent-checkout-offplatform",
+      "title": "Agentic-checkout readiness for off-platform merchants",
+      "origin_idea": "agentready",
+      "observation": "The AgentReady kill found that the major commerce platforms bundle agentic checkout and AI-channel distribution into their standard offering (Shopify Agentic Storefronts with no apps or fees beyond standard processing; Shopify/Stripe/Google/WooCommerce/BigCommerce/Salesforce all shipping ACP/UCP support). Merchants on off-platform or custom storefronts do not get a first-party agentic channel, so a narrow integration-and-assurance service for custom stacks might persist where the platform bundles do not reach.",
+      "why_materially_different": "It serves a different buyer (custom/headless merchants and the small agencies that build for them, not the general independent merchant population covered for free by the platforms) with a different mechanism (integration/assurance on top of ACP/UCP endpoints and product feeds, not a productised readiness tool). Its competitive position is defined by what the platform bundles do not reach, which the parent's commodity kill did not test. It must be researched from scratch and may fail the same wedge and margin filters.",
+      "recorded": "2026-09-21",
+      "status": "unexplored",
+      "evidence": [
+        "ideas/agentready/decision.md",
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ]
+    },
+    {
+      "id": "uk-epr-small-producer-tooling",
+      "slug": "uk-epr-small-producer-tooling",
+      "title": "UK EPR packaging tooling for small producers",
+      "origin_idea": "packproof",
+      "observation": "The PackProof kill found the EU PPWR compliance-software space crowded (PPWR Copilot, PPWRify, PPWR Connect, Trace One and others). UK EPR for packaging is a distinct regime from EU PPWR: large UK producers register annually, report every six months, buy PRNs/PERNs and pay the PackUK waste disposal fee, while small producers register and report by 1 April with data-retention duties. The EU-focused PPWR vendors may not serve this UK-only workflow.",
+      "why_materially_different": "It addresses a different regulation and buyer (UK EPR obligations for UK producers, not EU PPWR duties for exporters into the EU) with a different job (recurring registration, reporting and PRN/PERN obligations rather than packaging dossiers and Declarations of Conformity), against a different competitive set (UK EPR compliance schemes and obligated-producer reporting tools). It must be researched from scratch and may fail the same wedge and regulation filters.",
+      "recorded": "2026-09-21",
+      "status": "unexplored",
+      "evidence": [
+        "ideas/packproof/decision.md",
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ]
+    }
+  ]
+}

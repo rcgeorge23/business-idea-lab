@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "method_version": "1.0.0",
-  "updated": "2026-09-20",
+  "method_version": "1.1.0",
+  "updated": "2026-09-21",
   "experiments": [
     {
       "id": "geonerd-demand-spike",
@@ -10,10 +10,10 @@
       "status": "proposed",
       "created": "2026-09-20",
       "updated": "2026-09-20",
-      "hypothesis": "If five target UK accountancy practices are shown a scan-based AI visibility report and asked to commit at a tested price, then at least two will commit at >=£19/mo, because the pain is felt and the report is actionable.",
-      "central_assumption": "Owner-partners of 1-20-staff UK accountancy practices will pay at least £19/month for a monthly AI visibility digest after seeing a free scan.",
+      "hypothesis": "If five target UK accountancy practices are shown a scan-based AI visibility report and asked to commit at a tested price, then at least two will commit at >=\u00a319/mo, because the pain is felt and the report is actionable.",
+      "central_assumption": "Owner-partners of 1-20-staff UK accountancy practices will pay at least \u00a319/month for a monthly AI visibility digest after seeing a free scan.",
       "kill_condition": "Zero of five interviewed practices make any concrete commitment at any price, or the dominant reaction is 'interesting but I would not pay' after the iterate week, or interviewed practices already pay for a satisfying incumbent.",
-      "decision_rule": "Proceed iff >=2 of 5 practices commit at >=£19/mo AND >=25% of scan completers submit an email AND at least one non-network recruitment channel produces a conversation. Iterate once if exactly 1 commitment, or the chosen price is consistently £9, or email capture works but no conversations happen. Stop after the PoC if 0 of 5 commit.",
+      "decision_rule": "Proceed iff >=2 of 5 practices commit at >=\u00a319/mo AND >=25% of scan completers submit an email AND at least one non-network recruitment channel produces a conversation. Iterate once if exactly 1 commitment, or the chosen price is consistently \u00a39, or email capture works but no conversations happen. Stop after the PoC if 0 of 5 commit.",
       "plan": "experiments/geonerd-demand-spike/plan.md",
       "results": null,
       "approval": {
@@ -23,6 +23,29 @@
       "cost_bound": {
         "money_gbp": 50,
         "human_hours": 20,
+        "calendar_days": 7
+      }
+    },
+    {
+      "id": "reasonable-steps-willingness",
+      "idea_id": "reasonable-steps",
+      "title": "Willingness-to-pay test for an 'all reasonable steps' evidence tool",
+      "status": "proposed",
+      "created": "2026-09-21",
+      "updated": "2026-09-21",
+      "hypothesis": "If ten UK employers with 10-100 staff and no dedicated HR system are shown a concrete 'reasonable steps' evidence pack and then asked to commit at \u00a312/month, then at least three will commit, because the 30 October 2026 duty creates a live compliance need that free guidance alone does not operationalise.",
+      "central_assumption": "UK SME employers with 10-100 staff and no dedicated HR system will pay at least \u00a312/month for a low-cost 'all reasonable steps' evidence tool rather than rely on free Acas/EHRC templates and the HR software they already have.",
+      "kill_condition": "Zero of ten employers make any concrete commitment, or a majority say free Acas/EHRC guidance and existing HR software already suffice, or legal-advice concerns block the proposition.",
+      "decision_rule": "Proceed iff >=3 of 10 employers commit at >=\u00a312/mo AND at least one non-network recruitment channel yields >=5 conversations. Iterate once if 1-2 commit or the price settles consistently at <=\u00a38/mo. Stop if 0 of 10 commit or the dominant reaction is that free guidance/HR software is enough.",
+      "plan": "experiments/reasonable-steps-willingness/plan.md",
+      "results": null,
+      "approval": {
+        "required": true,
+        "granted": false
+      },
+      "cost_bound": {
+        "money_gbp": 20,
+        "human_hours": 10,
         "calendar_days": 7
       }
     }

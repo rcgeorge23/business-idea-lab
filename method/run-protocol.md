@@ -24,49 +24,68 @@ be reviewed by the human owner before keeping them.
 
 ## One run, in order
 
-1. **Orientation.** Read `ideas/index.json`, all active experiments
-   (`experiments/index.json`), the review queue, the most recent retrospectives, and the
-   decision records of recently killed ideas. Note any `changes-requested` reviews:
-   these MUST be answered in this run (see step 8).
+1. **Orientation.** Read `ideas/index.json`, `seeds/index.json`, all active experiments
+   (`experiments/index.json`), the review queue, the most recent retrospectives, the
+   discovery log of recent runs (source classes already searched), and the decision
+   records of recently killed ideas. Note any `changes-requested` reviews: these MUST be
+   answered in this run (see step 9).
 2. **Unreviewed check.** Count ideas with `state == discovered`. If >= 10, generate no
    new candidates this run and say so in the run summary.
-3. **Generate candidates (<= 3, only if step 2 allows).** Materially distinct from each
-   other and from all existing ideas. For each candidate apply duplicate detection:
-   - normalised title/slug collision => duplicate, do not create;
-   - same buyer AND same problem AND (same mechanism OR >= 3 shared fingerprint
-     keywords) as any existing idea => duplicate unless the candidate states what is
-     materially different;
-   - a variant of a killed idea without addressing the recorded kill reason => reject,
-     with the reason noted.
-   For each accepted candidate create `ideas/<slug>/{dossier.md,decision.md,scorecard.json}`
-   and an entry in `ideas/index.json` with `state: discovered`.
-4. **Hard filters before deep research.** Apply all nine filters from
-   `method/scorecard.md` to each new candidate. Any `fail` => `killed` (preserve reason).
-   `unknown`/`defer` => park at `desk-screened` at most, and state what would resolve it.
-5. **Desk screen survivors.** Gather dated evidence into `evidence/` (append-only), fill
-   the scorecard dimensions that evidence supports, and move to `desk-screened`.
-6. **Adversarial pass.** For promising candidates, write the strongest possible case
+3. **Hunt discontinuities (<= 3 candidates, only if step 2 allows).** Follow
+   `method/discovery.md`: search source classes for something that recently changed, form
+   candidates around it, and require each to complete "This was not an attractive
+   business three years ago, but it might be now because ___ changed." An idea generated
+   merely because a problem exists is rejected at this step. Apply the duplicate
+   detection rules in `method/discovery.md` (slug/title collision; same buyer AND
+   problem AND mechanism/keywords; variant of a killed idea that does not address the
+   recorded kill reason). Record the source classes actually searched for the run
+   summary.
+4. **Novelty / incumbent sanity check.** Before any deep research, run the screening
+   checklist in `method/discovery.md` (exact product exists? multiple credible providers?
+   wedge already a standard feature? adequate free/authoritative alternative? incumbent
+   with hostile unit economics? merely a feature of a category?). Record the result in the
+   dossier. This is a screening aid: it does not automatically kill, but it must be
+   considered explicitly and a candidate that fails it needs a stated reason to continue.
+5. **Hard filters before deep research.** Apply all nine filters from
+   `method/scorecard.md` to each new candidate. `pass` requires cited evidence; analogy
+   and assumption produce `unknown`, not `pass`. Any `fail` => `killed` (preserve
+   reason). `unknown` is parked at most but must name `resolve_via`. For each accepted
+   candidate create `ideas/<slug>/{dossier.md,decision.md,scorecard.json}` and an entry
+   in `ideas/index.json` with `state: discovered`, `why_now` populated, and the
+   fingerprint fields.
+6. **Desk screen survivors.** Gather dated evidence into `evidence/` (append-only), fill
+   the scorecard dimensions that evidence supports (applying the caps in
+   `method/scorecard.md`), and move to `desk-screened` only if no filter `fail`.
+7. **Adversarial pass.** For promising candidates, write the strongest possible case
    that the idea is wrong or worthless ("what would have to be true for this to fail"),
    then either kill the idea or record why it survives. Move to `adversarially-researched`.
    This pass must be genuinely aimed at killing; the sibling `idea-critic` agent can be
    used for a second adversarial opinion.
-7. **Advance at most one idea.** Score the candidate(s). At most one idea per run may be
-   proposed for `validation-ready`, and only if the threshold in `method/scorecard.md`
-   and the review trigger in `method/review-policy.md` are satisfied. When triggered,
-   set `review.status: requested`, write `reviews/<date>-<slug>-review-request.md`
-   (generated with `scripts/build_review_request.py`), and stop advancing that idea.
-8. **Answer outstanding reviews.** For every review with status `changes-requested`,
+8. **Advance at most one idea.** Score the candidate(s) under weights version 1.1.0. At
+   most one idea per run may be proposed for `validation-ready`, and only if the
+   threshold in `method/scorecard.md` and the review trigger in
+   `method/review-policy.md` are satisfied. When triggered, set `review.status: requested`,
+   write `reviews/<date>-<slug>-review-request.md` (generated with
+   `scripts/build_review_request.py`), and stop advancing that idea. An idea that does
+   not meet the threshold stays parked; it may still carry an experiment (see
+   `method/lifecycle.md`).
+9. **Answer outstanding reviews.** For every review with status `changes-requested`,
    address each point with new evidence or a documented concession; never overwrite the
    review or silently ignore it. For `approved`, require human-recorded experiment
    results before any state change above `validation-ready`. For `killed`, move the idea
    to `killed` (or record a well-argued disagreement as a new review request; the state
    stays put until the reviewer responds).
-9. **Experiment step.** For the idea closest to `validation-ready`, ensure the cheapest
-   decisive experiment is proposed in `experiments/<id>/plan.md` per
-   `method/experiment-rules.md`. Never start it. Approval is the human owner's.
-10. **Run summary.** Write `runs/<run-id>/summary.md`: what advanced, what was killed,
-    what failed, what needs human input, limits hit, and the review queue after the run.
-    Update `ideas/index.json` counters and `experiments/index.json`. Do not commit.
+10. **Experiment step.** For the idea closest to `validation-ready`, ensure the cheapest
+    decisive experiment is proposed in `experiments/<id>/plan.md` per
+    `method/experiment-rules.md`. Never start it. Approval is the human owner's.
+11. **Adjacent seeds.** If a rejection surfaced an observation that could support a
+    materially different proposition, record it under `seeds/` per `method/discovery.md`.
+    A seed never inherits the killed idea's score or evidence level, and is never an idea
+    until a later run researches it from scratch.
+12. **Run summary.** Write `runs/<run-id>/summary.md`: what advanced, what was killed,
+    what failed, what needs human input, limits hit, the source classes searched, the
+    why-now quality of generated candidates, and the review queue after the run. Update
+    `ideas/index.json` counters and `experiments/index.json`. Do not commit.
 
 ## Output contract
 
@@ -115,7 +134,7 @@ Every run writes `runs/<run-id>/run.json`:
   "finished_at": "ISO-8601",
   "agent": "idea-worker",
   "model": "opencode-go/deepseek-v4.1-flash",
-  "method_version": "1.0.0",
+  "method_version": "1.1.0",
   "input_revision": "git sha or 'none'",
   "output_revision": "git sha or 'none (uncommitted)'",
   "attempts": 1,

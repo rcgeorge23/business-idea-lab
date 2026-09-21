@@ -12,6 +12,18 @@
 
 > <Buyer> has <problem>; we provide <mechanism> at <price/business model>.
 
+## Why now?
+
+> This was not an attractive business three years ago, but it might be now because
+> ___ changed.
+
+- What changed:
+- When it changed (or is due to change):
+- Evidence (dated source), and why the change is real rather than a trend:
+- Why this materially improves the opportunity now:
+- Have competitors already responded?
+- Strength: `strong` | `weak` | `absent`
+
 ## Buyer
 
 - Who exactly pays (role, company size, segment):
@@ -29,6 +41,19 @@
 - What we would actually do:
 - Why it is defensible against the cheapest credible incumbent:
 - Evidence: [link]
+
+## Novelty / incumbent sanity check
+
+| Check | Answer | Evidence |
+|---|---|---|
+| Does this exact product already exist? | | |
+| Are there multiple credible providers? | | |
+| Is the wedge already a standard feature? | | |
+| Is a free/authoritative alternative already adequate? | | |
+| Has a well-capitalised company shown hostile unit economics? | | |
+| Is this merely a feature of an established category? | | |
+
+If any check fails, state the reason to continue anyway:
 
 ## Distribution
 

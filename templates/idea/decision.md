@@ -11,19 +11,30 @@
 
 <One paragraph: what was learned or decided this run.>
 
+## Why now? (discovery gate)
+
+- What changed / when:
+- Why it materially improves the opportunity:
+- Strength: `strong` | `weak` | `absent`
+- If `weak` or `absent`: why the candidate was generated anyway, and why it was kept
+  or rejected.
+
 ## Hard filters
 
 | Filter | Status | Note |
 |---|---|---|
-| economic_buyer | pass | |
-| painful_frequent_or_budgeted | pass | |
-| non_paid_distribution | pass | |
-| defensible_wedge | pass | |
-| no_network_effects_needed | pass | |
-| plausible_margins | pass | |
-| acceptable_risk | pass | |
-| cheap_disconfirming_test | pass | |
-| not_all_optimistic | pass | |
+| economic_buyer | unknown | |
+| painful_frequent_or_budgeted | unknown | |
+| non_paid_distribution | unknown | |
+| defensible_wedge | unknown | |
+| no_network_effects_needed | unknown | |
+| plausible_margins | unknown | |
+| acceptable_risk | unknown | |
+| cheap_disconfirming_test | unknown | |
+| not_all_optimistic | unknown | |
+
+Status values are `pass` | `unknown` | `fail`; see `method/scorecard.md`. `unknown`
+entries name what would resolve them in the scorecard's `resolve_via`.
 
 ## Evidence considered
 

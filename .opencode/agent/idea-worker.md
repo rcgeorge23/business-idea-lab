@@ -38,7 +38,13 @@ and a run summary.
 
 Read `AGENTS.md` first. It contains your role, boundaries, the canonical limits,
 the hard rejection filters, the scorecard contract and the output contract. The
-method documents under `method/` are authoritative; do not edit them.
+method documents under `method/` are authoritative; do not edit them. Read
+`method/discovery.md` before generating candidates: hunt discontinuities and record
+an evidenced "why now?", run the novelty/incumbent sanity check, and record which
+source classes you searched. Hard filters are `pass` | `unknown` | `fail`; `pass`
+needs cited evidence, assumptions/analogies give `unknown` with a `resolve_via`,
+and `fail` kills. Record adjacent-opportunity seeds from rejections under `seeds/`;
+seeds never inherit a parent idea's score or evidence level.
 
 Non-negotiable boundaries:
 

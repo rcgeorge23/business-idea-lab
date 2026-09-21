@@ -35,17 +35,34 @@ with their reason (including false-negative audits).
 
 | From | To | Requires |
 |---|---|---|
-| `discovered` | `desk-screened` | Hard filters all `pass`; at least one dated source for the problem; decision record written |
+| `discovered` | `desk-screened` | No hard filter `fail` (an `unknown` with `resolve_via` is allowed); at least one dated source for the problem; decision record written |
 | `discovered` / `desk-screened` | `killed` | A failed hard filter or a documented disconfirming finding; reason preserved |
 | `desk-screened` | `adversarially-researched` | Adversarial pass recorded: strongest disconfirming case, and why the idea survives it (or the idea is killed) |
-| `adversarially-researched` | `validation-ready` | Scorecard meets the threshold in `method/scorecard.md`; all hard filters `pass`; no active veto; review triggered (`review.status != not-required`) |
+| `adversarially-researched` | `validation-ready` | Scorecard meets the threshold in `method/scorecard.md`; no hard filter `fail`; no active veto; every `unknown` filter is named in the proposed experiment; review triggered (`review.status != not-required`) |
 | `validation-ready` | `externally-tested` | `review.status == approved` AND human owner approved the experiment AND results are recorded |
 | `externally-tested` | `validated` / `iterate` / `killed` | Human owner decision recorded in the decision record |
 | any | `killed` | Reason recorded; prior state kept in history |
 
 Downward moves (e.g. `validation-ready` -> `adversarially-researched` after a
-`changes-requested` review) are legal and must be recorded as a transition, never
-edited away.
+`changes-requested` review or a tightened rescore) are legal and must be recorded as a
+transition, never edited away.
+
+### Experiments while parked
+
+The threshold for `validation-ready` is deliberately strict, but the **experiment is not
+gated on it**. A parked idea (`adversarially-researched`, or lower) may carry a proposed
+experiment under `experiments/`, and the human owner may approve and run it. External
+results recorded against a parked idea are the normal route back up: they raise the
+evidence level and allow the idea to be re-scored and re-proposed. This lets promising
+ideas reach a cheap decisive test without inflating their desk evidence.
+
+### Why now
+
+Every candidate discovered under method >= 1.1.0 records an evidenced `why_now` in
+`ideas/index.json` and a "Why now?" section in its dossier (see `method/discovery.md`).
+A missing or unevidenced "why now?" does not by itself kill an idea, but it caps
+`differentiation` and `problem_severity_frequency` at 2 and is a strong reason to reject
+a generic or crowded candidate at screening.
 
 ## Evidence levels
 

@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 SCHEMA_VERSION = 1
-WEIGHTS_VERSION = "1.0.0"
+WEIGHTS_VERSION = "1.1.0"
 
 DIMENSIONS = {
     "problem_severity_frequency": 15,
@@ -44,7 +44,8 @@ HARD_FILTERS = [
     "cheap_disconfirming_test",
     "not_all_optimistic",
 ]
-FILTER_STATUSES = {"pass", "fail", "defer", "unknown"}
+FILTER_STATUSES = {"pass", "unknown", "fail"}
+SEED_STATUSES = {"unexplored", "exploring", "promoted", "dropped"}
 
 STATES = {
     "discovered",
@@ -69,6 +70,7 @@ CONFIDENCES = {"none", "low", "medium", "high"}
 REVIEW_STATUSES = {"not-required", "requested", "changes-requested", "approved", "killed"}
 REVIEW_TRANSITIONS = {
     ("not-required", "requested"),
+    ("requested", "requested"),
     ("requested", "changes-requested"),
     ("requested", "approved"),
     ("requested", "killed"),
@@ -242,8 +244,21 @@ def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_v
         if not isinstance(item, dict):
             report.error(f"{label}: hard_filters.{key} missing or not an object")
             continue
-        if item.get("status") not in FILTER_STATUSES:
+        fstatus = item.get("status")
+        if fstatus not in FILTER_STATUSES:
             report.error(f"{label}: hard_filters.{key}.status must be one of {sorted(FILTER_STATUSES)}")
+        if not isinstance(item.get("note"), str) or not item.get("note", "").strip():
+            report.error(f"{label}: hard_filters.{key}.note must be a non-empty string")
+        if fstatus == "pass":
+            refs = item.get("evidence")
+            if not isinstance(refs, list) or not refs:
+                report.error(f"{label}: hard_filters.{key} is 'pass' but has no evidence")
+            else:
+                check_evidence_refs(report, root, refs, f"{label}: hard_filters.{key}")
+        if fstatus == "unknown":
+            resolve = item.get("resolve_via")
+            if not isinstance(resolve, str) or not resolve.strip():
+                report.error(f"{label}: hard_filters.{key} is 'unknown' but has no resolve_via")
     extra = set(filters) - set(HARD_FILTERS)
     if extra:
         report.error(f"{label}: unknown hard filters: {sorted(extra)}")
@@ -277,14 +292,10 @@ def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_v
     state = sc.get("state")
     statuses = {k: (filters.get(k) or {}).get("status") for k in HARD_FILTERS}
     fails = [k for k, v in statuses.items() if v == "fail"]
-    unknowns = [k for k, v in statuses.items() if v in {"unknown", "defer"}]
+    unknowns = [k for k, v in statuses.items() if v == "unknown"]
 
     if fails and state != "killed":
         report.error(f"{label}: hard filters failed ({', '.join(fails)}) but state is {state!r} (must be 'killed')")
-    if unknowns and state not in {"discovered", "killed"}:
-        report.error(
-            f"{label}: hard filters unresolved ({', '.join(unknowns)}) but state is {state!r} (must be 'discovered' or 'killed')"
-        )
     if not fails and not unknowns and state == "discovered":
         report.warn(f"{label}: all hard filters pass but state is still 'discovered'")
     if vetoes and state not in {"killed", "adversarially-researched"}:
@@ -308,6 +319,11 @@ def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_v
             report.error(f"{label}: state {state!r} has failed hard filters")
         if vetoes:
             report.error(f"{label}: state {state!r} has active vetoes")
+        if unknowns and not (sc.get("experiment") or {}).get("plan"):
+            report.error(
+                f"{label}: state {state!r} has unresolved hard filters ({', '.join(unknowns)}) "
+                "but no experiment plan naming how they are resolved"
+            )
         review = sc.get("review") or {}
         if review.get("status") == "not-required":
             report.error(f"{label}: state {state!r} requires review.status != 'not-required'")
@@ -404,7 +420,7 @@ def check_index(report: Report, root: Path, index: dict, method_version: str) ->
             report,
             entry,
             ["id", "slug", "title", "state", "discovered", "updated", "evidence_level", "score",
-             "confidence", "fingerprint", "paths", "review", "experiment"],
+             "confidence", "fingerprint", "why_now", "paths", "review", "experiment"],
             f"{label}: idea entry",
         ):
             continue
@@ -439,6 +455,24 @@ def check_index(report: Report, root: Path, index: dict, method_version: str) ->
                 report.error(f"{label}: {slug}.fingerprint.{key} must be a non-empty string")
         if not isinstance(fp.get("keywords"), list) or not fp.get("keywords"):
             report.error(f"{label}: {slug}.fingerprint.keywords must be a non-empty list")
+
+        why_now = as_dict(report, entry.get("why_now"), f"{label}: {slug}.why_now")
+        for key in ("changed", "why_it_matters", "competitors_responded"):
+            if not isinstance(why_now.get(key), str) or not why_now.get(key, "").strip():
+                report.error(f"{label}: {slug}.why_now.{key} must be a non-empty string")
+        strength = why_now.get("strength")
+        if strength not in {"strong", "weak", "absent"}:
+            report.error(f"{label}: {slug}.why_now.strength must be strong|weak|absent")
+        changed_date = why_now.get("changed_date")
+        if changed_date is not None:
+            check_dated(report, changed_date, f"{label}: {slug}.why_now.changed_date")
+        if strength in {"strong", "weak"} and changed_date is None:
+            report.error(f"{label}: {slug}.why_now.changed_date required when strength is {strength!r}")
+        why_refs = why_now.get("evidence")
+        if not isinstance(why_refs, list) or not why_refs:
+            report.error(f"{label}: {slug}.why_now.evidence must be a non-empty list")
+        else:
+            check_evidence_refs(report, root, why_refs, f"{label}: {slug}.why_now")
 
         paths = as_dict(report, entry.get("paths"), f"{label}: {slug}.paths")
         expected = {
@@ -605,13 +639,86 @@ def check_runs(report: Report, root: Path, method_version: str) -> None:
             report.error(f"runs/index.jsonl:{lineno}: illegal mode {run.get('mode')!r}")
         if run.get("status") not in {"success", "failed", "invalid-output", "over-budget"}:
             report.error(f"runs/index.jsonl:{lineno}: illegal status {run.get('status')!r}")
-        if run.get("method_version") != method_version:
-            report.error(f"runs/index.jsonl:{lineno}: method_version mismatch")
+        recorded_version = run.get("method_version")
+        if not isinstance(recorded_version, str) or not recorded_version.strip():
+            report.error(f"runs/index.jsonl:{lineno}: missing method_version")
+        elif recorded_version != method_version:
+            report.warn(
+                f"runs/index.jsonl:{lineno}: historical run recorded under method "
+                f"{recorded_version}, current method is {method_version}"
+            )
         if run.get("validation") not in {"pass", "fail", "not-run"}:
             report.error(f"runs/index.jsonl:{lineno}: illegal validation {run.get('validation')!r}")
         summary = run.get("summary")
         if summary and not (root / str(summary)).exists():
             report.warn(f"runs/index.jsonl:{lineno}: summary file missing: {summary}")
+
+
+def check_seeds(report: Report, root: Path, method_version: str, slugs: set[str]) -> list[dict]:
+    path = root / "seeds" / "index.json"
+    label = "seeds/index.json"
+    if not path.exists():
+        report.warn(f"{label}: missing (no adjacent-opportunity seeds recorded)")
+        return []
+    data = load_json(report, path, label)
+    if data is None:
+        return []
+    data = as_dict(report, data, label)
+    if data.get("schema_version") != SCHEMA_VERSION:
+        report.error(f"{label}: schema_version must be {SCHEMA_VERSION}")
+    if data.get("method_version") != method_version:
+        report.error(f"{label}: method_version {data.get('method_version')!r} != {method_version!r}")
+    seeds = data.get("seeds")
+    if not isinstance(seeds, list):
+        report.error(f"{label}: seeds must be a list")
+        return []
+    seen_ids: set[str] = set()
+    seen_slugs: set[str] = set()
+    for entry in seeds:
+        entry = as_dict(report, entry, f"{label}: seed entry")
+        if not require_keys(
+            report,
+            entry,
+            ["id", "slug", "title", "origin_idea", "observation", "why_materially_different",
+             "recorded", "status", "evidence"],
+            f"{label}: seed entry",
+        ):
+            continue
+        seed_id = entry.get("id")
+        if seed_id in seen_ids:
+            report.error(f"{label}: duplicate seed id {seed_id!r}")
+        if isinstance(seed_id, str):
+            seen_ids.add(seed_id)
+        slug = entry.get("slug")
+        if not isinstance(slug, str) or not slug:
+            report.error(f"{label}: seed slug must be a non-empty string")
+            continue
+        if slug in seen_slugs:
+            report.error(f"{label}: duplicate seed slug '{slug}'")
+        seen_slugs.add(slug)
+        for forbidden in ("score", "confidence", "evidence_level", "state"):
+            if forbidden in entry:
+                report.error(
+                    f"{label}: seed {slug} must not inherit '{forbidden}' from its parent idea"
+                )
+        origin = entry.get("origin_idea")
+        if not isinstance(origin, str) or origin not in slugs:
+            report.error(f"{label}: seed {slug} references unknown origin idea {origin!r}")
+        for key in ("observation", "why_materially_different"):
+            if not isinstance(entry.get(key), str) or not entry.get(key, "").strip():
+                report.error(f"{label}: seed {slug}.{key} must be a non-empty string")
+        check_dated(report, entry.get("recorded"), f"{label}: seed {slug}.recorded")
+        if entry.get("status") not in SEED_STATUSES:
+            report.error(f"{label}: seed {slug}.status must be one of {sorted(SEED_STATUSES)}")
+        refs = entry.get("evidence")
+        if not isinstance(refs, list) or not refs:
+            report.error(f"{label}: seed {slug}.evidence must be a non-empty list")
+        else:
+            check_evidence_refs(report, root, refs, f"{label}: seed {slug}")
+        seed_file = root / "seeds" / f"{slug}.md"
+        if not seed_file.exists():
+            report.error(f"{label}: seed file missing: seeds/{slug}.md")
+    return seeds
 
 
 def run(root: Path, quiet: bool = False) -> Report:
@@ -636,6 +743,7 @@ def run(root: Path, quiet: bool = False) -> Report:
             if isinstance(i, dict) and isinstance(i.get("slug"), str)
         }
         check_experiments(report, root, method_version, slugs)
+        check_seeds(report, root, method_version, slugs)
     check_runs(report, root, method_version)
     return report
 

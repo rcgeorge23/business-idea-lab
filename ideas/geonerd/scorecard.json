@@ -1,144 +1,183 @@
 {
   "schema_version": 1,
-  "method_version": "1.0.0",
-  "weights_version": "1.0.0",
+  "method_version": "1.1.0",
+  "weights_version": "1.1.0",
   "idea_id": "geonerd",
   "slug": "geonerd",
   "title": "GeoNerd: AI visibility digest for UK accountancy practices",
-  "state": "validation-ready",
-  "updated": "2026-09-20",
+  "state": "adversarially-researched",
+  "updated": "2026-09-21",
   "dimensions": {
     "problem_severity_frequency": {
       "weight": 15,
-      "score": 3,
-      "confidence": "medium",
-      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
-      "rationale": "AIO/YMYL exposure is documented and the shared-question structure is coherent, but no target buyer has confirmed the problem is felt or frequent (assumption A2)."
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/geonerd/2026-09-20-wedge-strategy.md"
+      ],
+      "rationale": "Pain is inferred, not evidenced: the argument rests on AIO/YMYL prevalence and a shared-question structure, not on any accountant describing the problem as frequent or costly. Analogy-based problem score is capped at 2 under weights 1.1.0 (assumption A2)."
     },
     "buyer_budget_clarity": {
       "weight": 15,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
-      "rationale": "Buyer and decision maker are precisely identified (1-20 staff practice owner/partner); budget authority is plausible but no observed willingness to pay exists (assumption A1)."
+      "evidence": [
+        "evidence/geonerd/2026-09-20-wedge-strategy.md",
+        "evidence/geonerd/2026-09-20-competitive-teardown.md"
+      ],
+      "rationale": "Buyer is precise (owner/partner of a 1-20 staff UK practice). Budget is not demonstrated for this product, but incumbents (TendorAI, SearchScore) already sell AI-visibility tooling to this exact buyer at $25-299/mo, which is affirmative evidence a budget line exists. No observed willingness to pay for GeoNerd itself, so 3 not 4."
     },
     "evidence_strength": {
       "weight": 15,
-      "score": 3,
-      "confidence": "medium",
-      "evidence": ["evidence/geonerd/2026-09-20-spike-findings.md"],
-      "rationale": "All evidence is internal desk research with secondary sources; coherent and specific, but no independent or buyer-derived evidence. No material claim rises above medium confidence."
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/geonerd/2026-09-20-spike-findings.md",
+        "evidence/geonerd/2026-09-20-competitive-teardown.md"
+      ],
+      "rationale": "All evidence is internal desk research: category counts, vendor pricing and published measurement studies. No buyer-derived or independent verification. Category analysis without buyer evidence scores 2 under weights 1.1.0."
     },
     "distribution": {
       "weight": 10,
-      "score": 3,
-      "confidence": "medium",
-      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
-      "rationale": "Named non-paid channels exist (communities, directories, SEO, benchmark report) but no yield has been measured (assumption A4)."
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/geonerd/2026-09-20-wedge-strategy.md"
+      ],
+      "rationale": "Channels are plausible (directories, AccountingWEB/ICAEW/ACCA communities, SEO, benchmark report) but no channel has produced a prospect, reply or scan yet (assumption A4). Plausible-only distribution is capped at 2."
     },
     "differentiation": {
       "weight": 10,
-      "score": 3,
+      "score": 2,
       "confidence": "medium",
-      "evidence": ["evidence/geonerd/2026-09-20-competitive-teardown.md"],
-      "rationale": "Vertical depth + honest measurement + plain-language actions is a real angle, but TendorAI contests the same vertical and SearchScore undercuts on price; wedge unproven against buyers."
+      "evidence": [
+        "evidence/geonerd/2026-09-20-competitive-teardown.md"
+      ],
+      "rationale": "TendorAI already markets AI visibility to UK ICAEW/ACCA accountants, SearchScore has audited 1,038 UK accountancy firms and sells tracking from $25/mo, and Tramwai/AireStream contest the services end. Direct incumbent overlap caps differentiation at 2."
     },
     "validation_speed_cost": {
       "weight": 10,
       "score": 4,
       "confidence": "high",
-      "evidence": ["evidence/geonerd/2026-09-20-demand-validation-plan.md"],
-      "rationale": "A 1-week, £50, 20 human-hour test with a pre-fixed mechanical decision rule exists and directly targets the central assumption."
+      "evidence": [
+        "evidence/geonerd/2026-09-20-demand-validation-plan.md"
+      ],
+      "rationale": "A 1-week, <=GBP50, <=20 human-hour test with a pre-fixed mechanical decision rule (>=2 of 5 practices commit at >=GBP19; >=25% email capture; >=1 non-network channel). Genuinely cheap and decisive for the central assumption."
     },
     "feasibility": {
       "weight": 5,
-      "score": 4,
+      "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/geonerd/2026-09-20-spike-findings.md"],
-      "rationale": "Manual scan is straightforward; the technical uncertainty (UI vs API equivalence) is bounded and deferred to the measurement bake-off rather than blocking the demand test."
+      "evidence": [
+        "evidence/geonerd/2026-09-20-spike-findings.md"
+      ],
+      "rationale": "The manual version of the scan is straightforward and is what the experiment uses. The automated UI-equivalent measurement pipeline (noise, provider cost, caching) is unproven, which caps feasibility at 3."
     },
     "economics": {
       "weight": 10,
-      "score": 4,
-      "confidence": "medium",
-      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
-      "rationale": "Modelled contribution is positive at >=10 customers per market at £19.99/mo with plausible cost ranges; the cost model is untested against a real provider bill (assumption A5)."
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/geonerd/2026-09-20-wedge-strategy.md"
+      ],
+      "rationale": "Contribution margin is modelled, not measured. It depends on untested density (>=10 customers/market at GBP19.99), untested provider cost and untested support load (assumption A5). Modelled-only economics with untested inputs are capped at 2, low confidence."
     },
     "founder_fit": {
       "weight": 5,
       "score": null,
       "confidence": "none",
       "evidence": [],
-      "rationale": "No evidence recorded about the founder's domain access, distribution or time budget beyond the existence of the GeoNerd research repo; left unscored rather than guessed."
+      "rationale": "No evidence about the actual founder's access to UK accountancy practices or ability to operate the product. Scored null rather than guessed."
     },
     "risk": {
       "weight": 5,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/geonerd/2026-09-20-competitive-teardown.md"],
-      "rationale": "No regulated personal data or platform-risk story, but incumbent contest and dependency on third-party AI surfaces are material and unresolved."
+      "evidence": [
+        "evidence/geonerd/2026-09-20-competitive-teardown.md"
+      ],
+      "rationale": "No regulated data, no personal data beyond an email, and claims can be stated honestly. Main exposure is dependence on third-party AI surfaces and contested positioning, both manageable, neither veto-level."
     }
   },
   "hard_filters": {
     "economic_buyer": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "Practice owner/partner is the decision maker; £19.99/mo is a small purchase against the value of one client."
+      "note": "Owner/partner of a 1-20 staff UK practice owns the problem and controls a marketing/BD budget; the product price is trivial against the value of one new client.",
+      "evidence": [
+        "evidence/geonerd/2026-09-20-wedge-strategy.md"
+      ],
+      "resolve_via": ""
     },
     "painful_frequent_or_budgeted": {
-      "status": "pass",
-      "date": "2026-09-20",
-      "note": "Assumed painful and recurring by analogy with search visibility tracking; desk evidence only (assumption A2)."
+      "status": "unknown",
+      "note": "Pain and urgency are assumed by analogy with search-visibility tracking; no accountant has been observed describing the problem unprompted or paying for a fix (assumption A2). Previously recorded as pass on the strength of an assumption; corrected under weights 1.1.0.",
+      "evidence": [],
+      "resolve_via": "geonerd-demand-spike interviews: whether practices raise the problem unprompted, what they currently do about it, and whether >=2 of 5 commit at >=GBP19/mo."
     },
     "non_paid_distribution": {
-      "status": "pass",
-      "date": "2026-09-20",
-      "note": "Directory outreach, professional communities, SEO and a benchmark report are credible non-paid routes (assumption A4)."
+      "status": "unknown",
+      "note": "Directory outreach, professional communities, SEO and a benchmark report are plausible non-paid channels, but none has produced a scan, reply or conversation yet (assumption A4).",
+      "evidence": [],
+      "resolve_via": "Measure directory-outreach reply and scan-start rates and community-post yield during the spike; >=1 non-network channel producing a conversation resolves it."
     },
     "defensible_wedge": {
-      "status": "pass",
-      "date": "2026-09-20",
-      "note": "Vertical depth + honest measurement + plain-language actions versus free checkers and £299/mo done-for-you services."
+      "status": "unknown",
+      "note": "The proposed wedge (vertical depth + honest measurement + plain-language actions) can be described, but TendorAI and SearchScore already contest AI visibility for UK accountants and free checkers cover the generic case. Describable positioning is not evidence of a defensible wedge.",
+      "evidence": [],
+      "resolve_via": "Interview reactions to positioning and price against TendorAI/SearchScore and the free checkers; a differentiated job (not price) must be confirmed by buyers."
     },
     "no_network_effects_needed": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "Market-level prompt set is usable by a single customer; benchmarks improve with density but are not required for value."
+      "note": "The market-level prompt set is shared infrastructure; a single practice receives a useful scan and digest without any other customer.",
+      "evidence": [
+        "evidence/geonerd/2026-09-20-wedge-strategy.md"
+      ],
+      "resolve_via": ""
     },
     "plausible_margins": {
-      "status": "pass",
-      "date": "2026-09-20",
-      "note": "Modelled contribution positive at >=10 customers per market at £19.99/mo; cost model untested."
+      "status": "unknown",
+      "note": "Contribution is modelled positive only at untested density (>=10 customers/market at GBP19.99) with untested UI-equivalent collection cost (assumption A5).",
+      "evidence": [],
+      "resolve_via": "Record the actual provider bill for the manual/automated scans and the achieved density after the spike; positive contribution at observed density resolves it."
     },
     "acceptable_risk": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "No personal data beyond submitted email; claims about AI answers are reproducible and disclaimered."
+      "note": "No regulated data; email is the only personal data; vendors are only cited, not scraped into a product. Third-party surface dependency and incumbent contest are recorded as manageable.",
+      "evidence": [
+        "evidence/geonerd/2026-09-20-competitive-teardown.md"
+      ],
+      "resolve_via": ""
     },
     "cheap_disconfirming_test": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "£50 / 20 human-hours / 1-week demand spike with a pre-fixed decision rule can falsify the central assumption."
+      "note": "A 1-week demand spike with a pre-fixed decision rule can disprove the central assumption (practices commit at >=GBP19/mo) for <=GBP50 and <=20 human-hours.",
+      "evidence": [
+        "evidence/geonerd/2026-09-20-demand-validation-plan.md"
+      ],
+      "resolve_via": ""
     },
     "not_all_optimistic": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "Stop rules fire on 0/5 commitments and on incumbent satisfaction; iterate path is defined."
+      "note": "The pre-fixed stop rule kills the idea on 0/5 commitments even if every optimistic reading holds; an iterate path and an API-cost fallback are documented.",
+      "evidence": [
+        "evidence/geonerd/2026-09-20-demand-validation-plan.md"
+      ],
+      "resolve_via": ""
     }
   },
   "vetoes": [],
   "aggregate": {
     "scored_weight": 95,
-    "raw_weighted_points": 62.0,
-    "weighted_total": 65.3,
+    "raw_weighted_points": 47.0,
+    "weighted_total": 49.5,
     "threshold": 65,
-    "meets_threshold": true
+    "meets_threshold": false
   },
-  "confidence": "medium",
+  "confidence": "low",
   "review": {
     "status": "requested",
-    "requested_from": "ChatGPT (independent reviewer)",
-    "request_path": "reviews/2026-09-20-geonerd-review-request.md",
+    "requested_from": "ChatGPT (independent reviewer, routed by the human owner)",
+    "request_path": "reviews/2026-09-21-geonerd-review-request-v2.md",
     "last_reviewed_revision": null,
     "history": [
       {
@@ -146,7 +185,14 @@
         "from": "not-required",
         "to": "requested",
         "actor": "bootstrap",
-        "reason": "Bootstrap seed at validation-ready under issue #1; independent review requested because the idea is proposed at an advanced state."
+        "reason": "Bootstrap seed at validation-ready under issue #1; independent review requested because the idea was proposed at an advanced state."
+      },
+      {
+        "date": "2026-09-21",
+        "from": "requested",
+        "to": "requested",
+        "actor": "worker",
+        "reason": "Rescored under weights 1.1.0: assumption-based passes corrected to unknown, inferred pain/plausible distribution/modelled economics capped, weighted_total 65.3 -> 49.5, state moved down to adversarially-researched. New request revision issued (v2); original request preserved. Nothing has been reviewed yet."
       }
     ]
   },

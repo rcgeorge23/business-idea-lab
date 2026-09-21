@@ -53,15 +53,22 @@ limits):
 
 1. Handles any outstanding `changes-requested` review first.
 2. Stops generating if 10 or more ideas are unreviewed.
-3. Generates at most 3 materially distinct candidates and applies the 9 hard
-   rejection filters before deep research.
-4. Researches survivors, runs an explicit adversarial review aimed at killing
+3. Hunts discontinuities ("why now?") per `method/discovery.md`, generates at
+   most 3 materially distinct candidates, each with an evidenced `why_now`, and
+   records which source classes were searched.
+4. Runs the novelty/incumbent sanity check, then applies the 9 hard rejection
+   filters before deep research (`pass` needs cited evidence; assumptions and
+   analogies give `unknown` with a `resolve_via`; any `fail` kills).
+5. Researches survivors, runs an explicit adversarial review aimed at killing
    them, and updates the ledger, evidence registers, scorecards and decision
    records.
-5. Advances at most 1 idea to `validation-ready` per run, only if the scorecard
-   threshold and review policy are satisfied.
-6. Proposes the cheapest experiment that could disprove the central assumption.
-7. Writes the run summary to `runs/$LAB_RUN_ID/summary.md`.
+6. Advances at most 1 idea to `validation-ready` per run, only if the scorecard
+   threshold and review policy are satisfied. Parked ideas may still carry
+   experiments.
+7. Records adjacent-opportunity seeds under `seeds/` (they never inherit the
+   parent's score or evidence level).
+8. Proposes the cheapest experiment that could disprove the central assumption.
+9. Writes the run summary to `runs/$LAB_RUN_ID/summary.md`.
 
 Cost and retry bounds are documented in `method/run-protocol.md` and enforced
 where practical by `scripts/run.sh` (wall-clock timeout, post-run cost check,
@@ -133,6 +140,7 @@ The human owner runs experiments; results go into the repository:
 | `ideas/index.json` | Ledger: every idea, state, score, review and experiment link |
 | `ideas/<slug>/` | Dossier, scorecard, decision record |
 | `evidence/<slug>/` | Dated evidence registers (claims, sources, caveats) |
+| `seeds/` | Adjacent-opportunity seeds from rejections (non-inheriting) |
 | `experiments/` | Experiment index, plans, results |
 | `reviews/` | Review requests and responses |
 | `retrospectives/` | What the loop itself should learn |
@@ -150,17 +158,28 @@ least one DeepSeek result. Status and exit criteria: `method/calibration.md`.
 The fixture-generation steps are **done**: the first normal run
 (`runs/20260920T210550Z-normal`) produced two weak ideas killed through the
 documented hard-filter path (`shiftswap`, `wonkybox`) and one attractive
-control killed by adversarial veto (`grantscout`). The independent ChatGPT
-critique is **still pending**, so the loop's output must not yet be treated as
-trusted. Status and exit criteria: `method/calibration.md`.
+control killed by adversarial veto (`grantscout`). Under method 1.1.0 GeoNerd
+was rescored honestly (65.3 -> 49.5) and parked at `adversarially-researched`;
+its demand experiment remains proposed. The independent ChatGPT critiques
+(GeoNerd review request v2 and the method 1.1.0 review request) are **still
+pending**, so the loop's output must not yet be treated as trusted.
 
 ## Status
 
-- GeoNerd is seeded at `validation-ready` with an independent review requested
-  and a proposed demand-validation experiment awaiting human approval. It has
-  **no demand evidence**; the weighted total (65.3) barely clears the threshold
-  (65) and must not be read as a strong signal.
-- `scripts/run.sh` has completed a smoke run, a dry run and one normal run
-  end-to-end (cost well under the USD 1.00 bound; validator passing).
+- Method version 1.1.0 (2026-09-21): discontinuity-first discovery with an
+  evidenced `why now?` on every candidate, strict `pass`/`unknown`/`fail`
+  hard-filter semantics, plausibility score caps, non-inheriting adjacent
+  seeds, and an early novelty/incumbent sanity check. The `validation-ready`
+  threshold (65) was deliberately **not** lowered; honest desk-only ideas
+  typically land in the 45-60 range and stay parked, and parked ideas may
+  still carry a proposed experiment. The v1.1.0 method change itself has an
+  open review request (`reviews/2026-09-21-method-v1.1.0-review-request.md`).
+- GeoNerd is parked at `adversarially-researched` with score 49.5 (down from
+  65.3 under the looser 1.0.0 semantics), an independent review requested
+  (`reviews/2026-09-21-geonerd-review-request-v2.md`) and a proposed
+  demand-validation experiment awaiting human approval. It has **no demand
+  evidence**; 49.5 is below the threshold and is not a signal to invest.
+- `scripts/run.sh` has completed smoke, dry and normal runs end-to-end (cost
+  well under the USD 1.00 bound; validator passing).
 - Scheduling of recurring runs is deliberately out of scope. Every run is
   manual.

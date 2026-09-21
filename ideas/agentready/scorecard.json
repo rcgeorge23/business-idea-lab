@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "method_version": "1.1.0",
+  "weights_version": "1.1.0",
+  "idea_id": "agentready",
+  "slug": "agentready",
+  "title": "Agent-ready checkout for independent merchants",
+  "state": "killed",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "rationale": "The new buying surface is real and dated, but merchant-side pain, urgency and frequency are not evidenced; the sourced material shows supply-side platform action, not buyer pain."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "rationale": "Buyer identified (off-platform merchants/agencies) but no evidence they hold or would allocate a budget for agent-readiness; platforms give it away."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "rationale": "Primary platform/payment-provider sources establish the change and the bundled competitive response, but no demand-side evidence."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "rationale": "Only plausible agency/marketplace routes; no non-paid route to early buyers evidenced (capped at 2 for plausible-only distribution)."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 1,
+      "confidence": "medium",
+      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "rationale": "Readiness is bundled free by Shopify/Google/Stripe/OpenAI and the protocols are open; direct incumbent overlap."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "rationale": "A price/integration test would be cheap, though the hard-filter fail makes a test unjustified."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "rationale": "Integration work is well documented and technically straightforward for a commerce engineer."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "rationale": "Modelled only and untested (capped at 2); competing with a free bundled offer erodes pricing power."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "low",
+      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "rationale": "Inferred fit for a commerce-integration engineer with agency relationships; no owner-specific evidence."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "rationale": "Platform dependence and protocol churn are the main risks; no acute legal/privacy risk identified."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "unknown",
+      "note": "A buyer segment is identifiable but budget allocation for this job is not evidenced.",
+      "evidence": [],
+      "resolve_via": "Test whether off-platform merchants or their agencies will pay for agent-readiness."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "unknown",
+      "note": "Potential lost sales are plausible but no buyer-side pain or budget evidence.",
+      "evidence": [],
+      "resolve_via": "Interview off-platform merchants about AI-channel sales and current spend."
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "Agency referrals and marketplace listings are plausible, not evidenced.",
+      "evidence": [],
+      "resolve_via": "Test one non-paid channel (e.g. agency partnership) for reachable buyers."
+    },
+    "defensible_wedge": {
+      "status": "fail",
+      "note": "Platforms and payment networks bundle agent-readiness free (Shopify/Google UCP, OpenAI/Stripe ACP, PayPal, WooCommerce), the protocols are open-sourced, and the function is a feature of commerce platforms.",
+      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "resolve_via": ""
+    },
+    "no_network_effects_needed": {
+      "status": "unknown",
+      "note": "Value may not require density, but merchant-side adoption dynamics were not tested.",
+      "evidence": [],
+      "resolve_via": "Assess whether value holds for a single merchant without platform-wide adoption."
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "No cost or price evidence gathered.",
+      "evidence": [],
+      "resolve_via": "Model integration and support cost against a tested price."
+    },
+    "acceptable_risk": {
+      "status": "unknown",
+      "note": "Platform/protocol dependence is the main risk; not assessed in depth.",
+      "evidence": [],
+      "resolve_via": "Review platform terms and protocol governance before any build."
+    },
+    "cheap_disconfirming_test": {
+      "status": "unknown",
+      "note": "A cheap test is conceivable but was not specified because the wedge already fails.",
+      "evidence": [],
+      "resolve_via": "Not pursued: killed on defensible_wedge."
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Any viable path would require many favourable assumptions at once against subsidised incumbents.",
+      "evidence": [],
+      "resolve_via": "Not pursued: killed on defensible_wedge."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 100,
+    "raw_weighted_points": 49.0,
+    "weighted_total": 49.0,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "low",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

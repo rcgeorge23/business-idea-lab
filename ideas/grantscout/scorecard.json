@@ -1,67 +1,83 @@
 {
   "schema_version": 1,
-  "method_version": "1.0.0",
-  "weights_version": "1.0.0",
+  "method_version": "1.1.0",
+  "weights_version": "1.1.0",
   "idea_id": "grantscout",
   "slug": "grantscout",
   "title": "GrantScout: matched UK grant digest for small businesses",
   "state": "killed",
-  "updated": "2026-09-20",
+  "updated": "2026-09-21",
   "dimensions": {
     "problem_severity_frequency": {
       "weight": 15,
-      "score": 4,
+      "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/grantscout/2026-09-20-free-government-grant-discovery.md"],
+      "evidence": [
+        "evidence/grantscout/2026-09-20-free-government-grant-discovery.md"
+      ],
       "rationale": "Finding and winning grant funding is time-consuming and competitive (GOV.UK), and SMEs frequently ask about it; the pain looked strong before the adversarial pass."
     },
     "buyer_budget_clarity": {
       "weight": 15,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"],
+      "evidence": [
+        "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
+      ],
       "rationale": "SME owners and their accountants have budget and incentive, but category pricing is anchored to free government search and contingency-fee advisers."
     },
     "evidence_strength": {
       "weight": 15,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"],
+      "evidence": [
+        "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
+      ],
       "rationale": "A primary government source plus live vendor pages; competitor success-rate claims are self-reported and unverified."
     },
     "distribution": {
       "weight": 10,
-      "score": 3,
+      "score": 2,
       "confidence": "medium",
-      "evidence": ["evidence/grantscout/2026-09-20-free-government-grant-discovery.md"],
+      "evidence": [
+        "evidence/grantscout/2026-09-20-free-government-grant-discovery.md"
+      ],
       "rationale": "Accountant channel, business networks and SEO/benchmark content are plausible non-paid routes, but unmeasured."
     },
     "differentiation": {
       "weight": 10,
       "score": 2,
       "confidence": "medium",
-      "evidence": ["evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"],
+      "evidence": [
+        "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
+      ],
       "rationale": "GovOwed already sells the exact flat-fee match/report wedge; GOV.UK's free service undercuts discovery. Little differentiation survives."
     },
     "validation_speed_cost": {
       "weight": 10,
       "score": 4,
       "confidence": "high",
-      "evidence": ["evidence/grantscout/2026-09-20-free-government-grant-discovery.md"],
+      "evidence": [
+        "evidence/grantscout/2026-09-20-free-government-grant-discovery.md"
+      ],
       "rationale": "A cheap landing-page/digest test with a pre-fixed decision rule could have produced a decisive read within a week."
     },
     "feasibility": {
       "weight": 5,
-      "score": 4,
+      "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/grantscout/2026-09-20-free-government-grant-discovery.md"],
+      "evidence": [
+        "evidence/grantscout/2026-09-20-free-government-grant-discovery.md"
+      ],
       "rationale": "Assembling and maintaining a UK grant digest is straightforward; the blocker is positioning, not build."
     },
     "economics": {
       "weight": 10,
       "score": 2,
       "confidence": "medium",
-      "evidence": ["evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"],
+      "evidence": [
+        "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
+      ],
       "rationale": "Competing against £0 government search and £29 one-time incumbent pricing leaves little room for a recurring subscription."
     },
     "founder_fit": {
@@ -75,55 +91,78 @@
       "weight": 5,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"],
+      "evidence": [
+        "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
+      ],
       "rationale": "Low regulatory risk using public grant data; main risk is commoditisation by free government tools and cheap incumbents."
     }
   },
   "hard_filters": {
     "economic_buyer": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "SME owner or their accountant has budget and a clear incentive to win grant funding."
+      "note": "SME owner or their accountant has budget and a clear incentive to win grant funding.",
+      "evidence": [
+        "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
+      ],
+      "resolve_via": ""
     },
     "painful_frequent_or_budgeted": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "Grant discovery and application is time-consuming with long, competitive processes (GOV.UK)."
+      "note": "Grant discovery and application is time-consuming with long, competitive processes (GOV.UK).",
+      "evidence": [
+        "evidence/grantscout/2026-09-20-free-government-grant-discovery.md"
+      ],
+      "resolve_via": ""
     },
     "non_paid_distribution": {
-      "status": "pass",
-      "date": "2026-09-20",
-      "note": "Accountant channel, business networks and SEO/benchmark content are credible non-paid routes (assumption, not yet measured)."
+      "status": "unknown",
+      "note": "Accountant channel, business networks and SEO/benchmark content are plausible non-paid routes; no prospect-flow evidence.",
+      "evidence": [],
+      "resolve_via": "measure accountant-channel and business-network reply rates, and organic scan-to-email conversion, in a cheap digest test"
     },
     "defensible_wedge": {
-      "status": "pass",
-      "date": "2026-09-20",
-      "note": "At desk-screen a curated UK-grant digest with plain-language eligibility looked like a usable wedge; later contested and vetoed."
+      "status": "fail",
+      "note": "Adversarial pass found GovOwed already sells the exact flat-fee wedge (£29 one-time / £499-per-year) and GOV.UK Find a grant is the free authoritative alternative.",
+      "evidence": [
+        "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
+      ],
+      "resolve_via": ""
     },
     "no_network_effects_needed": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "A grant database is usable by a single customer; no network requirement."
+      "note": "A grant database is usable by a single customer; no network requirement.",
+      "evidence": [
+        "evidence/grantscout/2026-09-20-free-government-grant-discovery.md"
+      ],
+      "resolve_via": ""
     },
     "plausible_margins": {
-      "status": "pass",
-      "date": "2026-09-20",
-      "note": "A £15-£29/mo subscription was modelled to cover low content costs (assumption, untested against real CAC)."
+      "status": "unknown",
+      "note": "A £15-£29/mo subscription was modelled to cover low content costs; CAC, churn and content-operations cost are untested.",
+      "evidence": [],
+      "resolve_via": "run the cheap digest test and record real acquisition cost, content time and churn before any build"
     },
     "acceptable_risk": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "Uses public funding data; no regulated personal data beyond contact details."
+      "note": "Uses public funding data; no regulated personal data beyond contact details.",
+      "evidence": [
+        "evidence/grantscout/2026-09-20-free-government-grant-discovery.md"
+      ],
+      "resolve_via": ""
     },
     "cheap_disconfirming_test": {
       "status": "pass",
-      "date": "2026-09-20",
-      "note": "A cheap landing-page/digest test with a pre-fixed decision rule can falsify the wedge."
+      "note": "A cheap landing-page/digest test with a pre-fixed decision rule can falsify the wedge.",
+      "evidence": [
+        "evidence/grantscout/2026-09-20-free-government-grant-discovery.md"
+      ],
+      "resolve_via": ""
     },
     "not_all_optimistic": {
-      "status": "pass",
-      "date": "2026-09-20",
-      "note": "Stop rules are defined; no single optimistic assumption carries the whole case."
+      "status": "unknown",
+      "note": "With a free authoritative alternative and contingency-priced incumbents, the subscription case leans on several untested assumptions at once.",
+      "evidence": [],
+      "resolve_via": "the cheap digest test with its pre-fixed stop rules (0 of N pay => stop)"
     }
   },
   "vetoes": [
@@ -135,8 +174,8 @@
   ],
   "aggregate": {
     "scored_weight": 95,
-    "raw_weighted_points": 59.0,
-    "weighted_total": 62.1,
+    "raw_weighted_points": 53.0,
+    "weighted_total": 55.8,
     "threshold": 65,
     "meets_threshold": false
   },

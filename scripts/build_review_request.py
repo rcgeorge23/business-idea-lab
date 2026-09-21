@@ -52,9 +52,16 @@ def dim_table(scorecard: dict) -> str:
 
 
 def filter_table(scorecard: dict) -> str:
-    lines = ["| Filter | Status | Note |", "|---|---|---|"]
+    lines = ["| Filter | Status | Note | Evidence / resolve_via |", "|---|---|---|---|"]
     for key, item in scorecard["hard_filters"].items():
-        lines.append(f"| {key} | {item['status']} | {item.get('note', '')} |")
+        if item.get("status") == "pass":
+            detail = item.get("evidence") or []
+        elif item.get("status") == "unknown":
+            detail = [f"resolve via: {item.get('resolve_via', '')}"]
+        else:
+            detail = []
+        rendered = "; ".join(f"`{r}`" for r in detail) if detail else "-"
+        lines.append(f"| {key} | {item['status']} | {item.get('note', '')} | {rendered} |")
     return "\n".join(lines)
 
 
@@ -141,6 +148,14 @@ def main() -> int:
         "",
         extract_section(dossier, "Strongest supporting case"),
         "",
+        "## Why now?",
+        "",
+        extract_section(dossier, "Why now?"),
+        "",
+        "## Novelty / incumbent sanity check",
+        "",
+        extract_section(dossier, "Novelty / incumbent sanity check"),
+        "",
         "## Strongest disconfirming case",
         "",
         extract_section(dossier, "Adversarial case (strongest case this is wrong)"),
@@ -183,7 +198,8 @@ def main() -> int:
         "",
         "1. Work only from the repository artefacts listed below. Do not fetch or assume outside data.",
         "2. Attack the weakest link: unsupported inference, convenience evidence, mis-scored dimension, "
-        "premature advancement, missed legal/platform risk, or a hard filter that should have failed.",
+        "a `pass` hard filter that is only an assumption, an over-generous why-now claim, premature "
+        "advancement, missed legal/platform risk, or a hard filter that should have failed.",
         "3. State a verdict: `changes-requested`, `approved`, or `killed`.",
         "4. For each finding, give the evidence checked and the condition that would change the verdict.",
         f"5. Write the response as `reviews/{args.date}-{args.slug}-<reviewer>-<model>.md` following "

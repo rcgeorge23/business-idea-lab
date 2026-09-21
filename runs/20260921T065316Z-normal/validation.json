@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "errors": [],
+  "warnings": [
+    "ideas/index.json: 5 killed ideas; a false-negative audit is due (every 5th kill)",
+    "runs/index.jsonl:1: historical run recorded under method 1.0.0, current method is 1.1.0",
+    "runs/index.jsonl:2: historical run recorded under method 1.0.0, current method is 1.1.0",
+    "runs/index.jsonl:3: historical run recorded under method 1.0.0, current method is 1.1.0"
+  ]
+}

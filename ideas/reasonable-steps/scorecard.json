@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "method_version": "1.1.0",
+  "weights_version": "1.1.0",
+  "idea_id": "reasonable-steps",
+  "slug": "reasonable-steps",
+  "title": "\"All reasonable steps\": harassment-prevention evidence for UK SMEs",
+  "state": "adversarially-researched",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "rationale": "A dated legal duty with tribunal exposure and an explicit evidence requirement; frequency is low (periodic legal event) but severity is material."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "rationale": "Buyer identified (SME owner/office manager) but budget is inferred; free official content creates price pressure; capped at 2."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "rationale": "Primary legislation plus official Acas/gov.uk material establish the duty and date; buyer-side demand evidence is absent."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "rationale": "Fragmented SME buyer; accountant/lawyer referrals and direct outreach are plausible only (capped at 2)."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "rationale": "No dedicated low-cost SME tool surfaced, but free authoritative guidance and generalist HR platforms are close substitutes."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "rationale": "A 10-interview price/commitment test is cheap and fast; decision rule fixed in advance."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "rationale": "Templates plus a simple record-keeping tool are low-complexity and low-support."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "rationale": "Modelled only and untested (capped at 2); free official content limits pricing power."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "low",
+      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "rationale": "Inferred fit for a founder with HR/compliance content and SME distribution; no owner-specific evidence."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "rationale": "Handling harassment records is sensitive; the tool must avoid giving legal advice. Review policy trigger 4 (legal/regulatory/trust risk) should be assessed by the human owner before external testing."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "unknown",
+      "note": "SME owner/office manager is identifiable, but budget for this specific job is inferred, not evidenced.",
+      "evidence": [],
+      "resolve_via": "Proposed experiment tests a concrete >=£12/mo commitment from 10 target employers."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "unknown",
+      "note": "The legal duty is evidenced; whether owners feel enough pain to act before 30 Oct 2026 is not.",
+      "evidence": [],
+      "resolve_via": "Interview urgency and current practice in the proposed experiment."
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "Accountant/lawyer referrals and direct outreach are plausible, not evidenced.",
+      "evidence": [],
+      "resolve_via": "Test one non-network recruitment channel for >=5 conversations."
+    },
+    "defensible_wedge": {
+      "status": "unknown",
+      "note": "No dedicated low-cost SME evidence tool surfaced, but free Acas/EHRC content and generalist HR platforms are close substitutes; the wedge is the specific evidence/audit job, not content.",
+      "evidence": [],
+      "resolve_via": "Broader competitor search and prototype interviews to confirm no dedicated tool and that the evidence job (not the content) is what buyers value."
+    },
+    "no_network_effects_needed": {
+      "status": "unknown",
+      "note": "Likely per-customer value with no density requirement; not explicitly tested.",
+      "evidence": [],
+      "resolve_via": "Confirm a single employer can use it standalone."
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "No cost or conversion evidence; free official content constrains price.",
+      "evidence": [],
+      "resolve_via": "Model support/content cost against a tested >=£12/mo price."
+    },
+    "acceptable_risk": {
+      "status": "unknown",
+      "note": "Sensitive personal data and potential perceived legal advice; must be scoped carefully.",
+      "evidence": [],
+      "resolve_via": "Privacy/legal scoping before any build; human owner to assess review trigger 4."
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "The proposed 10-interview commitment test is cheap (£20, 10 hours, 7 days) and has a pre-fixed decision rule and kill condition capable of disconfirming the central assumption.",
+      "evidence": ["experiments/reasonable-steps-willingness/plan.md"],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Viability does not require every assumption, but it does require owners to pay for something adjacent to free guidance; not yet shown.",
+      "evidence": [],
+      "resolve_via": "Proposed experiment is designed to test the central assumption first."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 100,
+    "raw_weighted_points": 54.0,
+    "weighted_total": 54.0,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "low",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": "reasonable-steps-willingness",
+    "status": "proposed",
+    "plan": "experiments/reasonable-steps-willingness/plan.md",
+    "results": null
+  }
+}

@@ -93,6 +93,35 @@ The worker then updates `scorecard.json#review.status` and `review.history`, and
 `ideas/index.json` if the state changes. The worker's response to each point is written
 in the next run summary and, where relevant, the dossier.
 
+## Method changes
+
+Trigger 2 (scoring weights, evidence rules or lifecycle thresholds changing materially)
+applies to the method documents themselves:
+
+- every material method change bumps `method/VERSION` and is recorded in
+  `method/CHANGELOG.md` with what changed, why, the affected artefacts, and the review
+  status;
+- the worker writes `reviews/<date>-method-<version>-review-request.md` describing the
+  change, the evidence or run that motivated it, the counter-arguments, and what would
+  make the change wrong;
+- the human owner routes it to the reviewer; the response is saved as
+  `reviews/<date>-method-<version>-<reviewer>-<model>.md`;
+- a `changes-requested` method review must be answered in the next worker run (amend the
+  method under a new version, or record a documented disagreement); it is never
+  overwritten;
+- until the review lands, the change is usable but stays marked `requested` in the
+  changelog, and any idea whose score depends on the new rules carries that fact in its
+  review request.
+
+## Re-requests after a revision change
+
+If a request is still unreviewed (`requested`) and the reviewed artefacts materially
+change (rescore, new evidence, corrected error), the worker writes a new request file and
+updates `review.request_path` to it. The earlier request is preserved, and a
+`requested -> requested` history entry records the re-request with the reason and new
+revision. Once an outcome exists (`changes-requested`, `approved`, `killed`), it is never
+superseded - the worker responds to it.
+
 ## False-negative audits
 
 Killed ideas are sampled: every 5th kill triggers an audit by the reviewer, which asks

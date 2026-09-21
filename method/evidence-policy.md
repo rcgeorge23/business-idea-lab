@@ -16,6 +16,22 @@ one register, and is labelled in the text:
 An unlabelled material statement is treated as an inference at best. If it has no source
 and no reasoning, it is noise and must be removed or marked as an assumption.
 
+## Plausibility is not evidence
+
+A coherent, well-written or quantitative account of why an idea should work is still not
+evidence that it does. From v1.1.0:
+
+- analogies to other markets, business-model models/spreadsheets, model output, vendor
+  positioning and "a wedge can be described" are **plausibility**, not evidence;
+- plausibility caps dimension scores at 2 (see `method/scorecard.md`), contributes
+  nothing to the aggregate at 3+, and can never produce a hard-filter `pass`;
+- when a hard filter is plausible but undemonstrated, the honest status is `unknown`
+  with a `resolve_via` naming the cheap check that would settle it - not `pass`;
+- modelled economics built on untested inputs are capped at 2 with `low` confidence
+  regardless of how detailed the model is;
+- the fact that a direct competitor already sells the proposed position is evidence
+  *against* differentiation and must lower that dimension, not be ignored.
+
 ## Sources
 
 - Every material claim in `evidence/` carries: source name, URL or file path, access

@@ -3,9 +3,29 @@
 - **Mode:** normal | dry-run | smoke
 - **Started / finished:** ISO-8601
 - **Agent / model:** idea-worker / opencode-go/deepseek-v4.1-flash
-- **Method version:** 1.0.0
+- **Method version:** 1.1.0
 - **Input / output revision:** `<sha>` / `<sha or 'uncommitted'>`
 - **Status:** success | failed | invalid-output | over-budget
+
+## Source classes searched
+
+| Source class | Searched? | What it yielded |
+|---|---|---|
+| Legislation / regulation | | |
+| Consultations / announced rules | | |
+| New APIs / developer surfaces | | |
+| New datasets | | |
+| Platform rule / pricing / access changes | | |
+| Incumbent disruption | | |
+| New technical capability | | |
+| Manual structured-data flows | | |
+| Poor narrow incumbents | | |
+| Mandated formats / submissions | | |
+
+## Why-now quality
+
+| Candidate | Why now (one line) | Strength | Competitors responded |
+|---|---|---|---|
 
 ## What advanced
 

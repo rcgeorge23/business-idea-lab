@@ -28,12 +28,28 @@ any idea.
 
 | Fixture | Source | Status |
 |---|---|---|
-| GeoNerd | Seeded from the geonerd repo at commit `327f02e`; evidence registers under `evidence/geonerd/` | Seeded, review requested |
+| GeoNerd | Seeded from the geonerd repo at commit `327f02e`; evidence registers under `evidence/geonerd/` | Rescored 2026-09-21 under method 1.1.0: 65.3 -> 49.5, parked at `adversarially-researched`; review re-requested (`reviews/2026-09-21-geonerd-review-request-v2.md`) |
 | Weak/rejected x2 | Produced by the first calibration worker run | Generated 2026-09-20 by run `20260920T210550Z-normal` (`shiftswap`, `wonkybox`) |
 | Attractive control | Produced by the first calibration worker run | Generated 2026-09-20 by run `20260920T210550Z-normal` (`grantscout`; killed by adversarial veto) |
 
 The weak/rejected and control fixtures are NOT seeded by hand; generating them is part
 of the first run, so that the run exercises the real generation and kill path.
+
+## Regression checks under method 1.1.0 (2026-09-21)
+
+1. **GeoNerd rescored without forcing retention.** Rebuilt under the tightened rubric:
+   65.3 -> 49.5, state moved down from `validation-ready` to `adversarially-researched`.
+   The proposed demand experiment is unchanged and still awaiting human approval
+   (experiments are decoupled from the `validation-ready` state under 1.1.0).
+2. **Killed fixtures still rejected for substantially the same reasons.**
+   `shiftswap` (44.2): hard-filter failures on non-paid distribution, defensible wedge,
+   network effects, margins and all-optimistic viability unchanged. `wonkybox` (36.8):
+   same failures; Oddbox loss-making at scale remains the anchor. `grantscout` (55.8,
+   down from 62.1 after tightening): veto on `defensible_wedge` unchanged - GovOwed
+   occupies the flat-fee wedge and GOV.UK "Find a grant" provides free authoritative
+   discovery; the adjacent seed captures the surviving observation.
+3. **Nothing advanced.** No candidate was promoted on the strength of the recalibration;
+   the method remains comfortable returning no advance.
 
 ## Procedure
 
@@ -67,6 +83,9 @@ Calibration is complete when:
 | Seed GeoNerd + request review | bootstrap | done | 2026-09-20 | `reviews/2026-09-20-geonerd-review-request.md` |
 | First dry run | human | done | 2026-09-20 | `scripts/run.sh --dry-run` → `runs/20260920T210532Z-dry-run` |
 | First normal run (fixtures) | human | done | 2026-09-20 | `scripts/run.sh` → `runs/20260920T210550Z-normal`; 2 weak ideas killed, 1 control vetoed |
+| Method 1.1.0 recalibration (issue #2) | worker | done | 2026-09-21 | GeoNerd rescored 65.3 → 49.5 and parked; regression checks hold; method review requested (`reviews/2026-09-21-method-v1.1.0-review-request.md`) |
+| Post-change discovery run | worker | done | 2026-09-21 | `runs/20260921T065316Z-normal`; 3 discontinuity candidates, 2 kills, 1 parked; source classes + why-now recorded; reviewed in `retrospectives/2026-09-21-issue2-delta-review.md` |
+| False-negative audit (kill #5) | worker + reviewer | requested | 2026-09-21 | `reviews/2026-09-21-false-negative-audit-request.md` (shiftswap self-audit recorded) |
 | ChatGPT review response recorded | human | pending | | `reviews/<date>-geonerd-chatgpt.md` |
 | Worker response to review | human | pending | | next run |
 | Retrospective + tuning | human | pending | | `retrospectives/` |
