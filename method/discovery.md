@@ -129,6 +129,41 @@ Seeds are an input to discovery, not a museum. At the start of every normal run,
    summary why they remain `unexplored`).
 5. The candidate limit (3 per run) is unchanged; provenance does not add an allowance.
 
+## Source-class budget
+
+Repeated `defensible_wedge` failures across regulatory discontinuities are a sourcing
+problem, not a filter problem. The following **discovery-only** budget therefore
+applies to every normal run (v1.4.0):
+
+> **At least 2 of the maximum 3 candidate slots must originate from non-regulatory
+> source classes. At most 1 candidate may primarily originate from
+> legislation/regulation. At least one previously underexplored non-regulatory source
+> class must actually be searched.**
+
+- The budget constrains where candidates come from. It confers **no scoring
+  advantage**: weights, thresholds, hard-filter semantics, evidence levels, lifecycle
+  gates and candidate/advancement limits are unchanged.
+- Regulatory sources remain valid (legislation, consultations, statutory deadlines,
+  mandated formats). They simply must not consume the discovery budget by default.
+- Non-regulatory classes include: poor, expensive or unpopular narrow incumbent
+  software; repetitive professional/service work newly automatable with current AI;
+  software shutdown, end-of-life or forced-migration gaps; newly accessible APIs or
+  datasets; awkward integrations between established systems; recurring
+  spreadsheet/email/PDF/manual re-keying workflows; platform access, pricing or policy
+  changes that create a new operational problem; underserved subsegments of an
+  existing category.
+- A candidate "qualifies" for its source class because of where its why-now came
+  from. Record the class and the reason in the run summary; a candidate whose primary
+  why-now is a mandate counts against the regulatory slot even if it also has a
+  second-order seam.
+- **Never manufacture weak candidates to satisfy the budget.** Fewer than three
+  candidates is a valid run; killing every candidate is a valid run; advancing
+  nothing is a valid run. If a class was searched and yielded nothing, record that
+  as a finding.
+- If the budget cannot be satisfied honestly (for example, a run where no
+  non-regulatory class yields anything worth registering), that is itself a
+  convergence signal to report — not a reason to relax the rule or promote filler.
+
 ## Duplicate detection
 
 Before creating a candidate, check against every entry in `ideas/index.json` and every

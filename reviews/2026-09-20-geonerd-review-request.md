@@ -144,3 +144,10 @@ executed against this repository yet.
 - `experiments/index.json`
 - `ideas/index.json`
 
+
+## Resolution
+
+- **Status:** superseded — historical provenance
+- **Response:** `reviews/2026-09-21-geonerd-chatgpt-gpt-5.6-sol.md`
+- **Recorded:** 2026-09-21
+- **Note:** Superseded by the rescored v2 request `reviews/2026-09-21-geonerd-review-request-v2.md`, which was reviewed and approved on 2026-09-21. Retained as the bootstrap provenance of the first request; it is not a separate unresolved substantive review.

@@ -45,7 +45,10 @@ second-order operational seams (re-keying, handoffs, reconciliation, exception
 handling, integration gaps) and prefer them to generic compliance/dashboard products,
 record an evidenced "why now?" and each candidate's provenance (`seed:<slug>` or
 `fresh`), run the novelty/incumbent sanity check, and record which source classes you
-searched. Hard filters are `pass` | `unknown` | `fail`; `pass` needs cited evidence,
+searched. Apply the source-class budget: at least 2 of the 3 candidate slots must come
+from non-regulatory source classes, at most 1 may be primarily regulation-derived, and
+at least one previously underexplored non-regulatory class must actually be searched —
+never manufacture filler to satisfy it. Hard filters are `pass` | `unknown` | `fail`; `pass` needs cited evidence,
 assumptions/analogies give `unknown` with a `resolve_via`, and `fail` kills. Record
 adjacent-opportunity seeds from rejections under `seeds/`; seeds never inherit a
 parent idea's score or evidence level.

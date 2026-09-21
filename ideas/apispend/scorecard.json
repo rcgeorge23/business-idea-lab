@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "method_version": "1.4.0",
+  "weights_version": "1.2.0",
+  "idea_id": "apispend",
+  "slug": "apispend",
+  "title": "ApiSpend: metered API and agent-traffic cost governance for software teams",
+  "state": "killed",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "rationale": "Metered API and agent-traffic cost pain is inferred from a vendor primary (Autodesk pricing from 2026-08-17), industry commentary and one unverifiable operator diary; no buyer-specific frequency or budget evidence. Capped at 2 (plausible but undemonstrated)."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "rationale": "Buyer assumed (engineering/finance leads at 20-200 staff software firms) but no evidence anyone buys a standalone tool for this job. Capped at 2."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "rationale": "One vendor primary plus weak secondary/opinion sources; no primary evidence about this buyer or market."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "rationale": "No defensible wedge: per-integration/per-agent attribution, budgets, quotas and chargeback are standard API-gateway and FinOps functionality already marketed by WSO2 AI Gateway, Moesif, Workato Enterprise MCP, Arcade and n8n. Direct incumbents contest the position, so capped at 2."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "rationale": "Self-serve price and support load unmodelled; modelled economics on untested inputs are capped at 2 with low confidence."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "risk": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "unknown",
+      "note": "Buyer assumed (engineering/finance leads at 20-200 staff software firms); no evidence anyone buys a standalone tool for this job.",
+      "evidence": [],
+      "resolve_via": "Interviews with 5 target teams about current API-cost tooling and spend."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "unknown",
+      "note": "Repricing pain is documented mainly in vendor/opinion sources and one unverifiable diary; no buyer-specific frequency or budget evidence.",
+      "evidence": [],
+      "resolve_via": "Buyer interviews plus review of gateway/observability renewal spend."
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "Developer content, open-source and community channels are plausible but no prospects or channel evidence.",
+      "evidence": [],
+      "resolve_via": "One content or open-source launch measured for qualified inbound."
+    },
+    "defensible_wedge": {
+      "status": "fail",
+      "note": "Metering, attribution, quota and chargeback are standard gateway/FinOps functionality and multiple vendors already market the position (Moesif per-agent attribution; WSO2 AI Gateway token budgets; Workato Enterprise MCP; Arcade; n8n).",
+      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "resolve_via": ""
+    },
+    "no_network_effects_needed": {
+      "status": "unknown",
+      "note": "A single-tenant tool may be useful alone, but value may depend on aggregated benchmark data.",
+      "evidence": [],
+      "resolve_via": "Confirm utility without cross-customer data."
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "Self-serve price and support load unmodelled.",
+      "evidence": [],
+      "resolve_via": "Model 20 design partners."
+    },
+    "acceptable_risk": {
+      "status": "unknown",
+      "note": "Reading customer API traffic raises telemetry, privacy and security exposure.",
+      "evidence": [],
+      "resolve_via": "Security review of a minimal-scope design."
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "A zero-cost desk competitive scan was sufficient to disconfirm the wedge this run.",
+      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Viability rests on several untested assumptions (buyer, price, channel).",
+      "evidence": [],
+      "resolve_via": "Name and test the weakest assumption first."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 65,
+    "raw_weighted_points": 26.0,
+    "weighted_total": 40.0,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "low",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

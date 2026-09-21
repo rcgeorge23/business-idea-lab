@@ -327,7 +327,7 @@ def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_v
         review = sc.get("review") or {}
         if review.get("status") == "not-required":
             report.error(f"{label}: state {state!r} requires review.status != 'not-required'")
-    if state == "killed" and (sc.get("review") or {}).get("status") not in {None, "not-required", "killed", "requested", "changes-requested"}:
+    if state == "killed" and (sc.get("review") or {}).get("status") not in {None, "not-required", "killed", "requested", "changes-requested", "approved"}:
         report.error(f"{label}: killed idea has impossible review.status")
     if (sc.get("review") or {}).get("status") == "killed" and state != "killed":
         report.error(f"{label}: review.status 'killed' requires state 'killed'")

@@ -206,3 +206,10 @@ Why the score fell, dimension by dimension:
 - `experiments/index.json`
 - `ideas/index.json`
 
+
+## Resolution
+
+- **Status:** answered — approved
+- **Response:** `reviews/2026-09-21-geonerd-chatgpt-gpt-5.6-sol.md`
+- **Recorded:** 2026-09-21
+- **Note:** Reviewer approved the 65.3 -> 49.5 rescore, the downward park and the unknown hard filters; approval is not demand evidence and does not advance the idea. Caveats preserved in the response file.

@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "method_version": "1.4.0",
+  "weights_version": "1.2.0",
+  "idea_id": "ewsregister",
+  "slug": "ewsregister",
+  "title": "EwsRegister: Exchange Web Services dependency discovery before the 2027 shutdown",
+  "state": "killed",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "rationale": "A dated, non-negotiable EWS disablement (2026-10-01) and shutdown (2027-04-01) with hidden dependencies in backup jobs, archive connectors, public folders and scripts is adequately evidenced for this market by a credible secondary source; the breakage is one-time rather than frequent, which keeps this at 3."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "rationale": "Buyer assumed (MSPs / SMB IT managers on Microsoft 365); no evidence of budget ownership or purchase. Capped at 2."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "rationale": "Single credible secondary source about the platform change; no primary or buyer-side evidence."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "rationale": "No defensible wedge: Microsoft's free authoritative EWS usage report plus `EWSEnabled` / `EWSAllowedAppIDs` controls cover the core need, and the residual work is one-shot migration services MSPs already sell. A first-party alternative makes this undifferentiable, capped at 2."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "rationale": "A one-shot need priced as a subscription is a poor recurring business; support and spec-maintenance costs unmodelled. Modelled economics on untested inputs capped at 2."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "risk": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "unknown",
+      "note": "Buyer assumed (MSPs / SMB IT managers on Microsoft 365); no evidence anyone buys a standalone discovery tool rather than an MSP project.",
+      "evidence": [],
+      "resolve_via": "Ask 5 MSPs what they charge and what tools they use today."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "unknown",
+      "note": "Breakage is real and dated but infrequent (one-time), and the pain is the tenant's, not necessarily a budget holder's.",
+      "evidence": [],
+      "resolve_via": "Buyer interviews on budget ownership for EWS migration."
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "MSP communities and marketplaces are plausible; no prospects or channel identified.",
+      "evidence": [],
+      "resolve_via": "One MSP-community launch measured for qualified inbound."
+    },
+    "defensible_wedge": {
+      "status": "fail",
+      "note": "Microsoft's free EWS usage report and `EWSEnabled` / `EWSAllowedAppIDs` controls already cover the core discovery need, and the residual work is one-shot migration services MSPs already sell.",
+      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "resolve_via": ""
+    },
+    "no_network_effects_needed": {
+      "status": "unknown",
+      "note": "A per-tenant scanner may be useful alone, but benchmark or cross-tenant value is unproven.",
+      "evidence": [],
+      "resolve_via": "Confirm single-tenant utility satisfies the buyer."
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "A one-shot need priced monthly is a poor recurring subscription; support and spec-maintenance costs unmodelled.",
+      "evidence": [],
+      "resolve_via": "Model 20 tenants and the post-migration job."
+    },
+    "acceptable_risk": {
+      "status": "unknown",
+      "note": "Reading a tenant's EWS usage needs Microsoft Graph permissions and a security review.",
+      "evidence": [],
+      "resolve_via": "Minimal-scope design review."
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "A zero-cost desk competitive scan was sufficient to disconfirm the wedge this run.",
+      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Viability rests on several untested assumptions (buyer, willingness to pay, recurrence).",
+      "evidence": [],
+      "resolve_via": "Name and test the weakest assumption first."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 65,
+    "raw_weighted_points": 29.0,
+    "weighted_total": 44.6,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "low",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

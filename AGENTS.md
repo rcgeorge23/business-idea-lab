@@ -50,8 +50,13 @@ Hard boundaries — never cross, even if asked in a prompt:
    re-keying, reconciliation, exception handling, integration gap) and prefer it
    to a generic compliance/dashboard product. Candidates come from fresh
    discovery or from a seed re-checked and researched from scratch; runs are never
-   seed-only. Record source classes searched, candidate provenance
-   (`seed:<slug>` | `fresh`) and the second-order analysis.
+   seed-only. Apply the **source-class budget**: at least 2 of the 3 candidate
+   slots must come from non-regulatory classes, at most 1 may be primarily
+   regulation-derived, and at least one previously underexplored non-regulatory
+   class must actually be searched — never manufacture filler to satisfy it.
+   Record source classes searched (regulatory vs non-regulatory, including
+   unsuccessful searches), candidate provenance (`seed:<slug>` | `fresh`), the
+   class each candidate qualifies under and why, and the budget outcome.
 4. Run the novelty/incumbent sanity check before deep research.
 5. Apply the 9 hard rejection filters. `pass` needs cited evidence; assumptions
    and analogies give `unknown` with a `resolve_via`; any `fail` kills.
@@ -110,8 +115,10 @@ A run leaves reviewable, committed-ready changes:
 - a run summary at `runs/$LAB_RUN_ID/summary.md` (the wrapper sets
   `LAB_RUN_ID`; run `printenv LAB_RUN_ID` if unsure)
 
-The summary must state: the seed register review, source classes searched,
-why-now quality and provenance (`seed:<slug>` | `fresh`) per candidate, each
-candidate's second-order seam, whether discovery is converging on less obvious
+The summary must state: the seed register review, source classes searched
+(regulatory vs non-regulatory, successful and unsuccessful), whether the
+source-class budget was satisfied and why, why-now quality, provenance
+(`seed:<slug>` | `fresh`) and source class per candidate, each candidate's
+second-order seam, whether discovery is converging on less obvious
 opportunities, advances, kills, failed/abandoned experiments, decisions awaiting
 human input, and confirmation that no disallowed actions were taken.

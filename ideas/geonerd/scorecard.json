@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.3.0",
+  "method_version": "1.4.0",
   "weights_version": "1.2.0",
   "idea_id": "geonerd",
   "slug": "geonerd",
@@ -175,10 +175,10 @@
   },
   "confidence": "low",
   "review": {
-    "status": "requested",
+    "status": "approved",
     "requested_from": "ChatGPT (independent reviewer, routed by the human owner)",
     "request_path": "reviews/2026-09-21-geonerd-review-request-v2.md",
-    "last_reviewed_revision": null,
+    "last_reviewed_revision": "516043b",
     "history": [
       {
         "date": "2026-09-20",
@@ -193,8 +193,16 @@
         "to": "requested",
         "actor": "worker",
         "reason": "Rescored under weights 1.1.0: assumption-based passes corrected to unknown, inferred pain/plausible distribution/modelled economics capped, weighted_total 65.3 -> 49.5, state moved down to adversarially-researched. New request revision issued (v2); original request preserved. Nothing has been reviewed yet."
+      },
+      {
+        "date": "2026-09-21",
+        "from": "requested",
+        "to": "approved",
+        "actor": "reviewer",
+        "reason": "Independent review (ChatGPT / GPT-5.6 Sol) approved the 65.3 -> 49.5 rescore, the downward park to adversarially-researched and the unknown hard filters; no demand evidence is implied and no advancement is granted. Caveats preserved in the response file."
       }
-    ]
+    ],
+    "response_path": "reviews/2026-09-21-geonerd-chatgpt-gpt-5.6-sol.md"
   },
   "experiment": {
     "id": "geonerd-demand-spike",

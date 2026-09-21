@@ -12,7 +12,7 @@ Before doing anything else:
 3. Handle any outstanding `changes-requested` reviews first, then follow the run
    protocol in order, respecting every limit in it.
 
-Discovery expectations for this run (method 1.3.0):
+Discovery expectations for this run (method 1.4.0):
 
 - Generate candidates only from identified discontinuities, not from generic startup
   ideas. Every candidate needs an evidenced "why now?" per `method/discovery.md`
@@ -31,10 +31,17 @@ Discovery expectations for this run (method 1.3.0):
   poorly, newly automatable human review, underserved subsegments). Prefer an awkward
   operational seam over a generic compliance/dashboard product, or record why the
   first-order product is genuinely better.
-- Record in the run summary: the seed register review, source classes searched, why-now
-  quality (strong | weak | absent) per candidate, provenance (`seed:<slug>` | `fresh`),
-  the second-order seam per candidate, and whether discovery is converging on less
-  obvious opportunities or repeating one class of rejection.
+- Apply the source-class budget (`method/discovery.md`): at least 2 of the 3 candidate
+  slots must come from non-regulatory source classes, at most 1 may be primarily
+  regulation-derived, and at least one previously underexplored non-regulatory class
+  must actually be searched. Fewer than three candidates is a valid run — never
+  manufacture filler to satisfy the quota.
+- Record in the run summary: the seed register review, source classes searched
+  (regulatory vs non-regulatory, successful and unsuccessful), whether the source
+  budget was satisfied and why, why-now quality (strong | weak | absent) per candidate,
+  provenance (`seed:<slug>` | `fresh`), the source class each candidate qualifies under
+  and why, the second-order seam per candidate, and whether discovery is converging on
+  less obvious opportunities or repeating one class of rejection.
 - Run the novelty/incumbent sanity check before deep research and record it in the
   dossier.
 - Hard filters use `pass` | `unknown` | `fail`; `pass` requires cited evidence, an

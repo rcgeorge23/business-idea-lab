@@ -220,6 +220,26 @@ recorded in `reviews/2026-09-21-review-queue-reconciliation.md`.
   previously unsearched class attempted). That sourcing rule is proposed for
   review before adoption (`retrospectives/2026-09-21-issue5-backlog-and-next-run.md`);
   no scoring rule changes.
+- Issue #6 (2026-09-21) reconciled the six independent ChatGPT responses (one
+  `approved` per review, caveats preserved; the original GeoNerd v1 request is
+  historical provenance superseded by v2; no idea was advanced on approval
+  alone, and no approval is market validation). The issue #5 sourcing proposal
+  became method **1.4.0** as a discovery-only **source-class budget**: at least
+  2 of 3 candidate slots from non-regulatory classes, at most 1
+  regulation-derived, at least one previously underexplored non-regulatory class
+  actually searched, and no filler candidates. The post-change run
+  `20260921T085149Z-normal` (USD 0.015021) met the budget with 3 of 3
+  non-regulatory candidates - `apispend` (40.0), `ewsregister` (44.6) and
+  `agent-checkout-offplatform` (49.2, a seed promoted and researched from
+  scratch) - and **killed all three on `defensible_wedge`**; 0 advances. Two
+  source searches failed (HTTP 429) and are recorded as unsuccessful. The
+  convergence review
+  (`retrospectives/2026-09-21-issue6-convergence-review.md`) retains the budget,
+  reports that changing the source class changed the candidate subject matter
+  but not the rejection reason, and escalates the third consecutive
+  `defensible_wedge` cluster to a human-led review of discovery sourcing and
+  framing. The filter is explicitly **not** weakened. Method 1.4.0 review is
+  requested; `reasonable-steps-willingness` remains deferred with no outreach.
 - GeoNerd is parked at `adversarially-researched` with score 49.5 (down from
   65.3 under the looser 1.0.0 semantics), an independent review requested
   (`reviews/2026-09-21-geonerd-review-request-v2.md`) and a proposed

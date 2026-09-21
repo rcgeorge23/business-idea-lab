@@ -4,6 +4,43 @@ Every material change to the method bumps `method/VERSION` and is listed here wi
 review status. Review status values: `not-required` | `requested` | `changes-requested` |
 `approved` | `killed`. See `method/review-policy.md` (section "Method changes").
 
+## 1.4.0 - 2026-09-21
+
+Motivated by issue #6, implementing the non-regulatory source-budget proposal recorded
+at the end of issue #5 and reinforced by the independent v1.3.0 review: the lab keeps
+converging on easily searchable regulatory discontinuities, whose obvious first-order
+products incumbents bundle away (`defensible_wedge` kill cluster: agentready, packproof,
+vetcma, prsregister, propident, wastetrack, bikpayroll).
+
+Changed (discovery constraint only - scoring, weights, threshold 65, hard filters,
+evidence levels, lifecycle gates and the candidate/advancement maxima are unchanged):
+
+- **`method/discovery.md`**: new `## Source-class budget` section. At least 2 of the
+  maximum 3 candidate slots must originate from non-regulatory source classes; at most
+  1 may primarily originate from legislation/regulation; at least one previously
+  underexplored non-regulatory class must actually be searched. Lists the non-regulatory
+  classes, requires the run summary to record classes searched (regulatory vs
+  non-regulatory, successful and unsuccessful), candidate provenance, the class each
+  candidate qualifies under and why, and the budget outcome. Forbids manufacturing
+  filler: fewer than three candidates, all-kill runs and zero advances remain valid.
+- **`method/run-protocol.md`**: step 3 applies the budget and records it; step 12
+  requires the budget outcome in the run summary. Run metadata example now 1.4.0.
+- **`templates/run/summary.md`**: source-class table marks each class regulatory or
+  non-regulatory and adds a budget-outcome line; candidate provenance table adds the
+  source class and why the candidate qualifies.
+- `AGENTS.md`, `scripts/prompts/lab-run.md` and `.opencode/agent/idea-worker.md` state
+  the budget and its recording requirements.
+
+Regression: the budget is a sourcing constraint, not a score input, so no score,
+evidence level or hard-filter outcome can move because of it. Killed fixtures remain
+rejected for their recorded reasons; parked ideas remain parked. The empirical check is
+the post-change run required by issue #6, whose convergence assessment is recorded in
+`retrospectives/2026-09-21-issue6-convergence-review.md`.
+
+Review: `requested` - see `reviews/2026-09-21-method-v1.4.0-review-request.md`. This
+entry must be updated with the outcome when the review lands; there are no other
+outstanding review requests.
+
 ## 1.3.0 - 2026-09-21
 
 Motivated by issue #4, following the first normal run under method 1.2.0
@@ -35,8 +72,14 @@ Regression: weights version stays 1.2.0; no scoring rule, threshold, hard filter
 evidence level changed, so every existing scorecard keeps its scores. Killed fixtures
 and parked ideas are unaffected by construction.
 
-Review: requested - see `reviews/2026-09-21-method-v1.3.0-review-request.md`. Update this
-entry with the outcome when the review lands and answer it in the next run.
+Review: `approved` (ChatGPT / GPT-5.6 Sol, 2026-09-21) - see
+`reviews/2026-09-21-method-v1.3.0-chatgpt-gpt-5.6-sol.md`. Reviewer found the
+second-order and seed-aware refinements appropriate and non-weakening, and noted
+the empirical run did not force novelty; follow-up observation: the next
+sourcing refinement must ensure meaningful effort reaches non-regulatory
+classes (implemented as the issue #6 source budget, see 1.4.0), and the
+recurring `defensible_wedge` failures are a sourcing/convergence signal rather
+than grounds to weaken the filter.
 
 ## 1.2.0 - 2026-09-21
 
@@ -65,9 +108,14 @@ the scoped cap still applies to them, and their kills rest on `fail` hard filter
 vetoes, not on the cap. GeoNerd and Reasonable Steps are `Promising`: cap still applies.
 The only score change is Aucly's own `problem_severity_frequency` 2 -> 3 (60.0 total).
 
-Review: `requested` - see `reviews/2026-09-21-method-v1.2.0-review-request.md`.
-This changelog entry must be updated with the outcome when the review lands; the worker
-must then answer it explicitly in the next run.
+Review: `approved` (ChatGPT / GPT-5.6 Sol, 2026-09-21) - see
+`reviews/2026-09-21-method-v1.2.0-chatgpt-gpt-5.6-sol.md`. The scoping was found
+justified, with no obvious loophole (escaping the cap requires reaching a
+separately defined evidence level) and the regression fixtures still rejected.
+Caveat recorded: the Aucly "2,333 visitors -> 0 accounts" figure must not be read
+as a clean website conversion cohort; the supported conclusion is only that no
+repeatable organic organiser-acquisition channel is demonstrated. The
+distribution score is unchanged.
 
 ## 1.1.0 - 2026-09-21
 
@@ -105,9 +153,14 @@ Changed:
 - **Validator**: new filter semantics enforced, `why_now` required, `seeds/index.json`
   checked, historical run method versions downgraded to a warning.
 
-Review: `requested` - see `reviews/2026-09-21-method-v1.1.0-review-request.md`.
-This changelog entry must be updated with the outcome when the review lands; the worker
-must then answer it explicitly in the next run.
+Review: `approved` (ChatGPT / GPT-5.6 Sol, 2026-09-21) - see
+`reviews/2026-09-21-method-v1.1.0-chatgpt-gpt-5.6-sol.md`. Discontinuity-first
+discovery, tightened evidence semantics, the retained 65 threshold, mandatory
+`resolve_via` on `unknown` and non-inheriting seeds were all found sound, with no
+regression fixture weakened. Observations recorded: monitor score coverage,
+since the normalised aggregate over unscored dimensions is slightly awkward (do
+not change on this review alone), and keep cheap-experiment eligibility separate
+from `validation-ready`.
 
 ## 1.0.0 - 2026-09-20
 

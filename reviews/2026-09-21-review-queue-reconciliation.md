@@ -22,9 +22,9 @@ Review request files present in `reviews/` (listing checked 2026-09-21):
 | 6 | Method v1.3.0 (second-order seams, seed-aware discovery) | `2026-09-21-method-v1.3.0-review-request.md` | 2026-09-21 | trigger 2 |
 | 7 | BiK payroll false-negative audit (kill #10) | `2026-09-21-false-negative-audit-request-bikpayroll.md` | 2026-09-21 | trigger 6 |
 
-**Response files present: none.** There is no file matching
-`reviews/<date>-*-<reviewer>-<model>.md` or any equivalent reviewer outcome
-anywhere in the repository.
+**Response files present: none** as of this issue #5 reconciliation (2026-09-21).
+See the post-response update at the end of this file — six independent responses
+were committed later the same day under issue #6.
 
 ## Reconciliation
 
@@ -86,3 +86,24 @@ received.
 - No reviewer verdict was invented or inferred.
 - No existing request file was edited or deleted.
 - No `changes-requested` outcome exists, so no answer was owed this run.
+
+## Post-response update (issue #6, 2026-09-21)
+
+Six independent responses were committed the same day
+(`reviews/2026-09-21-*-chatgpt-gpt-5.6-sol.md`, reviewer ChatGPT / GPT-5.6 Sol)
+and reconciled into the repository's current state:
+
+| Request | Outcome | Response file |
+| - | - | - |
+| GeoNerd v1 (2026-09-20) | **Superseded / historical provenance** — retained, not a substantive open review | n/a (v2 answered) |
+| GeoNerd v2 | Answered — `approved` (rescore and park justified; no demand evidence; spike may stay proposed) | `2026-09-21-geonerd-chatgpt-gpt-5.6-sol.md` |
+| ShiftSwap false-negative audit | Answered — `approved`, kill upheld; WonkyBox/GrantScout not reopened | `2026-09-21-shiftswap-chatgpt-gpt-5.6-sol.md` |
+| Method v1.1.0 | Answered — `approved` (keep 65; monitor score coverage) | `2026-09-21-method-v1.1.0-chatgpt-gpt-5.6-sol.md` |
+| Method v1.2.0 | Answered — `approved` (visitor-cohort caveat recorded) | `2026-09-21-method-v1.2.0-chatgpt-gpt-5.6-sol.md` |
+| Method v1.3.0 | Answered — `approved` (regulatory-source bias confirmed; sourcing fix next) | `2026-09-21-method-v1.3.0-chatgpt-gpt-5.6-sol.md` |
+| BiK false-negative audit (kill #10) | Answered — `approved`, kill upheld | `2026-09-21-bikpayroll-chatgpt-gpt-5.6-sol.md` |
+
+**Genuinely outstanding reviews: none.** No approval here is market validation
+and no idea was advanced on the strength of a reviewer verdict. Dissent and
+caveats are preserved in the response files and in the affected
+`review.history` entries.

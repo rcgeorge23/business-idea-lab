@@ -44,9 +44,14 @@ be reviewed by the human owner before keeping them.
    first-order product is chosen, record why the second-order options were weaker
    (`method/discovery.md`). Apply the duplicate detection rules in `method/discovery.md`
    (slug/title collision; same buyer AND problem AND mechanism/keywords; variant of a
-   killed idea that does not address the recorded kill reason). Record the source classes
-   actually searched, the candidates' provenance, and their second-order analysis for the
-   run summary.
+   killed idea that does not address the recorded kill reason). Apply the **source-class
+   budget** (`method/discovery.md`): at least 2 of the 3 candidate slots must originate
+   from non-regulatory source classes, at most 1 may be primarily regulation-derived,
+   and at least one previously underexplored non-regulatory class must actually be
+   searched; never manufacture weak candidates to satisfy it. Record the source classes
+   actually searched (regulatory vs non-regulatory, successful and unsuccessful), the
+   candidates' provenance, the class each candidate qualifies under and why, and whether
+   the budget was satisfied, for the run summary.
 4. **Novelty / incumbent sanity check.** Before any deep research, run the screening
    checklist in `method/discovery.md` (exact product exists? multiple credible providers?
    wedge already a standard feature? adequate free/authoritative alternative? incumbent
@@ -90,11 +95,13 @@ be reviewed by the human owner before keeping them.
     A seed never inherits the killed idea's score or evidence level, and is never an idea
     until a later run researches it from scratch.
 12. **Run summary.** Write `runs/<run-id>/summary.md`: what advanced, what was killed,
-    what failed, what needs human input, limits hit, the source classes searched, the
-    why-now quality of generated candidates, each candidate's provenance (`seed:<slug>`
-    or `fresh`) and second-order seam, whether discovery is converging on less obvious
-    opportunities or repeating one class of rejection, and the review queue after the
-    run. Update `ideas/index.json` counters and `experiments/index.json`. Do not commit.
+    what failed, what needs human input, limits hit, the source classes searched
+    (regulatory vs non-regulatory, successful and unsuccessful), the source-budget
+    outcome (quota met or not, and why), the why-now quality of generated candidates,
+    each candidate's provenance (`seed:<slug>` or `fresh`), source class and
+    second-order seam, whether discovery is converging on less obvious opportunities or
+    repeating one class of rejection, and the review queue after the run. Update
+    `ideas/index.json` counters and `experiments/index.json`. Do not commit.
 
 ## Output contract
 
@@ -143,7 +150,7 @@ Every run writes `runs/<run-id>/run.json`:
   "finished_at": "ISO-8601",
   "agent": "idea-worker",
   "model": "opencode-go/deepseek-v4.1-flash",
-  "method_version": "1.3.0",
+  "method_version": "1.4.0",
   "input_revision": "git sha or 'none'",
   "output_revision": "git sha or 'none (uncommitted)'",
   "attempts": 1,

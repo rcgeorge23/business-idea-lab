@@ -45,7 +45,7 @@ The distinction between "painful problem" and "sellable product" is the whole is
 ## False-negative audit (killed ideas only)
 
 - Audited: yes — worker self-audit on 2026-09-21, after `packproof` became the fifth killed idea and triggered `method/review-policy.md` trigger 6 (oldest un-audited kill). External confirmation requested in `reviews/2026-09-21-false-negative-audit-request.md`.
-- Reviewer / date: worker, 2026-09-21 (external review pending).
-- Verdict: kill upheld. The sourced evidence shows self-service shift swaps are bundled into low-cost rota products, so the idea fails `defensible_wedge`, `no_network_effects_needed` and `plausible_margins` independently of whether the labour-market pain is real.
-- Residual uncertainty: no direct venue-side research was done on paying a premium specifically for cover.
-- What new evidence would justify reopening: an independent survey showing venues pay extra for cover beyond their rota tool, or a novel non-paid staff-side channel.
+- Reviewer / date: ChatGPT / GPT-5.6 Sol, 2026-09-21 (`reviews/2026-09-21-shiftswap-chatgpt-gpt-5.6-sol.md`).
+- Verdict: kill upheld — reviewer verdict "approved — kill upheld". The core shift-swap function is already bundled into established rota/workforce products, and the external-cover extension introduces the two-sided density, vetting and operational problems the failed hard filters captured. Absence of direct buyer research does not make it a false negative, because incumbent and network-effect evidence already attacks the mechanism. The reviewer agreed WonkyBox and GrantScout need no reopening here and that preserving `grantscout-application-quality` as a non-inheriting seed is preferable to resurrecting GrantScout.
+- Residual uncertainty: no direct venue-side research was done on paying a premium specifically for cover (unchanged).
+- What new evidence would justify reopening: reviewer condition — a clearly defined hospitality segment with an inadequately served last-minute-cover job, willingness to pay materially above bundled rota functionality, and a route to value that does not first require solving marketplace liquidity.

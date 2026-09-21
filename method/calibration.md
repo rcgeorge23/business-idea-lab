@@ -134,7 +134,9 @@ Calibration is complete when:
 | BiK incumbent-capability scan (issue #5) | worker | done | 2026-09-21 | Pre-committed KILL branch met; `bikpayroll` killed (#10); results in `experiments/bikpayroll-incumbent-capability/results.md`; audit requested (`reviews/2026-09-21-false-negative-audit-request-bikpayroll.md`) |
 | Review backlog reconciliation (issue #5) | worker | done | 2026-09-21 | Seven open requests, no responses; nothing answered or superseded; `reviews/2026-09-21-review-queue-reconciliation.md` |
 | Experiment queue recommendations (issue #5) | worker | done | 2026-09-21 | `experiments/queue.md`; no approval-required experiment started |
-| Next-run sourcing rule proposal (issue #5) | worker | proposed | 2026-09-21 | Non-regulatory source-class budget, review before adoption; `retrospectives/2026-09-21-issue5-backlog-and-next-run.md` |
-| ChatGPT review response recorded | human | pending | | `reviews/<date>-geonerd-chatgpt.md` |
-| Worker response to review | human | pending | | next run |
-| Retrospective + tuning | human | pending | | `retrospectives/` |
+| Next-run sourcing rule proposal (issue #5) | worker | done | 2026-09-21 | Adopted as method 1.4.0 source-class budget after issue #6 Part 2 (`method/discovery.md`) |
+| Method 1.4.0 source-class budget (issue #6) | worker | done | 2026-09-21 | Discovery-only rule: ≥2/3 candidate slots non-regulatory, ≤1 regulation-derived, ≥1 previously underexplored non-regulatory class searched, no filler; no scoring change; review requested (`reviews/2026-09-21-method-v1.4.0-review-request.md`) |
+| Post-change discovery run (issue #6) | worker | done | 2026-09-21 | `runs/20260921T085149Z-normal` (USD 0.015021, validator pass); budget met with 3/3 non-regulatory candidates, all killed on `defensible_wedge` (40.0/44.6/49.2); 0 advances; two source searches failed (HTTP 429) and are recorded |
+| Retrospective + tuning (issue #6) | worker | done | 2026-09-21 | `retrospectives/2026-09-21-issue6-convergence-review.md`; budget retained, third consecutive `defensible_wedge` cluster escalated to a human-led sourcing/framing review; filter explicitly not weakened |
+| ChatGPT review responses recorded | human + reviewer | done | 2026-09-21 | Six independent responses committed and reconciled (issue #6): GeoNerd v2, ShiftSwap audit, BiK audit, method v1.1.0/v1.2.0/v1.3.0 — all `approved`, caveats preserved in `reviews/2026-09-21-*-chatgpt-gpt-5.6-sol.md` |
+| Worker response to review | worker | done | 2026-09-21 | Issue #6 reconciliation: review status/history + request `## Resolution` blocks updated; no idea advanced on approval alone; no outcome reinterpreted as demand evidence |

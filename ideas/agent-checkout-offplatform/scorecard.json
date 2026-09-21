@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "method_version": "1.4.0",
+  "weights_version": "1.2.0",
+  "idea_id": "agent-checkout-offplatform",
+  "slug": "agent-checkout-offplatform",
+  "title": "AgentCheckout Off-Platform: agentic-checkout integration and assurance for custom storefronts",
+  "state": "killed",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/agent-checkout-offplatform/2026-09-21-offplatform-agentic-checkout-incumbents.md"],
+      "rationale": "The gap for off-platform merchants is adequately evidenced (Salesforce's own guidance names custom/headless as the exception; WooCommerce, Magento, BigCommerce, Salesforce Commerce Cloud and commercetools merchants self-serve), and protocol churn creates repeat work; no buyer-side frequency evidence, so 3."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/agent-checkout-offplatform/2026-09-21-offplatform-agentic-checkout-incumbents.md"],
+      "rationale": "Buyer assumed (custom/headless merchants and their small agencies); the sources establish the gap, not a budget, and vendor-quoted integration ranges are unverified marketing. Capped at 2."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/agent-checkout-offplatform/2026-09-21-offplatform-agentic-checkout-incumbents.md"],
+      "rationale": "Adequately evidenced for this market: platform developer documentation (Salesforce UCP GA in B2C Commerce 26.9), the Shopify `ucp-proxy` repository, a protocol/timeline account and several credible vendor/agency secondary sources; no primary buyer-side evidence."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/agent-checkout-offplatform/2026-09-21-offplatform-agentic-checkout-incumbents.md"],
+      "rationale": "No defensible wedge: hosted UCP hubs, commerce-platform middleware, platform-native support and an open-source Shopify proxy already serve the position, and general middleware vendors operate it as a managed service. Direct incumbents contest the wedge, so capped at 2."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": ["evidence/agent-checkout-offplatform/2026-09-21-offplatform-agentic-checkout-incumbents.md"],
+      "rationale": "Services-heavy delivery with continuous spec maintenance; the cited vendor material itself says merchants below roughly USD 1.5m GMV should defer to the platform, removing the small end. Modelled economics on untested inputs capped at 2."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "risk": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "unknown",
+      "note": "Buyer assumed (custom/headless merchants and their small agencies); the sources establish the gap, not a budget.",
+      "evidence": [],
+      "resolve_via": "Ask 3 agencies what they charge and whether merchants buy."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "unknown",
+      "note": "No buyer-specific frequency or budget evidence; vendor-quoted integration ranges are unverified marketing.",
+      "evidence": [],
+      "resolve_via": "Buyer interviews plus review of agency delivery spend."
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "Agency partnerships and developer content are plausible; no prospects or channel identified.",
+      "evidence": [],
+      "resolve_via": "One agency-partnership or content launch measured for qualified inbound."
+    },
+    "defensible_wedge": {
+      "status": "fail",
+      "note": "Hosted UCP hubs, commerce-platform middleware, platform-native support, an open-source Shopify proxy and general middleware vendors already sell this exact position; the wedge is a feature of the commerce-integration/platform category.",
+      "evidence": ["evidence/agent-checkout-offplatform/2026-09-21-offplatform-agentic-checkout-incumbents.md"],
+      "resolve_via": ""
+    },
+    "no_network_effects_needed": {
+      "status": "unknown",
+      "note": "A single-merchant integration may be useful alone, but assurance value may scale with conformance data across merchants.",
+      "evidence": [],
+      "resolve_via": "Confirm utility for a single merchant."
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "Services-heavy delivery with continuous spec maintenance; the small end of the market is explicitly discouraged by protocol vendors.",
+      "evidence": [],
+      "resolve_via": "Model 10 integrations over two spec cycles."
+    },
+    "acceptable_risk": {
+      "status": "unknown",
+      "note": "Payment/checkout integration carries security and platform-compliance exposure.",
+      "evidence": [],
+      "resolve_via": "Security and platform-policy review."
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "A zero-cost desk competitive scan was sufficient to disconfirm the wedge this run.",
+      "evidence": ["evidence/agent-checkout-offplatform/2026-09-21-offplatform-agentic-checkout-incumbents.md"],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Viability rests on several untested assumptions (buyer, price, recurrence).",
+      "evidence": [],
+      "resolve_via": "Name and test the weakest assumption first."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 65,
+    "raw_weighted_points": 32.0,
+    "weighted_total": 49.2,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "low",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

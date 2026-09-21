@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.3.0",
+  "method_version": "1.4.0",
   "weights_version": "1.2.0",
   "idea_id": "bikpayroll",
   "slug": "bikpayroll",
@@ -170,16 +170,25 @@
   },
   "confidence": "low",
   "review": {
-    "status": "not-required",
+    "status": "approved",
     "requested_from": null,
-    "request_path": null,
-    "last_reviewed_revision": null,
-    "history": []
+    "request_path": "reviews/2026-09-21-false-negative-audit-request-bikpayroll.md",
+    "last_reviewed_revision": "a403682",
+    "history": [
+      {
+        "date": "2026-09-21",
+        "from": "requested",
+        "to": "approved",
+        "actor": "reviewer",
+        "reason": "Independent false-negative audit (ChatGPT / GPT-5.6 Sol) approved the kill (kill upheld). The scan met its precommitted falsification threshold; vendor evidence does not prove share, and a small-employer segment must not be promoted without separate evidence. Reopening condition recorded in the response file."
+      }
+    ],
+    "response_path": "reviews/2026-09-21-bikpayroll-chatgpt-gpt-5.6-sol.md"
   },
   "experiment": {
     "id": "bikpayroll-incumbent-capability",
-    "status": "proposed",
+    "status": "completed",
     "plan": "experiments/bikpayroll-incumbent-capability/plan.md",
-    "results": null
+    "results": "experiments/bikpayroll-incumbent-capability/results.md"
   }
 }

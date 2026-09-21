@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.3.0",
+  "method_version": "1.4.0",
   "updated": "2026-09-21",
   "limits": {
     "max_unreviewed_before_generation_stops": 10,
@@ -8,13 +8,13 @@
     "max_validation_ready_advances_per_run": 1
   },
   "counts": {
-    "total": 13,
+    "total": 16,
     "unreviewed": 0,
     "by_state": {
       "adversarially-researched": 3,
-      "killed": 10
+      "killed": 13
     },
-    "killed": 10
+    "killed": 13
   },
   "ideas": [
     {
@@ -58,8 +58,8 @@
         "scorecard": "ideas/geonerd/scorecard.json"
       },
       "review": {
-        "status": "requested",
-        "path": "reviews/2026-09-21-geonerd-review-request-v2.md"
+        "status": "approved",
+        "path": "reviews/2026-09-21-geonerd-chatgpt-gpt-5.6-sol.md"
       },
       "experiment": {
         "id": "geonerd-demand-spike",
@@ -110,8 +110,8 @@
         "scorecard": "ideas/shiftswap/scorecard.json"
       },
       "review": {
-        "status": "requested",
-        "path": "reviews/2026-09-21-false-negative-audit-request.md"
+        "status": "approved",
+        "path": "reviews/2026-09-21-shiftswap-chatgpt-gpt-5.6-sol.md"
       },
       "experiment": {
         "id": null,
@@ -689,8 +689,8 @@
         "scorecard": "ideas/bikpayroll/scorecard.json"
       },
       "review": {
-        "status": "not-required",
-        "path": null
+        "status": "approved",
+        "path": "reviews/2026-09-21-bikpayroll-chatgpt-gpt-5.6-sol.md"
       },
       "experiment": {
         "id": "bikpayroll-incumbent-capability",
@@ -700,6 +700,162 @@
           "granted": false
         },
         "plan": "experiments/bikpayroll-incumbent-capability/plan.md"
+      }
+    },
+    {
+      "id": "apispend",
+      "slug": "apispend",
+      "title": "ApiSpend: metered API and agent-traffic cost governance for software teams",
+      "state": "killed",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 40.0,
+      "confidence": "low",
+      "fingerprint": {
+        "buyer": "Engineering/finance leads at mid-market software companies (20-200 staff) using metered third-party APIs",
+        "problem": "Metered API and agent traffic is hard to attribute and forecast and can exhaust quotas or budget",
+        "mechanism": "Self-serve API/agent traffic cost attribution and budget guardrails",
+        "keywords": [
+          "metered API pricing",
+          "agent traffic",
+          "API cost governance",
+          "FinOps",
+          "API gateway"
+        ]
+      },
+      "why_now": {
+        "changed": "Autodesk introduced pricing for AEC/Manufacturing Data Model APIs from 17 August 2026, and enterprise SaaS vendors (Salesforce Headless 360 in April 2026; reported credit metering at Workday, ServiceNow and SAP) moved API access to metered consumption, multiplying call volume through agent traffic.",
+        "changed_date": "2026-08-17",
+        "evidence": [
+          "evidence/apispend/2026-09-21-metered-api-pricing-shift.md"
+        ],
+        "why_it_matters": "Metered consumption converts an invisible fixed cost into a variable one that must be attributed, forecast and governed, which is a new operational problem for software teams.",
+        "competitors_responded": "Yes - API gateways and FinOps/observability vendors (WSO2 AI Gateway, Moesif, Workato Enterprise MCP, Arcade, n8n) already sell attribution, budgets and chargeback.",
+        "strength": "strong"
+      },
+      "paths": {
+        "dir": "ideas/apispend",
+        "dossier": "ideas/apispend/dossier.md",
+        "decision": "ideas/apispend/decision.md",
+        "scorecard": "ideas/apispend/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    },
+    {
+      "id": "ewsregister",
+      "slug": "ewsregister",
+      "title": "EwsRegister: Exchange Web Services dependency discovery before the 2027 shutdown",
+      "state": "killed",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 44.6,
+      "confidence": "low",
+      "fingerprint": {
+        "buyer": "Managed service providers and IT managers at SMBs on Microsoft 365",
+        "problem": "Hidden Exchange Web Services dependencies break when Microsoft disables EWS from 1 Oct 2026 and shuts it down on 1 Apr 2027",
+        "mechanism": "Tenant EWS dependency discovery and maintained migration register",
+        "keywords": [
+          "Exchange Web Services",
+          "EWS retirement",
+          "Microsoft 365 migration",
+          "dependency discovery",
+          "EOL"
+        ]
+      },
+      "why_now": {
+        "changed": "Microsoft begins tenant-by-tenant disablement of Exchange Web Services in Exchange Online on 1 October 2026 and permanently shuts EWS down on 1 April 2027, breaking dependencies hidden in backup jobs, archive connectors, public folders and scripts.",
+        "changed_date": "2026-10-01",
+        "evidence": [
+          "evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"
+        ],
+        "why_it_matters": "A dated, non-negotiable shutdown creates a forced-action window and the dependency set is invisible by default.",
+        "competitors_responded": "Partly - Microsoft ships a free EWS usage report and tenant controls, and IT consultancies publish migration guidance.",
+        "strength": "strong"
+      },
+      "paths": {
+        "dir": "ideas/ewsregister",
+        "dossier": "ideas/ewsregister/dossier.md",
+        "decision": "ideas/ewsregister/decision.md",
+        "scorecard": "ideas/ewsregister/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    },
+    {
+      "id": "agent-checkout-offplatform",
+      "slug": "agent-checkout-offplatform",
+      "title": "AgentCheckout Off-Platform: agentic-checkout integration and assurance for custom storefronts",
+      "state": "killed",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 49.2,
+      "confidence": "low",
+      "fingerprint": {
+        "buyer": "Merchants on custom/headless storefronts and the small agencies that build them",
+        "problem": "Off-platform merchants must implement and maintain ACP/UCP agentic-checkout endpoints and product feeds themselves",
+        "mechanism": "White-label UCP/ACP integration and conformance assurance delivered through agencies",
+        "keywords": [
+          "agentic checkout",
+          "UCP",
+          "ACP",
+          "headless commerce",
+          "agent readiness"
+        ]
+      },
+      "why_now": {
+        "changed": "UCP launched in January 2026 (Google, Shopify, Etsy, Target, Wayfair), the UCP Tech Council added Amazon, Meta, Microsoft, Salesforce and Stripe on 24 April 2026, and Salesforce shipped UCP in B2C Commerce 26.9 with hosted hubs selling enablement through September 2026; the acknowledged exception is a custom or headless store.",
+        "changed_date": "2026-09-11",
+        "evidence": [
+          "evidence/agent-checkout-offplatform/2026-09-21-offplatform-agentic-checkout-incumbents.md"
+        ],
+        "why_it_matters": "Agent-mediated buying is new, so no merchant had to be agent-checkout-ready three years ago, and protocol churn creates continuing conformance work.",
+        "competitors_responded": "Yes - hosted UCP hubs, commerce-platform middleware, platform-native support and an open-source Shopify proxy already serve the off-platform gap.",
+        "strength": "strong"
+      },
+      "paths": {
+        "dir": "ideas/agent-checkout-offplatform",
+        "dossier": "ideas/agent-checkout-offplatform/dossier.md",
+        "decision": "ideas/agent-checkout-offplatform/decision.md",
+        "scorecard": "ideas/agent-checkout-offplatform/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
       }
     }
   ]

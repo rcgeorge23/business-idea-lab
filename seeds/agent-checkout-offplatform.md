@@ -3,7 +3,7 @@
 - **Seed ID / slug:** `agent-checkout-offplatform`
 - **Origin idea:** `agentready` (state: `killed`)
 - **Recorded:** 2026-09-21
-- **Status:** `unexplored`
+- **Status:** `promoted`
 
 > Seeds carry **no score, confidence or evidence level**. They are observations
 > preserved from a rejection, not candidates. A seed does not inherit anything from its
@@ -56,3 +56,4 @@ recorded:
 | Date | Status | Note |
 |---|---|---|
 | 2026-09-21 | unexplored | Recorded from the AgentReady kill; no research performed yet. |
+| 2026-09-21 | promoted | Shallow re-check in run `20260921T085149Z-normal` found the off-platform gap already served by hosted UCP hubs, commerce-platform middleware, platform-native support and an open-source Shopify proxy; the seed was promoted to a candidate and researched from scratch, then killed on `defensible_wedge`. See `ideas/agent-checkout-offplatform/decision.md`. |
