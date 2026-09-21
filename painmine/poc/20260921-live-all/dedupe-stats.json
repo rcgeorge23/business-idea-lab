@@ -1,0 +1,55 @@
+{
+  "input_signals": 139,
+  "canonical_signals": 121,
+  "duplicates_removed": 18,
+  "duplicate_ratio": 0.129,
+  "groups": {
+    "1a5c6f173afbf0e7": [
+      "1a5c6f173afbf0e7",
+      "bca8f32c9b1dd05a"
+    ],
+    "5a704217dc84623a": [
+      "5a704217dc84623a",
+      "9c125c964c00cf70"
+    ],
+    "2fcbb13180583a47": [
+      "2fcbb13180583a47",
+      "89b2921732bdf7c2",
+      "01c01f0b0310930b",
+      "28989d5f91739af2",
+      "2dad4c261898c6da",
+      "35083307e55584cc",
+      "4b4ba0976a76233a",
+      "860969c4deeecef0",
+      "951fdfa799289887",
+      "95f6fc54846443ed",
+      "b4ab95352c8938c2",
+      "c46cff6d47d335a1",
+      "e7b7e5c6d09290be",
+      "f7265fae98bdc825",
+      "58281537ce8212ee",
+      "8794e1cf31a9d129",
+      "f6d86da719e4e7ea"
+    ]
+  },
+  "reasons": {
+    "bca8f32c9b1dd05a": "identical normalized text (repost/copy)",
+    "9c125c964c00cf70": "near-duplicate prose (jaccard=0.71)",
+    "89b2921732bdf7c2": "identical normalized text (repost/copy)",
+    "01c01f0b0310930b": "identical normalized text (repost/copy)",
+    "28989d5f91739af2": "identical normalized text (repost/copy)",
+    "2dad4c261898c6da": "identical normalized text (repost/copy)",
+    "35083307e55584cc": "identical normalized text (repost/copy)",
+    "4b4ba0976a76233a": "identical normalized text (repost/copy)",
+    "860969c4deeecef0": "identical normalized text (repost/copy)",
+    "951fdfa799289887": "identical normalized text (repost/copy)",
+    "95f6fc54846443ed": "identical normalized text (repost/copy)",
+    "b4ab95352c8938c2": "identical normalized text (repost/copy)",
+    "c46cff6d47d335a1": "identical normalized text (repost/copy)",
+    "e7b7e5c6d09290be": "identical normalized text (repost/copy)",
+    "f7265fae98bdc825": "identical normalized text (repost/copy)",
+    "58281537ce8212ee": "identical normalized text (repost/copy)",
+    "8794e1cf31a9d129": "identical normalized text (repost/copy)",
+    "f6d86da719e4e7ea": "identical normalized text (repost/copy)"
+  }
+}

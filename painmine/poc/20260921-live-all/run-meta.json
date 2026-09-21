@@ -1,0 +1,90 @@
+{
+  "run_id": "live-20260921-all",
+  "version": "0.1.0",
+  "generated_at": "2026-09-21T10:37:30Z",
+  "mode": "live-public-sources",
+  "family": "all",
+  "queries": [
+    "we still do this manually",
+    "\"copy and paste\" spreadsheet monthly report",
+    "\"re-key\" data between systems",
+    "\"double entry\" excel process",
+    "\"manually export\" csv import",
+    "\"is there software that\" small business",
+    "\"looking for an alternative to\" spreadsheet",
+    "\"our current software doesn't\"",
+    "\"wish it integrated with\"",
+    "\"there has to be a better way\" admin",
+    "\"hours every week\" manual data entry",
+    "\"we pay someone to\" enter data",
+    "\"too expensive\" small business software",
+    "\"minimum contract\" software",
+    "\"enterprise plan\" feature locked"
+  ],
+  "sources_requested": [
+    "hn_algolia",
+    "stack_exchange",
+    "github_issues",
+    "reddit_public_json"
+  ],
+  "limits_file": "painmine/limits.json",
+  "llm_requested": false,
+  "budget": {
+    "requests_used": 24,
+    "requests_limit": 24,
+    "items_collected": 150,
+    "items_limit": 240,
+    "llm_enabled": false,
+    "llm_calls": 0,
+    "llm_calls_limit": 6,
+    "llm_input_tokens": 0,
+    "llm_output_tokens": 0,
+    "llm_tokens_limit": 40000,
+    "llm_usd": 0.0,
+    "llm_usd_limit": 0.25,
+    "elapsed_seconds": 43.84,
+    "wall_limit_seconds": 420,
+    "stopped": true,
+    "stop_reason": "request limit (24) reached",
+    "recorded_at": "2026-09-21T10:38:14.461008Z"
+  },
+  "source_status": {
+    "hn_algolia": {
+      "requests": 15,
+      "ok_requests": 10,
+      "failed_requests": 5,
+      "items": 50,
+      "errors": [
+        "per-source item cap reached"
+      ]
+    },
+    "stack_exchange": {
+      "requests": 15,
+      "ok_requests": 10,
+      "failed_requests": 5,
+      "items": 50,
+      "errors": [
+        "per-source item cap reached"
+      ]
+    },
+    "github_issues": {
+      "requests": 15,
+      "ok_requests": 3,
+      "failed_requests": 12,
+      "items": 50,
+      "errors": [
+        "per-source item cap reached"
+      ]
+    },
+    "reddit_public_json": {
+      "requests": 15,
+      "ok_requests": 0,
+      "failed_requests": 15,
+      "items": 0,
+      "errors": [
+        "HTTP 403",
+        "budget stopped: request limit (24) reached"
+      ]
+    }
+  }
+}

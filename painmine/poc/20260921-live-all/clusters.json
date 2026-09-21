@@ -1,0 +1,1042 @@
+[
+  {
+    "cluster_id": "c-5d98df96",
+    "role": "Bookkeeper",
+    "role_family": "accounting",
+    "label": "Bookkeeper: double, entry, bookkeeping, statements, excel, word, bookkeeper, firstly",
+    "key_terms": [
+      "double",
+      "entry",
+      "bookkeeping",
+      "statements",
+      "excel",
+      "word",
+      "bookkeeper",
+      "firstly"
+    ],
+    "member_signal_ids": [
+      "08238268f9818ca1",
+      "7cde41b818fb7df8",
+      "c23cf207afc64457",
+      "4ed7984016f36cfc",
+      "23f1fb64eb343fd2",
+      "dda4dd036cca766b"
+    ],
+    "duplicate_signal_ids": [],
+    "member_count": 6,
+    "duplicate_count": 0,
+    "independent_sources": 6,
+    "source_types": [
+      "hn_algolia",
+      "stack_exchange"
+    ],
+    "named_systems": [
+      "Excel",
+      "QuickBooks"
+    ],
+    "first_seen": "2014-03-08T01:49:04Z",
+    "last_seen": "2023-04-06T06:58:48Z",
+    "runs_seen": 1,
+    "evidence": [
+      {
+        "signal_id": "08238268f9818ca1",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=7363903",
+        "published_at": "2014-03-08T01:49:04Z",
+        "author": "patio11",
+        "statement": "I couldn't figure out a way to import transactions sanely into Yayoi Kaikei (the Quickbooks of Japan) to satisfy Japanese requirements for double-entry bookkeeping, so I implemented double-entry bookkeeping up to Japanese GAAP with about a dozen spreadsheets.",
+        "systems": [
+          "Excel",
+          "QuickBooks"
+        ],
+        "confidence": 0.67
+      },
+      {
+        "signal_id": "7cde41b818fb7df8",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=35465108",
+        "published_at": "2023-04-06T06:58:48Z",
+        "author": "onion2k",
+        "statement": "Using an Excel spreadsheet with no macros, formatting, or functions doesn't really give you much that double entry bookkeeping in a real book wouldn't already have given you.",
+        "systems": [
+          "Excel"
+        ],
+        "confidence": 0.67
+      },
+      {
+        "signal_id": "c23cf207afc64457",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=31621750",
+        "published_at": "2022-06-04T15:48:41Z",
+        "author": "codethief",
+        "statement": "by hand), you'll need proper (tamper-resistant!) double-entry bookkeeping software, which (last time I looked) is not free, either.",
+        "systems": [
+          "Excel"
+        ],
+        "confidence": 0.6
+      },
+      {
+        "signal_id": "4ed7984016f36cfc",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/51160263",
+        "published_at": null,
+        "author": null,
+        "statement": "Here is the working code: Thanks once again, now I don't need to double entry all my wife's word invoices into a spreadsheet.",
+        "systems": [
+          "Excel"
+        ],
+        "confidence": 0.47
+      },
+      {
+        "signal_id": "dda4dd036cca766b",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=33600156",
+        "published_at": "2022-11-14T20:04:58Z",
+        "author": "c7b",
+        "statement": "Your financial statements are the result of a sequence of double-entry bookeeping statements, and the balance sheet is one particular view on the data processed by this formalism.",
+        "systems": [
+          "Excel"
+        ],
+        "confidence": 0.47
+      },
+      {
+        "signal_id": "23f1fb64eb343fd2",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/5110983",
+        "published_at": null,
+        "author": null,
+        "statement": "Firstly build logging, monitoring & double entry systems into what you're building.",
+        "systems": [],
+        "confidence": 0.44
+      }
+    ],
+    "archetype": {
+      "archetype": "persistent",
+      "change_evidence": [],
+      "why_now": null
+    },
+    "persistence": {
+      "strength": "weak",
+      "limb1_continued_pain_despite_alternatives": {
+        "pass": true,
+        "independent_sources": 6,
+        "members_with_workaround_or_cost_evidence": 6,
+        "note": "Competitor existence is not treated as a disconfirming signal."
+      },
+      "limb2_persistence_mechanism": {
+        "pass": false,
+        "supported_mechanisms": [],
+        "all_mechanisms": {
+          "price_or_minimum_contract": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "partial_or_manual_integration": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "implementation_complexity": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "excluded_segment": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "legacy_architecture": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "low_vendor_priority": {
+            "supported": false,
+            "evidence_count": 0
+          }
+        }
+      },
+      "mechanism_detail": {},
+      "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
+    },
+    "priority": {
+      "score": 70.8,
+      "band": "A",
+      "positive_signals": {
+        "recurrence": 30.0,
+        "economic_buyer": 15.0,
+        "explicit_cost_evidence": 5.0,
+        "manual_workaround": 15.0,
+        "dissatisfaction_switching": 3.3,
+        "integration_seam": 5.5,
+        "recency": 2.0,
+        "narrow_reachable_segment": 5.0
+      },
+      "penalties": {
+        "stale_evidence": -10.0
+      },
+      "duplicate_ratio": 0.0,
+      "vendor_led_risk": "low",
+      "explanation": "6 independent source(s); role=Bookkeeper; machinery=2 named system(s); last evidence 1264 day(s) old",
+      "disclaimer": "Discovery priority only; not a business score and not market validation."
+    }
+  },
+  {
+    "cluster_id": "c-054ee3da",
+    "role": null,
+    "role_family": null,
+    "label": "unclassified buyer: things, python, gives, take, manually, raise, time, cd",
+    "key_terms": [
+      "things",
+      "python",
+      "gives",
+      "take",
+      "manually",
+      "raise",
+      "time",
+      "cd"
+    ],
+    "member_signal_ids": [
+      "30adcab559dbcc37",
+      "2673617347722c47",
+      "1933b29b24be50f5",
+      "22b5e880ee12861f"
+    ],
+    "duplicate_signal_ids": [],
+    "member_count": 4,
+    "duplicate_count": 0,
+    "independent_sources": 4,
+    "source_types": [
+      "hn_algolia",
+      "stack_exchange"
+    ],
+    "named_systems": [
+      "Notion"
+    ],
+    "first_seen": "2026-01-09T11:29:24Z",
+    "last_seen": "2026-03-11T21:17:34Z",
+    "runs_seen": 1,
+    "evidence": [
+      {
+        "signal_id": "30adcab559dbcc37",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/100003",
+        "published_at": null,
+        "author": null,
+        "statement": "But as with most things in Python, it gives you a way to do it manually.",
+        "systems": [
+          "Notion"
+        ],
+        "confidence": 0.59
+      },
+      {
+        "signal_id": "2673617347722c47",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/2052390",
+        "published_at": null,
+        "author": null,
+        "statement": "How do I manually throw/raise an exception in Python? Use the most specific Exception constructor that semantically fits your issue.",
+        "systems": [],
+        "confidence": 0.51
+      },
+      {
+        "signal_id": "1933b29b24be50f5",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=46552740",
+        "published_at": "2026-01-09T11:29:24Z",
+        "author": "jillesvangurp",
+        "statement": "Also, you have things like version control and CI/CD mechanisms where you can do reviews and manually approve things.",
+        "systems": [],
+        "confidence": 0.39
+      },
+      {
+        "signal_id": "22b5e880ee12861f",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=47342045",
+        "published_at": "2026-03-11T21:17:34Z",
+        "author": "dang",
+        "statement": "The limits on that are not technical; they have to do with (1) how much work we still do manually—the classic \"no time to do things that would make the things that take all our time take less of it\"; and (2) the amount of psychic rewiring that's required—there's a limit to the RoA (rate of astonishment) that any human can absorb.",
+        "systems": [],
+        "confidence": 0.27
+      }
+    ],
+    "archetype": {
+      "archetype": "persistent",
+      "change_evidence": [],
+      "why_now": null
+    },
+    "persistence": {
+      "strength": "weak",
+      "limb1_continued_pain_despite_alternatives": {
+        "pass": true,
+        "independent_sources": 4,
+        "members_with_workaround_or_cost_evidence": 4,
+        "note": "Competitor existence is not treated as a disconfirming signal."
+      },
+      "limb2_persistence_mechanism": {
+        "pass": false,
+        "supported_mechanisms": [],
+        "all_mechanisms": {
+          "price_or_minimum_contract": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "partial_or_manual_integration": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "implementation_complexity": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "excluded_segment": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "legacy_architecture": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "low_vendor_priority": {
+            "supported": false,
+            "evidence_count": 0
+          }
+        }
+      },
+      "mechanism_detail": {},
+      "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
+    },
+    "priority": {
+      "score": 67.5,
+      "band": "B",
+      "positive_signals": {
+        "recurrence": 30.0,
+        "economic_buyer": 0.0,
+        "explicit_cost_evidence": 7.5,
+        "manual_workaround": 15.0,
+        "dissatisfaction_switching": 5.0,
+        "integration_seam": 0.0,
+        "recency": 10.0,
+        "narrow_reachable_segment": 0.0
+      },
+      "penalties": {},
+      "duplicate_ratio": 0.0,
+      "vendor_led_risk": "low",
+      "explanation": "4 independent source(s); role=unknown; machinery=1 named system(s); last evidence 193 day(s) old",
+      "disclaimer": "Discovery priority only; not a business score and not market validation."
+    }
+  },
+  {
+    "cluster_id": "c-4ff80e18",
+    "role": "E-commerce operator",
+    "role_family": "ecommerce",
+    "label": "E-commerce operator: csv, export, import, manually, tables, file, data, need",
+    "key_terms": [
+      "csv",
+      "export",
+      "import",
+      "manually",
+      "tables",
+      "file",
+      "data",
+      "need"
+    ],
+    "member_signal_ids": [
+      "4c073c1ccc4e125a",
+      "902c3a7b96a11547",
+      "0045d5d84f8f97a2",
+      "e948c10c9892a9ec",
+      "e1f8a453462f312a",
+      "29a4571c441c269c",
+      "e6e00ec9ab4b834f",
+      "3014e8f9ddb86d21",
+      "f73a0621392d60de",
+      "4e37e1c0ed77e0e5"
+    ],
+    "duplicate_signal_ids": [],
+    "member_count": 10,
+    "duplicate_count": 0,
+    "independent_sources": 10,
+    "source_types": [
+      "hn_algolia",
+      "stack_exchange"
+    ],
+    "named_systems": [
+      "Excel",
+      "Gmail",
+      "MySQL",
+      "Outlook",
+      "WooCommerce"
+    ],
+    "first_seen": "2020-03-10T17:36:27Z",
+    "last_seen": "2020-03-10T17:36:27Z",
+    "runs_seen": 1,
+    "evidence": [
+      {
+        "signal_id": "4c073c1ccc4e125a",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/59136525",
+        "published_at": null,
+        "author": null,
+        "statement": "When I manually export to csv it's also fine. This is the code at the moment, which is the same as the original post.",
+        "systems": [
+          "Excel",
+          "Gmail"
+        ],
+        "confidence": 0.76
+      },
+      {
+        "signal_id": "f73a0621392d60de",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/40830741",
+        "published_at": null,
+        "author": null,
+        "statement": "The easy solution, which I've used for other tables in the db, was to use something like SQLite Manager (the Firefox extension) to export to CSV, but this fails with what I'd imagine is an out of memory error when trying to export the table in question.",
+        "systems": [
+          "MySQL"
+        ],
+        "confidence": 0.71
+      },
+      {
+        "signal_id": "902c3a7b96a11547",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/68500700",
+        "published_at": null,
+        "author": null,
+        "statement": "Everyday I need to MANUALLY export Order from WC in csv and run the C# program to import the csv data into MSSQL and then generate the report and send to branches.",
+        "systems": [
+          "Excel",
+          "WooCommerce"
+        ],
+        "confidence": 0.67
+      },
+      {
+        "signal_id": "0045d5d84f8f97a2",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/61104496",
+        "published_at": null,
+        "author": null,
+        "statement": "here an example: in \"1\" I need to input from a to dates the issue is that after filtering here, the tables are collapsed with and I have to open with \"2\" I have the option to manually export the file as CSV by clicking \"3\" and later import this to a database, but actually it does take a some extra work.",
+        "systems": [],
+        "confidence": 0.63
+      },
+      {
+        "signal_id": "e948c10c9892a9ec",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/60606308",
+        "published_at": null,
+        "author": null,
+        "statement": "I import the lib using the command: I am able to do a however these values are being stored then displayed in the UI, I do see an option to then manually export to CSV.",
+        "systems": [],
+        "confidence": 0.63
+      },
+      {
+        "signal_id": "e1f8a453462f312a",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/8492843",
+        "published_at": null,
+        "author": null,
+        "statement": "(Z_PK is automatically added during import so you don't need to do it manually) Export CSV from Excel Import this CSV file into the database file (as specified in step 5) using your SQLite DBMS.",
+        "systems": [
+          "Excel",
+          "MySQL"
+        ],
+        "confidence": 0.59
+      },
+      {
+        "signal_id": "4e37e1c0ed77e0e5",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/48307456",
+        "published_at": null,
+        "author": null,
+        "statement": "I have \"Reviewer\" access to a shared (Exchange) calendar, but when I go through the process to manually export to CSV I am only able to view/select my personal calendar to download.",
+        "systems": [
+          "Excel",
+          "Outlook"
+        ],
+        "confidence": 0.59
+      },
+      {
+        "signal_id": "29a4571c441c269c",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/36141055",
+        "published_at": null,
+        "author": null,
+        "statement": "I can manually export as Text and then save it as CSV, when I go to the \"Advanced...\" settings I select and this works perfectly.",
+        "systems": [],
+        "confidence": 0.51
+      },
+      {
+        "signal_id": "e6e00ec9ab4b834f",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/60194575",
+        "published_at": null,
+        "author": null,
+        "statement": "My attempt so far: But it results in this exception: I was hoping, that I don't have to manually export the tables to JSON or CSV.",
+        "systems": [],
+        "confidence": 0.51
+      },
+      {
+        "signal_id": "3014e8f9ddb86d21",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=22537524",
+        "published_at": "2020-03-10T17:36:27Z",
+        "author": "vatueil",
+        "statement": "I distinctly recall the option to manually import passwords being harder to find (solution is to either import them from another browser or enable a flag to import passwords from a CSV file).",
+        "systems": [],
+        "confidence": 0.39
+      }
+    ],
+    "archetype": {
+      "archetype": "persistent",
+      "change_evidence": [],
+      "why_now": null
+    },
+    "persistence": {
+      "strength": "strong",
+      "limb1_continued_pain_despite_alternatives": {
+        "pass": true,
+        "independent_sources": 10,
+        "members_with_workaround_or_cost_evidence": 10,
+        "note": "Competitor existence is not treated as a disconfirming signal."
+      },
+      "limb2_persistence_mechanism": {
+        "pass": true,
+        "supported_mechanisms": [
+          "partial_or_manual_integration"
+        ],
+        "all_mechanisms": {
+          "price_or_minimum_contract": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "partial_or_manual_integration": {
+            "supported": true,
+            "evidence_count": 9
+          },
+          "implementation_complexity": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "excluded_segment": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "legacy_architecture": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "low_vendor_priority": {
+            "supported": false,
+            "evidence_count": 0
+          }
+        }
+      },
+      "mechanism_detail": {
+        "partial_or_manual_integration": {
+          "supported": true,
+          "evidence_count": 9,
+          "evidence": [
+            {
+              "signal_id": "4c073c1ccc4e125a",
+              "source_type": "stack_exchange",
+              "patterns": [
+                "\\bmanual(ly)?\\s+(sync|export|import|entry|re[- ]?key\\w*|copy|type|enter|download|upload)\\b"
+              ],
+              "excerpt": "When I manually export to csv it's also fine. This is the code at the moment, which is the same as the original post."
+            },
+            {
+              "signal_id": "902c3a7b96a11547",
+              "source_type": "stack_exchange",
+              "patterns": [
+                "\\bmanual(ly)?\\s+(sync|export|import|entry|re[- ]?key\\w*|copy|type|enter|download|upload)\\b"
+              ],
+              "excerpt": "Everyday I need to MANUALLY export Order from WC in csv and run the C# program to import the csv data into MSSQL and then generate the report and send to branches."
+            },
+            {
+              "signal_id": "0045d5d84f8f97a2",
+              "source_type": "stack_exchange",
+              "patterns": [
+                "\\bmanual(ly)?\\s+(sync|export|import|entry|re[- ]?key\\w*|copy|type|enter|download|upload)\\b"
+              ],
+              "excerpt": "here an example: in \"1\" I need to input from a to dates the issue is that after filtering here, the tables are collapsed with and I have to open with \"2\" I have the option to manually export the file…"
+            },
+            {
+              "signal_id": "e948c10c9892a9ec",
+              "source_type": "stack_exchange",
+              "patterns": [
+                "\\bmanual(ly)?\\s+(sync|export|import|entry|re[- ]?key\\w*|copy|type|enter|download|upload)\\b"
+              ],
+              "excerpt": "I import the lib using the command: I am able to do a however these values are being stored then displayed in the UI, I do see an option to then manually export to CSV."
+            },
+            {
+              "signal_id": "e1f8a453462f312a",
+              "source_type": "stack_exchange",
+              "patterns": [
+                "\\bexport\\w* (only|just|csv)\\b",
+                "\\bcsv (only|import|export)\\b"
+              ],
+              "excerpt": "(Z_PK is automatically added during import so you don't need to do it manually) Export CSV from Excel Import this CSV file into the database file (as specified in step 5) using your SQLite DBMS."
+            },
+            {
+              "signal_id": "29a4571c441c269c",
+              "source_type": "stack_exchange",
+              "patterns": [
+                "\\bmanual(ly)?\\s+(sync|export|import|entry|re[- ]?key\\w*|copy|type|enter|download|upload)\\b"
+              ],
+              "excerpt": "I can manually export as Text and then save it as CSV, when I go to the \"Advanced...\" settings I select and this works perfectly."
+            },
+            {
+              "signal_id": "e6e00ec9ab4b834f",
+              "source_type": "stack_exchange",
+              "patterns": [
+                "\\bmanual(ly)?\\s+(sync|export|import|entry|re[- ]?key\\w*|copy|type|enter|download|upload)\\b"
+              ],
+              "excerpt": "My attempt so far: But it results in this exception: I was hoping, that I don't have to manually export the tables to JSON or CSV."
+            },
+            {
+              "signal_id": "3014e8f9ddb86d21",
+              "source_type": "hn_algolia",
+              "patterns": [
+                "\\bmanual(ly)?\\s+(sync|export|import|entry|re[- ]?key\\w*|copy|type|enter|download|upload)\\b"
+              ],
+              "excerpt": "I distinctly recall the option to manually import passwords being harder to find (solution is to either import them from another browser or enable a flag to import passwords from a CSV file)."
+            }
+          ]
+        }
+      },
+      "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
+    },
+    "priority": {
+      "score": 67.0,
+      "band": "B",
+      "positive_signals": {
+        "recurrence": 30.0,
+        "economic_buyer": 15.0,
+        "explicit_cost_evidence": 0.0,
+        "manual_workaround": 15.0,
+        "dissatisfaction_switching": 0.0,
+        "integration_seam": 10.0,
+        "recency": 2.0,
+        "narrow_reachable_segment": 5.0
+      },
+      "penalties": {
+        "stale_evidence": -10.0
+      },
+      "duplicate_ratio": 0.0,
+      "vendor_led_risk": "low",
+      "explanation": "10 independent source(s); role=E-commerce operator; machinery=5 named system(s); last evidence 2385 day(s) old",
+      "disclaimer": "Discovery priority only; not a business score and not market validation."
+    }
+  },
+  {
+    "cluster_id": "c-0610fb64",
+    "role": null,
+    "role_family": null,
+    "label": "unclassified buyer: sheet, data, name, based, copy, agency, each, paste",
+    "key_terms": [
+      "sheet",
+      "data",
+      "name",
+      "based",
+      "copy",
+      "agency",
+      "each",
+      "paste"
+    ],
+    "member_signal_ids": [
+      "1a0003119298ff6a",
+      "f4c16d63266015a5",
+      "dcfd6fae56bc57b3"
+    ],
+    "duplicate_signal_ids": [],
+    "member_count": 3,
+    "duplicate_count": 0,
+    "independent_sources": 3,
+    "source_types": [
+      "github_issues",
+      "stack_exchange"
+    ],
+    "named_systems": [],
+    "first_seen": "2025-08-14T00:29:24Z",
+    "last_seen": "2025-08-14T00:29:24Z",
+    "runs_seen": 1,
+    "evidence": [
+      {
+        "signal_id": "1a0003119298ff6a",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/54439780",
+        "published_at": null,
+        "author": null,
+        "statement": "Budget sheet example: https://docs.google.com/spreadsheets/d/1ggYjZmGBLnfP-Wzq5dFKpfjaOZj78lgJr8LAl2GtV-I/edit?usp=sharing I am trying to build a code that can match data from 'Actual' sheet based on a project name such as 'Project1' and then copy and paste the data from 'Salary', 'Goods', 'Expenses' etc.",
+        "systems": [],
+        "confidence": 0.68
+      },
+      {
+        "signal_id": "f4c16d63266015a5",
+        "source_type": "github_issues",
+        "source_url": "https://github.com/cal-itp/customer-success/issues/967",
+        "published_at": "2025-08-14T00:29:24Z",
+        "author": "o-ram",
+        "statement": "Rather than manually copy/paste/inserting this data each time, it would be nice to have a vlookup set up for this based on Agency name within the spreadsheet.",
+        "systems": [],
+        "confidence": 0.56
+      },
+      {
+        "signal_id": "dcfd6fae56bc57b3",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/33260604",
+        "published_at": null,
+        "author": null,
+        "statement": "The easy solution, I feel, is to rebuild the data in each sample file, by rebuilding and reformatting the columns in a new sheet (searching for the column header, error capture if not present, copy and paste, reformat / do unit conversions etc.), and then copying that new sheet into the master, save and close the file, and repeat with the next one.",
+        "systems": [],
+        "confidence": 0.56
+      }
+    ],
+    "archetype": {
+      "archetype": "persistent",
+      "change_evidence": [],
+      "why_now": null
+    },
+    "persistence": {
+      "strength": "weak",
+      "limb1_continued_pain_despite_alternatives": {
+        "pass": true,
+        "independent_sources": 3,
+        "members_with_workaround_or_cost_evidence": 3,
+        "note": "Competitor existence is not treated as a disconfirming signal."
+      },
+      "limb2_persistence_mechanism": {
+        "pass": false,
+        "supported_mechanisms": [],
+        "all_mechanisms": {
+          "price_or_minimum_contract": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "partial_or_manual_integration": {
+            "supported": false,
+            "evidence_count": 1
+          },
+          "implementation_complexity": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "excluded_segment": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "legacy_architecture": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "low_vendor_priority": {
+            "supported": false,
+            "evidence_count": 0
+          }
+        }
+      },
+      "mechanism_detail": {},
+      "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
+    },
+    "priority": {
+      "score": 51.0,
+      "band": "B",
+      "positive_signals": {
+        "recurrence": 30.0,
+        "economic_buyer": 0.0,
+        "explicit_cost_evidence": 0.0,
+        "manual_workaround": 15.0,
+        "dissatisfaction_switching": 0.0,
+        "integration_seam": 0.0,
+        "recency": 6.0,
+        "narrow_reachable_segment": 0.0
+      },
+      "penalties": {},
+      "duplicate_ratio": 0.0,
+      "vendor_led_risk": "low",
+      "explanation": "3 independent source(s); role=unknown; machinery=0 named system(s); last evidence 403 day(s) old",
+      "disclaimer": "Discovery priority only; not a business score and not market validation."
+    }
+  },
+  {
+    "cluster_id": "c-4b0d977b",
+    "role": null,
+    "role_family": null,
+    "label": "unclassified buyer: integrated, really, wish, fastmail, hipchat, irc, client, contacts",
+    "key_terms": [
+      "integrated",
+      "really",
+      "wish",
+      "fastmail",
+      "hipchat",
+      "irc",
+      "client",
+      "contacts"
+    ],
+    "member_signal_ids": [
+      "a425d4bb78a86b3d",
+      "297666d742c0fd72",
+      "fcf2141b80910ae6"
+    ],
+    "duplicate_signal_ids": [],
+    "member_count": 3,
+    "duplicate_count": 0,
+    "independent_sources": 3,
+    "source_types": [
+      "hn_algolia"
+    ],
+    "named_systems": [],
+    "first_seen": "2014-05-27T23:45:31Z",
+    "last_seen": "2026-04-01T06:17:23Z",
+    "runs_seen": 1,
+    "evidence": [
+      {
+        "signal_id": "a425d4bb78a86b3d",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=34138662",
+        "published_at": "2022-12-26T15:55:37Z",
+        "author": "hcal",
+        "statement": "I wish it integrated with Linux& gnome a bit better, but I just work around that by bookmarking the browser link to the password page in Firefox.",
+        "systems": [],
+        "confidence": 0.51
+      },
+      {
+        "signal_id": "297666d742c0fd72",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=47597467",
+        "published_at": "2026-04-01T06:17:23Z",
+        "author": "Fire-Dragon-DoL",
+        "statement": "I wish it integrated with contacts and it simply does not. I recently had to choose between google workspace for my email and fastmail, I was really going all in on fastmail and then I hit something that really blocked me.",
+        "systems": [],
+        "confidence": 0.39
+      },
+      {
+        "signal_id": "fcf2141b80910ae6",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=7807587",
+        "published_at": "2014-05-27T23:45:31Z",
+        "author": "bmurphy1976",
+        "statement": "I like HipChat but I really really wish it integrated with an irc client.",
+        "systems": [],
+        "confidence": 0.39
+      }
+    ],
+    "archetype": {
+      "archetype": "persistent",
+      "change_evidence": [],
+      "why_now": null
+    },
+    "persistence": {
+      "strength": "absent",
+      "limb1_continued_pain_despite_alternatives": {
+        "pass": false,
+        "independent_sources": 3,
+        "members_with_workaround_or_cost_evidence": 1,
+        "note": "Competitor existence is not treated as a disconfirming signal."
+      },
+      "limb2_persistence_mechanism": {
+        "pass": false,
+        "supported_mechanisms": [],
+        "all_mechanisms": {
+          "price_or_minimum_contract": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "partial_or_manual_integration": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "implementation_complexity": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "excluded_segment": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "legacy_architecture": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "low_vendor_priority": {
+            "supported": false,
+            "evidence_count": 0
+          }
+        }
+      },
+      "mechanism_detail": {},
+      "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
+    },
+    "priority": {
+      "score": 47.5,
+      "band": "C",
+      "positive_signals": {
+        "recurrence": 30.0,
+        "economic_buyer": 0.0,
+        "explicit_cost_evidence": 0.0,
+        "manual_workaround": 7.5,
+        "dissatisfaction_switching": 0.0,
+        "integration_seam": 0.0,
+        "recency": 10.0,
+        "narrow_reachable_segment": 0.0
+      },
+      "penalties": {},
+      "duplicate_ratio": 0.0,
+      "vendor_led_risk": "low",
+      "explanation": "3 independent source(s); role=unknown; machinery=0 named system(s); last evidence 173 day(s) old",
+      "disclaimer": "Discovery priority only; not a business score and not market validation."
+    }
+  },
+  {
+    "cluster_id": "c-f574f024",
+    "role": "Administrator",
+    "role_family": "office_admin",
+    "label": "Administrator: better, way, administrator, title, right, works, nefarious, employee",
+    "key_terms": [
+      "better",
+      "way",
+      "administrator",
+      "title",
+      "right",
+      "works",
+      "nefarious",
+      "employee"
+    ],
+    "member_signal_ids": [
+      "f4d7c18b4993dae9",
+      "219949e7dc0604c9",
+      "d89537d266b2b304",
+      "a8dad7e6d4a55247",
+      "89c4d0c1cf93c079"
+    ],
+    "duplicate_signal_ids": [],
+    "member_count": 5,
+    "duplicate_count": 0,
+    "independent_sources": 5,
+    "source_types": [
+      "hn_algolia",
+      "stack_exchange"
+    ],
+    "named_systems": [],
+    "first_seen": "2015-01-30T17:50:23Z",
+    "last_seen": "2016-01-27T18:09:14Z",
+    "runs_seen": 1,
+    "evidence": [
+      {
+        "signal_id": "f4d7c18b4993dae9",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=10981714",
+        "published_at": "2016-01-27T18:09:14Z",
+        "author": "drostie",
+        "statement": "There has to be a better way to help 44 million uninsured Americans.",
+        "systems": [],
+        "confidence": 0.59
+      },
+      {
+        "signal_id": "219949e7dc0604c9",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/36508695",
+        "published_at": null,
+        "author": null,
+        "statement": "There has to be a better way because what if some nefarious employee and removed everyone but themselves.",
+        "systems": [],
+        "confidence": 0.35
+      },
+      {
+        "signal_id": "d89537d266b2b304",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/20303127",
+        "published_at": null,
+        "author": null,
+        "statement": "There has to be a better way than just using title_en, title_de, etc, right?",
+        "systems": [],
+        "confidence": 0.35
+      },
+      {
+        "signal_id": "a8dad7e6d4a55247",
+        "source_type": "hn_algolia",
+        "source_url": "https://news.ycombinator.com/item?id=8973223",
+        "published_at": "2015-01-30T17:50:23Z",
+        "author": "quonn",
+        "statement": "There has to be a better way. For example: Better contracts, better checks, and active support by investing in parts of Europe that are struggling.",
+        "systems": [],
+        "confidence": 0.27
+      },
+      {
+        "signal_id": "89c4d0c1cf93c079",
+        "source_type": "stack_exchange",
+        "source_url": "https://stackoverflow.com/q/38166124",
+        "published_at": null,
+        "author": null,
+        "statement": "It works fine for selecting the list (User.staff.all works), but I'd really like the \"?\" ability to easily check - right now I've hacked it together using Surely there has to be a better way!",
+        "systems": [],
+        "confidence": 0.27
+      }
+    ],
+    "archetype": {
+      "archetype": "persistent",
+      "change_evidence": [],
+      "why_now": null
+    },
+    "persistence": {
+      "strength": "absent",
+      "limb1_continued_pain_despite_alternatives": {
+        "pass": false,
+        "independent_sources": 5,
+        "members_with_workaround_or_cost_evidence": 0,
+        "note": "Competitor existence is not treated as a disconfirming signal."
+      },
+      "limb2_persistence_mechanism": {
+        "pass": false,
+        "supported_mechanisms": [],
+        "all_mechanisms": {
+          "price_or_minimum_contract": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "partial_or_manual_integration": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "implementation_complexity": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "excluded_segment": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "legacy_architecture": {
+            "supported": false,
+            "evidence_count": 0
+          },
+          "low_vendor_priority": {
+            "supported": false,
+            "evidence_count": 0
+          }
+        }
+      },
+      "mechanism_detail": {},
+      "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
+    },
+    "priority": {
+      "score": 41.0,
+      "band": "C",
+      "positive_signals": {
+        "recurrence": 30.0,
+        "economic_buyer": 15.0,
+        "explicit_cost_evidence": 0.0,
+        "manual_workaround": 0.0,
+        "dissatisfaction_switching": 4.0,
+        "integration_seam": 0.0,
+        "recency": 2.0,
+        "narrow_reachable_segment": 0.0
+      },
+      "penalties": {
+        "stale_evidence": -10.0
+      },
+      "duplicate_ratio": 0.0,
+      "vendor_led_risk": "low",
+      "explanation": "5 independent source(s); role=Administrator; machinery=0 named system(s); last evidence 3889 day(s) old",
+      "disclaimer": "Discovery priority only; not a business score and not market validation."
+    }
+  }
+]

@@ -147,7 +147,9 @@ The human owner runs experiments; results go into the repository:
 | `runs/` | Per-run metadata, usage, validation, summaries, dry-run diffs |
 | `templates/` | Templates for every artefact type |
 | `scripts/` | Validator, runner, usage extraction, review-request builder |
-| `.opencode/agent/` | `idea-worker` (primary) and `idea-critic` (read-only subagent) |
+| `painmine/` | Issue #9 spike: bounded public pain-signal mining, dedupe, clustering, discovery-priority ranking and Method 1.6 observation export (see `painmine/SPIKE-REPORT.md`) |
+| `.github/workflows/` | Optional scheduled painmine collectors (daily collect + weekly cluster/all); no commits, no secrets in repo |
+| `.opencode/agent/` | `idea-worker` (primary), `idea-critic` (read-only subagent), `painmine-extractor` (strict-JSON extraction, deny-all tools) |
 
 ## Calibration
 
@@ -290,6 +292,28 @@ what closed each item is recorded in `reviews/2026-09-21-review-queue-reconcilia
   asked that the next run be judged on the monitor list in that response (persistence
   test on real evidence, audit outcome, incumbent-captured promotions, pool padding,
   budget pressure, candidate strength).
+- Issue #9 (2026-09-21) spike **painmine v0.1.0**: a bounded, cheap front-end
+  that mines public practitioner pain signals, extracts them into an auditable
+  schema, deduplicates, clusters, applies a **discovery-priority ranking
+  explicitly separate from business scoring**, computes the two-limb
+  persistence thesis and renders the strongest clusters into the Method 1.6
+  observation format. One live PoC run collected 150 raw items from three
+  source classes (Hacker News Algolia, Stack Exchange, GitHub issues; Reddit
+  public JSON returned HTTP 403 and was recorded, not bypassed) in 43.84 s of a
+  420 s cap and 24/24 requests with **USD 0.00** model spend, producing 139
+  signals, 18 duplicates removed, 11 extraction rejects, 6 clusters and 1
+  band-A observation; all 139 signals validate against the schema. Part 10
+  evaluation (`painmine/SPIKE-REPORT.md`) recommends **ITERATE**: the
+  mechanics, budgets, audit trail and retention controls work, but recurrence
+  is currently inflated by shared vocabulary (the band-A cluster counted
+  commentary as independent pain), so the next step is a job/seam-level
+  recurrence gate plus a bounded, owner-approved DeepSeek/OpenCode Go
+  extraction pass - not a production crawler. Method 1.6 scoring, thresholds,
+  evidence levels, lifecycle gates and the funnel are unchanged; DeepSeek via
+  OpenCode Go remains the only permitted inference provider, with no fallback.
+  Scheduled GitHub Actions workflows (daily collect + weekly all-family) are
+  prepared and locally validated but have not been executed on GitHub, because
+  the worker neither commits nor pushes.
 - GeoNerd is parked at `adversarially-researched` with score 49.5 (down from
   65.3 under the looser 1.0.0 semantics), an independent review requested
   (`reviews/2026-09-21-geonerd-review-request-v2.md`) and a proposed

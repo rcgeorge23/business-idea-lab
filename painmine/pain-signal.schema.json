@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/rcgeorge23/business-idea-lab/painmine/pain-signal.schema.json",
+  "title": "PainSignal",
+  "description": "A single independently sourced real-world pain signal extracted from public material (issue #9 Part 1). One signal = one source item. Copies/reposts are marked duplicate_of rather than counted as independent evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "signal_id",
+    "source_type",
+    "source_id",
+    "source_url",
+    "retrieved_at",
+    "pain_statement",
+    "confidence",
+    "extraction_provenance",
+    "raw_excerpt"
+  ],
+  "properties": {
+    "signal_id": {
+      "type": "string",
+      "description": "Stable id: sha1(source_type + source_id + normalized pain statement)[:16]"
+    },
+    "source_type": {
+      "type": "string",
+      "description": "Source class key from sources.json (e.g. hn_algolia, stack_exchange, github_issues, reddit_public_json)"
+    },
+    "source_id": {
+      "type": "string",
+      "description": "Stable identifier inside the source (e.g. 'hn:41234567', 'se:12345678:answer:99', 'gh:owner/repo#123')"
+    },
+    "source_url": {"type": "string"},
+    "retrieved_at": {"type": "string", "description": "ISO-8601 UTC retrieval timestamp"},
+    "published_at": {"type": ["string", "null"], "description": "ISO-8601 UTC publication date if known"},
+    "source_author": {"type": ["string", "null"], "description": "Public username/handle; used only for independence counting"},
+    "target_role": {"type": ["string", "null"], "description": "Inferred target role/user, or null if not inferable"},
+    "organisation_hint": {"type": ["string", "null"], "description": "Inferred organisation/industry hint, or null"},
+    "task": {"type": ["string", "null"], "description": "The task/job the source describes"},
+    "pain_statement": {"type": "string", "description": "Best sentence(s) stating the problem, lightly cleaned, <= 400 chars"},
+    "current_workaround": {"type": ["string", "null"], "description": "How the source says they cope today"},
+    "named_systems": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Canonical names of software/systems mentioned (e.g. Excel, Xero, Shopify)"
+    },
+    "frequency_clue": {"type": ["string", "null"]},
+    "time_cost_clue": {"type": ["string", "null"]},
+    "money_cost_clue": {"type": ["string", "null"]},
+    "dissatisfaction_clue": {"type": ["string", "null"]},
+    "integration_clue": {"type": ["string", "null"]},
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Extraction confidence from cue density; NOT a market score"
+    },
+    "extraction_provenance": {
+      "type": "object",
+      "required": ["method", "version"],
+      "properties": {
+        "method": {"type": "string", "description": "deterministic-cues | llm-extractor"},
+        "version": {"type": "string"},
+        "cue_groups": {"type": "array", "items": {"type": "string"}},
+        "patterns_matched": {"type": "array", "items": {"type": "string"}},
+        "model": {"type": ["string", "null"]},
+        "prompt_hash": {"type": ["string", "null"]}
+      }
+    },
+    "raw_excerpt": {
+      "type": "string",
+      "description": "Short excerpt (<= max_raw_excerpt_chars) kept for audit; not the full copyrighted text"
+    },
+    "duplicate_of": {"type": ["string", "null"], "description": "Canonical signal_id if this was classified as a duplicate/repost"},
+    "cluster_id": {"type": ["string", "null"]}
+  }
+}

@@ -1,0 +1,275 @@
+{
+  "meta": {
+    "run_id": "live-20260921-all",
+    "version": "0.1.0",
+    "generated_at": "2026-09-21T10:37:30Z",
+    "mode": "live-public-sources",
+    "family": "all",
+    "queries": [
+      "we still do this manually",
+      "\"copy and paste\" spreadsheet monthly report",
+      "\"re-key\" data between systems",
+      "\"double entry\" excel process",
+      "\"manually export\" csv import",
+      "\"is there software that\" small business",
+      "\"looking for an alternative to\" spreadsheet",
+      "\"our current software doesn't\"",
+      "\"wish it integrated with\"",
+      "\"there has to be a better way\" admin",
+      "\"hours every week\" manual data entry",
+      "\"we pay someone to\" enter data",
+      "\"too expensive\" small business software",
+      "\"minimum contract\" software",
+      "\"enterprise plan\" feature locked"
+    ],
+    "sources_requested": [
+      "hn_algolia",
+      "stack_exchange",
+      "github_issues",
+      "reddit_public_json"
+    ],
+    "limits_file": "painmine/limits.json",
+    "llm_requested": false
+  },
+  "budget": {
+    "requests_used": 24,
+    "requests_limit": 24,
+    "items_collected": 150,
+    "items_limit": 240,
+    "llm_enabled": false,
+    "llm_calls": 0,
+    "llm_calls_limit": 6,
+    "llm_input_tokens": 0,
+    "llm_output_tokens": 0,
+    "llm_tokens_limit": 40000,
+    "llm_usd": 0.0,
+    "llm_usd_limit": 0.25,
+    "elapsed_seconds": 43.84,
+    "wall_limit_seconds": 420,
+    "stopped": true,
+    "stop_reason": "request limit (24) reached",
+    "recorded_at": "2026-09-21T10:38:14.460426Z"
+  },
+  "source_status": {
+    "hn_algolia": {
+      "requests": 15,
+      "ok_requests": 10,
+      "failed_requests": 5,
+      "items": 50,
+      "errors": [
+        "per-source item cap reached"
+      ]
+    },
+    "stack_exchange": {
+      "requests": 15,
+      "ok_requests": 10,
+      "failed_requests": 5,
+      "items": 50,
+      "errors": [
+        "per-source item cap reached"
+      ]
+    },
+    "github_issues": {
+      "requests": 15,
+      "ok_requests": 3,
+      "failed_requests": 12,
+      "items": 50,
+      "errors": [
+        "per-source item cap reached"
+      ]
+    },
+    "reddit_public_json": {
+      "requests": 15,
+      "ok_requests": 0,
+      "failed_requests": 15,
+      "items": 0,
+      "errors": [
+        "HTTP 403",
+        "budget stopped: request limit (24) reached"
+      ]
+    }
+  },
+  "volumes": {
+    "raw_items": 150,
+    "extracted_signals": 139,
+    "extraction_rejects": 11,
+    "extraction_reject_reasons": {
+      "statement_too_short": 8,
+      "no_pain_cue": 3
+    },
+    "duplicates_removed": 18,
+    "duplicate_ratio": 0.129,
+    "clusters_total": 6,
+    "clusters_with_buyer": 3,
+    "clusters_band_a": 1,
+    "clusters_band_b": 3,
+    "clusters_band_c": 2,
+    "clusters_independent_ge_3": 6
+  },
+  "top_clusters": [
+    {
+      "cluster_id": "c-5d98df96",
+      "label": "Bookkeeper: double, entry, bookkeeping, statements, excel, word, bookkeeper, firstly",
+      "role": "Bookkeeper",
+      "independent_sources": 6,
+      "member_count": 6,
+      "duplicate_count": 0,
+      "source_types": [
+        "hn_algolia",
+        "stack_exchange"
+      ],
+      "named_systems": [
+        "Excel",
+        "QuickBooks"
+      ],
+      "priority_score": 70.8,
+      "priority_band": "A",
+      "vendor_led_risk": "low",
+      "persistence_strength": "weak",
+      "archetype": "persistent",
+      "first_seen": "2014-03-08T01:49:04Z",
+      "last_seen": "2023-04-06T06:58:48Z"
+    },
+    {
+      "cluster_id": "c-054ee3da",
+      "label": "unclassified buyer: things, python, gives, take, manually, raise, time, cd",
+      "role": null,
+      "independent_sources": 4,
+      "member_count": 4,
+      "duplicate_count": 0,
+      "source_types": [
+        "hn_algolia",
+        "stack_exchange"
+      ],
+      "named_systems": [
+        "Notion"
+      ],
+      "priority_score": 67.5,
+      "priority_band": "B",
+      "vendor_led_risk": "low",
+      "persistence_strength": "weak",
+      "archetype": "persistent",
+      "first_seen": "2026-01-09T11:29:24Z",
+      "last_seen": "2026-03-11T21:17:34Z"
+    },
+    {
+      "cluster_id": "c-4ff80e18",
+      "label": "E-commerce operator: csv, export, import, manually, tables, file, data, need",
+      "role": "E-commerce operator",
+      "independent_sources": 10,
+      "member_count": 10,
+      "duplicate_count": 0,
+      "source_types": [
+        "hn_algolia",
+        "stack_exchange"
+      ],
+      "named_systems": [
+        "Excel",
+        "Gmail",
+        "MySQL",
+        "Outlook",
+        "WooCommerce"
+      ],
+      "priority_score": 67.0,
+      "priority_band": "B",
+      "vendor_led_risk": "low",
+      "persistence_strength": "strong",
+      "archetype": "persistent",
+      "first_seen": "2020-03-10T17:36:27Z",
+      "last_seen": "2020-03-10T17:36:27Z"
+    },
+    {
+      "cluster_id": "c-0610fb64",
+      "label": "unclassified buyer: sheet, data, name, based, copy, agency, each, paste",
+      "role": null,
+      "independent_sources": 3,
+      "member_count": 3,
+      "duplicate_count": 0,
+      "source_types": [
+        "github_issues",
+        "stack_exchange"
+      ],
+      "named_systems": [],
+      "priority_score": 51.0,
+      "priority_band": "B",
+      "vendor_led_risk": "low",
+      "persistence_strength": "weak",
+      "archetype": "persistent",
+      "first_seen": "2025-08-14T00:29:24Z",
+      "last_seen": "2025-08-14T00:29:24Z"
+    },
+    {
+      "cluster_id": "c-4b0d977b",
+      "label": "unclassified buyer: integrated, really, wish, fastmail, hipchat, irc, client, contacts",
+      "role": null,
+      "independent_sources": 3,
+      "member_count": 3,
+      "duplicate_count": 0,
+      "source_types": [
+        "hn_algolia"
+      ],
+      "named_systems": [],
+      "priority_score": 47.5,
+      "priority_band": "C",
+      "vendor_led_risk": "low",
+      "persistence_strength": "absent",
+      "archetype": "persistent",
+      "first_seen": "2014-05-27T23:45:31Z",
+      "last_seen": "2026-04-01T06:17:23Z"
+    },
+    {
+      "cluster_id": "c-f574f024",
+      "label": "Administrator: better, way, administrator, title, right, works, nefarious, employee",
+      "role": "Administrator",
+      "independent_sources": 5,
+      "member_count": 5,
+      "duplicate_count": 0,
+      "source_types": [
+        "hn_algolia",
+        "stack_exchange"
+      ],
+      "named_systems": [],
+      "priority_score": 41.0,
+      "priority_band": "C",
+      "vendor_led_risk": "low",
+      "persistence_strength": "absent",
+      "archetype": "persistent",
+      "first_seen": "2015-01-30T17:50:23Z",
+      "last_seen": "2016-01-27T18:09:14Z"
+    }
+  ],
+  "vendor_led_risk_mix": {
+    "low": 6
+  },
+  "recurrence_measurable": true,
+  "low_confidence_extraction_examples": [
+    {
+      "signal_id": "a5959d17c645c377",
+      "confidence": 0.27,
+      "statement": "Despite all of the advances in technology, we still do this manually - in a conference room or a zoom meeting."
+    },
+    {
+      "signal_id": "1a12678fd8448930",
+      "confidence": 0.27,
+      "statement": "They could simply push it to a repository on GitHub instead of assigning employees to do this manually."
+    },
+    {
+      "signal_id": "a092401148fd27e4",
+      "confidence": 0.27,
+      "statement": "As someone who wrote x86 optimization code professionally in the 90s, do we need to do this manually still in 2025?"
+    },
+    {
+      "signal_id": "22b5e880ee12861f",
+      "confidence": 0.27,
+      "statement": "The limits on that are not technical; they have to do with (1) how much work we still do manually—the classic \"no time to do things that would make the things that take all our time take less of it\"; and (2) the amount of psychic rewiring that's required—there's a limit to the RoA (rate of astonishment) that any human can absorb."
+    },
+    {
+      "signal_id": "6835bcbe1ff67fd3",
+      "confidence": 0.27,
+      "statement": "translating text, coming up with generic copy text, adding some illustrations to articles, etc.), then yes AI is robbing you of your job and there will be a lot less demand for doing these things manually."
+    }
+  ],
+  "preliminary_recommendation": "ITERATE",
+  "preliminary_recommendation_note": "At least one band-A cluster with a persistence thesis; iterate sources and run dual synthesis.",
+  "disclaimer": "Discovery-priority scores are not business scores and not market validation. Method 1.6 scoring, hard filters and lifecycle gates are unchanged and still apply downstream."
+}

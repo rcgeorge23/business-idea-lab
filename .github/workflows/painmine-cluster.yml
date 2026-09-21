@@ -1,0 +1,148 @@
+name: painmine cluster (weekly)
+
+# Weekly, wider clustering pass for the painmine spike (issue #9).
+# Runs every query family in one bounded pass and renders the cluster report.
+# Part 6 independent synthesis is opt-in per dispatch because it spends
+# OpenCode Go credit; it never substitutes a different inference provider.
+
+on:
+  schedule:
+    # Non-round minute, Mondays. Wider run than the daily collector.
+    - cron: "43 7 * * 1"
+  workflow_dispatch:
+    inputs:
+      max_requests:
+        description: Hard cap on public-source HTTP requests (CLI clamps down to limits.json; edit limits.json to raise)
+        type: string
+        default: "24"
+      synthesis:
+        description: Run Part 6 synthesis for top clusters (spends OpenCode Go credit)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: painmine-pipeline
+  cancel-in-progress: false
+
+jobs:
+  cluster:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      INPUT_MAX_REQUESTS: ${{ inputs.max_requests }}
+      INPUT_SYNTHESIS: ${{ inputs.synthesis }}
+      OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+      OPENCODE_AUTH_JSON: ${{ secrets.OPENCODE_AUTH_JSON }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore painmine state (seen ids / cluster history)
+        uses: actions/cache@v4
+        with:
+          path: painmine/state
+          key: painmine-state-${{ github.run_id }}
+          restore-keys: |
+            painmine-state-
+
+      - name: Prepare optional OpenCode Go credentials
+        run: |
+          mkdir -p "$HOME/.local/share/opencode"
+          if [ -n "$OPENCODE_AUTH_JSON" ]; then
+            printf '%s' "$OPENCODE_AUTH_JSON" > "$HOME/.local/share/opencode/auth.json"
+            chmod 600 "$HOME/.local/share/opencode/auth.json"
+            echo "wrote auth.json from OPENCODE_AUTH_JSON secret"
+          elif [ -n "$OPENCODE_API_KEY" ]; then
+            echo "OPENCODE_API_KEY is set in the environment"
+          else
+            echo "no OpenCode Go credentials configured; deterministic-only run"
+          fi
+
+      - name: Resolve run id and limits
+        id: resolve
+        run: |
+          MAX_REQUESTS="${INPUT_MAX_REQUESTS:-24}"
+          RUN_ID="gha-weekly-$(date -u +%Y%m%dT%H%M%SZ)"
+          {
+            echo "max_requests=$MAX_REQUESTS"
+            echo "run_id=$RUN_ID"
+          } >> "$GITHUB_OUTPUT"
+          echo "max_requests=$MAX_REQUESTS run_id=$RUN_ID"
+
+      - name: Run wider collection, clustering and ranking
+        run: |
+          set -o pipefail
+          RUN="${{ steps.resolve.outputs.run_id }}"
+          mkdir -p painmine/poc painmine/state "painmine/poc/$RUN"
+          EXTRA=""
+          if [ "$INPUT_SYNTHESIS" = "true" ]; then
+            EXTRA="--enable-llm --synthesis --synthesis-top 2"
+          fi
+          python3 -m painmine.cli pipeline \
+            --family all \
+            --max-requests "${{ steps.resolve.outputs.max_requests }}" \
+            --max-promote 3 \
+            --state painmine/state/state.json \
+            --run-id "$RUN" \
+            --out "painmine/poc/$RUN" \
+            $EXTRA | tee "painmine/poc/$RUN/stdout.txt"
+
+      - name: Write run summary
+        if: always()
+        run: |
+          RUN="${{ steps.resolve.outputs.run_id }}"
+          {
+            echo "## painmine cluster (weekly)"
+            echo
+            echo "- run id: \`$RUN\`"
+            echo "- family: \`all\` (all query families)"
+            echo "- max requests: ${{ steps.resolve.outputs.max_requests }}"
+            echo "- synthesis requested: $INPUT_SYNTHESIS (provider opencode-go, model opencode-go/deepseek-v4.1-flash, agent painmine-extractor when enabled)"
+            echo "- cluster recurrence counts independent sources/authors; reposts are counted once"
+            echo
+            echo '```'
+            tail -n 20 "painmine/poc/$RUN/stdout.txt" 2>/dev/null || echo "no stdout captured"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ -f "painmine/poc/$RUN/report.json" ]; then
+            python3 - "painmine/poc/$RUN/report.json" <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json, sys
+          report = json.load(open(sys.argv[1]))
+          volumes = report.get("volumes", {})
+          budget = report.get("budget", {})
+          print()
+          print("| metric | value |")
+          print("|---|---|")
+          for key in ("raw_items", "extracted_signals", "duplicates_removed", "cluster_count", "clusters_total", "clusters_with_buyer", "clusters_independent_ge_3"):
+              if key in volumes:
+                  print(f"| {key} | {volumes.get(key)} |")
+          print(f"| requests_used | {budget.get('requests_used')}/{budget.get('requests_limit')} |")
+          print(f"| llm_calls | {budget.get('llm_calls')} (cost usd {budget.get('llm_usd', 0)}) |")
+          print(f"| recommendation | {report.get('preliminary_recommendation')} |")
+          top = report.get("top_clusters", [])
+          if top:
+              print()
+              print("| cluster | band | score | independent sources | persistence |")
+              print("|---|---|---|---|---|")
+              for c in top[:10]:
+                  print(f"| {c.get('label')} | {c.get('priority_band')} | {c.get('priority_score')} | {c.get('independent_sources')} | {c.get('persistence_strength')} |")
+          PY
+          fi
+
+      - name: Upload bounded artefacts (raw JSONL expires, nothing is committed)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: painmine-cluster-${{ github.run_id }}
+          path: painmine/poc/
+          retention-days: 14

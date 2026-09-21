@@ -1,0 +1,50 @@
+{
+  "$comment": "Hard limits for painmine runs (issue #9 Part 8). CLI flags may lower these but never raise them. Prefer stopping with partial results over exceeding a limit.",
+  "version": "0.1.0",
+  "fetch": {
+    "max_requests_per_run": 24,
+    "max_items_per_source": 50,
+    "max_items_total": 240,
+    "request_timeout_seconds": 20,
+    "min_seconds_between_requests": 1.0
+  },
+  "extract": {
+    "min_statement_chars": 60,
+    "max_raw_excerpt_chars": 600
+  },
+  "dedupe": {
+    "shingle_size": 5,
+    "jaccard_threshold": 0.62
+  },
+  "cluster": {
+    "max_clusters": 40,
+    "min_cluster_size": 3,
+    "similarity_threshold": 0.17,
+    "key_terms": 8
+  },
+  "llm": {
+    "enabled": false,
+    "provider": "opencode-go",
+    "model": "opencode-go/deepseek-v4.1-flash",
+    "max_calls_per_run": 6,
+    "max_input_tokens_per_call": 12000,
+    "max_output_tokens_per_call": 1200,
+    "max_total_tokens_per_run": 40000,
+    "max_usd_per_run": 0.25,
+    "timeout_seconds_per_call": 180
+  },
+  "runtime": {
+    "max_wall_seconds": 420
+  },
+  "retention": {
+    "raw_items_keep_per_run": 240,
+    "excerpt_chars": 600,
+    "state_seen_ids_cap": 5000,
+    "poc_raw_jsonl_in_git": false,
+    "gha_artifact_retention_days": 14
+  },
+  "ranking": {
+    "promote_band_a_min": 70,
+    "watch_band_b_min": 50
+  }
+}

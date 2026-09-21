@@ -13,5 +13,10 @@ runs/*/repo/
 __pycache__/
 *.pyc
 
+# painmine spike: raw collected material and cross-run state stay out of Git
+# (structured artefacts and reports under painmine/poc/ are kept)
+painmine/state/
+painmine/poc/**/raw-items.jsonl
+
 # OS
 .DS_Store

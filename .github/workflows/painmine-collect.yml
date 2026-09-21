@@ -1,0 +1,168 @@
+name: painmine collect
+
+# Bounded daily collector for the painmine spike (issue #9).
+# - Deterministic retrieval/extraction/dedup/clustering by default.
+# - OpenCode Go / DeepSeek spend only when workflow_dispatch sets synthesis=true
+#   and the repository secret OPENCODE_AUTH_JSON (or OPENCODE_API_KEY) is set.
+# - Never commits, never opens anything external beyond the configured public
+#   source APIs, and stops with partial results when a hard limit is reached.
+
+on:
+  schedule:
+    # Non-round minute, daily. Query family rotates with day-of-year.
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+    inputs:
+      family:
+        description: Query family to run
+        type: choice
+        options:
+          - a_manual_rekey
+          - b_tooling_gap
+          - c_cost_pain
+          - all
+        default: a_manual_rekey
+      max_requests:
+        description: Hard cap on public-source HTTP requests (CLI clamps down to limits.json; edit limits.json to raise)
+        type: string
+        default: "20"
+      synthesis:
+        description: Also run Part 6 synthesis (spends OpenCode Go credit)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: painmine-pipeline
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      INPUT_FAMILY: ${{ inputs.family }}
+      INPUT_MAX_REQUESTS: ${{ inputs.max_requests }}
+      INPUT_SYNTHESIS: ${{ inputs.synthesis }}
+      OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+      OPENCODE_AUTH_JSON: ${{ secrets.OPENCODE_AUTH_JSON }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Restore painmine state (seen ids / cluster history)
+        uses: actions/cache@v4
+        with:
+          path: painmine/state
+          key: painmine-state-${{ github.run_id }}
+          restore-keys: |
+            painmine-state-
+
+      - name: Prepare optional OpenCode Go credentials
+        run: |
+          mkdir -p "$HOME/.local/share/opencode"
+          if [ -n "$OPENCODE_AUTH_JSON" ]; then
+            printf '%s' "$OPENCODE_AUTH_JSON" > "$HOME/.local/share/opencode/auth.json"
+            chmod 600 "$HOME/.local/share/opencode/auth.json"
+            echo "wrote auth.json from OPENCODE_AUTH_JSON secret"
+          elif [ -n "$OPENCODE_API_KEY" ]; then
+            echo "OPENCODE_API_KEY is set in the environment"
+          else
+            echo "no OpenCode Go credentials configured; deterministic-only run"
+          fi
+
+      - name: Resolve family, limits and run id
+        id: resolve
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            FAMILY="${INPUT_FAMILY:-a_manual_rekey}"
+            MAX_REQUESTS="${INPUT_MAX_REQUESTS:-20}"
+          else
+            DAY=$((10#$(date -u +%j)))
+            case $((DAY % 3)) in
+              0) FAMILY=a_manual_rekey ;;
+              1) FAMILY=b_tooling_gap ;;
+              2) FAMILY=c_cost_pain ;;
+            esac
+            MAX_REQUESTS="20"
+          fi
+          RUN_ID="gha-$(date -u +%Y%m%dT%H%M%SZ)"
+          {
+            echo "family=$FAMILY"
+            echo "max_requests=$MAX_REQUESTS"
+            echo "run_id=$RUN_ID"
+          } >> "$GITHUB_OUTPUT"
+          echo "family=$FAMILY max_requests=$MAX_REQUESTS run_id=$RUN_ID"
+
+      - name: Run bounded collection and clustering
+        run: |
+          set -o pipefail
+          RUN="${{ steps.resolve.outputs.run_id }}"
+          mkdir -p painmine/poc painmine/state "painmine/poc/$RUN"
+          EXTRA=""
+          if [ "$INPUT_SYNTHESIS" = "true" ]; then
+            EXTRA="--enable-llm --synthesis"
+          fi
+          python3 -m painmine.cli pipeline \
+            --family "${{ steps.resolve.outputs.family }}" \
+            --max-requests "${{ steps.resolve.outputs.max_requests }}" \
+            --max-promote 3 \
+            --state painmine/state/state.json \
+            --run-id "$RUN" \
+            --out "painmine/poc/$RUN" \
+            $EXTRA | tee "painmine/poc/$RUN/stdout.txt"
+
+      - name: Write run summary
+        if: always()
+        run: |
+          RUN="${{ steps.resolve.outputs.run_id }}"
+          {
+            echo "## painmine collect"
+            echo
+            echo "- run id: \`$RUN\`"
+            echo "- family: \`${{ steps.resolve.outputs.family }}\`"
+            echo "- max requests: ${{ steps.resolve.outputs.max_requests }}"
+            echo "- synthesis requested: $INPUT_SYNTHESIS (provider opencode-go, model opencode-go/deepseek-v4.1-flash, agent painmine-extractor when enabled)"
+            echo "- ranking is a discovery priority only; Method 1.6 scoring is unchanged and still applies"
+            echo
+            echo '```'
+            tail -n 20 "painmine/poc/$RUN/stdout.txt" 2>/dev/null || echo "no stdout captured"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ -f "painmine/poc/$RUN/report.json" ]; then
+            python3 - "painmine/poc/$RUN/report.json" <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json, sys
+          report = json.load(open(sys.argv[1]))
+          volumes = report.get("volumes", {})
+          budget = report.get("budget", {})
+          print()
+          print("| metric | value |")
+          print("|---|---|")
+          for key in ("raw_items", "extracted_signals", "duplicates_removed", "clusters_total", "clusters_with_buyer"):
+              print(f"| {key} | {volumes.get(key)} |")
+          print(f"| requests_used | {budget.get('requests_used')}/{budget.get('requests_limit')} |")
+          print(f"| llm_calls | {budget.get('llm_calls')} (cost usd {budget.get('llm_usd', 0)}) |")
+          print(f"| recommendation | {report.get('preliminary_recommendation')} |")
+          failed = [s for s in report.get("source_status", []) if not s.get("ok")]
+          if failed:
+              print()
+              print("Source access failures this run: " + ", ".join(f"{s.get('source_id')} ({s.get('error')})" for s in failed))
+          PY
+          fi
+
+      - name: Upload bounded artefacts (raw JSONL expires, nothing is committed)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: painmine-collect-${{ github.run_id }}
+          path: painmine/poc/
+          retention-days: 14

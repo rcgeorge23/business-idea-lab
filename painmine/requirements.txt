@@ -1,0 +1,2 @@
+# painmine has no third-party runtime dependencies: Python 3.10+ standard library only.
+# This file is intentionally empty of packages so scheduled GitHub Actions runs need no pip install.
