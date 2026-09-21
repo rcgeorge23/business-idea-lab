@@ -60,11 +60,20 @@ ideas reach a cheap decisive test without inflating their desk evidence.
 
 Every candidate discovered under method >= 1.1.0 records an evidenced `why_now` in
 `ideas/index.json` and a "Why now?" section in its dossier (see `method/discovery.md`).
-A missing or unevidenced "why now?" does not by itself kill an idea. For candidates at
-evidence level `Plausible` or `Promising` it caps `differentiation` and
-`problem_severity_frequency` at 2 and is a strong reason to reject a generic or crowded
-candidate at screening. From `Demand evidence` upward (v1.2.0) the cap is lifted: an
-evergreen niche with real payment evidence is judged on that evidence.
+A missing or unevidenced "why now?" does not by itself kill an idea. The cap is
+archetype-aware (v1.6.0):
+
+- **Change-driven candidates:** at evidence level `Plausible` or `Promising` a missing
+  or unevidenced why-now caps `differentiation` and `problem_severity_frequency` at 2
+  and is a strong reason to reject a generic or crowded candidate at screening. From
+  `Demand evidence` upward (v1.2.0) the cap is lifted: an evergreen niche with real
+  payment evidence is judged on that evidence.
+- **Persistent-market-failure candidates:** no discontinuity is required or invented.
+  The cap is lifted only by an evidence-backed persistence thesis showing BOTH
+  continued buyer pain or workaround despite the available alternatives AND a credible
+  mechanism explaining why the market has not adequately resolved the problem for the
+  specified segment. A weak, absent or speculative persistence thesis leaves the cap in
+  place. The thesis is not a scoring bonus and never upgrades a hard filter.
 
 ## Evidence levels
 

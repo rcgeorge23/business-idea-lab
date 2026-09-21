@@ -93,6 +93,31 @@ of the first run, so that the run exercises the real generation and kill path.
    weakened, and the next-run actions (non-regulatory source class, seed
    re-checks, `bikpayroll` scan) were recorded instead.
 
+## Regression checks under method 1.6.0 (2026-09-21, issue #8)
+
+1. **Archetype-aware missing-why-now cap.** The change-driven path is unchanged. The
+   persistent-market-failure path lifts the cap only on an evidence-backed persistence
+   thesis with both a continued-pain/workaround limb and a credible persistence
+   mechanism; it is not a scoring bonus and never upgrades a hard filter or a
+   non-capped dimension.
+2. **Killed fixtures remain rejected for the same reasons.** `shiftswap` (44.2),
+   `wonkybox` (36.8) and `grantscout` (55.8) were re-read against the new wording:
+   persistent scheduling, consumer food-waste and grant-hunting pain does not rescue
+   them, because their failures are unchanged hard-filter failures/vetoes
+   (`non_paid_distribution`, `defensible_wedge`, `no_network_effects_needed`,
+   `plausible_margins`, `not_all_optimistic`), not missing-why-now caps.
+3. **Aucly pre-launch re-read.** The 1.2.0-simulated assessment (49.5, parked at
+   `desk-screened`) remains internally consistent: a persistence thesis can now be
+   recorded in place of a discontinuity, but the limited pre-launch evidence still
+   leaves the score below threshold and the state unchanged. The rule was not tuned to
+   make Aucly pass; the historical assessment file is not rescored.
+4. **First sampled triage audit.** The v1.5 rejection O14 (UK/Lloyd's broker submission
+   re-keying) was re-checked cheaply and the rejection was upheld on demonstrated
+   incumbent occupation (deployed submission-automation vendors and AMS connectivity),
+   not on competitor existence alone. Recorded in
+   `observations/20260921T091851Z-normal.md` and
+   `retrospectives/2026-09-21-issue8-archetype-cap-regression.md`.
+
 ## Procedure
 
 1. Human owner triggers a normal run: `scripts/run.sh` (after reviewing a dry run with
@@ -119,8 +144,12 @@ Calibration is complete when:
       versioned and review-requested.
 
 All five criteria were met by 2026-09-21 (issue #6 response reconciliation; see the
-status table). Later method reviews (1.4.0 superseded, 1.5.0 requested) remain
-outstanding but do not block the calibration exit criteria.
+status table). Later method reviews are now reconciled too: 1.4.0 was **approved** on
+receipt of `reviews/2026-09-21-method-v1.4.0-chatgpt.md`; 1.5.0 was answered
+**`changes-requested`** (`reviews/2026-09-21-method-v1.5.0-chatgpt.md`) and method 1.6.0
+implements the requested changes with a new review requested (issue #8). The only
+outstanding reviews are the `wonkybox` kill-#15 false-negative audit and the method
+1.6.0 request; neither blocks the calibration exit criteria.
 
 ## Status
 
@@ -139,12 +168,14 @@ outstanding but do not block the calibration exit criteria.
 | Review backlog reconciliation (issue #5) | worker | done | 2026-09-21 | Seven open requests, no responses; nothing answered or superseded; `reviews/2026-09-21-review-queue-reconciliation.md` |
 | Experiment queue recommendations (issue #5) | worker | done | 2026-09-21 | `experiments/queue.md`; no approval-required experiment started |
 | Next-run sourcing rule proposal (issue #5) | worker | done | 2026-09-21 | Adopted as method 1.4.0 source-class budget after issue #6 Part 2 (`method/discovery.md`) |
-| Method 1.4.0 source-class budget (issue #6) | worker | done | 2026-09-21 | Discovery-only rule: ≥2/3 candidate slots non-regulatory, ≤1 regulation-derived, ≥1 previously underexplored non-regulatory class searched, no filler; no scoring change; review request `reviews/2026-09-21-method-v1.4.0-review-request.md` **requested, then superseded by method 1.5.0 before a response**; budget retained unchanged inside 1.5.0 |
+| Method 1.4.0 source-class budget (issue #6) | worker | done | 2026-09-21 | Discovery-only rule: ≥2/3 candidate slots non-regulatory, ≤1 regulation-derived, ≥1 previously underexplored non-regulatory class searched, no filler; no scoring change; review request `reviews/2026-09-21-method-v1.4.0-review-request.md` answered **`approved`** (`reviews/2026-09-21-method-v1.4.0-chatgpt.md`); budget retained unchanged inside 1.5.0 |
 | Post-change discovery run (issue #6) | worker | done | 2026-09-21 | `runs/20260921T085149Z-normal` (USD 0.015021, validator pass); budget met with 3/3 non-regulatory candidates, all killed on `defensible_wedge` (40.0/44.6/49.2); 0 advances; two source searches failed (HTTP 429) and are recorded |
 | Retrospective + tuning (issue #6) | worker | done | 2026-09-21 | `retrospectives/2026-09-21-issue6-convergence-review.md`; budget retained, third consecutive `defensible_wedge` cluster escalated to a human-led sourcing/framing review; filter explicitly not weakened |
 | ChatGPT review responses recorded | human + reviewer | done | 2026-09-21 | Six independent responses committed and reconciled (issue #6): GeoNerd v2, ShiftSwap audit, BiK audit, method v1.1.0/v1.2.0/v1.3.0 — all `approved`, caveats preserved in `reviews/2026-09-21-*-chatgpt-gpt-5.6-sol.md` |
 | Worker response to review | worker | done | 2026-09-21 | Issue #6 reconciliation: review status/history + request `## Resolution` blocks updated; no idea advanced on approval alone; no outcome reinterpreted as demand evidence |
-| Method 1.5.0 opportunity-observation funnel (issue #7) | worker | done | 2026-09-21 | Discovery-shape change: 15–20 observations → shallow triage → ≤3 full candidates; persistent-market-failure archetype with no forced why-now; funnel limits 40 lookups / 120 steps; no scoring change; review requested (`reviews/2026-09-21-method-v1.5.0-review-request.md`); 1.4.0 review superseded-while-requested and noted in the 1.4.0 request `## Resolution` |
+| Method 1.5.0 opportunity-observation funnel (issue #7) | worker | done | 2026-09-21 | Discovery-shape change: 15–20 observations → shallow triage → ≤3 full candidates; persistent-market-failure archetype with no forced why-now; funnel limits 40 lookups / 120 steps; no scoring change; review requested (`reviews/2026-09-21-method-v1.5.0-review-request.md`) and answered **`changes-requested`** (`reviews/2026-09-21-method-v1.5.0-chatgpt.md`); funnel retained, answered by method 1.6.0 |
 | Funnel discovery run (issue #7) | worker | done | 2026-09-21 | `runs/20260921T091851Z-normal` (USD 0.016822; validator pass); 20 observations (12 classes; 5 change-driven / 15 persistent), 18 rejected in shallow triage with reasons, 2 promoted (`vetlab-bridge` 47.4, `clinicdata-liberation` 49.5), both killed on `defensible_wedge`; 0 advances; budget met (2/2 non-regulatory); pool at `observations/20260921T091851Z-normal.md` |
 | Funnel retrospective (issue #7) | worker | done | 2026-09-21 | `retrospectives/2026-09-21-issue7-funnel-review.md`; funnel retained unchanged at 15–20 observations; breadth did not raise candidate quality on this run; third `defensible_wedge` cluster escalated to human-led sourcing review; filter not weakened |
 | False-negative audit (kill #15) | worker + reviewer | requested | 2026-09-21 | `wonkybox` sampled (oldest unaudited); worker self-audit upheld the kill; request `reviews/2026-09-21-false-negative-audit-request-wonkybox.md`; no reviewer response yet |
+| Method 1.6.0 review-findings fix (issue #8) | worker | done | 2026-09-21 | Archetype-aware missing-why-now cap (persistence thesis, two-part test), sampled triage false-negative audit (one rejection per funnel run), competitor-existence clarification; funnel and pool retained at 15–20; scoring, threshold 65, `defensible_wedge`, evidence levels and lifecycle gates unchanged; review requested (`reviews/2026-09-21-method-v1.6.0-review-request.md`) |
+| Method 1.6.0 regression + triage audit (issue #8) | worker | done | 2026-09-21 | Aucly pre-launch, `shiftswap`, `wonkybox`, `grantscout` re-read with nothing revived; first sampled triage audit O14 upheld on demonstrated incumbent occupation; recorded in `retrospectives/2026-09-21-issue8-archetype-cap-regression.md` and the v1.5 pool file |

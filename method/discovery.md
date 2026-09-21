@@ -88,12 +88,17 @@ dossier:
 
 - `changed` and `why_it_matters` must be non-empty and specific.
 - `evidence` must cite at least one dated source register entry or external URL.
-- A missing or unevidenced why-now does not auto-kill. For a candidate whose
-  evidence level is `Plausible` or `Promising` (pre-demand), it caps `differentiation`
-  and `problem_severity_frequency` at 2 (see `method/scorecard.md`) and is a strong
-  reason to reject a generic or crowded candidate at screening. The cap does not apply
-  once there is `Demand evidence` or better (v1.2.0): an evergreen niche with real
-  payment evidence is judged on that evidence, not on a missing discontinuity.
+- A missing or unevidenced why-now does not auto-kill. For a **change-driven**
+  candidate whose evidence level is `Plausible` or `Promising` (pre-demand), it caps
+  `differentiation` and `problem_severity_frequency` at 2 (see `method/scorecard.md`)
+  and is a strong reason to reject a generic or crowded candidate at screening. The cap
+  does not apply once there is `Demand evidence` or better (v1.2.0): an evergreen niche
+  with real payment evidence is judged on that evidence, not on a missing discontinuity.
+- **Persistent-market-failure candidates are not required to fabricate a
+  discontinuity (v1.6.0).** Instead they must carry an evidence-backed **persistence
+  thesis** answering "why has this problem remained inadequately solved despite
+  existing alternatives?". The cap is lifted only by the two-part requirement described
+  under `### Two discovery archetypes`.
 
 ## Novelty / incumbent sanity check
 
@@ -174,7 +179,9 @@ Discovery runs as a funnel, not as a search for three ideas:
 The funnel exists to search more of the opportunity space before committing research
 budget to a candidate. It changes the *shape of discovery only*: scoring, threshold,
 hard-filter semantics, evidence levels, lifecycle gates and the candidate/advancement
-maxima are unchanged. Observations are not scored and carry no evidence level.
+maxima are unchanged. Observations are not scored and carry no evidence level. The
+15–20 pool size is retained **provisionally** pending several empirical runs (v1.6.0);
+do not increase it.
 
 ### What counts as an observation
 
@@ -236,11 +243,40 @@ and acceptable answer, and it is itself triage evidence.
 
 A candidate promoted from archetype B still needs a `why_now` object in its index
 entry. Record `strength: "absent"` when there is no favourable discontinuity, and put
-the persistence rationale (or its absence) in `why_it_matters` and the decision
-record. The v1.2.0 cap on `differentiation` and `problem_severity_frequency` for
-missing/unevidenced why-now still applies unchanged at `Plausible`/`Promising`
-evidence levels; the cap lifts at `Demand evidence` or better. Do not manufacture a
-discontinuity to escape the cap, and do not expect this issue's funnel to lift it.
+the persistence thesis in `why_it_matters` and the decision record. Do not fabricate a
+discontinuity to escape the cap.
+
+**The missing-why-now cap is archetype-aware (v1.6.0).** The v1.2.0 cap on
+`differentiation` and `problem_severity_frequency` at `Plausible`/`Promising` continues
+to apply unchanged to **change-driven** candidates and lifts at `Demand evidence` or
+better. For a **persistent-market-failure** candidate the cap may be lifted only by an
+evidence-backed persistence thesis, and only where **both** of the following are
+supported by cited evidence:
+
+1. **Continued pain or workaround despite the alternatives.** The target buyer still
+   pays, waits, re-keys, reconciles or works around the problem even though the
+   alternatives named in the incumbent check exist and are reachable. Adequate
+   evidence includes: repeated recent practitioner/community complaints about the same
+   narrow workflow; a demonstrated manual workaround that persists despite incumbent
+   availability; pricing, minimum-contract or implementation economics that
+   systematically exclude the target segment; credible switching/data-access barriers
+   combined with continuing pain; or products that technically offer a feature the
+   target segment still cannot practically or economically use.
+2. **A credible persistence mechanism.** A present-tense, evidence-supported
+   explanation of *why* the market has not adequately resolved the problem for the
+   specified segment: incumbent architecture/channel constraints that make the narrow
+   job unattractive; vendor economics (minimum contract value, integration cost);
+   fragmentation of the buyer population; or a recent fall in the cost of building the
+   missing piece. Unsupported narratives such as "incumbents don't care about this
+   niche" or "the market is too small" are **not** sufficient.
+
+The persistence thesis is **not a scoring bonus**: it only allows the ordinary evidence
+to be scored without the missing-why-now cap. Where the persistence evidence is absent,
+weak or speculative, the cap stays. A persistence thesis never establishes
+`buyer_budget_clarity`, `evidence_strength`, distribution or wedge, and it never
+upgrades a hard filter: `defensible_wedge` still fails where credible incumbents
+adequately occupy the exact proposed seam for the defined buyer. The existence of
+competing products is not by itself adequate occupation - see `### Shallow triage`.
 
 ### Bias the sweep toward ugly persistent problems
 
@@ -265,9 +301,12 @@ pool should itself make source diversity visible; do not create a second quota.
 Every observation gets a cheap first-pass triage before any candidate is promoted.
 Triage eliminates observations where desk evidence already shows, for example:
 
-- the exact solution is a standard incumbent feature;
-- an authoritative/free alternative adequately solves the job;
-- many credible vendors already occupy the proposed seam;
+- the exact solution is a standard incumbent feature of products the target buyer
+  already owns or can readily adopt;
+- an authoritative/free alternative adequately solves the job for the target buyer
+  (technical availability to another, better-served segment does not count);
+- credible vendors demonstrably and adequately occupy the exact proposed seam for the
+  defined buyer/segment;
 - the problem is obviously one-shot with no attractive economics (unless a service
   business is intentionally being considered);
 - no plausible economic buyer exists;
@@ -275,10 +314,47 @@ Triage eliminates observations where desk evidence already shows, for example:
   meaningfully differentiated opportunity;
 - the apparent opportunity depends on network effects before value can be delivered.
 
+**Competitor existence is not wedge failure (v1.6.0).** The bare presence of named
+competitors is **not** sufficient grounds for triage rejection, and neither are vendor
+claims without evidence of demonstrated capability. Ask whether the alternatives
+actually leave a meaningful gap the proposition could win on - price, complexity,
+segment accessibility, an incomplete solution, or one-shot economics where a recurring
+need persists - and record the evidence either way. Enterprise availability is not the
+same as accessibility to a narrow target niche; a product feature is not the same as a
+complete solution. Where the evidence shows the seam is genuinely well served, triage
+rejects and records why. The `defensible_wedge` hard filter is unchanged and still
+fails where credible incumbents adequately occupy the exact seam.
+
 Triage is **not** a replacement for the hard filters; it is a cheap way to avoid
 spending full candidate-research effort on obvious dead ends. Record the negative
 evidence and the reason for every rejection. An observation that fails triage but
 contains an adjacent insight becomes a seed under `seeds/` rather than a candidate.
+
+#### Triage false-negative audit (v1.6.0)
+
+Triage makes most of the funnel's decisions, so every **normal funnel run** independently
+re-checks **exactly one triage-rejected observation** afterwards. This is a cheap
+sample, not a second triage pass:
+
+- **Selection favours promising/high-ambiguity rejections**, not a uniform random draw:
+  prefer an observation with relatively strong practitioner/problem evidence that was
+  rejected because an incumbent, free alternative or crowded field appeared to occupy
+  the seam. Record why it was selected.
+- **The audit tests whether triage confused:**
+  1. existence of competitors with adequate customer satisfaction;
+  2. a feature with a complete solution;
+  3. enterprise availability with accessibility to the target niche;
+  4. vendor claims with demonstrated capability;
+  5. one-shot migration/service availability with attractive recurring product
+     economics.
+- **Keep it cheap:** one observation and a bounded check roughly the cost of one
+  observation; no full candidate research, no re-opening every rejection.
+- **Record** in the run summary and the pool file: the observation selected; why it was
+  selected; the original triage reasoning; the additional evidence checked; whether the
+  rejection is upheld or overturned; and the implication for triage depth.
+- **A single overturn does not automatically change the method.** Repeated overturns are
+  a signal to review triage depth (and possibly sampling) in a later method review; note
+  the pattern rather than reacting to one case.
 
 ### Promotion
 
@@ -337,5 +413,10 @@ without resurrecting the killed idea:
 - A funnel run reports the observation pool: total observations, source-class
   distribution, change-driven vs persistent-market-failure split, the number rejected
   during shallow triage with the principal reasons, the observations promoted and why,
-  and the research cost / lookup usage where available. The pool itself is written to
+  the triage false-negative audit (see `### Shallow triage`), and the research cost /
+  lookup usage where available. The pool itself is written to
   `observations/<run-id>.md` and is never treated as scored evidence.
+- For every promoted persistent-market-failure candidate the decision record states
+  whether its persistence thesis is evidenced (`strong` | `weak` | `absent`) and which
+  two-part test it passed or failed; candidates that fail it score under the
+  missing-why-now cap.

@@ -2,7 +2,7 @@
 
 - **Run:** <run-id>
 - **Date:** <YYYY-MM-DD>
-- **Method version:** 1.5.0
+- **Method version:** 1.6.0
 - **Pool size:** <n> (target 15–20)
 - **Archetype mix:** change-driven <n> / persistent market failure <n>
 - **Source mix:** regulatory <n> / non-regulatory <n>
@@ -22,6 +22,22 @@ any candidate later promoted from them (see `method/discovery.md`).
 | ID | Promoted to candidate | Why it was promoted |
 | -- | --------------------- | ------------------- |
 |  |  |  |
+
+## Triage false-negative audit
+
+Exactly one rejected observation is re-checked per normal funnel run, preferring
+promising/high-ambiguity rejections (see `method/discovery.md`). Record it here and
+in the run summary: observation selected; why; original triage reasoning; additional
+evidence checked; upheld or overturned; implication for triage depth.
+
+| Field | Value |
+|---|---|
+| Observation selected | |
+| Why selected | |
+| Original triage reasoning | |
+| Additional evidence checked | |
+| Outcome | upheld / overturned |
+| Implication for triage depth | |
 
 ## Notes
 

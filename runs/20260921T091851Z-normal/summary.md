@@ -197,3 +197,24 @@ commitments made. Only experiment proposals exist, and they require human
 approval before execution. Files under `method/` were not edited (`method/VERSION`
 and other `method/` changes shown by `git status` are carry-over from the
 method's own 1.5.0 authoring work, not from this run).
+
+## Addendum: triage false-negative audit (added 2026-09-21, issue #8)
+
+Method 1.6.0 introduces a sampled triage false-negative audit, recorded in the run
+summary and the pool file. Because this run's summary is itself a frozen artefact,
+its first audit is recorded here as an addendum and in the pool file:
+
+- **Observation selected:** O14 (insurance broker submission re-keying), the
+  strongest high-ambiguity rejection, rejected for incumbent occupation.
+- **Additional evidence checked:** cheap re-check (3 searches) - Applied
+  Systems/Ivans 2026 connectivity survey (74% portal re-keying pain; 90% reduced
+  business over submission friction) and multiple vendors with demonstrated
+  deployments in the seam (CogniSure, Kalepa, Heron Data, Unitary and others);
+  the originally named incumbent (Ergini) was not re-verified and this is recorded.
+- **Outcome: upheld.** The rejection rests on demonstrated occupation of the seam,
+  not on the existence of competitors.
+- **Implication:** no change to triage depth.
+
+Full detail:
+`retrospectives/2026-09-21-issue8-archetype-cap-regression.md`; audit entry in
+`observations/20260921T091851Z-normal.md`.

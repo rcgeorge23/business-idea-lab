@@ -102,3 +102,13 @@ software).
   versions; 1 kill-audit due - the audit request above is the response).
 - No external/approval-required experiment was run; `reasonable-steps-willingness`
   remains deferred (proposed, unapproved).
+
+## Reconciliation note (added 2026-09-21, issue #8)
+
+- Corrected review state: an independent response to the v1.4.0 request was
+  subsequently received (`reviews/2026-09-21-method-v1.4.0-chatgpt.md`) and
+  **approved** v1.4.0; it was not left unresolved. Method 1.5.0 superseded v1.4.0,
+  and the v1.5.0 request was answered **`changes-requested`**
+  (`reviews/2026-09-21-method-v1.5.0-chatgpt.md`). Method 1.6.0 implements the
+  requested changes. This note corrects only the review bookkeeping; the run
+  results, evidence and verdict above are unchanged.

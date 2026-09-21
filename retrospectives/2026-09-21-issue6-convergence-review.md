@@ -98,3 +98,13 @@ unsearched in the previous two runs.
   budget (1.4.0), which remains `requested` for independent review.
 - Repo validation passes with 6 explained warnings (historical runs under
   methods 1.0.0-1.3.0; no false-negative audit is currently due).
+
+## Reconciliation note (added 2026-09-21, issue #8)
+
+- The pending v1.4.0 review referred to above was subsequently answered: the
+  independent response `reviews/2026-09-21-method-v1.4.0-chatgpt.md` **approved**
+  v1.4.0 (source-class budget retained as a discovery-only experiment; no quota
+  gaming found). Method 1.5.0 then superseded v1.4.0, and the v1.5.0 request was
+  answered `changes-requested` (`reviews/2026-09-21-method-v1.5.0-chatgpt.md`);
+  method 1.6.0 implements the requested changes. Bookkeeping only - the run
+  results and findings above are unchanged.

@@ -44,16 +44,23 @@ shallowly re-check the most promising unexplored seeds, then run the
 **opportunity-observation funnel** — sweep 15-20 materially distinct observations into
 `observations/<run-id>.md` (mixing change-driven opportunities with evidenced
 "why now?" and persistent market failures answering "why does this problem still
-persist despite existing alternatives?"), bias the sweep toward poor/expensive narrow
-incumbent software, manual re-keying workflows and awkward integrations, seek
-practitioner/community evidence, shallow-triage every observation with recorded
-negative evidence, and promote at most 3 candidates (zero, one or two are valid —
+persist despite existing alternatives?" — where an evidence-backed persistence thesis
+meeting BOTH limbs of the test in `method/discovery.md` is what may lift the
+missing-why-now cap, never a bare claim of evergreen pain), bias the sweep toward
+poor/expensive narrow incumbent software, manual re-keying workflows and awkward
+integrations, seek practitioner/community evidence, shallow-triage every observation
+with recorded negative evidence (never treating competitor existence alone as wedge
+failure), re-check exactly one promising/high-ambiguity triage rejection as the
+sampled false-negative audit and record it in the pool file and run summary, and
+promote at most 3 candidates (zero, one or two are valid —
 never manufacture filler). Observations are cheap: no scorecard, dossier or evidence
 level; surviving triage confers no inherited positive evidence, and each promoted
 candidate's decision record must name its originating observation ID. For promoted
-candidates, hunt discontinuities where change-driven, look for second-order
-operational seams (re-keying, handoffs, reconciliation, exception handling,
-integration gaps) and prefer them to generic compliance/dashboard products, record an
+candidates, hunt discontinuities where change-driven, record the candidate's
+archetype and — for persistent candidates — the two-part persistence thesis result
+(`strong` | `weak` | `absent`), look for second-order operational seams (re-keying,
+handoffs, reconciliation, exception handling, integration gaps) and prefer them to
+generic compliance/dashboard products, record an
 evidenced "why now?" and each candidate's provenance (`seed:<slug>` or `fresh`), run
 the novelty/incumbent sanity check, and record which source classes you searched.
 Apply the source-class budget: at least 2 of the 3 candidate slots must come

@@ -23,6 +23,17 @@
 - Why this materially improves the opportunity now:
 - Have competitors already responded?
 - Strength: `strong` | `weak` | `absent`
+- Archetype: `change-driven` | `persistent market failure`
+
+For persistent-market-failure candidates, record the persistence thesis (it lifts the
+missing-why-now cap only when both limbs are affirmatively evidenced - see
+`method/discovery.md`):
+
+- Continued pain or workaround despite alternatives that exist and are reachable for
+  this buyer:
+- Credible mechanism explaining why the market has not adequately resolved the problem
+  for this segment:
+- Persistence thesis quality: `strong` | `weak` | `absent`
 
 ## Buyer
 

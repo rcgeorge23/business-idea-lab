@@ -107,3 +107,17 @@ and reconciled into the repository's current state:
 and no idea was advanced on the strength of a reviewer verdict. Dissent and
 caveats are preserved in the response files and in the affected
 `review.history` entries.
+
+## Later method reviews (added 2026-09-21, issue #8)
+
+The method requests raised after this reconciliation were also answered:
+
+| Request | Outcome | Response file |
+| - | - | - |
+| Method v1.4.0 (source-class budget) | `approved` — budget retained as a discovery-only experiment; no quota gaming; do not tighten | `2026-09-21-method-v1.4.0-chatgpt.md` |
+| Method v1.5.0 (observation funnel) | `changes-requested` — funnel retained; archetype-aware missing-why-now cap and sampled triage false-negative audit required; threshold/filter/evidence semantics unchanged | `2026-09-21-method-v1.5.0-chatgpt.md` |
+
+Method 1.6.0 implements the requested changes and carries
+`reviews/2026-09-21-method-v1.6.0-review-request.md`. The only outstanding reviews
+under the method track are that request and the `wonkybox` kill-#15 false-negative
+audit request.

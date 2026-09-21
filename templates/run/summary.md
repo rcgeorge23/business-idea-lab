@@ -3,7 +3,7 @@
 - **Mode:** normal | dry-run | smoke
 - **Started / finished:** ISO-8601
 - **Agent / model:** idea-worker / opencode-go/deepseek-v4.1-flash
-- **Method version:** 1.5.0
+- **Method version:** 1.6.0
 - **Input / output revision:** `<sha>` / `<sha or 'uncommitted'>`
 - **Status:** success | failed | invalid-output | over-budget
 
@@ -27,6 +27,26 @@
 **Pool file:** `observations/<run-id>.md`. Observations carry no score,
 confidence or evidence level, and triage survival confers no inherited
 positive evidence on a promoted candidate.
+
+## Triage false-negative audit
+
+Exactly one triage-rejected observation is re-checked each normal funnel run,
+preferring promising/high-ambiguity rejections (relatively strong practitioner or
+problem evidence, rejected because an incumbent/free alternative appeared to occupy
+the seam). Keep it cheap - roughly the cost of one observation - and record:
+
+| Field | Value |
+|---|---|
+| Observation selected | |
+| Why selected (vs other rejections) | |
+| Original triage reasoning | |
+| Additional evidence checked | |
+| Confusion tests: existence vs satisfaction / feature vs solution / enterprise vs niche / claims vs capability / one-shot vs recurring | |
+| Outcome | upheld / overturned |
+| Implication for triage depth | |
+
+A single overturn changes nothing; repeated overturns are a trigger to review triage
+depth. The audit is also recorded in the pool file.
 
 ## Source classes searched
 
@@ -56,8 +76,12 @@ why, and why no filler candidates were manufactured]
 
 ## Why-now quality
 
-| Candidate | Why now (one line) | Strength | Competitors responded |
-|---|---|---|---|
+For every promoted persistent-market-failure candidate, state whether the two-part
+persistence thesis is evidenced (`strong` | `weak` | `absent`) and which limb of the
+test passed or failed (see `method/discovery.md`).
+
+| Candidate | Archetype | Why now (one line) | Strength | Persistence thesis | Competitors responded |
+|---|---|---|---|---|---|
 
 ## Candidate provenance
 

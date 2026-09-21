@@ -12,7 +12,7 @@ Before doing anything else:
 3. Handle any outstanding `changes-requested` reviews first, then follow the run
    protocol in order, respecting every limit in it.
 
-Discovery expectations for this run (method 1.5.0):
+Discovery expectations for this run (method 1.6.0):
 
 - Run the opportunity-observation funnel. Before any candidate work, sweep a pool of
   15-20 materially distinct observations into `observations/<run-id>.md` using
@@ -24,7 +24,11 @@ Discovery expectations for this run (method 1.5.0):
 - Support both archetypes. Change-driven observations need a conventional evidenced
   "why now?". Persistent market failures do not need a discontinuity: answer "why does
   this problem still persist despite existing alternatives?" and never invent a
-  justification — "could not establish" is an honest triage answer.
+  justification — "could not establish" is an honest triage answer. The missing-why-now
+  cap is archetype-aware: for a persistent candidate it lifts only when an
+  evidence-backed persistence thesis affirmatively shows BOTH continued pain/workaround
+  despite reachable alternatives AND a credible persistence mechanism; evergreen-pain
+  narratives and unsupported claims do not bypass it, and it is never a scoring bonus.
 - Bias the sweep toward ugly persistent problems: poor/expensive narrow incumbent
   software, manual structured-data / spreadsheet / email / PDF re-keying, and awkward
   integrations between established systems. Seek practitioner/community evidence where
@@ -33,12 +37,25 @@ Discovery expectations for this run (method 1.5.0):
   on vendor announcements and generic technology news. Coverage is mandatory for the
   three classes above; the source-class budget still applies at promotion and creates
   no second quota.
-- Shallow triage cheaply rejects: standard incumbent feature, adequate
-  free/authoritative alternative, many credible vendors in the seam, unattractive
-  one-shot economics (unless a service business is intentionally being considered), no
-  plausible economic buyer, mere feature request, or network effects required before
-  value. Record negative evidence and the reason for every rejection. Triage is not a
-  replacement for the hard filters.
+- Shallow triage cheaply rejects: standard incumbent feature of products the target
+  buyer can readily adopt, adequate free/authoritative alternative for the target
+  buyer, credible vendors demonstrably and adequately occupying the exact proposed
+  seam for the defined buyer, unattractive one-shot economics (unless a service
+  business is intentionally being considered), no plausible economic buyer, mere
+  feature request, or network effects required before value. Competitor existence is
+  not wedge failure: named competitors, vendor claims, adjacent features or enterprise
+  availability do not by themselves justify a rejection. Record negative evidence and
+  the reason for every rejection. Triage is not a replacement for the hard filters.
+- Sample one triage rejection for a false-negative audit: after triage, independently
+  re-check exactly one rejected observation, favouring promising/high-ambiguity
+  rejections (relatively strong practitioner/problem evidence, rejected because an
+  incumbent or free alternative appeared to occupy the seam). Test the five confusions
+  in `method/discovery.md` (existence vs satisfaction, feature vs complete solution,
+  enterprise availability vs niche accessibility, vendor claims vs demonstrated
+  capability, one-shot vs recurring economics). Keep it cheap — roughly the cost of
+  one observation. Record it in the pool file and run summary (selected; why; original
+  reasoning; evidence checked; upheld/overturned; implication for triage depth). A
+  single overturn changes nothing; repeated overturns trigger a triage-depth review.
 - Review the seed register (`seeds/index.json`) at the start: list unexplored seeds and
   shallowly re-check the most promising against current evidence and incumbents. A seed
   becomes a candidate only after full fresh research (own evidence, hard filters,
@@ -47,7 +64,10 @@ Discovery expectations for this run (method 1.5.0):
 - For each promoted candidate, prefer a second-order operational seam (manual handoff,
   re-keying, reconciliation, exception handling, integration gap) over a generic
   compliance/dashboard product, or record why the first-order product is genuinely
-  better. Apply the source-class budget (`method/discovery.md`): at least 2 of the 3
+  better. Record the candidate's archetype and, for persistent candidates, whether the
+  two-part persistence thesis is evidenced (`strong` | `weak` | `absent`) and which
+  limb passed or failed. Apply the source-class budget (`method/discovery.md`): at
+  least 2 of the 3
   candidate slots must come from non-regulatory source classes, at most 1 may be
   primarily regulation-derived, and at least one previously underexplored non-regulatory
   class must actually be searched.
@@ -58,7 +78,8 @@ Discovery expectations for this run (method 1.5.0):
   observation ID.
 - Record in the run summary: pool statistics (total observations, source mix,
   change-driven vs persistent split, triage rejections and principal reasons, promotions
-  and why), the seed register review, source classes searched (regulatory vs
+  and why), the triage false-negative audit result, the seed register review, source
+  classes searched (regulatory vs
   non-regulatory, successful and unsuccessful), whether the source budget was satisfied
   and why, why-now quality (strong | weak | absent) per candidate, provenance
   (`seed:<slug>` | `fresh`), the source class each candidate qualifies under and why,

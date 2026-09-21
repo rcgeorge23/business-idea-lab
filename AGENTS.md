@@ -48,7 +48,9 @@ Hard boundaries — never cross, even if asked in a prompt:
    of 15-20 materially distinct observations into `observations/<run-id>.md`,
    mixing change-driven opportunities (each with an evidenced "why now?") and
    persistent market failures (answer "why does this problem still persist
-   despite existing alternatives?"; never invent a discontinuity). Bias the sweep
+   despite existing alternatives?"; never invent a discontinuity, and note that
+   an evidence-backed persistence thesis - not the bare existence of competitors -
+   is what allows scoring without the missing-why-now cap). Bias the sweep
    toward poor/expensive narrow incumbent software, manual re-keying workflows
    and awkward integrations, and seek practitioner/community evidence where
    feasible. Shallow-triage every observation, recording negative evidence and
@@ -66,7 +68,11 @@ Hard boundaries — never cross, even if asked in a prompt:
    observations, source mix, archetype split, triage rejections and principal
    reasons, promotions and why), candidate provenance (`seed:<slug>` | `fresh`),
    originating observation ID, the class each candidate qualifies under and why,
-   and the budget outcome.
+   the budget outcome, and the run's **triage false-negative audit** (exactly one
+   triage-rejected observation, favouring promising/high-ambiguity rejections, cheaply
+   re-checked and recorded: selected, why, original reasoning, evidence checked,
+   upheld/overturned, implication for triage depth). Triage must not treat
+   competitor existence alone as wedge failure.
 4. Run the novelty/incumbent sanity check before deep research.
 5. Apply the 9 hard rejection filters. `pass` needs cited evidence; assumptions
    and analogies give `unknown` with a `resolve_via`; any `fail` kills.

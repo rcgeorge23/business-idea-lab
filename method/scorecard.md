@@ -41,8 +41,21 @@ Hard caps that must be applied and stated in the rationale:
 - direct incumbent already contests the wedge: `differentiation <= 2`;
 - distribution channels plausible but no prospects produced: `distribution <= 2`;
 - problem asserted by analogy: `problem_severity_frequency <= 2`;
+- missing or unevidenced why-now at `Plausible`/`Promising`: `differentiation <= 2` and
+  `problem_severity_frequency <= 2`. The cap is **archetype-aware (v1.6.0)**: it applies
+  unchanged to change-driven candidates; for persistent-market-failure candidates it is
+  lifted only by an evidence-backed persistence thesis meeting BOTH parts of the test in
+  `method/discovery.md` (continued pain/workaround despite alternatives AND a credible
+  persistence mechanism). A weak, absent or speculative persistence thesis leaves the
+  cap in place; the thesis is not a scoring bonus;
 - the wedge is a feature of an established category, not a product: the candidate fails
   the `defensible_wedge` hard filter (not just a score reduction).
+
+Competitor existence is not adequate occupation. `differentiation <= 2` and a
+`defensible_wedge` failure both require evidence that a credible alternative actually
+occupies the exact proposed seam for the defined buyer - not merely that competing
+products exist, are advertised, or ship an adjacent feature. Where such evidence exists,
+the cap and the hard filter apply exactly as before.
 
 No-score rule: `null` when no evidence exists for the dimension. A score is never
 inferred from another dimension's evidence, and a score is never raised because a

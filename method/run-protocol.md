@@ -36,23 +36,47 @@ be reviewed by the human owner before keeping them.
    `method/discovery.md` funnel:
    - **3.1 Observation sweep.** Build a pool of 15-20 materially distinct opportunity
      observations, recorded in `observations/<run-id>.md` from
-     `templates/observation/pool.md`. Cover both archetypes: change-driven (conventional
+     `templates/observation/pool.md`. The 15-20 pool size is retained provisionally
+     (v1.6.0); do not increase it. Cover both archetypes: change-driven (conventional
      evidenced why-now) and persistent market failure (no forced discontinuity; answer
-     "why does this problem still persist despite existing alternatives?"). Deliberately
-     search poor/expensive narrow incumbent software, manual structured-data/re-keying
-     workflows and awkward integrations between established systems, and seek
-     practitioner/community evidence where feasible. Observations are cheap: no
-     scorecard, dossier or evidence level.
+     "why does this problem still persist despite existing alternatives?" - never invent
+     a discontinuity, and note that an evidence-backed persistence thesis, not the bare
+     existence of competitors, is what allows scoring without the missing-why-now cap).
+     Deliberately search poor/expensive narrow incumbent software, manual
+     structured-data/re-keying workflows and awkward integrations between established
+     systems, and seek practitioner/community evidence where feasible. Observations are
+     cheap: no scorecard, dossier or evidence level.
    - **3.2 Shallow triage.** Reject observations cheaply where desk evidence already
-     shows a standard incumbent feature, an adequate free/authoritative alternative,
-     many credible vendors in the seam, unattractive one-shot economics, no plausible
-     buyer, a mere feature request or a network-effects dependency. Record the negative
-     evidence and reason for every rejection.
+     shows a standard incumbent feature of products the target buyer can readily adopt,
+     an adequate free/authoritative alternative for the target buyer, credible vendors
+     demonstrably and adequately occupying the exact proposed seam, unattractive one-shot
+     economics, no plausible buyer, a mere feature request or a network-effects
+     dependency. Competitor existence is **not** wedge failure: named competitors, vendor
+     claims, adjacent features or enterprise availability do not by themselves justify a
+     rejection - the evidence must show the seam is genuinely well served for the defined
+     buyer, or record why the gap is real. Record the negative evidence and reason for
+     every rejection.
    - **3.3 Promotion.** Select at most 3 observations for full candidate treatment using
      the strongest combination of credible problem evidence, identifiable buyer,
      plausible payment route, a real gap left by alternatives, cheap falsification and
      fit for a small bootstrapped business. Zero, one or two promotions are valid; never
-     manufacture candidates to fill slots.
+     manufacture candidates to fill slots. For a promoted persistent-market-failure
+     candidate, apply the two-part persistence thesis from `method/discovery.md`
+     (continued pain/workaround despite alternatives AND a credible persistence
+     mechanism); a weak, absent or speculative thesis leaves the missing-why-now cap in
+     place. The thesis is not a scoring bonus and never upgrades a hard filter.
+   - **3.4 Triage false-negative audit.** After triage, independently re-check **exactly
+     one** triage-rejected observation, favouring a promising/high-ambiguity rejection
+     (relatively strong practitioner/problem evidence, rejected because an incumbent,
+     free alternative or crowded field appeared to occupy the seam). Apply the five
+     confusion tests in `method/discovery.md` (competitor existence vs adequate
+     satisfaction; feature vs complete solution; enterprise availability vs niche
+     accessibility; vendor claims vs demonstrated capability; one-shot service vs
+     recurring product economics). Keep it cheap - roughly the cost of one observation,
+     no full candidate research. Record in the pool file and run summary: observation
+     selected, why selected, original triage reasoning, additional evidence checked,
+     rejection upheld or overturned, and the implication for triage depth. A single
+     overturn does not automatically change the method.
    For each promoted candidate: run the discontinuity test where the why-now is
    change-driven ("This was not an attractive business three years ago, but it might be
    now because ___ changed."), apply the duplicate detection rules in
@@ -118,11 +142,15 @@ be reviewed by the human owner before keeping them.
     what failed, what needs human input, limits hit, the funnel statistics (total
     observations, source-class distribution, change-driven vs persistent split, number
     rejected in shallow triage with principal reasons, observations promoted and why,
-    research cost / lookup usage), the source classes searched
+    research cost / lookup usage), the triage false-negative audit (selected
+    observation, why, original reasoning, evidence checked, upheld/overturned,
+    implication for triage depth), the source classes searched
     (regulatory vs non-regulatory, successful and unsuccessful), the source-budget
     outcome (quota met or not, and why), the why-now quality of generated candidates,
     each candidate's provenance (`seed:<slug>` or `fresh`), source class and
-    second-order seam, whether discovery is converging on less obvious opportunities or
+    second-order seam (and, for persistent-market-failure candidates, whether the
+    persistence thesis is evidenced and which two-part test passed or failed), whether
+    discovery is converging on less obvious opportunities or
     repeating one class of rejection, and the review queue after the run. Update
     `ideas/index.json` counters and `experiments/index.json`. Do not commit.
 
@@ -173,7 +201,7 @@ Every run writes `runs/<run-id>/run.json`:
   "finished_at": "ISO-8601",
   "agent": "idea-worker",
   "model": "opencode-go/deepseek-v4.1-flash",
-  "method_version": "1.5.0",
+  "method_version": "1.6.0",
   "input_revision": "git sha or 'none'",
   "output_revision": "git sha or 'none (uncommitted)'",
   "attempts": 1,

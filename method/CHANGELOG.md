@@ -4,6 +4,65 @@ Every material change to the method bumps `method/VERSION` and is listed here wi
 review status. Review status values: `not-required` | `requested` | `changes-requested` |
 `approved` | `killed`. See `method/review-policy.md` (section "Method changes").
 
+## 1.6.0 - 2026-09-21
+
+Motivated by issue #8, implementing the independent review findings on 1.5.0
+(`reviews/2026-09-21-method-v1.5.0-chatgpt.md`, verdict `changes-requested`) before any
+further normal discovery run. The 15-20 observation funnel is retained; the review found
+two defects and one framing risk, and this version corrects them without touching
+scoring, threshold 65, hard-filter semantics, `defensible_wedge`, evidence levels or
+lifecycle gates.
+
+Changed:
+
+- **`method/discovery.md`, `method/scorecard.md`, `method/lifecycle.md`**: the
+  missing/unevidenced why-now cap is now **archetype-aware (v1.6.0)**. Change-driven
+  candidates keep the 1.2.0 behaviour unchanged. Persistent-market-failure candidates no
+  longer need a fabricated discontinuity: the cap lifts only when an evidence-backed
+  **persistence thesis** satisfies BOTH (a) continued buyer pain / cost / workaround
+  despite available and reachable alternatives, and (b) a credible present-tense
+  mechanism explaining why the market has not adequately resolved the problem for the
+  specified segment. A weak, absent or speculative thesis leaves the cap in place; the
+  thesis is not a scoring bonus and unsupported "evergreen pain" narratives do not
+  bypass it.
+- **`method/discovery.md`, `method/run-protocol.md`**: triage must not equate competitor
+  existence with adequate occupation. The `defensible_wedge` filter is unchanged and
+  still fails where credible incumbents demonstrably occupy the exact proposed seam for
+  the defined buyer.
+- **`method/discovery.md`, `method/run-protocol.md` (new step 3.4), templates and
+  prompts**: every normal funnel run performs a cheap **sampled triage false-negative
+  audit** - exactly one triage-rejected observation, favouring promising/high-ambiguity
+  rejections (relatively strong practitioner/problem evidence rejected because an
+  incumbent or free alternative appeared to occupy the seam), re-checked against five
+  confusion tests: competitor existence vs adequate satisfaction; feature vs complete
+  solution; enterprise availability vs niche accessibility; vendor claims vs
+  demonstrated capability; one-shot service/migration vs recurring product economics.
+  The record (observation selected, why, original reasoning, evidence checked,
+  rejection upheld or overturned, implication for triage depth) goes in the run summary
+  and the pool file. A single overturn does not change the method; repeated overturns
+  trigger a later review of triage depth.
+- **`templates/run/summary.md`**, **`templates/observation/pool.md`**,
+  **`templates/idea/dossier.md`**, **`templates/idea/decision.md`**: record the triage
+  audit, the candidate archetype and the persistence-thesis two-part result. The
+  observation pool stays 15-20, retained provisionally pending several empirical runs.
+- `AGENTS.md`, `scripts/prompts/lab-run.md` and `.opencode/agent/idea-worker.md` state
+  the archetype-aware cap, the competitor-existence clarification and the audit.
+
+Regression (issue #8): Aucly pre-launch, `shiftswap`, `wonkybox` and `grantscout` were
+re-evaluated; see `retrospectives/2026-09-21-issue8-archetype-cap-regression.md`.
+Nothing was revived. Aucly's persistence thesis is recognised without manufacturing a
+discontinuity and without inflating its limited pre-launch evidence (49.5, still parked
+at `desk-screened`); the three killed fixtures remain killed on unchanged filter
+failures - the mechanism never rescues persistent pain where the wedge is occupied,
+network effects are required or category margins are hostile. The v1.5 triage rejection
+O14 (insurance broker submission re-keying) was re-checked as the first sampled audit;
+the rejection was upheld on demonstrated incumbent occupation, not on mere competitor
+existence.
+
+Review: `requested` - see `reviews/2026-09-21-method-v1.6.0-review-request.md`. This
+version answers the `changes-requested` 1.5.0 review recorded below; the 1.4.0 review is
+recorded as `approved` in its entry below.
+
 ## 1.5.0 - 2026-09-21
 
 Motivated by issue #7: the source-class budget worked (the 1.4.0 run produced three
@@ -45,8 +104,12 @@ reasons; parked ideas remain parked. The empirical check is the post-change run
 required by issue #7, whose assessment is recorded in
 `retrospectives/2026-09-21-issue7-funnel-review.md`.
 
-Review: `requested` - see `reviews/2026-09-21-method-v1.5.0-review-request.md`. Update
-this entry with the outcome when the review lands and answer it in the next run.
+Review: **`changes-requested`** - response received 2026-09-21 in
+`reviews/2026-09-21-method-v1.5.0-chatgpt.md` (funnel retained; archetype-aware
+missing-why-now cap and a sampled triage false-negative audit required; threshold 65,
+`defensible_wedge` and evidence standards to stay unchanged). Answered by method 1.6.0,
+which implements the requested changes; the response file is never superseded or
+rewritten.
 
 ## 1.4.0 - 2026-09-21
 
@@ -81,11 +144,13 @@ rejected for their recorded reasons; parked ideas remain parked. The empirical c
 the post-change run required by issue #6, whose convergence assessment is recorded in
 `retrospectives/2026-09-21-issue6-convergence-review.md`.
 
-Review: `requested`, then **superseded by method 1.5.0 on 2026-09-21 before a
-response was received** - see `reviews/2026-09-21-method-v1.4.0-review-request.md`.
-The 1.4.0 source-class budget is retained unchanged inside 1.5.0, so a reviewer may
-answer the two versions cumulatively; this entry must be updated with the outcome when
-the review lands.
+Review: **`approved`** - independent response received 2026-09-21 in
+`reviews/2026-09-21-method-v1.4.0-chatgpt.md` (budget retained as a discovery-only
+experiment; no quota gaming found; do not tighten). Method 1.5.0 superseded this version;
+the response to the 1.4.0 request arrived afterwards and approved it. The earlier note
+here that the request had been superseded "before a response was received" was stale and
+is corrected under issue #8; see the `## Resolution` block in
+`reviews/2026-09-21-method-v1.4.0-review-request.md`.
 
 ## 1.3.0 - 2026-09-21
 
