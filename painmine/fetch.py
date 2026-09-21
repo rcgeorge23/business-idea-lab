@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 import os
+import socket
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -29,45 +30,141 @@ USER_AGENT = (
 ENABLED_SOURCES = ("hn_algolia", "stack_exchange", "github_issues", "reddit_public_json")
 
 
+RETRYABLE_HTTP_STATUS = (429, 500, 502, 503, 504)
+
+
+def _retryable_exception(exc: Exception) -> bool:
+    """Transient transport failures only; never retry programming errors."""
+    return isinstance(exc, (urllib.error.URLError, TimeoutError, socket.timeout, ConnectionError))
+
+
+def _error_kind(exc: Exception) -> str:
+    if isinstance(exc, (TimeoutError, socket.timeout)):
+        return "timeout"
+    return "transport_error"
+
+
 def http_get_json(
     url: str, budget: Budget, headers: dict[str, str] | None = None
 ) -> tuple[Any | None, dict]:
-    """GET a public JSON document. Returns (data, status) and never raises."""
+    """GET a public JSON document. Returns (data, status) and never raises.
+
+    Every actual network request is metered through ``Budget``. Transient
+    failures (timeouts, transport errors, HTTP 429/5xx) are retried up to
+    ``budget.max_retries`` times; each retry is metered and counted separately.
+    Status counters are explicit so reports can reconcile: ``http_requests``
+    (attempts made), ``http_responses`` (responses received, including HTTP
+    error responses), ``retries``, ``attempted`` and ``error_kind``.
+    """
     if not budget.can_fetch():
-        return None, {"ok": False, "url": url, "error": f"budget stopped: {budget.stop_reason or 'limit reached'}"}
+        return None, {
+            "ok": False,
+            "url": url,
+            "error": f"budget stopped: {budget.stop_reason or 'limit reached'}",
+            "error_kind": "budget_prevented",
+            "attempted": False,
+            "http_requests": 0,
+            "http_responses": 0,
+            "retries": 0,
+        }
     merged = {"User-Agent": USER_AGENT, "Accept": "application/json"}
     if headers:
         merged.update(headers)
     request = urllib.request.Request(url, headers=merged)
-    budget.sleep_between_requests()
-    try:
-        budget.record_request()
-    except BudgetExceeded as exc:
-        return None, {"ok": False, "url": url, "error": str(exc)}
-    try:
-        with urllib.request.urlopen(request, timeout=budget.request_timeout) as response:
-            raw = response.read().decode("utf-8", "replace")
-            status_code = response.status
-    except urllib.error.HTTPError as exc:
-        body = ""
+    max_attempts = 1 + max(0, budget.max_retries)
+    http_requests = 0
+    http_responses = 0
+    retries = 0
+    last_status: dict = {}
+    for attempt in range(max_attempts):
+        budget.sleep_between_requests()
         try:
-            body = exc.read().decode("utf-8", "replace")[:300]
-        except Exception:  # pragma: no cover - defensive
-            pass
-        return None, {
-            "ok": False,
+            budget.record_request()
+        except BudgetExceeded as exc:
+            return None, {
+                "ok": False,
+                "url": url,
+                "error": str(exc),
+                "error_kind": "budget_prevented",
+                "attempted": http_requests > 0,
+                "http_requests": http_requests,
+                "http_responses": http_responses,
+                "retries": retries,
+            }
+        http_requests += 1
+        try:
+            with urllib.request.urlopen(request, timeout=budget.request_timeout) as response:
+                raw = response.read().decode("utf-8", "replace")
+                status_code = response.status
+            http_responses += 1
+            budget.record_response()
+        except urllib.error.HTTPError as exc:
+            http_responses += 1
+            budget.record_response()
+            body = ""
+            try:
+                body = exc.read().decode("utf-8", "replace")[:300]
+            except Exception:  # pragma: no cover - defensive
+                pass
+            last_status = {
+                "ok": False,
+                "url": url,
+                "http_status": exc.code,
+                "error": f"HTTP {exc.code}",
+                "error_kind": "http_error",
+                "body_excerpt": body,
+                "attempted": True,
+                "http_requests": http_requests,
+                "http_responses": http_responses,
+                "retries": retries,
+            }
+            if exc.code in RETRYABLE_HTTP_STATUS and attempt + 1 < max_attempts and budget.can_fetch():
+                retries += 1
+                budget.record_retry()
+                continue
+            return None, last_status
+        except Exception as exc:  # noqa: BLE001 - access failures must be recorded, not raised
+            last_status = {
+                "ok": False,
+                "url": url,
+                "error": f"{type(exc).__name__}: {exc}",
+                "error_kind": _error_kind(exc),
+                "attempted": True,
+                "http_requests": http_requests,
+                "http_responses": http_responses,
+                "retries": retries,
+            }
+            if _retryable_exception(exc) and attempt + 1 < max_attempts and budget.can_fetch():
+                retries += 1
+                budget.record_retry()
+                continue
+            return None, last_status
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError as exc:
+            return None, {
+                "ok": False,
+                "url": url,
+                "http_status": status_code,
+                "error": f"invalid JSON: {exc}",
+                "error_kind": "invalid_json",
+                "attempted": True,
+                "http_requests": http_requests,
+                "http_responses": http_responses,
+                "retries": retries,
+            }
+        return data, {
+            "ok": True,
             "url": url,
-            "http_status": exc.code,
-            "error": f"HTTP {exc.code}",
-            "body_excerpt": body,
+            "http_status": status_code,
+            "bytes": len(raw),
+            "error_kind": None,
+            "attempted": True,
+            "http_requests": http_requests,
+            "http_responses": http_responses,
+            "retries": retries,
         }
-    except Exception as exc:  # noqa: BLE001 - access failures must be recorded, not raised
-        return None, {"ok": False, "url": url, "error": f"{type(exc).__name__}: {exc}"}
-    try:
-        data = json.loads(raw)
-    except json.JSONDecodeError as exc:
-        return None, {"ok": False, "url": url, "http_status": status_code, "error": f"invalid JSON: {exc}"}
-    return data, {"ok": True, "url": url, "http_status": status_code, "bytes": len(raw)}
+    return None, last_status
 
 
 def _raw_item(
@@ -340,64 +437,144 @@ def collect(
         collector = COLLECTORS.get(source_id)
         if collector is None:
             statuses.append(
-                {"source_id": source_id, "ok": False, "error": "collector not implemented", "items": 0}
+                {
+                    "source_id": source_id,
+                    "ok": False,
+                    "error": "collector not implemented",
+                    "error_kind": "collector_missing",
+                    "attempted": False,
+                    "http_requests": 0,
+                    "http_responses": 0,
+                    "retries": 0,
+                    "items_returned": 0,
+                    "items_accepted": 0,
+                }
             )
             continue
         options = source_options.get(source_id) or {}
         for index, query in enumerate(queries):
+            base = {
+                "source_id": source_id,
+                "query": query,
+                "attempted": False,
+                "http_requests": 0,
+                "http_responses": 0,
+                "retries": 0,
+                "items_returned": 0,
+                "items_accepted": 0,
+            }
             if budget.stopped:
-                statuses.append(
+                base.update(
                     {
-                        "source_id": source_id,
-                        "query": query,
                         "ok": False,
                         "error": f"budget stopped: {budget.stop_reason}",
-                        "items": 0,
+                        "error_kind": "budget_prevented",
                     }
                 )
+                statuses.append(base)
                 continue
             if counts_by_source.get(source_id, 0) >= per_source_cap:
-                statuses.append(
-                    {
-                        "source_id": source_id,
-                        "query": query,
-                        "ok": False,
-                        "error": "per-source item cap reached",
-                        "items": 0,
-                    }
+                base.update(
+                    {"ok": False, "error": "per-source item cap reached", "error_kind": "per_source_item_cap"}
                 )
+                statuses.append(base)
                 continue
             remaining = min(per_source_cap - counts_by_source.get(source_id, 0), budget.max_items_total - budget.items)
             if remaining <= 0:
                 budget.stop("item cap reached")
+                base.update({"ok": False, "error": "item cap reached", "error_kind": "item_cap"})
+                statuses.append(base)
                 continue
             fetched, status = collector(query, remaining, budget, **_attempt_kwargs(source_id, options, index))
-            statuses.append(status)
+            status.setdefault("source_id", source_id)
+            status.setdefault("query", query)
+            status.setdefault("attempted", True)
+            status["items_returned"] = len(fetched)
+            status["items"] = len(fetched)
             fresh = state.filter_new(fetched) if state is not None else fetched
             if state is not None:
                 state.mark_seen(fetched)
             kept = fresh[:remaining]
+            status["items_accepted"] = len(kept)
+            statuses.append(status)
             counts_by_source[source_id] = counts_by_source.get(source_id, 0) + len(kept)
             budget.record_items(len(kept))
             items.extend(kept)
     return items, statuses
 
 
+def _empty_source_summary() -> dict:
+    return {
+        "queries_attempted": 0,
+        "queries_skipped": 0,
+        "http_requests_initiated": 0,
+        "http_responses_received": 0,
+        "retries": 0,
+        "items_returned": 0,
+        "items_accepted": 0,
+        "per_source_item_cap_reached": 0,
+        "total_item_cap_reached": 0,
+        "requests_prevented_budget": 0,
+        "source_access_failures": 0,
+        "errors": [],
+    }
+
+
 def summarise_statuses(statuses: list[dict]) -> dict:
-    """Compact per-source summary for the run report (Part 10)."""
+    """Per-source ledger with distinct, reconcilable counters (issue #13).
+
+    Distinguishes a source attempt, a query attempt, an HTTP request, an HTTP
+    response, a retry, an item returned, an item accepted, an item cap, a
+    request prevented by budget exhaustion and a source access failure. Item
+    caps and budget stops are never counted as HTTP failures.
+    """
     by_source: dict[str, dict] = {}
     for status in statuses:
         sid = status.get("source_id", "unknown")
-        entry = by_source.setdefault(
-            sid, {"requests": 0, "ok_requests": 0, "failed_requests": 0, "items": 0, "errors": []}
-        )
-        entry["requests"] += 1
-        if status.get("ok"):
-            entry["ok_requests"] += 1
+        entry = by_source.setdefault(sid, _empty_source_summary())
+        attempted = bool(status.get("attempted"))
+        if attempted:
+            entry["queries_attempted"] += 1
         else:
-            entry["failed_requests"] += 1
-            err = status.get("error") or "unknown error"
-            if err not in entry["errors"]:
-                entry["errors"].append(err)
-        entry["items"] += int(status.get("items") or 0)
+            entry["queries_skipped"] += 1
+        entry["http_requests_initiated"] += int(status.get("http_requests") or 0)
+        entry["http_responses_received"] += int(status.get("http_responses") or 0)
+        entry["retries"] += int(status.get("retries") or 0)
+        entry["items_returned"] += int(status.get("items_returned") or 0)
+        entry["items_accepted"] += int(status.get("items_accepted") or 0)
+        kind = status.get("error_kind")
+        if kind == "per_source_item_cap":
+            entry["per_source_item_cap_reached"] += 1
+        elif kind == "item_cap":
+            entry["total_item_cap_reached"] += 1
+        elif kind == "budget_prevented":
+            entry["requests_prevented_budget"] += 1
+        elif not status.get("ok"):
+            entry["source_access_failures"] += 1
+        err = status.get("error")
+        if err and err not in entry["errors"]:
+            entry["errors"].append(err)
     return by_source
+
+
+def build_ledger(statuses: list[dict], budget: Budget) -> dict:
+    """Run-level ledger with totals and reconciliation against Budget (issue #13)."""
+    sources = summarise_statuses(statuses)
+    totals = _empty_source_summary()
+    for entry in sources.values():
+        for key in totals:
+            if key == "errors":
+                totals["errors"].extend(err for err in entry["errors"] if err not in totals["errors"])
+            else:
+                totals[key] += entry[key]
+    reconciliation = {
+        "http_requests_match_budget": totals["http_requests_initiated"] == budget.requests,
+        "http_responses_within_requests": totals["http_responses_received"] <= totals["http_requests_initiated"],
+        "items_accepted_match_budget": totals["items_accepted"] == budget.items,
+        "items_returned_ge_accepted": totals["items_returned"] >= totals["items_accepted"],
+        "hard_request_cap_respected": budget.requests <= budget.max_requests,
+        "hard_item_cap_respected": budget.items <= budget.max_items_total,
+        "budget_requests_used": budget.requests,
+        "budget_items_collected": budget.items,
+    }
+    return {"sources": sources, "totals": totals, "reconciliation": reconciliation}

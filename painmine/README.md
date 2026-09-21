@@ -66,8 +66,14 @@ query families ──► bounded fetchers ──► schema extraction ──► 
   `painmine-cluster.yml` (weekly plus dispatch).
 - **Part 8 cost controls** — `limits.json` + `budget.py`. Hard caps for HTTP
   requests, items per source and total, minimum gap between requests, request
-  timeout, model calls, input/output/total tokens, USD, wall-clock runtime and
-  retained data. The pipeline stops with partial results when a cap is hit.
+  timeout, retries per request, model calls, input/output/total tokens, USD,
+  wall-clock runtime and retained data. The pipeline stops with partial results
+  when a cap is hit. A run ledger (issue #13) reports *attempted* versus
+  *skipped* queries, HTTP requests initiated versus responses received,
+  retries, items returned versus accepted, per-source and total item caps,
+  requests prevented by budget exhaustion, and source-access failures — each
+  with a reconciliation against the budget counters, so caps are never
+  reported as access failures.
 - **Parts 9/10 PoC and evaluation** — `poc/` artefacts and
   [`SPIKE-REPORT.md`](SPIKE-REPORT.md).
 
@@ -82,6 +88,7 @@ See `limits.json`; the CLI can only clamp `--max-requests` downwards.
 | Items total / run | 240 |
 | Min gap between requests | 1.0 s |
 | Request timeout | 20 s |
+| Retries / request | 1 (only for 429/5xx and transport errors) |
 | Model calls / run | 6 (spend disabled unless `--enable-llm`) |
 | Model tokens / run | 40,000 |
 | Model USD / run | 0.25 |

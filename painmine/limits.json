@@ -6,7 +6,8 @@
     "max_items_per_source": 50,
     "max_items_total": 240,
     "request_timeout_seconds": 20,
-    "min_seconds_between_requests": 1.0
+    "min_seconds_between_requests": 1.0,
+    "max_retries_per_request": 1
   },
   "extract": {
     "min_statement_chars": 60,

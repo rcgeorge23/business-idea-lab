@@ -17,7 +17,7 @@ from .budget import Budget
 from .cluster import cluster as cluster_signals
 from .dedupe import dedupe
 from .extract import extract_many
-from .fetch import ENABLED_SOURCES, collect, load_fixture_items, summarise_statuses
+from .fetch import ENABLED_SOURCES, build_ledger, collect, load_fixture_items, summarise_statuses
 from .llm import OpenCodeGo
 from .persistence import cluster_archetype, persistence_thesis
 from .rank import rank_clusters
@@ -146,7 +146,21 @@ def run_pipeline(args: argparse.Namespace) -> int:
     # 1. collect ------------------------------------------------------------
     if args.offline_fixture:
         items = load_fixture_items(args.offline_fixture)
-        statuses = [{"source_id": "fixture", "ok": True, "items": len(items), "error": None}]
+        budget.record_items(len(items))
+        statuses = [
+            {
+                "source_id": "fixture",
+                "ok": True,
+                "error": None,
+                "attempted": True,
+                "http_requests": 0,
+                "http_responses": 0,
+                "retries": 0,
+                "items_returned": len(items),
+                "items_accepted": len(items),
+                "items": len(items),
+            }
+        ]
     else:
         items, statuses = collect(
             queries, sources, budget, state=state, source_options=collector_options
@@ -248,8 +262,10 @@ def run_pipeline(args: argparse.Namespace) -> int:
     write_json(os.path.join(out_dir, "report.json"), report)
     with open(os.path.join(out_dir, "report.md"), "w", encoding="utf-8") as handle:
         handle.write(render_report_markdown(report))
+    ledger = build_ledger(statuses, budget)
     meta["budget"] = budget.summary()
-    meta["source_status"] = summarise_statuses(statuses)
+    meta["source_status"] = ledger["sources"]
+    meta["run_ledger"] = {"totals": ledger["totals"], "reconciliation": ledger["reconciliation"]}
     meta["cross_run"] = {key: cross_run[key] for key in ("checked", "linked", "exact", "near")}
     meta["state_health"] = (history or {}).get("state_health") if history else None
     write_json(os.path.join(out_dir, "run-meta.json"), meta)
@@ -330,10 +346,12 @@ def build_report(meta, budget, statuses, items, signals, rejects, dedupe_result,
         preliminary = "ITERATE"
         preliminary_note = "Some signal found but no strong cluster yet; iterate on access/volume before PROCEED."
 
+    ledger = build_ledger(statuses, budget)
     return {
         "meta": meta,
         "budget": budget.summary(),
-        "source_status": summarise_statuses(statuses),
+        "source_status": ledger["sources"],
+        "ledger": ledger,
         "volumes": {
             "raw_items": len(items),
             "extracted_signals": len(signals),
@@ -369,6 +387,15 @@ def build_report(meta, budget, statuses, items, signals, rejects, dedupe_result,
     }
 
 
+def _ledger_value(data: dict, key: str, fallback_key: str | None = None):
+    """Read a run-ledger counter, falling back to legacy report keys (issue #13)."""
+    if data.get(key) is not None:
+        return data[key]
+    if fallback_key and data.get(fallback_key) is not None:
+        return data[fallback_key]
+    return 0
+
+
 def render_report_markdown(report: dict) -> str:
     lines: list[str] = []
     meta = report["meta"]
@@ -389,14 +416,46 @@ def render_report_markdown(report: dict) -> str:
     for key, value in report["budget"].items():
         lines.append(f"- {key}: {value}")
     lines.append("")
-    lines.append("## Source access (attempted)")
+    lines.append("## Source ledger (attempted vs accepted)")
     lines.append("")
-    lines.append("| source | requests | ok | failed | items | errors |")
-    lines.append("| --- | --- | --- | --- | --- | --- |")
+    lines.append(
+        "| source | queries attempted | queries skipped | http requests | http responses | retries | "
+        "items returned | items accepted | per-source cap | total item cap | budget prevented | access failures | errors |"
+    )
+    lines.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
     for source, data in report["source_status"].items():
         lines.append(
-            f"| {source} | {data.get('requests')} | {data.get('ok_requests')} | {data.get('failed_requests')} | "
-            f"{data.get('items')} | {'; '.join(data.get('errors', []))[:180]} |"
+            f"| {source} | {_ledger_value(data, 'queries_attempted', 'requests')} | "
+            f"{_ledger_value(data, 'queries_skipped')} | "
+            f"{_ledger_value(data, 'http_requests_initiated', 'requests')} | "
+            f"{_ledger_value(data, 'http_responses_received', 'ok_requests')} | "
+            f"{_ledger_value(data, 'retries')} | "
+            f"{_ledger_value(data, 'items_returned', 'items')} | "
+            f"{_ledger_value(data, 'items_accepted', 'items')} | "
+            f"{_ledger_value(data, 'per_source_item_cap_reached')} | "
+            f"{_ledger_value(data, 'total_item_cap_reached')} | "
+            f"{_ledger_value(data, 'requests_prevented_budget')} | "
+            f"{_ledger_value(data, 'source_access_failures', 'failed_requests')} | "
+            f"{'; '.join(data.get('errors', []))[:180]} |"
+        )
+    lines.append("")
+    ledger = report.get("ledger") or {}
+    reconciliation = ledger.get("reconciliation") or {}
+    totals = ledger.get("totals") or {}
+    lines.append("## Run ledger reconciliation")
+    lines.append("")
+    if reconciliation or totals:
+        for key, value in reconciliation.items():
+            lines.append(f"- {key}: {value}")
+        if totals:
+            lines.append("")
+            lines.append(
+                "Totals: "
+                + ", ".join(f"{key}={value}" for key, value in totals.items() if key != "errors")
+            )
+    else:
+        lines.append(
+            "- This report predates the run ledger (issue #13); legacy counters are shown as-is."
         )
     lines.append("")
     lines.append("## Top clusters")
@@ -406,7 +465,7 @@ def render_report_markdown(report: dict) -> str:
         "persistence | archetype | lineage | systems |"
     )
     lines.append("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |")
-    for cluster in report["top_clusters"]:
+    for cluster in report.get("top_clusters") or []:
         lines.append(
             f"| {cluster['cluster_id']} | {cluster.get('role') or '?'} | {cluster.get('independent_sources')} | "
             f"{cluster.get('cumulative_independent_sources') if cluster.get('cumulative_independent_sources') is not None else 'n/a'} | "
@@ -419,10 +478,10 @@ def render_report_markdown(report: dict) -> str:
     lines.append("")
     lines.append("## Quality checks")
     lines.append("")
-    lines.append(f"- Recurrence measurable (>=3 independent sources in a cluster): {report['recurrence_measurable']}")
-    lines.append(f"- Vendor-led risk mix: {report['vendor_led_risk_mix']}")
+    lines.append(f"- Recurrence measurable (>=3 independent sources in a cluster): {report.get('recurrence_measurable')}")
+    lines.append(f"- Vendor-led risk mix: {report.get('vendor_led_risk_mix')}")
     lines.append("- Lowest-confidence extractions (manual audit targets):")
-    for example in report["low_confidence_extraction_examples"]:
+    for example in report.get("low_confidence_extraction_examples") or []:
         lines.append(f"  - {example['signal_id']} (conf {example['confidence']}): {(example['statement'] or '')[:160]}")
     lines.append("")
     lines.append("## Cross-run evidence state (issue #10)")
@@ -443,7 +502,7 @@ def render_report_markdown(report: dict) -> str:
             f"{report.get('recurrence_cumulative_measurable')}"
         )
         lines.append("- Per-cluster current vs cumulative:")
-        for cluster in report["top_clusters"]:
+        for cluster in report.get("top_clusters") or []:
             if cluster.get("cumulative_independent_sources") is None:
                 continue
             lines.append(
@@ -452,11 +511,11 @@ def render_report_markdown(report: dict) -> str:
                 f"{cluster.get('runs_seen')} run(s); lineage: {cluster.get('lineage_action')}"
             )
     lines.append("")
-    lines.append(f"## Preliminary recommendation: {report['preliminary_recommendation']}")
+    lines.append(f"## Preliminary recommendation: {report.get('preliminary_recommendation')}")
     lines.append("")
-    lines.append(report["preliminary_recommendation_note"])
+    lines.append(report.get("preliminary_recommendation_note") or "")
     lines.append("")
-    lines.append(report["disclaimer"])
+    lines.append(report.get("disclaimer") or "")
     lines.append("")
     return "\n".join(lines)
 

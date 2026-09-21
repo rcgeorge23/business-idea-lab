@@ -271,9 +271,18 @@ assumption until the workflows actually run.
 
 - Limits are file-driven (`painmine/limits.json`) and enforced in `Budget`:
   requests 40, items/source 50, items total 240, min 1.0 s between requests,
-  20 s request timeout, LLM calls 6, input 12k/output 1.2k per call, total
-  tokens 40k, USD 0.25, wall 420 s.
+  20 s request timeout, retries 1 per request (429/5xx and transport errors
+  only), LLM calls 6, input 12k/output 1.2k per call, total tokens 40k, USD
+  0.25, wall 420 s.
 - The PoC used 24/24 requests, 150/240 items, 43.84/420 s, USD 0.00.
+- **Updated 2026-09-21 (issue #13):** `fetch.py` now emits a run ledger with
+  separate counters for queries attempted/skipped, HTTP requests initiated,
+  HTTP responses received, retries, items returned, items accepted, per-source
+  and total item caps, budget-prevented requests and source-access failures,
+  plus a reconciliation against the `Budget` counters. The earlier PoC report
+  labelled query attempts as "requests" (24 actual HTTP requests vs 60 attempt
+  rows) and counted item-cap and budget-prevented rows as failures; new reports
+  distinguish them, and old artefacts still render with their original numbers.
 - Retention: raw item JSONL is **not** committed (`painmine/poc/**/raw-items.jsonl`
   is git-ignored), excerpts are capped at 600 chars, state keeps at most 5000
   seen ids and 200 cluster records, and GHA artefacts expire after 14 days.

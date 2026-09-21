@@ -26,6 +26,7 @@ class Budget:
         self.max_items_per_source = int(fetch.get("max_items_per_source", 0))
         self.request_timeout = int(fetch.get("request_timeout_seconds", 20))
         self.min_gap = float(fetch.get("min_seconds_between_requests", 1.0))
+        self.max_retries = int(fetch.get("max_retries_per_request", 0))
         self.max_llm_calls = int(llm.get("max_calls_per_run", 0))
         self.max_llm_total_tokens = int(llm.get("max_total_tokens_per_run", 0))
         self.max_usd = float(llm.get("max_usd_per_run", 0.0))
@@ -33,6 +34,8 @@ class Budget:
         self.max_wall = int(runtime.get("max_wall_seconds", 420))
         self.started = started if started is not None else time.monotonic()
         self.requests = 0
+        self.http_responses = 0
+        self.retries = 0
         self.items = 0
         self.llm_calls = 0
         self.llm_input_tokens = 0
@@ -77,6 +80,13 @@ class Budget:
         self.requests += 1
         self._last_request_at = time.monotonic()
 
+    def record_response(self) -> None:
+        """An HTTP response was received (including an HTTP error response)."""
+        self.http_responses += 1
+
+    def record_retry(self) -> None:
+        self.retries += 1
+
     def can_take_items(self, source_count: int, n: int = 1) -> bool:
         if self.items + n > self.max_items_total:
             self.stop(f"item limit ({self.max_items_total}) reached")
@@ -107,6 +117,10 @@ class Budget:
         self.llm_input_tokens += max(0, int(input_tokens))
         self.llm_output_tokens += max(0, int(output_tokens))
         self.usd += max(0.0, float(cost_usd))
+        if self.llm_input_tokens + self.llm_output_tokens > self.max_llm_total_tokens:
+            self.stop(
+                f"model token limit ({self.max_llm_total_tokens}) exceeded by provider-reported usage"
+            )
         if self.usd > self.max_usd:
             self.stop(f"USD limit (${self.max_usd:.2f}) exceeded by provider-reported cost")
 
@@ -123,6 +137,9 @@ class Budget:
         return {
             "requests_used": self.requests,
             "requests_limit": self.max_requests,
+            "http_responses_received": self.http_responses,
+            "retries_used": self.retries,
+            "retries_limit_per_request": self.max_retries,
             "items_collected": self.items,
             "items_limit": self.max_items_total,
             "llm_enabled": self.llm_enabled,

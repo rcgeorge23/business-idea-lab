@@ -1,5 +1,7 @@
+import json
 import os
 import sys
+import tempfile
 import unittest
 from unittest import mock
 
@@ -70,6 +72,43 @@ class TestOpenCodeGo(unittest.TestCase):
             ok, reason = llm.auth_status()
         self.assertTrue(ok)
         self.assertIn("env", reason)
+
+    def test_unavailable_without_credentials(self):
+        limits = read_json(os.path.join(HERE, "..", "limits.json"))
+        limits["llm"]["enabled"] = True
+        budget = Budget(limits)
+        with mock.patch.dict(os.environ, {}, clear=True):
+            with mock.patch("painmine.llm.AUTH_FILE_HINT", "/definitely/not/here/auth.json"):
+                llm = OpenCodeGo(limits, budget)
+                llm.binary = sys.executable
+                ok, reason = llm.available()
+        self.assertFalse(ok)
+        self.assertIn("no OPENCODE_API_KEY", reason)
+
+    def test_auth_status_accepts_credentials_file(self):
+        limits = read_json(os.path.join(HERE, "..", "limits.json"))
+        budget = Budget(limits)
+        llm = OpenCodeGo(limits, budget)
+        with tempfile.TemporaryDirectory() as tmp:
+            auth_path = os.path.join(tmp, "auth.json")
+            with open(auth_path, "w", encoding="utf-8") as handle:
+                json.dump({"opencode": {"type": "api", "key": "redacted"}}, handle)
+            with mock.patch.dict(os.environ, {}, clear=True):
+                with mock.patch("painmine.llm.AUTH_FILE_HINT", auth_path):
+                    ok, reason = llm.auth_status()
+        self.assertTrue(ok)
+        self.assertIn("opencode credentials file", reason)
+
+    def test_run_does_not_spawn_when_unavailable(self):
+        limits = read_json(os.path.join(HERE, "..", "limits.json"))
+        limits["llm"]["enabled"] = True
+        budget = Budget(limits)
+        with mock.patch.dict(os.environ, {"OPENCODE_BIN": "/definitely/not/a/binary"}):
+            llm = OpenCodeGo(limits, budget)
+            with mock.patch("painmine.llm.subprocess.run") as spawn:
+                result = llm.run("hello")
+        spawn.assert_not_called()
+        self.assertFalse(result["ok"])
 
     def test_run_fails_safely_when_unavailable(self):
         budget = Budget(LIMITS)

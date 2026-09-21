@@ -65,6 +65,14 @@ class TestBudget(unittest.TestCase):
         budget.record_llm(1.0, 10, 10)
         self.assertIn("USD limit", budget.stop_reason)
 
+    def test_provider_reported_token_overrun_stops_further_calls(self):
+        budget = Budget(make_limits(llm_enabled=True))
+        budget.record_llm(0.1, 60, 60)
+        self.assertIn("token limit", budget.stop_reason)
+        allowed, reason = budget.can_llm(1, 1)
+        self.assertFalse(allowed)
+        self.assertIn("token limit", reason)
+
     def test_summary_shape(self):
         budget = Budget(make_limits())
         summary = budget.summary()
