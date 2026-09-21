@@ -7,6 +7,7 @@ from __future__ import annotations
 import os
 import sys
 import unittest
+import urllib.parse
 from pathlib import Path
 from unittest import mock
 
@@ -15,7 +16,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from painmine.budget import Budget  # noqa: E402
-from painmine.fetch import fetch_github, fetch_reddit  # noqa: E402
+from painmine.fetch import collect, fetch_github, fetch_reddit, fetch_stack_exchange  # noqa: E402
 from painmine.util import read_json  # noqa: E402
 
 LIMITS = read_json(ROOT / "painmine" / "limits.json")
@@ -59,6 +60,86 @@ class TestSafeFailure(unittest.TestCase):
         self.assertEqual(items, [])
         self.assertFalse(status["ok"])
         self.assertEqual(status["source_id"], "reddit_public_json")
+
+
+class TestStackExchangeSites(unittest.TestCase):
+    """Config-driven site rotation across the Stack Exchange network."""
+
+    def _capture(self, payload):
+        captured: dict = {}
+
+        def fake(url, budget, headers=None):
+            captured["url"] = url
+            return payload, {"ok": True, "url": url}
+
+        return captured, fake
+
+    def test_site_is_used_and_item_ids_include_it(self):
+        captured, fake = self._capture(
+            {
+                "items": [
+                    {
+                        "question_id": 123,
+                        "title": "Re-keying exports",
+                        "body": "<p>I manually copy and paste every week.</p>",
+                        "owner": {"display_name": "alice"},
+                        "creation_date": 1750000000,
+                        "score": 2,
+                        "tags": ["google-sheets"],
+                    }
+                ]
+            }
+        )
+        with mock.patch("painmine.fetch.http_get_json", fake):
+            items, status = fetch_stack_exchange("copy paste", 10, Budget(LIMITS), site="webapps")
+        self.assertIn("site=webapps", captured["url"])
+        self.assertEqual(status["site"], "webapps")
+        self.assertEqual(items[0]["source_id"], "se:webapps:123:question:123")
+        self.assertEqual(items[0]["url"], "https://webapps.stackexchange.com/q/123")
+        self.assertEqual(items[0]["extra"]["site"], "webapps")
+
+    def test_default_site_is_stackoverflow(self):
+        captured, fake = self._capture({"items": []})
+        with mock.patch("painmine.fetch.http_get_json", fake):
+            fetch_stack_exchange("copy paste", 10, Budget(LIMITS))
+        self.assertIn("site=stackoverflow", captured["url"])
+
+    def test_collect_rotates_sites_without_extra_requests(self):
+        captured: dict = {"urls": []}
+
+        def fake(url, budget, headers=None):
+            captured["urls"].append(url)
+            return {"items": []}, {"ok": True, "url": url}
+
+        budget = Budget(LIMITS)
+        with mock.patch("painmine.fetch.http_get_json", fake):
+            items, statuses = collect(
+                ["q1", "q2", "q3"],
+                ["stack_exchange"],
+                budget,
+                source_options={"stack_exchange": {"sites": ["webapps", "money"]}},
+            )
+        self.assertEqual(items, [])
+        self.assertEqual(len(captured["urls"]), 3)
+        self.assertEqual(len(captured["urls"]), len(statuses))
+        sites = [
+            urllib.parse.parse_qs(urllib.parse.urlparse(url).query)["site"][0]
+            for url in captured["urls"]
+        ]
+        self.assertEqual(sites, ["webapps", "money", "webapps"])
+        self.assertTrue(all(status.get("ok") for status in statuses))
+        self.assertEqual([status["site"] for status in statuses], ["webapps", "money", "webapps"])
+
+    def test_collect_without_options_uses_default_site(self):
+        captured: dict = {"urls": []}
+
+        def fake(url, budget, headers=None):
+            captured["urls"].append(url)
+            return {"items": []}, {"ok": True, "url": url}
+
+        with mock.patch("painmine.fetch.http_get_json", fake):
+            collect(["q1"], ["stack_exchange"], Budget(LIMITS))
+        self.assertIn("site=stackoverflow", captured["urls"][0])
 
 
 if __name__ == "__main__":

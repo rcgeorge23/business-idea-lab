@@ -135,7 +135,26 @@ def fetch_hn(query: str, cap: int, budget: Budget) -> tuple[list[dict], dict]:
     return items, status
 
 
-def fetch_stack_exchange(query: str, cap: int, budget: Budget) -> tuple[list[dict], dict]:
+SE_DEFAULT_SITE = "stackoverflow"
+
+
+def _se_site_base(site: str) -> str:
+    """Canonical web base for a Stack Exchange site id (used only as a fallback)."""
+    if site in ("stackoverflow", "superuser", "serverfault"):
+        return f"https://{site}.com"
+    return f"https://{site}.stackexchange.com"
+
+
+def fetch_stack_exchange(
+    query: str, cap: int, budget: Budget, site: str = SE_DEFAULT_SITE
+) -> tuple[list[dict], dict]:
+    """Public API v2.3 search across one Stack Exchange site (no auth, read-only).
+
+    ``site`` comes from the source options in ``sources.json`` so a run can
+    rotate across the network (Stack Overflow, Web Applications, Money, ...)
+    without extra requests. Item ids include the site because question ids are
+    only unique within a site.
+    """
     url = (
         "https://api.stackexchange.com/2.3/search/excerpts?"
         + urllib.parse.urlencode(
@@ -143,7 +162,7 @@ def fetch_stack_exchange(query: str, cap: int, budget: Budget) -> tuple[list[dic
                 "order": "desc",
                 "sort": "relevance",
                 "q": query,
-                "site": "stackoverflow",
+                "site": site,
                 "pagesize": min(25, cap),
                 "filter": "withbody",
             }
@@ -154,6 +173,7 @@ def fetch_stack_exchange(query: str, cap: int, budget: Budget) -> tuple[list[dic
     data, status = http_get_json(url, budget)
     status["source_id"] = "stack_exchange"
     status["query"] = query
+    status["site"] = site
     items: list[dict] = []
     if not status.get("ok") or not isinstance(data, dict):
         # Note: urllib does not auto-decompress gzip; retry without the header.
@@ -165,20 +185,18 @@ def fetch_stack_exchange(query: str, cap: int, budget: Budget) -> tuple[list[dic
             continue
         item_id = hit.get("answer_id") or hit.get("question_id")
         kind = "answer" if hit.get("answer_id") else "question"
-        link = hit.get("link") or (
-            f"https://stackoverflow.com/q/{hit.get('question_id')}"
-        )
+        link = hit.get("link") or f"{_se_site_base(site)}/q/{hit.get('question_id')}"
         items.append(
             _raw_item(
                 "stack_exchange",
-                f"se:{hit.get('question_id')}:{kind}:{item_id}",
+                f"se:{site}:{hit.get('question_id')}:{kind}:{item_id}",
                 link,
                 hit.get("title") or "",
                 text,
                 hit.get("owner", {}).get("display_name") if isinstance(hit.get("owner"), dict) else None,
                 hit.get("creation_date"),
                 hit.get("score") or 0,
-                {"tags": hit.get("tags", []), "is_answered": hit.get("is_answered")},
+                {"tags": hit.get("tags", []), "is_answered": hit.get("is_answered"), "site": site},
             )
         )
     status["items"] = len(items)
@@ -286,20 +304,37 @@ def load_fixture_items(path: str) -> list[dict]:
     return read_jsonl(path)
 
 
+def _attempt_kwargs(source_id: str, options: dict, index: int) -> dict:
+    """Per-attempt collector options, e.g. Stack Exchange site rotation.
+
+    Rotating by query position spreads a family across the network without
+    spending extra HTTP requests: attempt i uses sites[i % len(sites)].
+    """
+    if source_id == "stack_exchange":
+        sites = options.get("sites") or []
+        if sites:
+            return {"site": sites[index % len(sites)]}
+    return {}
+
+
 def collect(
     queries: list[str],
     source_ids: list[str],
     budget: Budget,
     state=None,
     per_source_cap: int | None = None,
+    source_options: dict[str, dict] | None = None,
 ) -> tuple[list[dict], list[dict]]:
     """Collect from each source for each query within the budget.
 
+    ``source_options`` maps a source id to its configured options (see
+    ``sources.json``); only options with an implemented meaning are used.
     Returns (items, statuses). Unknown source ids are recorded as failures.
     """
     items: list[dict] = []
     statuses: list[dict] = []
     per_source_cap = per_source_cap or budget.max_items_per_source
+    source_options = source_options or {}
     counts_by_source: dict[str, int] = {}
     for source_id in source_ids:
         collector = COLLECTORS.get(source_id)
@@ -308,7 +343,8 @@ def collect(
                 {"source_id": source_id, "ok": False, "error": "collector not implemented", "items": 0}
             )
             continue
-        for query in queries:
+        options = source_options.get(source_id) or {}
+        for index, query in enumerate(queries):
             if budget.stopped:
                 statuses.append(
                     {
@@ -335,7 +371,7 @@ def collect(
             if remaining <= 0:
                 budget.stop("item cap reached")
                 continue
-            fetched, status = collector(query, remaining, budget)
+            fetched, status = collector(query, remaining, budget, **_attempt_kwargs(source_id, options, index))
             statuses.append(status)
             fresh = state.filter_new(fetched) if state is not None else fetched
             if state is not None:

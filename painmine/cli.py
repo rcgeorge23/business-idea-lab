@@ -67,6 +67,22 @@ def family_queries(sources_path: str, family: str) -> list[str]:
     return list(families[family])
 
 
+def source_options(sources_path: str) -> dict[str, dict]:
+    """Collector options declared per source in ``sources.json``.
+
+    Example: the Stack Exchange entry lists the sites a run may rotate across.
+    """
+    data = read_json(sources_path, {}) or {}
+    options: dict[str, dict] = {}
+    for entry in data.get("classes") or []:
+        if not isinstance(entry, dict):
+            continue
+        source_id = entry.get("source_id")
+        if source_id and isinstance(entry.get("options"), dict):
+            options[source_id] = entry["options"]
+    return options
+
+
 def make_run_id() -> str:
     stamp = utcnow().strftime("%Y%m%dT%H%M%SZ")
     return f"pm-{stamp}-{sha1_hex(stamp + str(time.time()), 4)}"
@@ -112,6 +128,7 @@ def run_pipeline(args: argparse.Namespace) -> int:
     )
     queries = family_queries(args.sources_file, args.family)
     sources = [s.strip() for s in args.sources.split(",") if s.strip()]
+    collector_options = source_options(args.sources_file)
 
     meta = {
         "run_id": run_id,
@@ -123,6 +140,7 @@ def run_pipeline(args: argparse.Namespace) -> int:
         "sources_requested": sources,
         "limits_file": os.path.relpath(args.limits),
         "llm_requested": bool(args.enable_llm),
+        "source_options": collector_options,
     }
 
     # 1. collect ------------------------------------------------------------
@@ -130,7 +148,9 @@ def run_pipeline(args: argparse.Namespace) -> int:
         items = load_fixture_items(args.offline_fixture)
         statuses = [{"source_id": "fixture", "ok": True, "items": len(items), "error": None}]
     else:
-        items, statuses = collect(queries, sources, budget, state=state)
+        items, statuses = collect(
+            queries, sources, budget, state=state, source_options=collector_options
+        )
     for item in items:
         item.setdefault("retrieved_at", utcnow_iso())
     write_jsonl(os.path.join(out_dir, "raw-items.jsonl"), items)

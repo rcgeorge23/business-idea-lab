@@ -22,11 +22,27 @@
       "access": "Public API https://api.stackexchange.com/2.3 (no auth documented; 300 requests/day per IP without key)",
       "terms_notes": "API terms allow read access; attribution required if republishing content. Spike stores short excerpts for audit only.",
       "rate_limit": "300 requests/day unauthenticated; backoff field in every response.",
-      "expected_signal": "Medium: business-tooling questions often describe data wrangling, exports, and workarounds.",
+      "expected_signal": "Medium: business-tooling questions often describe data wrangling, exports, and workarounds; rotating sites reaches business users beyond Stack Overflow.",
       "expected_volume": "Hundreds of matching excerpts per query family.",
       "cost": "GBP 0",
       "unattended_ok": true,
-      "enabled": true
+      "enabled": true,
+      "options": {
+        "sites": [
+          "stackoverflow",
+          "webapps",
+          "money",
+          "workplace",
+          "freelancing",
+          "superuser",
+          "serverfault",
+          "dba",
+          "salesforce",
+          "magento",
+          "wordpress"
+        ],
+        "site_rotation": "Query attempt i uses sites[i % len(sites)], so one family spreads across the network without extra HTTP requests. Question ids are only unique within a site, so item ids include the site."
+      }
     },
     {
       "class": "developer_issue_tracker",

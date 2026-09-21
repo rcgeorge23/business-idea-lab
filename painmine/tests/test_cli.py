@@ -46,6 +46,8 @@ class TestCli(unittest.TestCase):
             self.assertEqual(meta["mode"], "offline-fixture")
             self.assertEqual(meta["run_id"], "pm-test")
             self.assertIn("budget", meta)
+            self.assertIn("stack_exchange", meta["source_options"])
+            self.assertEqual(meta["source_options"]["stack_exchange"]["sites"][0], "stackoverflow")
 
             observations = cli.read_json(os.path.join(out, "observations.json"))
             self.assertTrue(observations)
@@ -101,6 +103,14 @@ class TestCli(unittest.TestCase):
         limits = cli.load_limits(cli.DEFAULT_LIMITS)
         original = int(limits["fetch"]["max_requests_per_run"])
         self.assertGreater(original, 5)
+
+    def test_source_options_are_config_driven(self):
+        options = cli.source_options(SOURCES)
+        self.assertIn("stack_exchange", options)
+        sites = options["stack_exchange"]["sites"]
+        self.assertGreaterEqual(len(sites), 2)
+        self.assertEqual(sites[0], "stackoverflow")
+        self.assertIn("webapps", sites)
 
 
 if __name__ == "__main__":

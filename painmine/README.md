@@ -33,7 +33,10 @@ query families ──► bounded fetchers ──► schema extraction ──► 
   expected volume, rate limits, collection cost and whether unattended
   collection is practical. Classes that need an account, a ToS review or a
   bypass are disabled with a written reason. Nothing is enabled that requires
-  circumventing access controls.
+  circumventing access controls. Enabled collectors may declare per-source
+  options: Stack Exchange rotates across network sites (Stack Overflow, Web
+  Applications, Money, Workplace, ...) by query position, so one query family
+  reaches business users without spending extra HTTP requests.
 - **Part 3 retrieval/extraction/dedupe/clustering** — `fetch.py`, `extract.py`,
   `dedupe.py`, `cluster.py`. Retrieval is query-family driven and bounded;
   extraction is deterministic cue matching (no model needed); dedupe collapses
@@ -74,7 +77,7 @@ See `limits.json`; the CLI can only clamp `--max-requests` downwards.
 
 | Limit | Default |
 | --- | --- |
-| HTTP requests / run | 24 |
+| HTTP requests / run | 40 |
 | Items / source / run | 50 |
 | Items total / run | 240 |
 | Min gap between requests | 1.0 s |
@@ -166,7 +169,7 @@ family by day-of-year; the weekly job uses `all`.
 
 ```bash
 # bounded live run against public sources
-python3 -m painmine.cli pipeline --family all --max-requests 24 \
+python3 -m painmine.cli pipeline --family all --max-requests 40 \
   --state painmine/state/state.json --out painmine/poc/<run-dir> --run-id <run-id>
 
 # offline run against the test fixture (no network)
@@ -191,7 +194,7 @@ Local notes (verified on the owner's laptop, 2026-09-21):
 - A first live run creates `painmine/state/state.json` automatically. Legacy
   v0.1 state is migrated in place; unreadable or unknown state is quarantined
   rather than guessed.
-- `--max-requests` can only lower the 24-request hard cap, and requests are
+- `--max-requests` can only lower the 40-request hard cap, and requests are
   spent in source order (Hacker News, Stack Exchange, GitHub, Reddit), so later
   sources may be skipped when the cap is reached. Set `GITHUB_TOKEN` (or
   `GH_TOKEN`) in the environment to raise GitHub API rate limits.

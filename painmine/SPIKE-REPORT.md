@@ -83,7 +83,7 @@ limits and expected quality are documented per class in `painmine/sources.json`.
 | # | Class | Status in spike | Access mechanism / constraint observed |
 | --- | --- | --- | --- |
 | 1 | Hacker News (practitioner discussion) | **enabled, worked** | Public Algolia API, no auth, no rate limit hit |
-| 2 | Stack Exchange network (practitioner Q&A) | **enabled, worked** | Public API v2.3, no auth, quota 300/day; `quota_remaining` recorded |
+| 2 | Stack Exchange network (practitioner Q&A) | **enabled, worked** | Public API v2.3, no auth, quota 300/day; `quota_remaining` recorded. Updated 2026-09-21: sites are configurable in `sources.json` and rotate by query position (Stack Overflow, Web Applications, Money, Workplace, ...) so one family reaches business users without extra requests |
 | 3 | GitHub issues/discussions (business tooling) | **enabled, worked** | Public search API, 10 req/min unauthenticated; `GITHUB_TOKEN` used when present (documented API auth, not an access-control bypass) |
 | 4 | Reddit public JSON | **enabled, blocked from this network** | HTTP 403 Blocked. Recorded as an access failure; no proxy, header spoofing or other circumvention attempted |
 | 5 | Software/app review platforms (G2/Capterra) | disabled | Commercial ToS/robots restrictions; no public API |
@@ -270,7 +270,7 @@ assumption until the workflows actually run.
 ## 10. Cost controls and retention (Part 8)
 
 - Limits are file-driven (`painmine/limits.json`) and enforced in `Budget`:
-  requests 24, items/source 50, items total 240, min 1.0 s between requests,
+  requests 40, items/source 50, items total 240, min 1.0 s between requests,
   20 s request timeout, LLM calls 6, input 12k/output 1.2k per call, total
   tokens 40k, USD 0.25, wall 420 s.
 - The PoC used 24/24 requests, 150/240 items, 43.84/420 s, USD 0.00.
