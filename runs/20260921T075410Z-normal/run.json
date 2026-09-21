@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "20260921T075410Z-normal",
+  "mode": "normal",
+  "status": "success",
+  "started_at": "2026-09-21T07:54:10Z",
+  "finished_at": "2026-09-21T08:02:47Z",
+  "agent": "idea-worker",
+  "model": "opencode-go/deepseek-v4.1-flash",
+  "method_version": "1.2.0",
+  "input_revision": "291213b",
+  "output_revision": "291213b",
+  "attempts": 1,
+  "timeout_seconds": 3600,
+  "max_cost_usd": 1.0,
+  "cost_usd": 0.011093,
+  "tokens": {
+    "input": 58421,
+    "output": 5441,
+    "reasoning": 13083,
+    "cache_read": null,
+    "cache_write": null,
+    "total": 138360
+  },
+  "changed_files": [],
+  "validation": {
+    "status": "pass",
+    "errors": []
+  },
+  "summary_path": "runs/20260921T075410Z-normal/summary.md"
+}

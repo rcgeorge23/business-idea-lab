@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "method_version": "1.2.0",
+  "weights_version": "1.2.0",
+  "idea_id": "vetcma",
+  "slug": "vetcma",
+  "title": "CMA veterinary price-transparency compliance for independent practices",
+  "state": "killed",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "rationale": "Mandatory, dated transparency duties for every practice, reinforced by a funded regulator platform."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "rationale": "Buyer is the independent practice owner/manager (~2,382 practices); practices already pay for PMS but the compliance budget is unproven."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 4,
+      "confidence": "high",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "rationale": "Primary government/regulator documents plus dated provider pages establish the mandate and competitive supply."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "rationale": "Plausible trade-body route (RCVS/BVA/FIVP) but no prospects or demonstrated reach."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "rationale": "Capped at 2: direct incumbents contest the wedge; >=4 providers, two free forever."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "rationale": "Landing-page plus free-tool test is cheap and fast."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "rationale": "Simple hosted price list, templates and record-keeping; no novel technology."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "rationale": "Capped at 2: economics untested/modelled; free entrants anchor the price at zero."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "low",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "rationale": "Buildable by a small team, but distribution into a crowded compliance niche is the weak point."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "rationale": "No regulated activity; main risk is dependency on CMA/RCVS timetables and commodity price pressure."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "pass",
+      "note": "Independent practice owner/manager; ~2,382 independent practices.",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "resolve_via": ""
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "pass",
+      "note": "Mandatory duties with staged 2026-2027 deadlines and a funded regulator levy.",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "resolve_via": ""
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "Trade-body route unproven for a new entrant.",
+      "evidence": [],
+      "resolve_via": "Ask FIVP/BVA whether a vendor can reach members without paid placement; test organic acquisition via a free price-list tool."
+    },
+    "defensible_wedge": {
+      "status": "fail",
+      "note": "Wedge is a standard feature of PMS/website vendors; >=4 providers, two free forever.",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "resolve_via": ""
+    },
+    "no_network_effects_needed": {
+      "status": "pass",
+      "note": "Single-sided compliance tool.",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "resolve_via": ""
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "Free-forever anchor; conversion and CAC/LTV unproven.",
+      "evidence": [],
+      "resolve_via": "Convert a free-tool cohort to GBP49/month and measure CAC/LTV against VetGuard's anchor."
+    },
+    "acceptable_risk": {
+      "status": "pass",
+      "note": "No regulated activity; dependencies on CMA/RCVS timetables only.",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "resolve_via": ""
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "Landing page plus free price-list tool falsifies demand cheaply.",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Case depends on conversion against free incumbents.",
+      "evidence": [],
+      "resolve_via": "Run the pilot; if free tools hold price at zero, the case fails."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 100,
+    "raw_weighted_points": 61.0,
+    "weighted_total": 61.0,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "medium",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

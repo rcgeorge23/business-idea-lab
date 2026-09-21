@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "method_version": "1.2.0",
+  "weights_version": "1.2.0",
+  "idea_id": "propident",
+  "slug": "propident",
+  "title": "Corporate-property ownership intelligence on HMLR property identifiers",
+  "state": "killed",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "rationale": "Corporate-property ownership questions are recurring, but no evidence they are painful or under-served."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "rationale": "Conveyancing/AML buyers identified but willingness to pay a new entrant is unproven and the data is open."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "rationale": "Primary HMLR announcement plus a dated commercial index; buyer-side evidence absent."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "rationale": "Search-led acquisition plausible but untested; incumbents own professional toolchains."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "rationale": "Capped at 2: direct incumbents (landregistry.company; enterprise providers) contest the wedge."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "rationale": "A paid pilot is cheap, but establishing buyer need requires access to conveyancing teams."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "rationale": "Joining open datasets is straightforward engineering."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "rationale": "Capped at 2: commodity pricing (GBP1/title) and free OGL data; economics unsupported."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "rationale": "No differentiated capability; incumbent data vendors have the distribution."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "rationale": "Low regulatory risk; commercial risk of competing with free/open data and incumbents."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "unknown",
+      "note": "Conveyancing/AML teams identified but payment for a new entrant unproven.",
+      "evidence": [],
+      "resolve_via": "Interview five conveyancing/AML teams to establish whether they would pay rather than self-join open data."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "unknown",
+      "note": "Frequency and budget for corporate-ownership checks unmeasured.",
+      "evidence": [],
+      "resolve_via": "Measure corporate-property ownership queries per conveyancing matter and the current tooling spend."
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "Search-led acquisition untested in this niche.",
+      "evidence": [],
+      "resolve_via": "Test search demand for 'who owns this property' queries and inbound interest."
+    },
+    "defensible_wedge": {
+      "status": "fail",
+      "note": "Open data plus an existing GBP1/title index and enterprise data vendors.",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "resolve_via": ""
+    },
+    "no_network_effects_needed": {
+      "status": "pass",
+      "note": "Single-sided data product.",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "resolve_via": ""
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "Commodity data pricing; gross margin after data costs unproven.",
+      "evidence": [],
+      "resolve_via": "Price against the GBP1/title incumbent and measure gross margin."
+    },
+    "acceptable_risk": {
+      "status": "pass",
+      "note": "Public data; no regulated activity.",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "resolve_via": ""
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "A hand-built paid pilot report for one conveyancing firm.",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+      ],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Requires buyers to switch from self-join/open data.",
+      "evidence": [],
+      "resolve_via": "Run the pilot; if firms will not pay above data cost, the case fails."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 100,
+    "raw_weighted_points": 49.0,
+    "weighted_total": 49.0,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "low",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

@@ -93,12 +93,24 @@ def main() -> int:
         "summary": args.summary or None,
     }
     index_path = root / "runs" / "index.jsonl"
-    existing = index_path.read_text(encoding="utf-8") if index_path.exists() else ""
-    if args.run_id in existing:
-        pass  # never duplicate a run record
-    else:
-        with index_path.open("a", encoding="utf-8") as fh:
-            fh.write(json.dumps(index_line) + "\n")
+    lines = []
+    if index_path.exists():
+        lines = [
+            line
+            for line in index_path.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+    replaced = False
+    for i, line in enumerate(lines):
+        try:
+            if json.loads(line).get("run_id") == args.run_id:
+                lines[i] = json.dumps(index_line)
+                replaced = True
+        except json.JSONDecodeError:
+            continue
+    if not replaced:
+        lines.append(json.dumps(index_line))
+    index_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return 0
 
 

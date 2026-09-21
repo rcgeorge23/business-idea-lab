@@ -8,13 +8,13 @@
     "max_validation_ready_advances_per_run": 1
   },
   "counts": {
-    "total": 8,
+    "total": 11,
     "unreviewed": 0,
     "by_state": {
       "adversarially-researched": 3,
-      "killed": 5
+      "killed": 8
     },
-    "killed": 5
+    "killed": 8
   },
   "ideas": [
     {
@@ -439,6 +439,162 @@
           "granted": false
         },
         "plan": "experiments/aucly-channel-test/plan.md"
+      }
+    },
+    {
+      "id": "vetcma",
+      "slug": "vetcma",
+      "title": "CMA veterinary price-transparency compliance for independent practices",
+      "state": "killed",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 61.0,
+      "confidence": "medium",
+      "fingerprint": {
+        "buyer": "Owner or manager of an independent UK companion-animal veterinary practice",
+        "problem": "From late 2026 to 2027 every practice must publish a standardised price list and adopt estimate, bill, ownership-disclosure and complaints duties under the CMA Order",
+        "mechanism": "Low-cost hosted compliance toolkit (price list, templates, records) sold to independent practices",
+        "keywords": [
+          "veterinary",
+          "CMA",
+          "price list",
+          "compliance",
+          "estimates"
+        ]
+      },
+      "why_now": {
+        "changed": "CMA published its veterinary final decision report on 24 March 2026 and the draft Veterinary Services Market Investigation Order 2026 on 21 July 2026, with the Order due by 23 September 2026 and duties phased from late 2026",
+        "changed_date": "2026-03-24",
+        "why_it_matters": "Creates a dated, mandatory transparency duty for every UK practice, reinforced by a funded RCVS monitoring platform",
+        "competitors_responded": "Yes - VetGuard, pricebook.vet, vetcompliance.co.uk and Vetstoria already market CMA compliance; Provet bundles itemised invoicing and estimates",
+        "strength": "strong",
+        "evidence": [
+          "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/vetcma",
+        "dossier": "ideas/vetcma/dossier.md",
+        "decision": "ideas/vetcma/decision.md",
+        "scorecard": "ideas/vetcma/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    },
+    {
+      "id": "prsregister",
+      "slug": "prsregister",
+      "title": "PRS Database registration and marketing-readiness for letting agents and landlords",
+      "state": "killed",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 59.0,
+      "confidence": "medium",
+      "fingerprint": {
+        "buyer": "Letting agents and self-managing landlords in England",
+        "problem": "From 15 December 2026 the PRS Database rolls out region by region and agents may not market a rental without active Landlord and Property Registration Numbers",
+        "mechanism": "Readiness and record-keeping tool for registrations, certificate evidence and pre-marketing checks",
+        "keywords": [
+          "PRS Database",
+          "letting agents",
+          "landlords",
+          "registration",
+          "compliance"
+        ]
+      },
+      "why_now": {
+        "changed": "Draft Private Rented Sector Database Regulations 2026 laid in Parliament, operationalising the Renters' Rights Act 2025 register with rollout from 15 December 2026 (West Midlands) through 14 November 2027",
+        "changed_date": "2026-09-08",
+        "why_it_matters": "Creates a mandatory register, a per-property fee and a statutory prohibition on marketing unregistered rentals",
+        "competitors_responded": "Yes - Lettable markets PRS Database readiness at GBP19/month; Goodlord, Fixflo, OpenRent, Landlord Vision and Homelet own the agent workflow",
+        "strength": "strong",
+        "evidence": [
+          "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/prsregister",
+        "dossier": "ideas/prsregister/dossier.md",
+        "decision": "ideas/prsregister/decision.md",
+        "scorecard": "ideas/prsregister/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    },
+    {
+      "id": "propident",
+      "slug": "propident",
+      "title": "Corporate-property ownership intelligence on HMLR property identifiers",
+      "state": "killed",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 49.0,
+      "confidence": "low",
+      "fingerprint": {
+        "buyer": "Conveyancing due-diligence and AML teams, lenders and property analysts",
+        "problem": "Linking corporate proprietors to registered titles and to ownership data is laborious and current tooling is either open data or enterprise-priced",
+        "mechanism": "Searchable corporate-property ownership index with Companies House and Overseas Entities cross-reference",
+        "keywords": [
+          "HM Land Registry",
+          "UPRN",
+          "corporate ownership",
+          "conveyancing",
+          "AML"
+        ]
+      },
+      "why_now": {
+        "changed": "HM Land Registry began publishing UPRN and INSPIRE lookup tables alongside Price Paid Data from 28 August 2026 and will extend them to UK Companies and Overseas Companies data later in FY2026-27",
+        "changed_date": "2026-08-26",
+        "why_it_matters": "Reliable property identifiers remove matching friction for anyone analysing property ownership or corporate holdings",
+        "competitors_responded": "Yes - landregistry.company mirrors HMLR's Commercial and Corporate Ownership Data with Companies House cross-references at GBP1.00 per title; enterprise data vendors sit in the same space",
+        "strength": "strong",
+        "evidence": [
+          "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/propident",
+        "dossier": "ideas/propident/dossier.md",
+        "decision": "ideas/propident/decision.md",
+        "scorecard": "ideas/propident/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
       }
     }
   ]

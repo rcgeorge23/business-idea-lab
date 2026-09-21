@@ -3,9 +3,9 @@
   "method_version": "1.2.0",
   "updated": "2026-09-21",
   "counts": {
-    "total": 3,
+    "total": 6,
     "by_status": {
-      "unexplored": 3
+      "unexplored": 6
     }
   },
   "seeds": [
@@ -15,7 +15,7 @@
       "title": "Grant application quality / win-rate support for UK SMEs",
       "origin_idea": "grantscout",
       "observation": "The GrantScout adversarial pass observed that the value in UK grant funding may lie in application quality and win rate rather than discovery - discovery is free from GOV.UK Find a grant, while applications are long, competitive and often rejected.",
-      "why_materially_different": "A win-rate/application-quality proposition serves a different job (prepare a winning bid) from a £15-£29/mo discovery digest, likely with a different pricing model (contingency or per-application) and a different buyer. It must be researched from scratch and may fail the same margin, distribution and wedge filters.",
+      "why_materially_different": "A win-rate/application-quality proposition serves a different job (prepare a winning bid) from a \u00a315-\u00a329/mo discovery digest, likely with a different pricing model (contingency or per-application) and a different buyer. It must be researched from scratch and may fail the same margin, distribution and wedge filters.",
       "recorded": "2026-09-21",
       "status": "unexplored",
       "evidence": [
@@ -50,6 +50,45 @@
       "evidence": [
         "ideas/packproof/decision.md",
         "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ]
+    },
+    {
+      "id": "vet-estimate-bridge",
+      "slug": "vet-estimate-bridge",
+      "title": "Written-estimate to itemised-bill bridge for independent vet practices",
+      "origin_idea": "vetcma",
+      "observation": "The CMA draft Order requires written estimates for pathways likely to cost GBP500 or more and itemised bills, while independents on legacy PMS or dated websites may lack a fee-transparency workflow at the point of treatment; incumbents market bundled compliance suites rather than a bridge to existing systems.",
+      "why_materially_different": "A narrow workflow/integration wedge tied to fee capture during treatment, not a price-list or compliance-suite product.",
+      "recorded": "2026-09-21",
+      "status": "unexplored",
+      "evidence": [
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+      ]
+    },
+    {
+      "id": "prs-listing-precheck",
+      "slug": "prs-listing-precheck",
+      "title": "PRS listing pre-check and landlord registration-number chase",
+      "origin_idea": "prsregister",
+      "observation": "Agents may not market a relevant rental property without active Landlord and Property Registration Numbers, and at the draft-regulations stage there was no known bulk-upload or API route for agents.",
+      "why_materially_different": "A validation/API wedge aimed at portals and CRM vendors rather than another agent-facing compliance suite.",
+      "recorded": "2026-09-21",
+      "status": "unexplored",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ]
+    },
+    {
+      "id": "corporate-property-aml-monitor",
+      "slug": "corporate-property-aml-monitor",
+      "title": "Ongoing AML monitoring of corporate property ownership for small conveyancers",
+      "origin_idea": "propident",
+      "observation": "HM Land Registry is adding property identifiers to Price Paid Data (live 28 August 2026) and plans the same for UK and Overseas Companies data in FY2026-27, which with Economic Crime Act obligations could support ongoing ownership-change monitoring.",
+      "why_materially_different": "A monitoring/ongoing-compliance service for smaller conveyancers, not a commodity data index.",
+      "recorded": "2026-09-21",
+      "status": "unexplored",
+      "evidence": [
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
       ]
     }
   ]

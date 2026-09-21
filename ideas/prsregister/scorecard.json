@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "method_version": "1.2.0",
+  "weights_version": "1.2.0",
+  "idea_id": "prsregister",
+  "slug": "prsregister",
+  "title": "PRS Database registration and marketing-readiness for letting agents and landlords",
+  "state": "killed",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "rationale": "Mandatory database entries, per-property fee and a marketing prohibition across England, phased from Dec 2026."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "rationale": "Letting agents and self-managing landlords are clear buyers; budget for a new entrant is unproven."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 4,
+      "confidence": "high",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "rationale": "Primary legislation and draft regulations plus dated secondary reporting on rollout and pricing."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "rationale": "Trade-body route plausible (NRLA/Propertymark) but no prospects; register is self-serve and free."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "rationale": "Capped at 2: readiness is standard letting-software functionality (Lettable GBP19/month and incumbents)."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "rationale": "A regional pre-check test is cheap but needs agent access in the first rollout area."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "rationale": "Straightforward checklist/record-keeping build."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "rationale": "Capped at 2: GBP19/month anchor against a free core register; margins unproven."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "low",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "rationale": "Buildable, but distribution and incumbency are the constraints."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "rationale": "No regulated activity; risk is commodity pricing and operator API changes."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "pass",
+      "note": "Letting agents and self-managing landlords in England.",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "resolve_via": ""
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "pass",
+      "note": "Mandatory entries, per-property fee, and a statutory marketing prohibition.",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "resolve_via": ""
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "NRLA/Propertymark route unproven for a new entrant.",
+      "evidence": [],
+      "resolve_via": "Ask NRLA/Propertymark whether a vendor can reach members without paid placement and test organic acquisition."
+    },
+    "defensible_wedge": {
+      "status": "fail",
+      "note": "Readiness is standard letting-software functionality; the core register is a free government service.",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "resolve_via": ""
+    },
+    "no_network_effects_needed": {
+      "status": "pass",
+      "note": "Single-sided tool.",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "resolve_via": ""
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "GBP19/month anchor against a free register; margins unproven.",
+      "evidence": [],
+      "resolve_via": "Pilot paid readiness with small agents and measure conversion/CAC."
+    },
+    "acceptable_risk": {
+      "status": "pass",
+      "note": "No regulated activity; no licence to operate required.",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "resolve_via": ""
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "A listing pre-check for small agents in the first rollout region.",
+      "evidence": [
+        "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Depends on paid conversion where a free register exists.",
+      "evidence": [],
+      "resolve_via": "Run the pilot; if agents default to the free register, the case fails."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 100,
+    "raw_weighted_points": 59.0,
+    "weighted_total": 59.0,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "medium",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}
