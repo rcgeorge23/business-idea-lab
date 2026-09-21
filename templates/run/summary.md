@@ -3,7 +3,7 @@
 - **Mode:** normal | dry-run | smoke
 - **Started / finished:** ISO-8601
 - **Agent / model:** idea-worker / opencode-go/deepseek-v4.1-flash
-- **Method version:** 1.1.0
+- **Method version:** 1.2.0
 - **Input / output revision:** `<sha>` / `<sha or 'uncommitted'>`
 - **Status:** success | failed | invalid-output | over-budget
 

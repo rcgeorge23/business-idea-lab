@@ -4,6 +4,37 @@ Every material change to the method bumps `method/VERSION` and is listed here wi
 review status. Review status values: `not-required` | `requested` | `changes-requested` |
 `approved` | `killed`. See `method/review-policy.md` (section "Method changes").
 
+## 1.2.0 - 2026-09-21
+
+Motivated by issue #3 (Aucly calibration). One narrow, evidence-driven change; all other
+candidate refinements were rejected as unnecessary (see `ideas/aucly/decision.md`).
+
+Changed:
+
+- **Why-now cap scoped (weights version 1.2.0)**: the "missing why-now caps
+  `differentiation` and `problem_severity_frequency` at 2" rule now applies only while
+  the idea's evidence level is `Plausible` or `Promising`. From `Demand evidence`
+  upward the cap does not apply, because real payment evidence is stronger than a
+  discontinuity claim. Aucly exposed the systematic error: an evergreen niche
+  (school/charity fundraising, incumbents predating 2025) with paying customers was
+  being penalised twice - once for having no discontinuity and again in the
+  differentiation dimension - which would have understated a genuinely evidenced
+  business.
+- **No other scoring rules changed.** Small-market viability, bootstrapped vs
+  venture-scale framing, founder fit, cheap build/testability, direct-competitor
+  treatment and payment-vs-validation separation were all reviewed against Aucly and
+  found already adequate.
+
+Regression: existing fixtures are unaffected. The killed fixtures (ShiftSwap,
+WonkyBox, GrantScout, AgentReady, PackProof) are all at evidence level `Plausible`, so
+the scoped cap still applies to them, and their kills rest on `fail` hard filters or
+vetoes, not on the cap. GeoNerd and Reasonable Steps are `Promising`: cap still applies.
+The only score change is Aucly's own `problem_severity_frequency` 2 -> 3 (60.0 total).
+
+Review: `requested` - see `reviews/2026-09-21-method-v1.2.0-review-request.md`.
+This changelog entry must be updated with the outcome when the review lands; the worker
+must then answer it explicitly in the next run.
+
 ## 1.1.0 - 2026-09-21
 
 Motivated by issue #2 and the first normal run (`runs/20260920T210550Z-normal`), which

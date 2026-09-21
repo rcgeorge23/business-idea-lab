@@ -31,6 +31,8 @@ any idea.
 | GeoNerd | Seeded from the geonerd repo at commit `327f02e`; evidence registers under `evidence/geonerd/` | Rescored 2026-09-21 under method 1.1.0: 65.3 -> 49.5, parked at `adversarially-researched`; review re-requested (`reviews/2026-09-21-geonerd-review-request-v2.md`) |
 | Weak/rejected x2 | Produced by the first calibration worker run | Generated 2026-09-20 by run `20260920T210550Z-normal` (`shiftswap`, `wonkybox`) |
 | Attractive control | Produced by the first calibration worker run | Generated 2026-09-20 by run `20260920T210550Z-normal` (`grantscout`; killed by adversarial veto) |
+| Aucly (pre-launch) | Reconstructed by the worker for issue #3, no hindsight (`ideas/aucly/pre-launch-assessment.md`) | Simulated under method 1.2.0: 49.5, parked at `desk-screened`; a cheap concierge test proposed before building; no false negative |
+| Aucly (today) | Operating evidence from `aucly-micronaut` @ `c6bf305b5` and `aucly-seo-reports` @ `14596f3`, registered under `evidence/aucly/` | Scored 60.0, parked at `adversarially-researched`; 3 `pass` / 4 `unknown` / 0 `fail`; experiment `aucly-channel-test` proposed |
 
 The weak/rejected and control fixtures are NOT seeded by hand; generating them is part
 of the first run, so that the run exercises the real generation and kill path.
@@ -50,6 +52,25 @@ of the first run, so that the run exercises the real generation and kill path.
    discovery; the adjacent seed captures the surviving observation.
 3. **Nothing advanced.** No candidate was promoted on the strength of the recalibration;
    the method remains comfortable returning no advance.
+
+## Regression checks under method 1.2.0 (2026-09-21, issue #3 Aucly)
+
+1. **Scoped why-now cap.** The one change: the missing/unevidenced why-now cap now
+   applies only at `Plausible`/`Promising` evidence levels, so an evergreen
+   category with real payment evidence is judged on that evidence
+   (`method/CHANGELOG.md` 1.2.0). Motivated by a specific Aucly result; no other rule
+   changed.
+2. **Killed fixtures regression-checked.** `shiftswap`, `wonkybox` and `grantscout`
+   are all `Plausible`, so the cap still applies to them and their kills rest on
+   `fail` filters/vetoes; nothing previously killed becomes a pass. GeoNerd and
+   Reasonable Steps (`Promising`) are unaffected. The only score change is Aucly's
+   `problem_severity_frequency` 2 -> 3 (57.0 -> 60.0), still below the threshold.
+3. **Aucly evaluation.** Pre-launch 49.5 (parked, cheap test proposed; no false
+   negative) and today 60.0 (parked; early commercial evidence recognised without
+   treating ~7 unverified payments as validation). Comparison with all four fixtures
+   and answers to the twelve calibration questions are in `ideas/aucly/decision.md`.
+4. **Method 1.2.0 review requested** (`reviews/2026-09-21-method-v1.2.0-review-request.md`);
+   outcome to be recorded in `method/CHANGELOG.md` and answered in a later run.
 
 ## Procedure
 
@@ -86,6 +107,7 @@ Calibration is complete when:
 | Method 1.1.0 recalibration (issue #2) | worker | done | 2026-09-21 | GeoNerd rescored 65.3 → 49.5 and parked; regression checks hold; method review requested (`reviews/2026-09-21-method-v1.1.0-review-request.md`) |
 | Post-change discovery run | worker | done | 2026-09-21 | `runs/20260921T065316Z-normal`; 3 discontinuity candidates, 2 kills, 1 parked; source classes + why-now recorded; reviewed in `retrospectives/2026-09-21-issue2-delta-review.md` |
 | False-negative audit (kill #5) | worker + reviewer | requested | 2026-09-21 | `reviews/2026-09-21-false-negative-audit-request.md` (shiftswap self-audit recorded) |
+| Aucly calibration (issue #3) | worker | done | 2026-09-21 | Pre-launch 49.5 parked + today 60.0 parked; twelve-question review and fixture comparison in `ideas/aucly/decision.md`; method 1.2.0 review requested |
 | ChatGPT review response recorded | human | pending | | `reviews/<date>-geonerd-chatgpt.md` |
 | Worker response to review | human | pending | | next run |
 | Retrospective + tuning | human | pending | | `retrospectives/` |

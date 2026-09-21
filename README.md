@@ -153,32 +153,48 @@ The human owner runs experiments; results go into the repository:
 
 Calibration compares the loop against known fixtures before its output is
 trusted: GeoNerd (seeded), two weak/rejected ideas and one attractive-looking
-control produced by the first worker run, plus an independent critique of at
-least one DeepSeek result. Status and exit criteria: `method/calibration.md`.
+control produced by the first worker run, plus Aucly as an explicit
+calibration/reference case (issue #3), and an independent critique of at least
+one DeepSeek result. Status and exit criteria: `method/calibration.md`.
 The fixture-generation steps are **done**: the first normal run
 (`runs/20260920T210550Z-normal`) produced two weak ideas killed through the
 documented hard-filter path (`shiftswap`, `wonkybox`) and one attractive
 control killed by adversarial veto (`grantscout`). Under method 1.1.0 GeoNerd
-was rescored honestly (65.3 -> 49.5) and parked at `adversarially-researched`;
-its demand experiment remains proposed. The independent ChatGPT critiques
-(GeoNerd review request v2 and the method 1.1.0 review request) are **still
-pending**, so the loop's output must not yet be treated as trusted.
+was rescored honestly (65.3 -> 49.5) and parked at `adversarially-researched`.
+The Aucly calibration keeps a no-hindsight pre-launch reconstruction
+(`ideas/aucly/pre-launch-assessment.md`; 49.5, parked, cheap test proposed) and
+a current-state assessment on real operating evidence (`ideas/aucly/dossier.md`;
+60.0, parked, early commercial evidence only). The independent ChatGPT
+critiques (GeoNerd review request v2, method v1.1.0 and method v1.2.0 requests,
+and the shiftswap false-negative audit) are **still pending**, so the loop's
+output must not yet be treated as trusted.
 
 ## Status
 
-- Method version 1.1.0 (2026-09-21): discontinuity-first discovery with an
-  evidenced `why now?` on every candidate, strict `pass`/`unknown`/`fail`
-  hard-filter semantics, plausibility score caps, non-inheriting adjacent
-  seeds, and an early novelty/incumbent sanity check. The `validation-ready`
-  threshold (65) was deliberately **not** lowered; honest desk-only ideas
-  typically land in the 45-60 range and stay parked, and parked ideas may
-  still carry a proposed experiment. The v1.1.0 method change itself has an
-  open review request (`reviews/2026-09-21-method-v1.1.0-review-request.md`).
+- Method version 1.2.0 (2026-09-21): builds on 1.1.0 (discontinuity-first
+  discovery with an evidenced `why now?` on every candidate, strict
+  `pass`/`unknown`/`fail` hard-filter semantics, plausibility score caps,
+  non-inheriting adjacent seeds, early novelty/incumbent sanity check). 1.2.0
+  scopes the missing-why-now cap to `Plausible`/`Promising` ideas, so an
+  evergreen niche with real payment evidence is judged on that evidence; no
+  other rule changed. The `validation-ready` threshold (65) was deliberately
+  **not** lowered; honest desk-only ideas typically land in the 45-60 range and
+  stay parked, and parked ideas may still carry a proposed experiment. Method
+  review requests are open for v1.1.0 and v1.2.0
+  (`reviews/2026-09-21-method-v1.1.0-review-request.md`,
+  `reviews/2026-09-21-method-v1.2.0-review-request.md`).
 - GeoNerd is parked at `adversarially-researched` with score 49.5 (down from
   65.3 under the looser 1.0.0 semantics), an independent review requested
   (`reviews/2026-09-21-geonerd-review-request-v2.md`) and a proposed
   demand-validation experiment awaiting human approval. It has **no demand
   evidence**; 49.5 is below the threshold and is not a signal to invest.
+- Aucly is recorded as a calibration case, not a candidate for investment:
+  pre-launch 49.5 and today 60.0, both below the 65 threshold and parked. Its
+  real auctions and small number of paying organisers count as early
+  `Commercial evidence`; the recorded 2,333 visitors with zero accounts keep
+  distribution at 2. Proposed next step is the cheap unpaid-channel test
+  (`experiments/aucly-channel-test/plan.md`), awaiting human approval. Full
+  reasoning: `ideas/aucly/decision.md`.
 - `scripts/run.sh` has completed smoke, dry and normal runs end-to-end (cost
   well under the USD 1.00 bound; validator passing).
 - Scheduling of recurring runs is deliberately out of scope. Every run is

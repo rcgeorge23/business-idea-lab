@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "method_version": "1.1.0",
-  "weights_version": "1.1.0",
+  "method_version": "1.2.0",
+  "weights_version": "1.2.0",
   "idea_id": "agentready",
   "slug": "agentready",
   "title": "Agent-ready checkout for independent merchants",
@@ -12,70 +12,90 @@
       "weight": 15,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "evidence": [
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ],
       "rationale": "The new buying surface is real and dated, but merchant-side pain, urgency and frequency are not evidenced; the sourced material shows supply-side platform action, not buyer pain."
     },
     "buyer_budget_clarity": {
       "weight": 15,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "evidence": [
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ],
       "rationale": "Buyer identified (off-platform merchants/agencies) but no evidence they hold or would allocate a budget for agent-readiness; platforms give it away."
     },
     "evidence_strength": {
       "weight": 15,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "evidence": [
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ],
       "rationale": "Primary platform/payment-provider sources establish the change and the bundled competitive response, but no demand-side evidence."
     },
     "distribution": {
       "weight": 10,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "evidence": [
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ],
       "rationale": "Only plausible agency/marketplace routes; no non-paid route to early buyers evidenced (capped at 2 for plausible-only distribution)."
     },
     "differentiation": {
       "weight": 10,
       "score": 1,
       "confidence": "medium",
-      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "evidence": [
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ],
       "rationale": "Readiness is bundled free by Shopify/Google/Stripe/OpenAI and the protocols are open; direct incumbent overlap."
     },
     "validation_speed_cost": {
       "weight": 10,
       "score": 4,
       "confidence": "medium",
-      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "evidence": [
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ],
       "rationale": "A price/integration test would be cheap, though the hard-filter fail makes a test unjustified."
     },
     "feasibility": {
       "weight": 5,
       "score": 4,
       "confidence": "medium",
-      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "evidence": [
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ],
       "rationale": "Integration work is well documented and technically straightforward for a commerce engineer."
     },
     "economics": {
       "weight": 10,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "evidence": [
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ],
       "rationale": "Modelled only and untested (capped at 2); competing with a free bundled offer erodes pricing power."
     },
     "founder_fit": {
       "weight": 5,
       "score": 3,
       "confidence": "low",
-      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "evidence": [
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ],
       "rationale": "Inferred fit for a commerce-integration engineer with agency relationships; no owner-specific evidence."
     },
     "risk": {
       "weight": 5,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "evidence": [
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ],
       "rationale": "Platform dependence and protocol churn are the main risks; no acute legal/privacy risk identified."
     }
   },
@@ -101,7 +121,9 @@
     "defensible_wedge": {
       "status": "fail",
       "note": "Platforms and payment networks bundle agent-readiness free (Shopify/Google UCP, OpenAI/Stripe ACP, PayPal, WooCommerce), the protocols are open-sourced, and the function is a feature of commerce platforms.",
-      "evidence": ["evidence/agentready/2026-09-21-agentic-commerce-landscape.md"],
+      "evidence": [
+        "evidence/agentready/2026-09-21-agentic-commerce-landscape.md"
+      ],
       "resolve_via": ""
     },
     "no_network_effects_needed": {

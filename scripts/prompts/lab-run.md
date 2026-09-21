@@ -12,7 +12,7 @@ Before doing anything else:
 3. Handle any outstanding `changes-requested` reviews first, then follow the run
    protocol in order, respecting every limit in it.
 
-Discovery expectations for this run (method 1.1.0):
+Discovery expectations for this run (method 1.2.0):
 
 - Generate candidates only from identified discontinuities, not from generic startup
   ideas. Every candidate needs an evidenced "why now?" per `method/discovery.md`

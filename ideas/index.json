@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.1.0",
+  "method_version": "1.2.0",
   "updated": "2026-09-21",
   "limits": {
     "max_unreviewed_before_generation_stops": 10,
@@ -8,10 +8,10 @@
     "max_validation_ready_advances_per_run": 1
   },
   "counts": {
-    "total": 7,
+    "total": 8,
     "unreviewed": 0,
     "by_state": {
-      "adversarially-researched": 2,
+      "adversarially-researched": 3,
       "killed": 5
     },
     "killed": 5
@@ -35,13 +35,13 @@
           "evidence/geonerd/2026-09-20-wedge-strategy.md"
         ],
         "why_it_matters": "The shift creates a new monitoring job for practices; without it this would not have been an attractive business three years ago.",
-        "competitors_responded": "Yes - TendorAI, Tramwai (£299/mo), AireStream and SearchScore already sell AI visibility to UK accountants, which weakens the wedge but does not remove the category shift.",
+        "competitors_responded": "Yes - TendorAI, Tramwai (\u00a3299/mo), AireStream and SearchScore already sell AI visibility to UK accountants, which weakens the wedge but does not remove the category shift.",
         "strength": "strong"
       },
       "fingerprint": {
         "buyer": "UK accountancy practices, 1-20 staff, owner/partner decision maker; first beachhead contractor/IR35 specialists",
         "problem": "Practices cannot see whether AI assistants recommend them when local business owners ask for an accountant, who is recommended instead, or why",
-        "mechanism": "Free domain-in AI visibility scan plus a £19.99/mo plain-language monthly digest of visibility changes and prioritised actions",
+        "mechanism": "Free domain-in AI visibility scan plus a \u00a319.99/mo plain-language monthly digest of visibility changes and prioritised actions",
         "keywords": [
           "AI visibility",
           "generative engine optimisation",
@@ -88,7 +88,7 @@
           "evidence/shiftswap/2026-09-20-incumbent-rota-software.md"
         ],
         "why_it_matters": "Without a discontinuity the idea is a me-too variant competing on price against bundled features; under method 1.1.0 that is a strong reason to reject at screening.",
-        "competitors_responded": "Yes - rota incumbents at £0-£49/mo already include self-service shift swaps.",
+        "competitors_responded": "Yes - rota incumbents at \u00a30-\u00a349/mo already include self-service shift swaps.",
         "strength": "absent"
       },
       "fingerprint": {
@@ -146,7 +146,7 @@
       "fingerprint": {
         "buyer": "Food-waste-conscious UK households buying a weekly grocery box",
         "problem": "Odd-shaped and surplus produce goes to waste while households want affordable fresh food",
-        "mechanism": "Local weekly surplus-produce box subscription at roughly £10-£18 per box, delivered or collected",
+        "mechanism": "Local weekly surplus-produce box subscription at roughly \u00a310-\u00a318 per box, delivered or collected",
         "keywords": [
           "surplus produce",
           "wonky veg",
@@ -193,13 +193,13 @@
           "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
         ],
         "why_it_matters": "Absent a discontinuity the digest competes with a free authoritative service and contingency-priced incumbents; the observed value shift was toward application quality, not discovery (see seeds/grantscout-application-quality.md).",
-        "competitors_responded": "Yes - GOV.UK Find a grant (free), GovOwed (£29 one-time / £499 per year) and contingency-priced advisers.",
+        "competitors_responded": "Yes - GOV.UK Find a grant (free), GovOwed (\u00a329 one-time / \u00a3499 per year) and contingency-priced advisers.",
         "strength": "absent"
       },
       "fingerprint": {
         "buyer": "UK SME owners/directors, or their accountants and advisers",
         "problem": "Eligible grant schemes are hard to find and interpret, and missing funding is a direct loss",
-        "mechanism": "Monthly matched grant digest (£15-£29/mo) with plain-language eligibility and deadlines",
+        "mechanism": "Monthly matched grant digest (\u00a315-\u00a329/mo) with plain-language eligibility and deadlines",
         "keywords": [
           "UK grants",
           "SME funding",
@@ -385,6 +385,60 @@
           "granted": false
         },
         "plan": "experiments/reasonable-steps-willingness/plan.md"
+      }
+    },
+    {
+      "id": "aucly",
+      "slug": "aucly",
+      "title": "Aucly: flat-fee online auction platform for UK schools, PTAs and charities",
+      "state": "adversarially-researched",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Commercial evidence",
+      "score": 60.0,
+      "confidence": "medium",
+      "why_now": {
+        "changed": "Nothing favourable changed; fundraising auctions and auction platforms for UK schools, PTAs and small charities long predate Aucly, and its flat-fee model is a positioning choice rather than a discontinuity.",
+        "changed_date": null,
+        "evidence": [
+          "evidence/aucly/2026-09-21-competitive-landscape.md",
+          "evidence/aucly/2026-09-21-build-and-operating-burden.md"
+        ],
+        "why_it_matters": "With no discontinuity the case rests on demonstrated execution and operating evidence; under method 1.2.0 the missing-why-now cap does not apply at Commercial evidence, but the absence is recorded rather than hidden.",
+        "competitors_responded": "Entrenched incumbents (Jumblebee, PTA Events reporting GBP 40m processed, GalaBid, Givergy, Generosity Works) already occupy the category and did not need to respond to Aucly's entry.",
+        "strength": "absent"
+      },
+      "fingerprint": {
+        "buyer": "PTA chairs/committees, school fundraisers and small charity organisers in the UK with control of an event budget",
+        "problem": "Running a fundraising auction is effortful, and commission-based or managed platforms take a share of proceeds or require budget",
+        "mechanism": "Self-service auction platform charging a flat fee per paid auction (GBP 60/GBP 120, free tier) with no commission on winning bids",
+        "keywords": [
+          "school auctions",
+          "PTA fundraising",
+          "charity auctions",
+          "auction platform",
+          "flat fee",
+          "no commission"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/aucly",
+        "dossier": "ideas/aucly/dossier.md",
+        "decision": "ideas/aucly/decision.md",
+        "scorecard": "ideas/aucly/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": "aucly-channel-test",
+        "status": "proposed",
+        "approval": {
+          "required": true,
+          "granted": false
+        },
+        "plan": "experiments/aucly-channel-test/plan.md"
       }
     }
   ]

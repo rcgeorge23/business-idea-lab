@@ -61,7 +61,7 @@ be reviewed by the human owner before keeping them.
    then either kill the idea or record why it survives. Move to `adversarially-researched`.
    This pass must be genuinely aimed at killing; the sibling `idea-critic` agent can be
    used for a second adversarial opinion.
-8. **Advance at most one idea.** Score the candidate(s) under weights version 1.1.0. At
+8. **Advance at most one idea.** Score the candidate(s) under weights version 1.2.0. At
    most one idea per run may be proposed for `validation-ready`, and only if the
    threshold in `method/scorecard.md` and the review trigger in
    `method/review-policy.md` are satisfied. When triggered, set `review.status: requested`,

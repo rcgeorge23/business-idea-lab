@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.1.0",
+  "method_version": "1.2.0",
   "updated": "2026-09-21",
   "experiments": [
     {
@@ -47,6 +47,29 @@
         "money_gbp": 20,
         "human_hours": 10,
         "calendar_days": 7
+      }
+    },
+    {
+      "id": "aucly-channel-test",
+      "idea_id": "aucly",
+      "title": "Direct unpaid outreach channel test for Aucly",
+      "status": "proposed",
+      "created": "2026-09-21",
+      "updated": "2026-09-21",
+      "hypothesis": "If 20 UK primary-school PTAs outside the founder's network are approached directly with the Furzedown case study and free setup help, then at least 2 will launch a real auction within 30 days at zero paid spend, because the case study is concrete proof from a comparable organisation and the main setup friction is removed.",
+      "central_assumption": "UK primary-school PTAs, schools and small charities will launch a real auction through direct, unpaid outreach supported by an existing case study and free setup help.",
+      "kill_condition": "Zero of the 20 organisations launch an auction within 30 days and the dominant response is that they already use a satisfactory platform, do not run auctions, or see no benefit - or the founder's time per launch is so high that the channel cannot be repeated without paid help.",
+      "decision_rule": "Proceed iff >=2 of 20 contacts launch a real auction within 30 days at zero paid spend. Iterate once if exactly 1 launch, or several serious conversations are blocked by setup effort rather than willingness. Stop if 0 launches. Record as untested if legal/permission constraints block outreach.",
+      "plan": "experiments/aucly-channel-test/plan.md",
+      "results": null,
+      "approval": {
+        "required": true,
+        "granted": false
+      },
+      "cost_bound": {
+        "money_gbp": 0,
+        "human_hours": 20,
+        "calendar_days": 30
       }
     }
   ]

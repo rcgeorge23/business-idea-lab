@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 SCHEMA_VERSION = 1
-WEIGHTS_VERSION = "1.1.0"
+WEIGHTS_VERSION = "1.2.0"
 
 DIMENSIONS = {
     "problem_severity_frequency": 15,

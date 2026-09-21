@@ -60,9 +60,11 @@ ideas reach a cheap decisive test without inflating their desk evidence.
 
 Every candidate discovered under method >= 1.1.0 records an evidenced `why_now` in
 `ideas/index.json` and a "Why now?" section in its dossier (see `method/discovery.md`).
-A missing or unevidenced "why now?" does not by itself kill an idea, but it caps
-`differentiation` and `problem_severity_frequency` at 2 and is a strong reason to reject
-a generic or crowded candidate at screening.
+A missing or unevidenced "why now?" does not by itself kill an idea. For candidates at
+evidence level `Plausible` or `Promising` it caps `differentiation` and
+`problem_severity_frequency` at 2 and is a strong reason to reject a generic or crowded
+candidate at screening. From `Demand evidence` upward (v1.2.0) the cap is lifted: an
+evergreen niche with real payment evidence is judged on that evidence.
 
 ## Evidence levels
 

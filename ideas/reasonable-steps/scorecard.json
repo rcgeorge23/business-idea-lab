@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "method_version": "1.1.0",
-  "weights_version": "1.1.0",
+  "method_version": "1.2.0",
+  "weights_version": "1.2.0",
   "idea_id": "reasonable-steps",
   "slug": "reasonable-steps",
   "title": "\"All reasonable steps\": harassment-prevention evidence for UK SMEs",
@@ -12,70 +12,90 @@
       "weight": 15,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "evidence": [
+        "evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"
+      ],
       "rationale": "A dated legal duty with tribunal exposure and an explicit evidence requirement; frequency is low (periodic legal event) but severity is material."
     },
     "buyer_budget_clarity": {
       "weight": 15,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "evidence": [
+        "evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"
+      ],
       "rationale": "Buyer identified (SME owner/office manager) but budget is inferred; free official content creates price pressure; capped at 2."
     },
     "evidence_strength": {
       "weight": 15,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "evidence": [
+        "evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"
+      ],
       "rationale": "Primary legislation plus official Acas/gov.uk material establish the duty and date; buyer-side demand evidence is absent."
     },
     "distribution": {
       "weight": 10,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "evidence": [
+        "evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"
+      ],
       "rationale": "Fragmented SME buyer; accountant/lawyer referrals and direct outreach are plausible only (capped at 2)."
     },
     "differentiation": {
       "weight": 10,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "evidence": [
+        "evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"
+      ],
       "rationale": "No dedicated low-cost SME tool surfaced, but free authoritative guidance and generalist HR platforms are close substitutes."
     },
     "validation_speed_cost": {
       "weight": 10,
       "score": 4,
       "confidence": "medium",
-      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "evidence": [
+        "evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"
+      ],
       "rationale": "A 10-interview price/commitment test is cheap and fast; decision rule fixed in advance."
     },
     "feasibility": {
       "weight": 5,
       "score": 4,
       "confidence": "medium",
-      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "evidence": [
+        "evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"
+      ],
       "rationale": "Templates plus a simple record-keeping tool are low-complexity and low-support."
     },
     "economics": {
       "weight": 10,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "evidence": [
+        "evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"
+      ],
       "rationale": "Modelled only and untested (capped at 2); free official content limits pricing power."
     },
     "founder_fit": {
       "weight": 5,
       "score": 3,
       "confidence": "low",
-      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "evidence": [
+        "evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"
+      ],
       "rationale": "Inferred fit for a founder with HR/compliance content and SME distribution; no owner-specific evidence."
     },
     "risk": {
       "weight": 5,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"],
+      "evidence": [
+        "evidence/reasonable-steps/2026-09-21-harassment-duty-and-incumbents.md"
+      ],
       "rationale": "Handling harassment records is sensitive; the tool must avoid giving legal advice. Review policy trigger 4 (legal/regulatory/trust risk) should be assessed by the human owner before external testing."
     }
   },
@@ -125,7 +145,9 @@
     "cheap_disconfirming_test": {
       "status": "pass",
       "note": "The proposed 10-interview commitment test is cheap (£20, 10 hours, 7 days) and has a pre-fixed decision rule and kill condition capable of disconfirming the central assumption.",
-      "evidence": ["experiments/reasonable-steps-willingness/plan.md"],
+      "evidence": [
+        "experiments/reasonable-steps-willingness/plan.md"
+      ],
       "resolve_via": ""
     },
     "not_all_optimistic": {

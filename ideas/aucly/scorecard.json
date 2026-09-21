@@ -1,0 +1,211 @@
+{
+  "schema_version": 1,
+  "method_version": "1.2.0",
+  "weights_version": "1.2.0",
+  "idea_id": "aucly",
+  "slug": "aucly",
+  "title": "Aucly: flat-fee online auction platform for UK schools, PTAs and charities",
+  "state": "adversarially-researched",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/aucly/2026-09-21-live-auctions-and-customers.md",
+        "evidence/aucly/2026-09-21-competitive-landscape.md"
+      ],
+      "rationale": "Real auctions show an engaged named buyer: Furzedown Primary PTA ran a 7-day auction with 44 lots, 63 unique bidders and 1,074 bids; fundraising auctions recur annually for schools/PTAs. Dissatisfaction with incumbents is not evidenced, so the score is 3 rather than higher."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/aucly/2026-09-21-pricing-and-payments.md",
+        "evidence/aucly/2026-09-21-competitive-landscape.md"
+      ],
+      "rationale": "The buyer is identifiable (PTA chair/committee, school fundraiser, small charity organiser) with budget authority over the event. Aucly's £60/£120 paid tiers and incumbent commission pricing show the budget line exists. The roughly seven paid auctions are owner-supplied and unverified, so this is not a 4."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/aucly/2026-09-21-live-auctions-and-customers.md",
+        "evidence/aucly/2026-09-21-pricing-and-payments.md",
+        "evidence/aucly/2026-09-21-seo-and-acquisition.md"
+      ],
+      "rationale": "First-party operating evidence exists (live auctions, published case-study figures, production payment infrastructure, first-party analytics) rather than desk research. It is small, non-audited and silent on retention and market size, so 4 not 5; the payment count itself is unverified."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "high",
+      "evidence": [
+        "evidence/aucly/2026-09-21-seo-and-acquisition.md"
+      ],
+      "rationale": "Negative primary evidence: a substantial SEO investment produced 45 GSC clicks and 2,333 recorded visitors in the export window with 0 accounts, 0 auctions launched and £0 revenue; queries are brand-dominated. No unpaid channel has demonstrated it can reach organisers, so the plausible-only cap applies."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/aucly/2026-09-21-competitive-landscape.md"
+      ],
+      "rationale": "Flat fee with no commission and no bidder tips is a genuine difference, but it is contested by free plans (GalaBid, Jumblebee beeFree) and a scaled incumbent platform (PTA Events); no evidence that organisers switch for it. Direct incumbent overlap caps this at 2."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "experiments/aucly-channel-test/plan.md"
+      ],
+      "rationale": "The main open questions (unpaid acquisition, willingness to keep the flat fee) can be tested in 30 days with ~20 human hours and no spend via direct outreach with fixed kill rules. Nothing needs to be built."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "high",
+      "evidence": [
+        "evidence/aucly/2026-09-21-build-and-operating-burden.md"
+      ],
+      "rationale": "The product is built, deployed and running real auctions (Railway hosting, Stripe/offline payments, Brevo email, post-sale workflows). Feasibility is demonstrated, though maintenance is a continuing founder-time burden."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/aucly/2026-09-21-pricing-and-payments.md",
+        "evidence/aucly/2026-09-21-build-and-operating-burden.md"
+      ],
+      "rationale": "Flat £0/£60/£120 one-off pricing caps revenue per organiser per event; with roughly seven unverified paid auctions, per-auction contribution after hosting, email and founder time is not quantified. Modelled-only economics cap at 2."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/aucly/2026-09-21-build-and-operating-burden.md"
+      ],
+      "rationale": "The founder has built and continuously operates the product, shipping a broad feature set and handling real customer workflows; this is evidenced execution fit. Domain access, sales capacity and time-to-value for the founder are not evidenced."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/aucly/2026-09-21-competitive-landscape.md",
+        "evidence/aucly/2026-09-21-build-and-operating-burden.md"
+      ],
+      "rationale": "No regulated data and no funds held by Aucly, but competition from entrenched platforms, dependency on email/hosting providers and a small market remain live risks. No unacceptable legal/privacy/trust risk identified."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "pass",
+      "note": "PTA/school/charity organisers control the event budget and already pay for auction platforms in the category (commission or managed services); Aucly's own paid tiers exist at £60/£120.",
+      "evidence": [
+        "evidence/aucly/2026-09-21-pricing-and-payments.md",
+        "evidence/aucly/2026-09-21-competitive-landscape.md"
+      ],
+      "resolve_via": ""
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "pass",
+      "note": "Fundraising auctions are a recurring annual job for schools/PTAs, and the recorded Furzedown auction shows engaged organisers and bidders (44 lots, 63 unique bidders, 1,074 bids, £2,265 raised).",
+      "evidence": [
+        "evidence/aucly/2026-09-21-live-auctions-and-customers.md"
+      ],
+      "resolve_via": ""
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "No unpaid channel has produced measurable accounts: the recorded export window shows 2,333 visitors and 0 accounts created. Direct outreach is untested.",
+      "evidence": [
+        "evidence/aucly/2026-09-21-seo-and-acquisition.md"
+      ],
+      "resolve_via": "aucly-channel-test: 20 direct unpaid contacts; proceeds only if at least 2 launch a real auction within 30 days at zero paid spend"
+    },
+    "defensible_wedge": {
+      "status": "unknown",
+      "note": "Flat fee with no commission is a real difference but contestable (GalaBid free plan, Jumblebee beeFree, PTA Events' scale); no evidence organisers switch for it.",
+      "evidence": [
+        "evidence/aucly/2026-09-21-competitive-landscape.md"
+      ],
+      "resolve_via": "win/loss conversations in aucly-channel-test asking which platform organisers use today, what it costs them and whether the flat fee changed their decision"
+    },
+    "no_network_effects_needed": {
+      "status": "pass",
+      "note": "A single organiser runs an auction for their own invited community; Furzedown's 63 bidders came from one PTA. No marketplace density is required.",
+      "evidence": [
+        "evidence/aucly/2026-09-21-live-auctions-and-customers.md"
+      ],
+      "resolve_via": ""
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "£60/£120 per auction against Railway hosting, Brevo email and continuing founder maintenance; per-auction contribution is not quantified.",
+      "evidence": [
+        "evidence/aucly/2026-09-21-pricing-and-payments.md",
+        "evidence/aucly/2026-09-21-build-and-operating-burden.md"
+      ],
+      "resolve_via": "record actual hosting/email cost and founder hours per launch and per auction, and whether organisers return in a second year"
+    },
+    "acceptable_risk": {
+      "status": "pass",
+      "note": "No regulated data beyond organiser/bidder contact details; payments normally run through the organiser's own Stripe or bank transfer and Aucly does not hold funds. Remaining risks are commercial, not legal or trust risks.",
+      "evidence": [
+        "evidence/aucly/2026-09-21-pricing-and-payments.md",
+        "evidence/aucly/2026-09-21-build-and-operating-burden.md"
+      ],
+      "resolve_via": ""
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "A 20-contact unpaid outreach test with a pre-fixed kill rule can disconfirm the distribution assumption in 30 days at about 20 human hours and no spend.",
+      "evidence": [
+        "experiments/aucly-channel-test/plan.md"
+      ],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Viability still requires unpaid acquisition, repeat usage, adequate market size and workable founder-time economics; several assumptions (A3, A5-A7) remain untested.",
+      "evidence": [
+        "evidence/aucly/2026-09-21-seo-and-acquisition.md"
+      ],
+      "resolve_via": "run aucly-channel-test and a retention/pricing follow-up; if no repeatable unpaid route emerges, park or kill"
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 100,
+    "raw_weighted_points": 60.0,
+    "weighted_total": 60.0,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "medium",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": "aucly-channel-test",
+    "status": "proposed",
+    "approval": {
+      "required": true,
+      "granted": false
+    },
+    "plan": "experiments/aucly-channel-test/plan.md",
+    "results": null
+  }
+}

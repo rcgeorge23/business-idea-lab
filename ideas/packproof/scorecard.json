@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "method_version": "1.1.0",
-  "weights_version": "1.1.0",
+  "method_version": "1.2.0",
+  "weights_version": "1.2.0",
   "idea_id": "packproof",
   "slug": "packproof",
   "title": "PPWR packaging compliance for small UK brands and exporters",
@@ -12,70 +12,90 @@
       "weight": 15,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"],
+      "evidence": [
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ],
       "rationale": "A dated EU duty with market-access consequences; severity credible, frequency periodic rather than frequent."
     },
     "buyer_budget_clarity": {
       "weight": 15,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"],
+      "evidence": [
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ],
       "rationale": "Buyer defined (small UK brands/importers) but budget is inferred from vendor pricing only (vendor claims are weak secondary); capped at 2."
     },
     "evidence_strength": {
       "weight": 15,
       "score": 4,
       "confidence": "medium",
-      "evidence": ["evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"],
+      "evidence": [
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ],
       "rationale": "Primary regulation/government sources plus multiple dated vendor pages establish the duty and a populated market."
     },
     "distribution": {
       "weight": 10,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"],
+      "evidence": [
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ],
       "rationale": "Fragmented small-brand buyer with only plausible referral channels; no non-paid route evidenced (capped at 2)."
     },
     "differentiation": {
       "weight": 10,
       "score": 1,
       "confidence": "medium",
-      "evidence": ["evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"],
+      "evidence": [
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ],
       "rationale": "Direct overlap with several live vendors including a UK £49/mo tier; the feature set is the category standard."
     },
     "validation_speed_cost": {
       "weight": 10,
       "score": 4,
       "confidence": "medium",
-      "evidence": ["evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"],
+      "evidence": [
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ],
       "rationale": "A price test with small brands would be cheap and fast, though the wedge fail makes it unjustified."
     },
     "feasibility": {
       "weight": 5,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"],
+      "evidence": [
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ],
       "rationale": "Buildable, but ~30 delegated/implementing acts remain pending, so maintaining correctness is a real burden."
     },
     "economics": {
       "weight": 10,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"],
+      "evidence": [
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ],
       "rationale": "Modelled only and untested (capped at 2); a UK incumbent at £49/mo anchors price below a sustainable micro-tool margin."
     },
     "founder_fit": {
       "weight": 5,
       "score": 3,
       "confidence": "low",
-      "evidence": ["evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"],
+      "evidence": [
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ],
       "rationale": "Inferred fit for a packaging/regulatory domain expert; no owner-specific evidence."
     },
     "risk": {
       "weight": 5,
       "score": 2,
       "confidence": "medium",
-      "evidence": ["evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"],
+      "evidence": [
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ],
       "rationale": "Regulatory detail is still changing and a wrong DoC has legal consequences; compliance-liability risk is material."
     }
   },
@@ -101,7 +121,9 @@
     "defensible_wedge": {
       "status": "fail",
       "note": "Multiple credible providers already sell PPWR compliance software, including a UK-branded £49/mo tier; the proposition is a feature of an established compliance-software category.",
-      "evidence": ["evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"],
+      "evidence": [
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+      ],
       "resolve_via": ""
     },
     "no_network_effects_needed": {

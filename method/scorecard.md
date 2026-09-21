@@ -1,6 +1,6 @@
 # Scorecard
 
-Method version: see `method/VERSION`. Weights version: `1.1.0`.
+Method version: see `method/VERSION`. Weights version: `1.2.0`.
 
 Scores are integers 0-5 per dimension. Every score is linked to evidence; unsupported
 dimensions score `null` and are excluded from the aggregate (see
@@ -9,7 +9,7 @@ overall confidence.
 
 **Scores measure demonstrated strength, not plausibility.** A coherent story, an analogy,
 a spreadsheet of modelled economics or a competitor's existence does not establish that
-this business works. Version 1.1.0 separates three levels explicitly:
+this business works. The weights version separates three levels explicitly:
 
 - a claim that is *plausible but undemonstrated* caps a dimension at **2**;
 - a score of **3** requires affirmative evidence about this buyer and market;

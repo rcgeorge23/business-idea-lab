@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "method_version": "1.1.0",
-  "weights_version": "1.1.0",
+  "method_version": "1.2.0",
+  "weights_version": "1.2.0",
   "idea_id": "wonkybox",
   "slug": "wonkybox",
   "title": "WonkyBox: local surplus-produce subscription",

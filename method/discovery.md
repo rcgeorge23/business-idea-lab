@@ -55,9 +55,12 @@ dossier:
 
 - `changed` and `why_it_matters` must be non-empty and specific.
 - `evidence` must cite at least one dated source register entry or external URL.
-- A missing or unevidenced why-now does not auto-kill, but it caps
-  `differentiation` and `problem_severity_frequency` at 2 (see `method/scorecard.md`),
-  and is a strong reason to reject a generic or crowded candidate at screening.
+- A missing or unevidenced why-now does not auto-kill. For a candidate whose
+  evidence level is `Plausible` or `Promising` (pre-demand), it caps `differentiation`
+  and `problem_severity_frequency` at 2 (see `method/scorecard.md`) and is a strong
+  reason to reject a generic or crowded candidate at screening. The cap does not apply
+  once there is `Demand evidence` or better (v1.2.0): an evergreen niche with real
+  payment evidence is judged on that evidence, not on a missing discontinuity.
 
 ## Novelty / incumbent sanity check
 
