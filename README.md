@@ -166,8 +166,10 @@ The Aucly calibration keeps a no-hindsight pre-launch reconstruction
 a current-state assessment on real operating evidence (`ideas/aucly/dossier.md`;
 60.0, parked, early commercial evidence only). The independent ChatGPT
 critiques (GeoNerd review request v2, method v1.1.0, v1.2.0 and v1.3.0
-requests, and the shiftswap false-negative audit) are **still pending**, so the
-loop's output must not yet be treated as trusted.
+requests, and the shiftswap and BiK false-negative audits) are **still
+pending** — none has a reviewer response file — so the loop's output must not
+yet be treated as trusted. The full backlog and what would close each item is
+recorded in `reviews/2026-09-21-review-queue-reconciliation.md`.
 
 ## Status
 
@@ -201,6 +203,23 @@ loop's output must not yet be treated as trusted.
   candidates. It is flagged for review rather than the filter being weakened,
   and the next run is directed to search at least one non-regulatory source
   class and to re-check further seeds.
+- Issue #5 (2026-09-21) resolved the BiK payroll seam instead of generating
+  more ideas: the pre-committed desk scan
+  (`experiments/bikpayroll-incumbent-capability/results.md`) hit its KILL
+  branch — Zhoosh Benefits and The Electric Car Scheme (with Zest and
+  Zellis/Benefex) already ingest provider benefit data into per-period payroll —
+  so `bikpayroll` is killed (#10) with dated evidence. The review backlog is
+  reconciled honestly in `reviews/2026-09-21-review-queue-reconciliation.md`
+  (nothing answered or superseded; a cumulative 1.0.0 -> 1.3.0 method review is
+  offered as a routing option), and `experiments/queue.md` recommends: run
+  `reasonable-steps-willingness` first, `aucly-channel-test` second, defer
+  `geonerd-demand-spike` until GeoNerd review v2 is routed. The next discovery
+  run is recommended only after the backlog is routed and with a
+  **non-regulatory sourcing budget** (at least two of three candidate slots from
+  non-regulatory classes; at most one mandate-derived candidate; at least one
+  previously unsearched class attempted). That sourcing rule is proposed for
+  review before adoption (`retrospectives/2026-09-21-issue5-backlog-and-next-run.md`);
+  no scoring rule changes.
 - GeoNerd is parked at `adversarially-researched` with score 49.5 (down from
   65.3 under the looser 1.0.0 semantics), an independent review requested
   (`reviews/2026-09-21-geonerd-review-request-v2.md`) and a proposed

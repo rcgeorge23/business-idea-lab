@@ -1,12 +1,12 @@
 # Dossier — `bikpayroll`
 
 - **ID / slug:** `bikpayroll`
-- **State:** `desk-screened`
+- **State:** `killed`
 - **Evidence level:** Plausible
 - **Owner:** human (not yet assigned)
 - **Created:** 2026-09-21
 - **Updated:** 2026-09-21
-- **Source:** fresh (run `20260921T081223Z-normal`, method 1.3.0)
+- **Source:** fresh (run `20260921T081223Z-normal`, method 1.3.0); killed by `bikpayroll-incumbent-capability` scan, 2026-09-21
 
 ## One-sentence proposition
 
@@ -18,7 +18,7 @@ A data bridge that collects, validates and reconciles third-party benefit-in-kin
 - **When:** policy paper 2026-07-13 (updated 2026-07-23); SI 2026-09-14; interim guidance 2025-11-26; first operative date 2027-04-06.
 - **Evidence:** `evidence/bikpayroll/2026-09-21-mandatory-bik-payrolling.md`.
 - **Why it materially improves the opportunity:** the mandate moves a recurring, data-dependent reporting obligation onto a large population of employers/payroll bureaus on a fixed date, and standardises the RTI fields (126 → 32, 18 to be built by developers).
-- **Competitors responded:** partially — payroll software vendors are building the RTI fields (Sage, IRIS, BrightPay, Xero per trade commentary); no cited product yet does employer-side third-party benefit-data ingestion. Whether the data owners or payroll vendors close the seam themselves is unresolved.
+- **Competitors responded:** **yes (post-scan, 2026-09-21)** — benefits platforms already absorb the seam (Zhoosh Benefits, The Electric Car Scheme, Zest, Zellis/Benefex) and IRIS sells a managed BiK payrolling service; payroll software itself still requires manual cash-equivalent entry (Sage, BrightPay). See `evidence/bikpayroll/2026-09-21-incumbent-capability-scan.md`.
 - **Strength:** strong (dated primary legislation + imminent operative date).
 
 Why-now sentence: *This was not an attractive business three years ago, but it might be now because HMRC mandated real-time payrolling of the most common benefits in kind from 6 April 2027, forcing third-party benefit data into every pay cycle.*
@@ -37,20 +37,20 @@ From April 2027 an employer must have correct per-pay-period values for cars, fu
 
 Assumed mechanism: an integration/ingestion layer (CSV/API) that normalises benefit-provider exports into each payroll product's incoming-BiK format, with validation and an exception queue; sold to bureaus (multi-employer) or directly to SMEs. Adjacent value: employee communications and forecasting the per-period Class 1A NIC cash-flow.
 
-**Wedge status: unknown.** It is not established that this is unserved. The parties who own the data (fleet, insurers, fuel cards) have both the capability and the retention incentive to supply it to their own clients, and payroll vendors already accept per-period BiK values for voluntary payrollers.
+**Wedge status: fail (post-scan).** The `bikpayroll-incumbent-capability` scan (2026-09-21) found that named benefits platforms already ingest provider benefit data and emit per-period taxable payroll reports — Zhoosh Benefits for the medical-benefit seam (page dated 2026-08-04; "Payroll receives an employee-by-employee report that includes taxable values... without waiting for insurer invoices"), The Electric Car Scheme (API/SFTP monthly payroll inputs) and Zest (provider-to-payroll integrations), with Zellis/Benefex and IRIS's managed service as further named cases. Under the precommitted rule (≥2 platforms already ingest provider BiK data) `defensible_wedge = fail` and the idea is killed. The parties who own the data also retain the incentive to supply it, and payroll vendors already accept per-period BiK values.
 
 ## Novelty / incumbent sanity check
 
 | Check | Result |
 |---|---|
-| Does an exact product already exist? | Not found in cited sources. |
-| Are there multiple credible providers? | Unknown. No cited benefits-data-ingestion product; payroll vendors are building adjacent RTI fields. |
-| Is the wedge already a standard feature? | Possibly — payroll products have accepted per-period BiK values under voluntary payrolling since 2016; standardisation of fields lowers the integration barrier. |
-| Is a free/authoritative alternative adequate? | Unknown. Provider self-supply at no separate fee is plausible but not evidenced. |
+| Does an exact product already exist? | **Yes (post-scan).** Zhoosh Benefits markets the exact medical-benefit data → per-period taxable payroll report flow (2026-08-04); The Electric Car Scheme and Zest bridge provider data into payroll. |
+| Are there multiple credible providers? | **Yes (post-scan).** Zhoosh, Zest, The Electric Car Scheme, plus Zellis/Benefex and IRIS's managed service; car-benefit calculation is commoditised via Comcar/DriveSmart APIs. |
+| Is the wedge already a standard feature? | Contested → effectively yes: payroll products accept per-period BiK values, and benefits platforms now supply/calculate them. |
+| Is a free/authoritative alternative adequate? | Partly — Bupa, Vitality and AXA already do true monthly reconciliation and Bupa/Vitality expose downloadable monthly bills; platform pricing not evidenced. |
 | Is a well-capitalised company hostile to the unit economics? | Yes — payroll vendors and benefits platforms adjacent; benefits platforms (e.g. Benefex/Zellis-class) already own the data flow for larger employers. |
-| Is it merely a feature of an established category? | Contested. The critic argues yes (a reporting-frequency change on data the provider already owns). This is an inference, not yet a cited incumbent. |
+| Is it merely a feature of an established category? | Yes (post-scan) — the bridge is a feature of benefits-administration software or a managed payroll service, not a standalone wedge. |
 
-**If any check fails, state the reason to continue anyway:** The two decisive checks (multiple credible providers; free/authoritative alternative adequate) are `unknown`, not evidenced `fail`. The mandate is real and dated, and the incumbent-capability question is cheaply resolvable by desk scan — so the idea is parked, not killed, pending that scan.
+**If any check fails, state the reason to continue anyway:** the checks now fail and the precommitted rule fired, so there is no reason to continue. The mandate remains real; the seam is already served.
 
 ## Distribution
 
@@ -81,19 +81,23 @@ Recorded from the adversarial pass (`idea-critic`, 2026-09-21), which recommende
 8. **Precedent cluster** — `vetcma`, `prsregister`, `propident`, `packproof`, `agentready` all died on `defensible_wedge`/category capture; `discovery.md` treats a recurring cluster as a signal.
 9. **Gating dimensions weak:** problem and buyer budget both cap at 2 on current evidence; aggregate ~50.5, below the 65 threshold.
 
+**Post-scan addendum (2026-09-21).** The `bikpayroll-incumbent-capability` scan confirmed the critic's case: the exact seam is productised (Zhoosh, 2026-08-04), two further platforms already bridge provider data into payroll, and three medical insurers already do true monthly reconciliation. The precommitted rule fired KILL and the idea is killed. The critic's inference that this is "a reporting-frequency change on data the provider already owns" is now evidenced.
+
 ## Strongest supporting case
 
 A dated, primary-evidenced mandate with a hard operative date puts third-party benefit data into every pay period for a large population, on standardised fields, at a moment when many SMEs and bureaus have no benefits-administration layer. If (and only if) the capability scan shows neither providers nor payroll platforms supply/absorb the data, the ingestion-plus-reconciliation layer could be a durable, recurring, software-margin product with a clear pre-mandate sales window.
+
+**Outcome (2026-09-21):** the scan tested exactly that condition and it failed — the bridge is already supplied by benefits platforms (and partly by insurers and a managed payroll service), so the conditional case for the idea does not open.
 
 ## Unresolved assumptions
 
 | Assumption | Why it matters | How to resolve |
 |---|---|---|
-| Providers do not already supply machine-readable per-period benefit data free | Kills the wedge if false | `bikpayroll-incumbent-capability` desk scan |
-| Payroll/benefits platforms do not already ingest provider BiK data | Kills the wedge if false | same scan |
-| Bureaus/SMEs will pay for ingestion rather than absorb it manually | Missing gating dimension | bureau interviews (escalation experiment) |
-| Provider chasing can be automated enough to protect margin | Economics | build/desk estimate + pilot |
-| Handler of payroll/medical-benefit data is acceptable risk | Trust/privacy | DPIA + security review before any pilot |
+| Providers do not already supply machine-readable per-period benefit data free | Kills the wedge if false | **Resolved (partly false):** Bupa/Vitality/AXA true monthly reconciliation with downloadable monthly bills (broker evidence, format unspecified) |
+| Payroll/benefits platforms do not already ingest provider BiK data | Kills the wedge if false | **Resolved (false):** Zhoosh, The Electric Car Scheme, Zest (plus Zellis/Benefex, IRIS managed service) |
+| Bureaus/SMEs will pay for ingestion rather than absorb it manually | Missing gating dimension | Moot — no escalation experiment is proposed because the rule fired KILL |
+| Provider chasing can be automated enough to protect margin | Economics | Not tested; moot after kill |
+| Handler of payroll/medical-benefit data is acceptable risk | Trust/privacy | Not tested; moot after kill |
 
 ## Cheapest decisive experiment
 
@@ -104,3 +108,4 @@ A dated, primary-evidenced mandate with a hard operative date puts third-party b
 | Date | Run | Decision | State | Note |
 |---|---|---|---|---|
 | 2026-09-21 | `20260921T081223Z-normal` | hold (park) | discovered → desk-screened | `defensible_wedge` unknown; adversarial pass recommended kill but the wedge cannot be failed on cited evidence. Not advanced toward validation-ready. Experiment proposed. |
+| 2026-09-21 | `bikpayroll-incumbent-capability` (issue #5) | kill | desk-screened → killed | Precommitted scan rule fired: ≥2 payroll/benefits platforms already ingest provider BiK data (Zhoosh 2026-08-04, Zest; plus The Electric Car Scheme, Zellis/Benefex, IRIS managed service). `defensible_wedge = fail`; no escalation experiment (KILL branch excludes it). Kill #10 triggers the false-negative audit obligation. |

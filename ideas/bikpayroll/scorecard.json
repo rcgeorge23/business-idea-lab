@@ -5,7 +5,7 @@
   "idea_id": "bikpayroll",
   "slug": "bikpayroll",
   "title": "Benefits-in-kind payroll data bridge (April 2027 mandate)",
-  "state": "desk-screened",
+  "state": "killed",
   "updated": "2026-09-21",
   "dimensions": {
     "problem_severity_frequency": {
@@ -60,7 +60,7 @@
       "evidence": [
         "experiments/bikpayroll-incumbent-capability/plan.md"
       ],
-      "rationale": "Decisive disconfirmation available in ≤3 days at £0 via a desk capability scan with pre-fixed thresholds; a WTP test is also cheap (≤20 human-hours) once the scan survives."
+      "rationale": "Decisive disconfirmation available in \u22643 days at \u00a30 via a desk capability scan with pre-fixed thresholds; a WTP test is also cheap (\u226420 human-hours) once the scan survives."
     },
     "feasibility": {
       "weight": 5,
@@ -117,10 +117,13 @@
       "resolve_via": "Channel test: measure whether bureaus/accountant networks engage without paid acquisition."
     },
     "defensible_wedge": {
-      "status": "unknown",
-      "note": "No cited incumbent ingests provider BiK data, so fail cannot be affirmed; but the seam is decade-old under voluntary payrolling, vendors are building adjacent RTI fields, and data owners can self-supply.",
-      "evidence": [],
-      "resolve_via": "bikpayroll-incumbent-capability desk scan: do >=3 providers supply machine-readable per-period data free, or >=2 platforms ingest it?"
+      "status": "fail",
+      "note": "Incumbent bridge exists: Zhoosh Benefits ingests benefit changes and emits per-period taxable payroll reports for the exact medical-benefit seam (page dated 2026-08-04), with The Electric Car Scheme (API/SFTP monthly payroll inputs) and Zest (provider integrations) as further named platforms; Zellis/Benefex and IRIS's managed service add enterprise/managed paths. Precommitted scan rule: >=2 platforms already ingest provider BiK data => fail.",
+      "evidence": [
+        "evidence/bikpayroll/2026-09-21-incumbent-capability-scan.md",
+        "experiments/bikpayroll-incumbent-capability/results.md"
+      ],
+      "resolve_via": ""
     },
     "no_network_effects_needed": {
       "status": "pass",

@@ -76,7 +76,7 @@
       "id": "bikpayroll-incumbent-capability",
       "idea_id": "bikpayroll",
       "title": "Desk capability scan: do providers or platforms already supply per-period BiK data?",
-      "status": "proposed",
+      "status": "completed",
       "created": "2026-09-21",
       "updated": "2026-09-21",
       "hypothesis": "If no more than one benefit provider and no payroll/benefits platform already supplies or ingests machine-readable per-period benefit-in-kind data for employer payroll, then the ingestion/reconciliation seam is genuinely unserved and worth a willingness-to-pay test.",
@@ -84,10 +84,12 @@
       "kill_condition": ">=3 named benefit providers supply or publicly roadmap machine-readable per-period benefit data to employer payroll at no separate employer fee, OR >=2 payroll/benefits platforms already ingest provider BiK data.",
       "decision_rule": "KILL iff >=3 providers supply/roadmap free per-period benefit data OR >=2 platforms ingest it; PARK (wedge stays unknown, do not advance) iff <=1 provider and no platform do so but vendor roadmaps are silent; ESCALATE to a willingness-to-pay test iff no provider and no platform do so AND a documented payroll-vendor roadmap gap exists.",
       "plan": "experiments/bikpayroll-incumbent-capability/plan.md",
-      "results": null,
+      "results": "experiments/bikpayroll-incumbent-capability/results.md",
       "approval": {
         "required": false,
-        "granted": false
+        "granted": true,
+        "granted_by": "worker (desk-only scan; pre-committed plan, no external contact)",
+        "granted_date": "2026-09-21"
       },
       "cost_bound": {
         "money_gbp": 0,

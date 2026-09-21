@@ -131,6 +131,10 @@ Calibration is complete when:
 | Aucly calibration (issue #3) | worker | done | 2026-09-21 | Pre-launch 49.5 parked + today 60.0 parked; twelve-question review and fixture comparison in `ideas/aucly/decision.md`; method 1.2.0 review requested |
 | Method 1.3.0 discovery refinement (issue #4) | worker | done | 2026-09-21 | Second-order effects + seed-aware discovery + provenance/convergence recording; weights unchanged (1.2.0); review requested (`reviews/2026-09-21-method-v1.3.0-review-request.md`) |
 | Post-change discovery run (issue #4) | worker | done | 2026-09-21 | `runs/20260921T081223Z-normal`; seed register reviewed; 2 fresh candidates; 1 kill on `defensible_wedge`, 1 parked; convergence flag reviewed in `retrospectives/2026-09-21-issue4-convergence-review.md` |
+| BiK incumbent-capability scan (issue #5) | worker | done | 2026-09-21 | Pre-committed KILL branch met; `bikpayroll` killed (#10); results in `experiments/bikpayroll-incumbent-capability/results.md`; audit requested (`reviews/2026-09-21-false-negative-audit-request-bikpayroll.md`) |
+| Review backlog reconciliation (issue #5) | worker | done | 2026-09-21 | Seven open requests, no responses; nothing answered or superseded; `reviews/2026-09-21-review-queue-reconciliation.md` |
+| Experiment queue recommendations (issue #5) | worker | done | 2026-09-21 | `experiments/queue.md`; no approval-required experiment started |
+| Next-run sourcing rule proposal (issue #5) | worker | proposed | 2026-09-21 | Non-regulatory source-class budget, review before adoption; `retrospectives/2026-09-21-issue5-backlog-and-next-run.md` |
 | ChatGPT review response recorded | human | pending | | `reviews/<date>-geonerd-chatgpt.md` |
 | Worker response to review | human | pending | | next run |
 | Retrospective + tuning | human | pending | | `retrospectives/` |

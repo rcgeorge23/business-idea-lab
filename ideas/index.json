@@ -12,10 +12,9 @@
     "unreviewed": 0,
     "by_state": {
       "adversarially-researched": 3,
-      "desk-screened": 1,
-      "killed": 9
+      "killed": 10
     },
-    "killed": 9
+    "killed": 10
   },
   "ideas": [
     {
@@ -610,7 +609,7 @@
       "confidence": "medium",
       "fingerprint": {
         "buyer": "Operators of permitted waste facilities (approx. 12,000) in England; later waste carriers, brokers and dealers",
-        "problem": "From 1 October 2026 permitted operators must keep digital waste records and submit them within two working days, with correction duties and a £26/year statutory fee",
+        "problem": "From 1 October 2026 permitted operators must keep digital waste records and submit them within two working days, with correction duties and a \u00a326/year statutory fee",
         "mechanism": "Receiver-side digital waste record tool integrating the report-receipt-of-waste API at a low monthly price",
         "keywords": [
           "digital waste tracking",
@@ -654,7 +653,7 @@
       "id": "bikpayroll",
       "slug": "bikpayroll",
       "title": "Benefits-in-kind payroll data bridge (April 2027 mandate)",
-      "state": "desk-screened",
+      "state": "killed",
       "discovered": "2026-09-21",
       "updated": "2026-09-21",
       "evidence_level": "Plausible",
@@ -695,7 +694,7 @@
       },
       "experiment": {
         "id": "bikpayroll-incumbent-capability",
-        "status": "proposed",
+        "status": "completed",
         "approval": {
           "required": false,
           "granted": false
