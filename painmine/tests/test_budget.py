@@ -73,6 +73,25 @@ class TestBudget(unittest.TestCase):
         self.assertFalse(allowed)
         self.assertIn("token limit", reason)
 
+    def test_fetch_stop_does_not_cancel_synthesis(self):
+        # Issue #13: exhausting the fetch request budget is not an LLM cap, so
+        # an explicitly requested synthesis step must still be allowed.
+        budget = Budget(make_limits(max_requests=1, llm_enabled=True))
+        budget.record_request()
+        self.assertFalse(budget.can_fetch())
+        self.assertTrue(budget.stopped)
+        allowed, reason = budget.can_llm(10, 10)
+        self.assertTrue(allowed, reason)
+
+    def test_llm_stop_is_tracked_separately_from_fetch_stop(self):
+        budget = Budget(make_limits(llm_enabled=True))
+        budget.record_llm(0.1, 60, 60)
+        self.assertTrue(budget.llm_stopped)
+        self.assertIn("token limit", budget.llm_stop_reason)
+        summary = budget.summary()
+        self.assertTrue(summary["llm_stopped"])
+        self.assertIn("token limit", summary["llm_stop_reason"])
+
     def test_summary_shape(self):
         budget = Budget(make_limits())
         summary = budget.summary()

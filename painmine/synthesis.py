@@ -141,8 +141,18 @@ def independent_synthesis(
         "status": "completed" if result_a.get("ok") and result_b.get("ok") else "partial",
         "note": "Interpreters never saw each other's output; disagreements are preserved verbatim below.",
         "interpreters": {
-            "a": {"ok": result_a.get("ok"), "model": result_a.get("model"), "cost_usd": result_a.get("cost_usd")},
-            "b": {"ok": result_b.get("ok"), "model": result_b.get("model"), "cost_usd": result_b.get("cost_usd")},
+            "a": {
+                "ok": result_a.get("ok"),
+                "error": result_a.get("error"),
+                "model": result_a.get("model"),
+                "cost_usd": result_a.get("cost_usd"),
+            },
+            "b": {
+                "ok": result_b.get("ok"),
+                "error": result_b.get("error"),
+                "model": result_b.get("model"),
+                "cost_usd": result_b.get("cost_usd"),
+            },
         },
         "interpretation_a": interpretation_a,
         "interpretation_b": interpretation_b,

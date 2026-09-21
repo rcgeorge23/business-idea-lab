@@ -42,6 +42,10 @@ class Budget:
         self.llm_output_tokens = 0
         self.usd = 0.0
         self.stop_reason: str | None = None
+        # LLM-specific stops are tracked separately: exhausting the fetch
+        # request budget must not cancel an explicitly requested synthesis
+        # step, which has its own call/token/USD caps (issue #13).
+        self.llm_stop_reason: str | None = None
         self._last_request_at = 0.0
 
     # ---------------------------------------------------------------- time
@@ -100,8 +104,8 @@ class Budget:
     def can_llm(self, est_input_tokens: int, est_output_tokens: int) -> tuple[bool, str]:
         if not self.llm_enabled:
             return False, "llm disabled by limits.json (owner approval required to enable spend)"
-        if self.stop_reason:
-            return False, self.stop_reason
+        if self.llm_stop_reason:
+            return False, self.llm_stop_reason
         if self.llm_calls + 1 > self.max_llm_calls:
             return False, f"model call limit ({self.max_llm_calls}) reached"
         if self.llm_input_tokens + self.llm_output_tokens + est_input_tokens + est_output_tokens > self.max_llm_total_tokens:
@@ -118,11 +122,16 @@ class Budget:
         self.llm_output_tokens += max(0, int(output_tokens))
         self.usd += max(0.0, float(cost_usd))
         if self.llm_input_tokens + self.llm_output_tokens > self.max_llm_total_tokens:
-            self.stop(
-                f"model token limit ({self.max_llm_total_tokens}) exceeded by provider-reported usage"
+            reason = (
+                f"model token limit ({self.max_llm_total_tokens}) exceeded "
+                "by provider-reported usage"
             )
+            self.llm_stop_reason = reason
+            self.stop(reason)
         if self.usd > self.max_usd:
-            self.stop(f"USD limit (${self.max_usd:.2f}) exceeded by provider-reported cost")
+            reason = f"USD limit (${self.max_usd:.2f}) exceeded by provider-reported cost"
+            self.llm_stop_reason = reason
+            self.stop(reason)
 
     # ---------------------------------------------------------------- stop
     def stop(self, reason: str) -> None:
@@ -132,6 +141,10 @@ class Budget:
     @property
     def stopped(self) -> bool:
         return self.stop_reason is not None
+
+    @property
+    def llm_stopped(self) -> bool:
+        return self.llm_stop_reason is not None
 
     def summary(self) -> dict[str, Any]:
         return {
@@ -154,5 +167,7 @@ class Budget:
             "wall_limit_seconds": self.max_wall,
             "stopped": self.stopped,
             "stop_reason": self.stop_reason,
+            "llm_stopped": self.llm_stop_reason is not None,
+            "llm_stop_reason": self.llm_stop_reason,
             "recorded_at": utcnow().isoformat().replace("+00:00", "Z"),
         }

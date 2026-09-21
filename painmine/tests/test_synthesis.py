@@ -114,6 +114,8 @@ class TestSynthesis(unittest.TestCase):
         record = independent_synthesis(sample_cluster(), sample_signals(), Broken())
         self.assertEqual(record["status"], "partial")
         self.assertEqual(record["interpreters"]["a"]["ok"], False)
+        self.assertEqual(record["interpreters"]["a"]["error"], "timeout")
+        self.assertEqual(record["interpreters"]["b"]["error"], "timeout")
 
     def test_type_signature_accepts_real_llm_instance(self):
         from painmine.budget import Budget

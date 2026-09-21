@@ -63,6 +63,11 @@ the total crosses 40k), but if dual synthesis is expected on every run the owner
 should consider raising `llm.max_total_tokens_per_run` (e.g. to 120,000); the
 USD 0.25 per-run cap remains the real economic bound.
 
+**Update 2026-09-21 (owner-approved):** `llm.max_total_tokens_per_run` is now
+150,000 so that dual synthesis of the top two clusters (four calls, roughly
+USD 0.024 at observed rates) can complete in one run. The USD 0.25 per-run cap
+and the six-call limit are unchanged.
+
 ## Boundaries
 
 No commits, pushes, issues, pull requests, outreach, accounts or spend beyond

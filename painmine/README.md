@@ -90,7 +90,7 @@ See `limits.json`; the CLI can only clamp `--max-requests` downwards.
 | Request timeout | 20 s |
 | Retries / request | 1 (only for 429/5xx and transport errors) |
 | Model calls / run | 6 (spend disabled unless `--enable-llm`) |
-| Model tokens / run | 40,000 |
+| Model tokens / run | 150,000 |
 | Model USD / run | 0.25 |
 | Wall clock / run | 420 s |
 | Retained raw item rows / run | 240 (600-char excerpts) |
