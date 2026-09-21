@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "method_version": "1.0.0",
+  "weights_version": "1.0.0",
+  "idea_id": "<slug>",
+  "slug": "<slug>",
+  "title": "<Idea title>",
+  "state": "discovered",
+  "updated": "YYYY-MM-DD",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "distribution": {
+      "weight": 10,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "economics": {
+      "weight": 10,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    },
+    "risk": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": ""
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": { "status": "unknown", "note": "" },
+    "painful_frequent_or_budgeted": { "status": "unknown", "note": "" },
+    "non_paid_distribution": { "status": "unknown", "note": "" },
+    "defensible_wedge": { "status": "unknown", "note": "" },
+    "no_network_effects_needed": { "status": "unknown", "note": "" },
+    "plausible_margins": { "status": "unknown", "note": "" },
+    "acceptable_risk": { "status": "unknown", "note": "" },
+    "cheap_disconfirming_test": { "status": "unknown", "note": "" },
+    "not_all_optimistic": { "status": "unknown", "note": "" }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 0,
+    "raw_weighted_points": 0,
+    "weighted_total": null,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "none",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

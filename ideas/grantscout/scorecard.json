@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "method_version": "1.0.0",
+  "weights_version": "1.0.0",
+  "idea_id": "grantscout",
+  "slug": "grantscout",
+  "title": "GrantScout: matched UK grant digest for small businesses",
+  "state": "killed",
+  "updated": "2026-09-20",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": ["evidence/grantscout/2026-09-20-free-government-grant-discovery.md"],
+      "rationale": "Finding and winning grant funding is time-consuming and competitive (GOV.UK), and SMEs frequently ask about it; the pain looked strong before the adversarial pass."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"],
+      "rationale": "SME owners and their accountants have budget and incentive, but category pricing is anchored to free government search and contingency-fee advisers."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"],
+      "rationale": "A primary government source plus live vendor pages; competitor success-rate claims are self-reported and unverified."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/grantscout/2026-09-20-free-government-grant-discovery.md"],
+      "rationale": "Accountant channel, business networks and SEO/benchmark content are plausible non-paid routes, but unmeasured."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": ["evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"],
+      "rationale": "GovOwed already sells the exact flat-fee match/report wedge; GOV.UK's free service undercuts discovery. Little differentiation survives."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 4,
+      "confidence": "high",
+      "evidence": ["evidence/grantscout/2026-09-20-free-government-grant-discovery.md"],
+      "rationale": "A cheap landing-page/digest test with a pre-fixed decision rule could have produced a decisive read within a week."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": ["evidence/grantscout/2026-09-20-free-government-grant-discovery.md"],
+      "rationale": "Assembling and maintaining a UK grant digest is straightforward; the blocker is positioning, not build."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": ["evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"],
+      "rationale": "Competing against £0 government search and £29 one-time incumbent pricing leaves little room for a recurring subscription."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": "No evidence recorded about founder domain access to SMEs, accountants or grant funding; left unscored rather than guessed."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"],
+      "rationale": "Low regulatory risk using public grant data; main risk is commoditisation by free government tools and cheap incumbents."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "SME owner or their accountant has budget and a clear incentive to win grant funding."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Grant discovery and application is time-consuming with long, competitive processes (GOV.UK)."
+    },
+    "non_paid_distribution": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Accountant channel, business networks and SEO/benchmark content are credible non-paid routes (assumption, not yet measured)."
+    },
+    "defensible_wedge": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "At desk-screen a curated UK-grant digest with plain-language eligibility looked like a usable wedge; later contested and vetoed."
+    },
+    "no_network_effects_needed": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "A grant database is usable by a single customer; no network requirement."
+    },
+    "plausible_margins": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "A £15-£29/mo subscription was modelled to cover low content costs (assumption, untested against real CAC)."
+    },
+    "acceptable_risk": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Uses public funding data; no regulated personal data beyond contact details."
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "A cheap landing-page/digest test with a pre-fixed decision rule can falsify the wedge."
+    },
+    "not_all_optimistic": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Stop rules are defined; no single optimistic assumption carries the whole case."
+    }
+  },
+  "vetoes": [
+    {
+      "key": "defensible_wedge",
+      "note": "Adversarial pass: the exact flat-fee grant-matching wedge is already occupied by GovOwed at £29 one-time / £499 per year, while the authoritative alternative (GOV.UK Find a grant) is free and category pricing is anchored to contingency/no-win-no-fee. No defensible wedge survives.",
+      "date": "2026-09-20"
+    }
+  ],
+  "aggregate": {
+    "scored_weight": 95,
+    "raw_weighted_points": 59.0,
+    "weighted_total": 62.1,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "medium",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

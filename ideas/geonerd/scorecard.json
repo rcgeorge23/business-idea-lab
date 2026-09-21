@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "method_version": "1.0.0",
+  "weights_version": "1.0.0",
+  "idea_id": "geonerd",
+  "slug": "geonerd",
+  "title": "GeoNerd: AI visibility digest for UK accountancy practices",
+  "state": "validation-ready",
+  "updated": "2026-09-20",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
+      "rationale": "AIO/YMYL exposure is documented and the shared-question structure is coherent, but no target buyer has confirmed the problem is felt or frequent (assumption A2)."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
+      "rationale": "Buyer and decision maker are precisely identified (1-20 staff practice owner/partner); budget authority is plausible but no observed willingness to pay exists (assumption A1)."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/geonerd/2026-09-20-spike-findings.md"],
+      "rationale": "All evidence is internal desk research with secondary sources; coherent and specific, but no independent or buyer-derived evidence. No material claim rises above medium confidence."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
+      "rationale": "Named non-paid channels exist (communities, directories, SEO, benchmark report) but no yield has been measured (assumption A4)."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/geonerd/2026-09-20-competitive-teardown.md"],
+      "rationale": "Vertical depth + honest measurement + plain-language actions is a real angle, but TendorAI contests the same vertical and SearchScore undercuts on price; wedge unproven against buyers."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 4,
+      "confidence": "high",
+      "evidence": ["evidence/geonerd/2026-09-20-demand-validation-plan.md"],
+      "rationale": "A 1-week, £50, 20 human-hour test with a pre-fixed mechanical decision rule exists and directly targets the central assumption."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": ["evidence/geonerd/2026-09-20-spike-findings.md"],
+      "rationale": "Manual scan is straightforward; the technical uncertainty (UI vs API equivalence) is bounded and deferred to the measurement bake-off rather than blocking the demand test."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
+      "rationale": "Modelled contribution is positive at >=10 customers per market at £19.99/mo with plausible cost ranges; the cost model is untested against a real provider bill (assumption A5)."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": "No evidence recorded about the founder's domain access, distribution or time budget beyond the existence of the GeoNerd research repo; left unscored rather than guessed."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/geonerd/2026-09-20-competitive-teardown.md"],
+      "rationale": "No regulated personal data or platform-risk story, but incumbent contest and dependency on third-party AI surfaces are material and unresolved."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Practice owner/partner is the decision maker; £19.99/mo is a small purchase against the value of one client."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Assumed painful and recurring by analogy with search visibility tracking; desk evidence only (assumption A2)."
+    },
+    "non_paid_distribution": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Directory outreach, professional communities, SEO and a benchmark report are credible non-paid routes (assumption A4)."
+    },
+    "defensible_wedge": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Vertical depth + honest measurement + plain-language actions versus free checkers and £299/mo done-for-you services."
+    },
+    "no_network_effects_needed": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Market-level prompt set is usable by a single customer; benchmarks improve with density but are not required for value."
+    },
+    "plausible_margins": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Modelled contribution positive at >=10 customers per market at £19.99/mo; cost model untested."
+    },
+    "acceptable_risk": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "No personal data beyond submitted email; claims about AI answers are reproducible and disclaimered."
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "£50 / 20 human-hours / 1-week demand spike with a pre-fixed decision rule can falsify the central assumption."
+    },
+    "not_all_optimistic": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Stop rules fire on 0/5 commitments and on incumbent satisfaction; iterate path is defined."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 95,
+    "raw_weighted_points": 62.0,
+    "weighted_total": 65.3,
+    "threshold": 65,
+    "meets_threshold": true
+  },
+  "confidence": "medium",
+  "review": {
+    "status": "requested",
+    "requested_from": "ChatGPT (independent reviewer)",
+    "request_path": "reviews/2026-09-20-geonerd-review-request.md",
+    "last_reviewed_revision": null,
+    "history": [
+      {
+        "date": "2026-09-20",
+        "from": "not-required",
+        "to": "requested",
+        "actor": "bootstrap",
+        "reason": "Bootstrap seed at validation-ready under issue #1; independent review requested because the idea is proposed at an advanced state."
+      }
+    ]
+  },
+  "experiment": {
+    "id": "geonerd-demand-spike",
+    "status": "proposed",
+    "approval": {
+      "required": true,
+      "granted": false
+    },
+    "plan": "experiments/geonerd-demand-spike/plan.md",
+    "results": null
+  }
+}

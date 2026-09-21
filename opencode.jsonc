@@ -1,0 +1,23 @@
+{
+  // Project configuration for the business-idea-lab discovery loop.
+  // Docs: https://opencode.ai/docs/config
+  "$schema": "https://opencode.ai/config.json",
+
+  // Pinned provider/model: DeepSeek via the opencode-go gateway.
+  // Authenticate once with `opencode` then `/connect` -> opencode-go.
+  "model": "opencode-go/deepseek-v4.1-flash",
+  "small_model": "opencode-go/deepseek-v4.1-flash",
+
+  // Routine runs use the specialised worker; the critic is a subagent.
+  "default_agent": "idea-worker",
+
+  // Never publish session data from this repository.
+  "share": "disabled",
+
+  "instructions": ["AGENTS.md"],
+
+  // Keep generated repository noise out of the model's file scans.
+  "watcher": {
+    "ignore": ["runs/**"]
+  }
+}

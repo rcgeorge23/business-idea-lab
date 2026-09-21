@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "method_version": "1.0.0",
+  "weights_version": "1.0.0",
+  "idea_id": "shiftswap",
+  "slug": "shiftswap",
+  "title": "ShiftSwap: last-minute shift cover for UK hospitality",
+  "state": "killed",
+  "updated": "2026-09-20",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/shiftswap/2026-09-20-uk-hospitality-labour-market.md"],
+      "rationale": "ONS/UKHospitality data show acute labour pressure and unfilled roles, so uncovered shifts are plausibly frequent and painful; no venue confirmed it is the binding pain."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": ["evidence/shiftswap/2026-09-20-incumbent-rota-software.md"],
+      "rationale": "Venue owners control a small software budget but it is anchored to £0-£49/mo commodity tools, leaving little headroom."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/shiftswap/2026-09-20-uk-hospitality-labour-market.md"],
+      "rationale": "Credible secondary ONS-derived labour-market data plus vendor pages; no primary buyer or payment evidence."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 1,
+      "confidence": "medium",
+      "evidence": ["evidence/shiftswap/2026-09-20-incumbent-rota-software.md"],
+      "rationale": "Two-sided adoption (venues and their staff); no credible non-paid route to critical mass identified."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 1,
+      "confidence": "medium",
+      "evidence": ["evidence/shiftswap/2026-09-20-incumbent-rota-software.md"],
+      "rationale": "Every surveyed low-cost UK rota product already bundles self-service shift swaps; no wedge on top of existing tools."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/shiftswap/2026-09-20-uk-hospitality-labour-market.md"],
+      "rationale": "A small concierge test is cheap, but disconfirming the two-sided adoption problem requires access to both venues and staff."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": ["evidence/shiftswap/2026-09-20-incumbent-rota-software.md"],
+      "rationale": "Technically straightforward; scheduling/notification tooling is well understood. Feasibility was not the blocker."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 1,
+      "confidence": "medium",
+      "evidence": ["evidence/shiftswap/2026-09-20-incumbent-rota-software.md"],
+      "rationale": "Advertised alternatives at £0, £9, £10 and £49/mo leave no defensible price above acquisition cost."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": "No evidence recorded about founder domain access or distribution in hospitality; left unscored rather than guessed."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": ["evidence/shiftswap/2026-09-20-incumbent-rota-software.md"],
+      "rationale": "Workforce data privacy is manageable; main risk is commodity competition rather than regulation."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Venue owner/GM controls a small software budget, though anchored to £0-£49/mo commodity tools."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "Uncovered shifts are frequent and operationally painful in hospitality (ONS/UKHospitality labour-market evidence)."
+    },
+    "non_paid_distribution": {
+      "status": "fail",
+      "date": "2026-09-20",
+      "note": "Two-sided venue+staff adoption; no credible non-paid route to critical mass on either side."
+    },
+    "defensible_wedge": {
+      "status": "fail",
+      "date": "2026-09-20",
+      "note": "Every low-cost UK rota product surveyed already bundles self-service shift swaps; no wedge."
+    },
+    "no_network_effects_needed": {
+      "status": "fail",
+      "date": "2026-09-20",
+      "note": "Cover value depends on enough participating staff per venue; a cross-venue marketplace adds further density requirements."
+    },
+    "plausible_margins": {
+      "status": "fail",
+      "date": "2026-09-20",
+      "note": "Advertised alternatives at £0/£9/£10/£49 per month leave no viable price above cost of acquisition."
+    },
+    "acceptable_risk": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "No material regulatory risk identified; workforce data can be handled with standard controls."
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "date": "2026-09-20",
+      "note": "A 10-venue concierge cover test could be run cheaply and quickly."
+    },
+    "not_all_optimistic": {
+      "status": "fail",
+      "date": "2026-09-20",
+      "note": "Viability requires simultaneous venue and staff adoption plus a low-CAC channel; every assumption must hold."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 95,
+    "raw_weighted_points": 43.0,
+    "weighted_total": 45.3,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "medium",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

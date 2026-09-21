@@ -1,0 +1,4051 @@
+diff --git a/.env.example b/.env.example
+new file mode 100644
+index 0000000..8ddd5e6
+--- /dev/null
++++ b/.env.example
+@@ -0,0 +1,6 @@
++# DEEPSEEK_API_KEY is only needed if you bypass the opencode-go gateway and use
++# the native DeepSeek provider directly. Export it in your shell, never commit it.
++DEEPSEEK_API_KEY=
++
++# Optional: override the opencode binary used by scripts/run.sh.
++# OPENCODE_BIN=opencode
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..e8ea8fd
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,17 @@
++# Secrets
++.env
++.env.*
++!.env.example
++
++# Run scratch output (run.json / index.jsonl stay tracked for audit)
++runs/*/raw.jsonl
++runs/*/stderr.log
++runs/*/validation.stderr.log
++runs/*/repo/
++
++# Python
++__pycache__/
++*.pyc
++
++# OS
++.DS_Store
+diff --git a/.opencode/agent/idea-critic.md b/.opencode/agent/idea-critic.md
+new file mode 100644
+index 0000000..90821dd
+--- /dev/null
++++ b/.opencode/agent/idea-critic.md
+@@ -0,0 +1,37 @@
++---
++description: Read-only adversarial critic. Tries to kill a candidate idea or an evidence chain before it advances.
++mode: subagent
++model: opencode-go/deepseek-v4.1-flash
++temperature: 0.2
++steps: 40
++permission:
++  edit: deny
++  bash: deny
++  external_directory:
++    "*": deny
++    "~/projects/geonerd/**": allow
++  webfetch: allow
++  websearch: allow
++---
++
++You are the `idea-critic` subagent for this repository.
++
++Your job is adversarial review, not encouragement. Given an idea dossier,
++scorecard, evidence register or experiment plan, attack it:
++
++- Which material claims are unsupported, undated, or inferred from vendor
++  marketing rather than primary evidence?
++- Where is desk research (search volume, survey interest, model opinion) being
++  mistaken for demand?
++- Which scores are contradicted by the evidence actually recorded, or rest on a
++  single source?
++- What is the strongest argument that this idea is already killed by a hard
++  filter or should never be advanced?
++- What is the cheapest experiment that could disconfirm the central assumption,
++  and does the proposed one actually test it?
++- Is any review outcome being bypassed or silently overwritten?
++
++You cannot edit files; produce findings only. You may read any file in the
++repository and consult the GeoNerd reference material under
++`~/projects/geonerd`. Never invent sources or numbers. Distinguish clearly
++between "this is wrong" and "this is unproven".
+diff --git a/.opencode/agent/idea-worker.md b/.opencode/agent/idea-worker.md
+new file mode 100644
+index 0000000..747404d
+--- /dev/null
++++ b/.opencode/agent/idea-worker.md
+@@ -0,0 +1,52 @@
++---
++description: Primary worker for the business-idea-lab discovery and validation loop. Runs the standard protocol once, producing reviewable ledger changes.
++mode: primary
++model: opencode-go/deepseek-v4.1-flash
++temperature: 0.2
++steps: 80
++permission:
++  edit: allow
++  bash:
++    "*": allow
++    "git commit*": deny
++    "git push*": deny
++    "git reset*": deny
++    "git clean*": deny
++    "git rebase*": deny
++    "rm -rf*": deny
++    "sudo*": deny
++    "curl*": deny
++    "wget*": deny
++    "ssh*": deny
++    "scp*": deny
++    "chmod*": deny
++    "chown*": deny
++  external_directory:
++    "*": deny
++    "~/projects/geonerd/**": allow
++  webfetch: allow
++  websearch: allow
++  task: allow
++---
++
++You are the `idea-worker` agent for this repository.
++
++Your job is to execute exactly one run of the discovery and validation loop
++defined in `method/run-protocol.md`, leaving behind reviewable changes: updated
++dossiers, scorecards, evidence registers, decision records, experiment proposals
++and a run summary.
++
++Read `AGENTS.md` first. It contains your role, boundaries, the canonical limits,
++the hard rejection filters, the scorecard contract and the output contract. The
++method documents under `method/` are authoritative; do not edit them.
++
++Non-negotiable boundaries:
++
++- Do not commit, push, open issues, open pull requests, or otherwise publish.
++- Do not contact anyone, spend money, create accounts, or make commitments.
++- You may only propose experiments; a human approves and runs them.
++- Never silently overwrite a review outcome; respond to it explicitly.
++- If a run cannot be completed safely, stop and explain why in the run summary.
++
++Work only from evidence that is cited and dated. Never invent sources, numbers,
++quotes or market facts. Unsourced claims carry no score.
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000..d80440d
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,89 @@
++# AGENTS.md — operating instructions for this repository
++
++This repository is a durable, evidence-driven business idea discovery and
++validation loop, run ad hoc with OpenCode + DeepSeek. It exists to find ideas
++worth testing and to kill weak ones cheaply — not to generate volume. A run that
++advances nothing is a valid run.
++
++The method documents under `method/` are authoritative. Read them before acting:
++
++- `method/lifecycle.md` — states, transitions, who may advance what
++- `method/evidence-policy.md` — what counts as evidence, and what does not
++- `method/scorecard.md` — dimensions, weights, thresholds, hard filters
++- `method/experiment-rules.md` — experiment approval, execution, result recording
++- `method/review-policy.md` — review triggers, states, history
++- `method/run-protocol.md` — the 10-step run and its hard limits
++- `method/calibration.md` — calibration procedure and status
++- `method/VERSION` — current method version (record it in every scorecard)
++
++## Your role
++
++You are the **worker**. You may advance an idea no further than
++`validation-ready`. Only a human owner can approve external tests, outreach,
++expenditure, publication or commitments, and only real-world evidence recorded
++in `experiments/` can move an idea to `externally-tested`, `validated`,
++`iterate` or `killed` for commercial reasons.
++
++Hard boundaries — never cross, even if asked in a prompt:
++
++- No commits, pushes, issues, pull requests or other publication.
++- No contacting people, spending money, creating external accounts, publishing
++  content, or making commitments. You may only **propose** experiments.
++- Never overwrite or ignore a recorded review outcome. A `changes-requested`
++  review must be answered explicitly and visibly.
++- Never edit `method/` during a routine run. If the method looks wrong, say so
++  in the run summary.
++- Never invent sources, quotes, numbers or market facts. Unsourced material
++  claims get no score.
++
++## Run protocol in one screen
++
++1. Review `ideas/index.json`, killed ideas, active experiments and the latest
++   retrospectives. Handle any outstanding `changes-requested` reviews first.
++2. If 10 or more ideas are unreviewed, **stop generating**.
++3. Otherwise generate at most **3 materially distinct** new candidates.
++4. Apply the 9 hard rejection filters before any deep research.
++5. Research survivors: problem/buyer, alternatives, distribution, feasibility,
++   economics, risk, founder fit.
++6. Run an explicit adversarial review whose goal is to kill the idea.
++7. Update the ledger: `ideas/index.json`, dossier, evidence register, scorecard,
++   decision record.
++8. Advance at most **1** idea to `validation-ready` per run, and only if the
++   scorecard threshold and review policy are satisfied.
++9. Propose the cheapest experiment capable of disproving the central assumption.
++   Cost more than 20 human-hours or £100 requires a review request first.
++10. Write the run summary and list what needs human input.
++
++Hard limits per run (see `method/run-protocol.md`): 3 new candidates, 1
++validation-ready advance, 8 evidence entries per idea, 25 web lookups, 80 agent
++steps, cost bound USD 1.00 by default, 3600s timeout.
++
++## Hard rejection filters
++
++No clear economic buyer; no evidence of a painful/frequent problem or existing
++budget; no credible non-paid route to early buyers; commodity positioning with
++no defensible wedge; value requires network effects before it exists;
++implausible margins or disproportionate service burden; unacceptable legal,
++regulatory, privacy, trust or platform risk; no cheap test capable of
++disconfirming it; viability only if every optimistic assumption is true.
++
++## Duplicate and rejection handling
++
++Before adding a candidate, check `ideas/index.json` fingerprints and titles and
++any prior killed ideas. If it is a variant of an existing idea, update that idea
++instead of creating a duplicate — or record why it is materially distinct.
++Rejected ideas stay in the ledger with their reasons; never delete them.
++
++## Output contract
++
++A run leaves reviewable, committed-ready changes:
++
++- ledger updates in `ideas/index.json` and the relevant `ideas/<slug>/` files
++- an evidence register under `evidence/<slug>/` for every material claim
++- a decision record describing what changed and why
++- experiment proposals under `experiments/`
++- a run summary at `runs/$LAB_RUN_ID/summary.md` (the wrapper sets
++  `LAB_RUN_ID`; run `printenv LAB_RUN_ID` if unsure)
++
++The summary must state: advances, kills, failed/abandoned experiments, decisions
++awaiting human input, and confirmation that no disallowed actions were taken.
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..9cc1ff1
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,160 @@
++# business-idea-lab
++
++A durable, evidence-driven loop for discovering and validating business ideas,
++run ad hoc with [OpenCode](https://opencode.ai) + DeepSeek. It exists to find
++ideas worth testing and to kill weak ones cheaply — not to generate volume. A
++run that advances nothing is a valid run.
++
++- Method (authoritative): `method/` — lifecycle, evidence policy, scorecard,
++  experiment rules, review policy, run protocol, calibration.
++- Worker instructions: `AGENTS.md`.
++- Ledger: `ideas/index.json` and `ideas/<slug>/`.
++- Everything else: `evidence/`, `experiments/`, `reviews/`, `retrospectives/`,
++  `runs/`, `templates/`, `scripts/`.
++
++## Setup
++
++1. Install OpenCode (`>= 1.18.30` recommended) and start it once in this
++   repository. Run `/connect`, choose the opencode-go provider, and complete
++   authentication. The pinned model is
++   `opencode-go/deepseek-v4.1-flash` (`opencode.jsonc`).
++2. If you prefer the native DeepSeek provider instead of the gateway, export
++   `DEEPSEEK_API_KEY` in your shell (see `.env.example`). Never commit it —
++   `.env*` is gitignored.
++3. Verify plumbing without touching the ledger:
++
++   ```bash
++   scripts/run.sh --smoke
++   ```
++
++4. Run offline validation at any time:
++
++   ```bash
++   python3 scripts/validate_repo.py          # human-readable
++   python3 scripts/validate_repo.py --json   # machine-readable
++   python3 scripts/validate_repo.py --queue  # review queue + counters
++   ```
++
++## Running the loop
++
++One deterministic, non-interactive command runs the complete protocol:
++
++```bash
++scripts/run.sh                 # normal run against the live ledger
++scripts/run.sh --dry-run       # worker runs in a throwaway copy; live ledger untouched
++```
++
++Useful flags: `--timeout SECONDS` (default 3600), `--max-cost USD` (default
++1.00), `--max-attempts N` (default 3), `--model provider/model`, `--agent NAME`,
++`--allow-dirty` (only when you deliberately accept an unclean tree).
++
++What a run does (see `method/run-protocol.md` for the full protocol and
++limits):
++
++1. Handles any outstanding `changes-requested` review first.
++2. Stops generating if 10 or more ideas are unreviewed.
++3. Generates at most 3 materially distinct candidates and applies the 9 hard
++   rejection filters before deep research.
++4. Researches survivors, runs an explicit adversarial review aimed at killing
++   them, and updates the ledger, evidence registers, scorecards and decision
++   records.
++5. Advances at most 1 idea to `validation-ready` per run, only if the scorecard
++   threshold and review policy are satisfied.
++6. Proposes the cheapest experiment that could disprove the central assumption.
++7. Writes the run summary to `runs/$LAB_RUN_ID/summary.md`.
++
++Cost and retry bounds are documented in `method/run-protocol.md` and enforced
++where practical by `scripts/run.sh` (wall-clock timeout, post-run cost check,
++retry only when the tree is unchanged). Every run records timestamp, mode,
++agent, model, method version, input/output revision, attempts and cost in
++`runs/<id>/run.json` plus one line in `runs/index.jsonl`.
++
++The worker never commits, pushes, opens issues or PRs, contacts anyone, spends
++money, publishes, creates accounts, or makes commitments. It may only propose
++experiments. Review the diff when the run finishes and commit it yourself.
++
++## Reviewing a candidate
++
++Independent review is repository-mediated: the reviewer works only from the
++files in this repository.
++
++1. Build a request package:
++
++   ```bash
++   python3 scripts/build_review_request.py --slug <slug> \
++       --trigger "proposed for validation-ready" \
++       --transition "adversarially-researched -> validation-ready"
++   ```
++
++   This writes `reviews/<date>-<slug>-review-request.md` containing the state,
++   scores, hard filters, strongest supporting and disconfirming cases,
++   unresolved assumptions, the decisive experiment and a machine-readable review
++   block.
++
++2. Give that file (and the artefact list inside it) to the reviewer. The
++   reviewer writes `reviews/<date>-<slug>-<reviewer>-<model>.md` following
++   `templates/review/response.md`, with a verdict of `changes-requested`,
++   `approved` or `killed`.
++
++3. Record the outcome in `ideas/<slug>/scorecard.json` under `review` and
++   `review.history`. History is append-only and transitions are validated
++   (`not-required -> requested -> changes-requested | approved | killed`).
++
++4. The next worker run must answer a `changes-requested` review explicitly and
++   visibly; it may not silently overwrite any outcome.
++
++Review triggers and the false-negative audit rule (every fifth killed idea) are
++in `method/review-policy.md`. A second model is not market validation.
++
++## Recording external experiment results
++
++The human owner runs experiments; results go into the repository:
++
++1. Approve the experiment in `experiments/index.json`
++   (`approval.granted: true`, `granted_by`, `granted_date`) — anything above 20
++   human-hours or £100 needs a review request first.
++2. Run it. Record raw outcomes in
++   `experiments/<experiment-id>/results.md` following
++   `templates/experiment/results.md` (what happened, verbatim quotes, numbers,
++   deviations from the plan).
++3. Apply the decision rule that was fixed in the plan **mechanically**. If the
++   outcome is ambiguous, record it as ambiguous — do not move the threshold.
++4. Update the ledger: if real-world demand or commercial evidence exists, the
++   idea may move to `externally-tested`, `validated`, `iterate` or `killed`
++   (human owner decision), and the scorecard, dossier and decision record are
++   updated with the new evidence.
++
++## Layout
++
++| Path | Purpose |
++|---|---|
++| `AGENTS.md` | Worker role, boundaries, protocol in one screen |
++| `method/` | Authoritative method documents + `VERSION` |
++| `ideas/index.json` | Ledger: every idea, state, score, review and experiment link |
++| `ideas/<slug>/` | Dossier, scorecard, decision record |
++| `evidence/<slug>/` | Dated evidence registers (claims, sources, caveats) |
++| `experiments/` | Experiment index, plans, results |
++| `reviews/` | Review requests and responses |
++| `retrospectives/` | What the loop itself should learn |
++| `runs/` | Per-run metadata, usage, validation, summaries, dry-run diffs |
++| `templates/` | Templates for every artefact type |
++| `scripts/` | Validator, runner, usage extraction, review-request builder |
++| `.opencode/agent/` | `idea-worker` (primary) and `idea-critic` (read-only subagent) |
++
++## Calibration
++
++Calibration compares the loop against known fixtures before its output is
++trusted: GeoNerd (seeded), two weak/rejected ideas and one attractive-looking
++control produced by the first worker run, plus an independent critique of at
++least one DeepSeek result. Status and exit criteria: `method/calibration.md`.
++The current calibration state is **not yet complete**; treat ledger output
++accordingly.
++
++## Status
++
++- GeoNerd is seeded at `validation-ready` with an independent review requested
++  and a proposed demand-validation experiment awaiting human approval. It has
++  **no demand evidence**; the weighted total (65.3) barely clears the threshold
++  (65) and must not be read as a strong signal.
++- Scheduling of recurring runs is deliberately out of scope. Every run is
++  manual.
+diff --git a/evidence/README.md b/evidence/README.md
+new file mode 100644
+index 0000000..51f1614
+--- /dev/null
++++ b/evidence/README.md
+@@ -0,0 +1,23 @@
++# evidence/ — evidence registers
++
++One directory per idea: `evidence/<slug>/`, containing one file per source or
++research artefact, named `<YYYY-MM-DD>-<slug-of-source>.md` and following
++`templates/evidence/entry.md`.
++
++Rules (full policy in `method/evidence-policy.md`):
++
++- Every material claim carries a source and a capture date.
++- Separate evidence from assumptions and inference; label each explicitly.
++- A positive score in `scorecard.json` links to at least one register file that
++  exists in this directory.
++- Unsourced claims get no score at all.
++- Desk research is not demand evidence. Search volume, survey interest and
++  model opinion are not demand evidence.
++- Registers are append-only; supersede a claim by adding a new dated entry,
++  never by deleting the old one.
++
++Current registers:
++
++- `geonerd/` — GeoNerd wedge, demand-validation plan, spike findings,
++  competitive teardown (all internal desk research,
++  `/home/richard/projects/geonerd` @ `327f02e`).
+diff --git a/evidence/geonerd/2026-09-20-competitive-teardown.md b/evidence/geonerd/2026-09-20-competitive-teardown.md
+new file mode 100644
+index 0000000..01271ce
+--- /dev/null
++++ b/evidence/geonerd/2026-09-20-competitive-teardown.md
+@@ -0,0 +1,38 @@
++# Evidence register — GeoNerd competitive teardown
++
++- Idea: `geonerd`
++- Register opened: 2026-09-20
++- Method version: 1.0.0
++
++## Source
++
++- `/home/richard/projects/geonerd/docs/competitive-teardown.md` @ `327f02e`
++  (internal desk research, 197 lines, 2026-09-20).
++
++## Competitor map as recorded
++
++| Competitor | Positioning | Price (as recorded) | Threat |
++|---|---|---|---|
++| TendorAI | AI visibility for UK ICAEW/ACCA accountants; multi-surface scans, schema work | not recorded in source | High — same vertical, explicit accountant targeting |
++| SearchScore | Generic technical-readiness / AI tracking; 1,038 UK accountancy firms audited | from $25/mo | High — cheap, self-serve, already touching the vertical |
++| Tramwai | Free 12-area audit, done-for-you GEO retainer | £299/mo | Medium — different price tier; makes GeoNerd look cheap |
++| AireStream | GEO programme for UK professional services | not recorded | Medium |
++| Otterly.ai | Generic AI visibility tracker | $29/mo | Medium — commodity comparison point |
++| Free checkers (Ahrefs, Semrush, HubSpot) | Bundled visibility checks | £0 marginal | High — anchors "free" for measurement alone |
++
++## Interpretation used in scoring
++
++- A **defensible wedge** cannot be "first to accountants" — that position is
++  taken. The claimed wedge is vertical depth + honest measurement + plain-language
++  monthly actions at £19.99/mo.
++- The teardown is the strongest single source behind the `differentiation` score
++  and the main risk item in the dossier.
++- Prices and product claims are vendor marketing captured on an unrecorded date;
++  they may have changed. Re-verify before any launch decision.
++- The teardown was written by the same party as the product hypothesis; treat as
++  motivated research.
++
++## Related
++
++- `evidence/geonerd/2026-09-20-spike-findings.md`
++- `evidence/geonerd/2026-09-20-wedge-strategy.md`
+diff --git a/evidence/geonerd/2026-09-20-demand-validation-plan.md b/evidence/geonerd/2026-09-20-demand-validation-plan.md
+new file mode 100644
+index 0000000..6dd603a
+--- /dev/null
++++ b/evidence/geonerd/2026-09-20-demand-validation-plan.md
+@@ -0,0 +1,44 @@
++# Evidence register — GeoNerd demand validation plan
++
++- Idea: `geonerd`
++- Register opened: 2026-09-20
++- Method version: 1.0.0
++
++## Source
++
++- `/home/richard/projects/geonerd/docs/demand-validation-plan.md` @ `327f02e`
++  (internal experimental design, desk-authored, 2026-09-20).
++
++This document supplies the falsification design, not market evidence. It is
++recorded so the scorecard's `validation_speed_cost` dimension and the proposed
++experiment can be traced to a concrete plan.
++
++## What the plan specifies
++
++| Element | Value |
++|---|---|
++| One question | Will UK accountancy practices commit real money to a monthly AI-visibility digest at ≥£19/mo, and does the free scan get them there? |
++| Cohort | 5 practices, owner/partner decision maker, 1–20 staff, contractor/IR35 or small-practice specialism |
++| Network rule | ≥3 of 5 conversations must come from non-network sources; personal relationships excluded from the gate |
++| Recruitment | Public directories (ICAEW/ACCA find-an-accountant, Google Maps), community posts, referrals |
++| Funnel targets | 100 visits → 30 scans → ≥25% email capture → ≥5 calls held → ≥2 of 5 commitments at ≥£19/mo |
++| Price test | Within-subject ladder: £9 / £19 / £29 per month, committed price recorded |
++| Effort | 1 week; 12 prompts × 1 surface × 1 manual run per practice (~1 hour each) |
++| Decision rule (proceed) | ≥2 of 5 commit at ≥£19/mo **and** ≥25% of scan completers submit email **and** ≥1 non-network channel produces a conversation |
++| Iterate rule | ≥1 but <2 commitments, or consistent £9 choice, or email works but no calls |
++| Stop rules | 0 of 5 commit at any price; or "interesting but wouldn't pay" persists; or buyers already satisfied by an incumbent |
++| Instrumentation | 10 named events recorded from first visitor (landing_view → digest_open) |
++
++## Evidential status
++
++- The plan is executable and bounded: 1 week, ~£50, 20 human-hours.
++- The decision rule is fixed in advance and mechanical, satisfying
++  `method/experiment-rules.md`.
++- It is a **plan, not a result**. No stage of the funnel has been observed.
++- It does not validate the measurement pipeline, retention beyond the first
++  digest, or CAC (stated in the plan itself, §10).
++
++## Related
++
++- `evidence/geonerd/2026-09-20-wedge-strategy.md` — the hypothesis under test
++- `experiments/geonerd-demand-spike/plan.md` — the repository-registered form
+diff --git a/evidence/geonerd/2026-09-20-spike-findings.md b/evidence/geonerd/2026-09-20-spike-findings.md
+new file mode 100644
+index 0000000..59b9aad
+--- /dev/null
++++ b/evidence/geonerd/2026-09-20-spike-findings.md
+@@ -0,0 +1,33 @@
++# Evidence register — GeoNerd spike findings
++
++- Idea: `geonerd`
++- Register opened: 2026-09-20
++- Method version: 1.0.0
++
++## Source
++
++- `/home/richard/projects/geonerd/docs/spike-findings.md` @ `327f02e`
++  (internal desk research, 316 lines, 2026-09-20).
++
++## Useful recorded findings
++
++| Finding | Statement | Evidential weight here |
++|---|---|---|
++| GEO tooling is crowded | 50+ generic AI-visibility tools; low end $15–29/mo; free checkers bundled into HubSpot/Semrush/Ahrefs | Secondary, vendor-derived; medium plausibility |
++| Measurement surfaces disagree | Published studies report UI vs API brand overlap of only 6–24% | Secondary; the core technical risk |
++| Generic SME positioning has no defensible acquisition channel | The spike concludes a generic "AI visibility for SMEs" product competes with free checkers on commodity measurement | Internal inference, coherent but unproven |
++| Vertical density is the proposed wedge | Dense verticals share prompt sets, making market-level sampling affordable and benchmarks meaningful | Internal inference; testable |
++| Technical architecture considered | Managed UI-equivalent scraping vs API proxy; collection cost model | Engineering design, not market evidence |
++
++## Limits
++
++- The spike is desk research by the prospective founder. It is not independent,
++  not buyer-derived, and its vendor-documentation inputs are undated within the
++  file in places.
++- It contains no primary demand evidence (no scans, no interviews, no spend).
++- Numbers quoted from it must not be scored above low/medium confidence.
++
++## Related
++
++- `evidence/geonerd/2026-09-20-wedge-strategy.md`
++- `evidence/geonerd/2026-09-20-competitive-teardown.md`
+diff --git a/evidence/geonerd/2026-09-20-wedge-strategy.md b/evidence/geonerd/2026-09-20-wedge-strategy.md
+new file mode 100644
+index 0000000..c2602d1
+--- /dev/null
++++ b/evidence/geonerd/2026-09-20-wedge-strategy.md
+@@ -0,0 +1,46 @@
++# Evidence register — GeoNerd wedge strategy
++
++- Idea: `geonerd`
++- Register opened: 2026-09-20
++- Method version: 1.0.0
++
++## Sources
++
++| ID | Source | Type | Date captured | Location |
++|---|---|---|---|---|
++| S1 | GeoNerd wedge strategy (issue #7 research deliverable) | internal desk research | 2026-09-20 | `/home/richard/projects/geonerd/docs/wedge-strategy.md` @ `327f02e` |
++| S2 | GeoNerd spike findings (issue #1) | internal desk research | 2026-09-20 | `/home/richard/projects/geonerd/docs/spike-findings.md` @ `327f02e` |
++| S3 | GeoNerd competitive teardown | internal desk research | 2026-09-20 | `/home/richard/projects/geonerd/docs/competitive-teardown.md` @ `327f02e` |
++| S4 | GeoNerd collection cost model | internal desk research | 2026-09-20 | `/home/richard/projects/geonerd/docs/ui-scraping-cost-model.md` @ `327f02e` |
++| S5 | GeoNerd demand validation plan (issue #8) | internal experimental design | 2026-09-20 | `/home/richard/projects/geonerd/docs/demand-validation-plan.md` @ `327f02e` |
++
++All GeoNerd documents are desk research produced by the same project that would
++build the product. They are **not** independent market evidence and carry no
++buyer-action credibility. Vendor pricing and adoption figures cited inside them
++are secondary sources with the dates recorded in those documents.
++
++## Claims and what supports them
++
++| Claim | Value | Source | Confidence | Notes |
++|---|---|---|---|---|
++| UK accountancy practices are a dense market with shared AI buying questions | ~35,921 actively trading firms (Firmbase 2026); 55,377 on register (justregistered, Sep 2026) | S1 §2–3 | medium | Counts are third-party estimates; order of magnitude only |
++| Target buyer is identifiable | UK accountancy practices, 1–20 staff, owner/partner decision maker; first niche contractor/IR35 specialists | S1 §1–2 | medium | Buyer hypothesis, not yet observed |
++| One accountancy client is worth £hundreds–£thousands/yr in fees | stated in S1 §2 | S1 | low-medium | No primary source in S1; used only to argue £19.99 is a rounding error |
++| AI visibility tooling at the low end is crowded and cheap | 50+ tools; Otterly $29/mo, SearchScore from $25/mo; free checkers inside Ahrefs/Semrush/HubSpot | S1 §2, S3 | medium | Vendor pages change; needs re-check before launch |
++| Accountancy-specific incumbents exist | TendorAI (ICAEW/ACCA multi-surface scans), Tramwai (£299/mo retainer + free audit), AireStream (GEO programme), SearchScore (1,038 UK accountancy firms audited) | S1 §2, S3 | medium | Contested wedge is the main risk to differentiation |
++| Measurement is genuinely noisy | UI vs API brand overlap 6–24% in published studies | S2, S1 §2 | medium | The honest-measurement positioning follows from this |
++| Shared-question density lowers collection cost | 30 prompts × 2 surfaces × 3 samples/week ≈ 780 calls/market/month → £60–95/market/month UI-equivalent | S1 §6, S4 | low-medium | Cost model has not been tested against a real provider bill |
++| Price hypothesis | £19.99/mo launch; £29.99 multi-partner; £9.99 modelled and rejected | S1 §6 | low | Pure desk hypothesis; demand test pending |
++| Minimum viable density | ≥10 customers/market at £19.99/mo | S1 §6 | low-medium | Depends on cost model above |
++| Non-paid distribution channels plausibly exist | AccountingWEB, ICAEW/ACCA/AAT communities, directory/SEO landscape | S1 §7 | low-medium | Channel yield untested |
++| A decisive external test is cheap and specified | 1-week spike, 5 buyer conversations, £50 / 20 human-hours bound | S5 | high (as a design) | Whether it disconfirms is the point of running it |
++
++## Explicitly unsupported / assumptions register
++
++- No observed buyer behaviour of any kind exists yet — no scan users, no emails,
++  no conversations, no payments.
++- The value of an accountancy client (§2) has no primary citation; it should not
++  be used in any scored dimension beyond directional reasoning.
++- Traffic/visit targets (100 visits etc.) are design choices, not evidence.
++- Any claim that "accountants will pay £19.99" is an **assumption**, resolvable
++  only by the demand-validation experiment.
+diff --git a/experiments/README.md b/experiments/README.md
+new file mode 100644
+index 0000000..e0fc044
+--- /dev/null
++++ b/experiments/README.md
+@@ -0,0 +1,21 @@
++# experiments/ — proposed, approved, running and completed experiments
++
++Every idea's decisive test is registered in `experiments/index.json` and has a
++plan at `experiments/<experiment-id>/plan.md`, following
++`templates/experiment/plan.md`.
++
++Statuses: `proposed -> awaiting-approval -> approved -> running -> completed`
++(or `abandoned`). Rules in `method/experiment-rules.md`.
++
++- A worker may only **propose** an experiment. The human owner approves and runs
++  it, and records approval in `experiments/index.json`
++  (`approval.granted: true`, `granted_by`, `granted_date`).
++- Anything over 20 human-hours or £100 needs a review request before approval.
++- Results are recorded by the human owner (or transcribed from material the
++  owner supplies) in `experiments/<experiment-id>/results.md`, following
++  `templates/experiment/results.md`.
++- The recorded decision rule is applied mechanically; do not reinterpret a
++  threshold after seeing the data. An ambiguous result is recorded as
++  ambiguous.
++- Only real-world results recorded here can move an idea beyond
++  `validation-ready`.
+diff --git a/experiments/geonerd-demand-spike/plan.md b/experiments/geonerd-demand-spike/plan.md
+new file mode 100644
+index 0000000..c876f68
+--- /dev/null
++++ b/experiments/geonerd-demand-spike/plan.md
+@@ -0,0 +1,83 @@
++# Experiment plan: One-week demand validation spike for the GeoNerd wedge
++
++- **ID:** `geonerd-demand-spike`
++- **Idea:** `geonerd`
++- **Created:** 2026-09-20
++- **Status:** proposed
++- **Approval:** required (human owner) — not yet granted
++- **Source:** adapted from `/home/richard/projects/geonerd/docs/demand-validation-plan.md` @ `327f02e`
++
++## Central assumption
++
++Owner-partners of 1–20-staff UK accountancy practices will pay at least
++£19/month for a monthly AI visibility digest after seeing a free scan.
++
++## Hypothesis
++
++If five target practices are shown a manually-produced scan report and walked
++through a within-subject £9/£19/£29 price ladder, then at least two will make a
++concrete commitment at ≥£19/mo, because one new client is worth far more than
++the subscription and the report names specific, actionable gaps.
++
++## Test design
++
++- **Population / sample:** 5 UK accountancy practices, 1–20 staff, owner or
++  partner is the decision maker, contractor/IR35 or small-practice specialism;
++  ≥3 of 5 recruited outside the founder's personal network.
++- **What participants see or do:** a one-page scan report (12 highest-intent
++  prompts, one ChatGPT consumer-UI run each, brands and cited sources recorded),
++  a 15–20 minute scripted interview, and the £9/£19/£29 price ladder with a
++  commitment question.
++- **Recruitment route:** public directories (ICAEW/ACCA find-an-accountant,
++  Google Maps), a community post of the aggregate benchmark, referral request at
++  the end of each conversation. No paid acquisition.
++- **Instrumentation:** the ten events defined in the source plan
++  (`landing_view`, `scan_start`, `scan_complete`, `report_open`, `email_submit`,
++  `call_booked`, `call_held`, `commitment`, `return_scan`, `digest_open`),
++  recorded from the first visitor; verbatim quotes for price reactions and
++  objections.
++- **Timebox:** 7 calendar days, per the day-by-day schedule in the source plan.
++- **Deliberately NOT included:** automated measurement pipeline validation,
++  retention beyond 30 days, CAC, any paid traffic, any product build.
++
++## Decision rule (fixed before running)
++
++| Outcome | Verdict | Action |
++|---|---|---|
++| ≥2/5 commit at ≥£19/mo **and** ≥25% of scan completers submit email **and** ≥1 non-network channel produces a conversation | proceed | Prepare an MVP proposal for human review; no build without approval |
++| Exactly 1 commitment, or consistent £9 choice, or email capture works but no conversations | iterate | One more week with revised positioning/price/report |
++| 0/5 commit at any price, or "interesting but wouldn't pay" persists, or incumbents already satisfy participants | stop | Record and close the spike; do not build |
++
++## Kill condition
++
++Zero of five practices make any concrete commitment at any price — or the
++dominant reaction after the iterate week is "interesting but I would not pay" —
++or the interviewed practices already pay for an incumbent that satisfies them.
++
++## Cost bound
++
++- Money: GBP 50
++- Human hours: 20
++- Calendar days: 7
++
++(At the review-policy threshold, not above it; a human owner must approve before
++any execution.)
++
++## Risks and safeguards
++
++- **No contact, spend, publication or account creation happens until the human
++  owner records approval in `experiments/index.json`** (`approval.granted: true`
++  with name and date) and in `experiments/geonerd-demand-spike/results.md`.
++- Personal-relationship participants are disclosed and excluded from the
++  decision gate; ≥3 of 5 conversations must be non-network.
++- Instrumentation records no PII beyond the email a participant submits.
++- The report is presented as a sample of one run with a stated noise caveat; no
++  precision is claimed.
++- If the decision rule outcome is ambiguous, record it as ambiguous rather than
++  reinterpreting the threshold after the fact.
++
++## Results
++
++Not yet run. Results will be recorded in
++`experiments/geonerd-demand-spike/results.md` and applied mechanically to the
++decision rule above.
+diff --git a/experiments/index.json b/experiments/index.json
+new file mode 100644
+index 0000000..6364453
+--- /dev/null
++++ b/experiments/index.json
+@@ -0,0 +1,30 @@
++{
++  "schema_version": 1,
++  "method_version": "1.0.0",
++  "updated": "2026-09-20",
++  "experiments": [
++    {
++      "id": "geonerd-demand-spike",
++      "idea_id": "geonerd",
++      "title": "One-week demand validation spike for the GeoNerd wedge",
++      "status": "proposed",
++      "created": "2026-09-20",
++      "updated": "2026-09-20",
++      "hypothesis": "If five target UK accountancy practices are shown a scan-based AI visibility report and asked to commit at a tested price, then at least two will commit at >=£19/mo, because the pain is felt and the report is actionable.",
++      "central_assumption": "Owner-partners of 1-20-staff UK accountancy practices will pay at least £19/month for a monthly AI visibility digest after seeing a free scan.",
++      "kill_condition": "Zero of five interviewed practices make any concrete commitment at any price, or the dominant reaction is 'interesting but I would not pay' after the iterate week, or interviewed practices already pay for a satisfying incumbent.",
++      "decision_rule": "Proceed iff >=2 of 5 practices commit at >=£19/mo AND >=25% of scan completers submit an email AND at least one non-network recruitment channel produces a conversation. Iterate once if exactly 1 commitment, or the chosen price is consistently £9, or email capture works but no conversations happen. Stop after the PoC if 0 of 5 commit.",
++      "plan": "experiments/geonerd-demand-spike/plan.md",
++      "results": null,
++      "approval": {
++        "required": true,
++        "granted": false
++      },
++      "cost_bound": {
++        "money_gbp": 50,
++        "human_hours": 20,
++        "calendar_days": 7
++      }
++    }
++  ]
++}
+diff --git a/ideas/geonerd/decision.md b/ideas/geonerd/decision.md
+new file mode 100644
+index 0000000..5d239ed
+--- /dev/null
++++ b/ideas/geonerd/decision.md
+@@ -0,0 +1,77 @@
++# GeoNerd — decision record
++
++- Idea id: `geonerd`
++- State: `validation-ready`
++- Date: 2026-09-20
++- Method version: 1.0.0
++- Actor: bootstrap (human owner, issue #1)
++
++## What changed
++
++Initial ledger entry. GeoNerd was seeded from the existing research repository
++`/home/richard/projects/geonerd` @ `327f02e` as a single bootstrap idea at
++`validation-ready`, with an independent review requested and the demand
++validation spike registered as a proposed experiment. No worker run has been
++executed against this repository yet.
++
++## State and transition
++
++- Previous state: none (new entry)
++- Current state: `validation-ready`
++- Transition authority: bootstrap seed authorised by the human owner in issue
++  #1; the worker may not advance this idea any further.
++
++## Hard filters
++
++| Filter | Status | Note |
++|---|---|---|
++| economic_buyer | pass | Practice owner/partner is the decision maker; £19.99/mo is a small purchase |
++| painful_frequent_or_budgeted | pass | Assumed painful and recurring; desk evidence only (A2) |
++| non_paid_distribution | pass | Directory outreach, communities, SEO, benchmark report; unmeasured (A4) |
++| defensible_wedge | pass | Vertical depth + honest measurement + plain-language actions, versus free checkers and £299/mo services |
++| no_network_effects_needed | pass | Market-level prompt set works for a single customer |
++| plausible_margins | pass | Contribution positive at d≥10 at £19.99/mo on the modelled cost base |
++| acceptable_risk | pass | No regulated personal data; claims about AI answers are verifiable |
++| cheap_disconfirming_test | pass | £50 / 20h / 1-week demand spike with a pre-fixed decision rule |
++| not_all_optimistic | pass | Stop rules fire on 0/5 commitments; iterate path defined |
++
++## Evidence considered
++
++- `evidence/geonerd/2026-09-20-wedge-strategy.md`
++- `evidence/geonerd/2026-09-20-demand-validation-plan.md`
++- `evidence/geonerd/2026-09-20-spike-findings.md`
++- `evidence/geonerd/2026-09-20-competitive-teardown.md`
++
++All are internal desk research from `/home/richard/projects/geonerd` @
++`327f02e`; none is independent market evidence.
++
++## Scores
++
++Weighted total 65.3 (threshold 65), confidence medium, 9 of 10 dimensions
++scored. `founder_fit` is unscored. See `scorecard.json` for per-dimension
++evidence links. The narrow margin above threshold is deliberate and honest: the
++case rests on a well-specified test, not on strong evidence.
++
++## Review
++
++- Status: `requested`
++- Requested from: independent reviewer (ChatGPT), via
++  `reviews/2026-09-20-geonerd-review-request.md`
++- Trigger: proposed `validation-ready` state (review policy)
++- Policy exception recorded: at bootstrap, `requested` satisfies the advanced
++  state requirement; external testing later requires `approved` **and** explicit
++  human approval recorded in the experiment entry.
++
++## Reasons if killed
++
++Not killed.
++
++## False-negative audit
++
++Not applicable (no kill).
++
++## Decision log
++
++| Date | Actor | Decision | Rationale |
++|---|---|---|---|
++| 2026-09-20 | bootstrap | Created at `validation-ready`, review requested, experiment proposed | See above |
+diff --git a/ideas/geonerd/dossier.md b/ideas/geonerd/dossier.md
+new file mode 100644
+index 0000000..9c194b7
+--- /dev/null
++++ b/ideas/geonerd/dossier.md
+@@ -0,0 +1,120 @@
++# GeoNerd — dossier
++
++- Idea id: `geonerd`
++- State: `validation-ready`
++- Evidence level: `Validation-ready` (testable proposition; no demand evidence yet)
++- Seeded: 2026-09-20, as a bootstrap entry under issue #1
++- Method version: 1.0.0
++
++## One-sentence proposition
++
++> GeoNerd tells a UK accountancy practice, in plain English, whether AI
++> assistants recommend them when local business owners ask for an accountant —
++> and what to do about it — for £19.99/month.
++
++## Buyer
++
++- UK accountancy practices, 1–20 staff, owner-managed, serving local SMEs.
++- First beachhead: contractor/IR35 specialists and small-practice accountants.
++- Decision maker: owner or partner. Purchase size is small relative to the value
++  of one new client, so willingness to pay is not assumed to require
++  sophistication — this is the core buyer hypothesis, restated as assumption A1
++  below.
++- No buyer has been contacted or observed. See
++  `evidence/geonerd/2026-09-20-wedge-strategy.md`.
++
++## Problem
++
++- AI assistants increasingly answer "best accountant for contractors in
++  <city>"-class questions; the practice cannot see whether it appears, who
++  appears instead, or why.
++- The problem is assumed painful/frequent by analogy (the same practice tracks
++  Google visibility), not demonstrated. Assumption A2.
++- Relevant evidence: `evidence/geonerd/2026-09-20-wedge-strategy.md`
++  (AIO/YMYL exposure section), `evidence/geonerd/2026-09-20-spike-findings.md`
++  (measurement-surface disagreement).
++
++## Mechanism / wedge
++
++- Free domain-in scan → named competitor + citation report + three plain-language
++  actions; paid monthly digest: "three things changed this month. One matters."
++- Defensibility rests on **vertical depth** (one shared prompt set per market
++  makes sampling cheap and benchmarks meaningful), **honest measurement**
++  (explicit sample sizes and noise bands), and **plain-language actions** — not
++  on measurement breadth.
++- Contested: TendorAI targets the same vertical; SearchScore is cheaper; free
++  checkers anchor measurement at £0. See
++  `evidence/geonerd/2026-09-20-competitive-teardown.md`.
++
++## Distribution
++
++- Free scan → email capture; SEO for "AI visibility for accountants"-class
++  queries; a public vertical benchmark report; AccountingWEB / ICAEW / ACCA /
++  AAT communities; practice-management partnerships.
++- Explicitly not paid acquisition at launch (CAC would swamp £19.99).
++- All channel yields are unmeasured. Assumption A4.
++
++## Economics
++
++- Collection: 30 prompts × 2 surfaces × 3 samples/week per market; UI-equivalent
++  £60–95/market/month → at £19.99/mo the product needs ≥10 customers per market
++  to contribute positively; at d=25 contribution ≈ £13.34/customer.
++- Cost model is desk-calculated, not tested against a real provider bill.
++  Assumption A5. Source: `evidence/geonerd/2026-09-20-wedge-strategy.md`.
++
++## Founder fit
++
++- Not scored: no evidence is recorded about the founder's distribution, domain
++  access or time budget beyond the existence of the GeoNerd research repo. This
++  dimension is deliberately left null rather than guessed.
++
++## Strongest supporting case
++
++- Accountancy is dense in shared AI buying questions, the buyer is identifiable
++  and reachable through non-paid professional communities, and the incumbent
++  landscape leaves a genuine gap between free checkers and £299/mo
++  done-for-you services. A £19.99/mo decision aid is a rounding error against
++  the value of one new client, and the "honest measurement" angle is a credible
++  response to documented UI/API noise (6–24% brand overlap).
++
++## Adversarial case (strongest case this is wrong)
++
++- The wedge may be an artefact of desk research. TendorAI already sells AI
++  visibility to UK accountants and SearchScore has audited 1,038 UK accountancy
++  firms; if either satisfies even two of five interviewed practices, the stop
++  rule fires. Owners may treat the free scan as a one-off curiosity and never
++  pay monthly ("nice to know, not worth £20"). The honest-measurement
++  positioning may actively reduce perceived value by admitting the number is
++  noisy. If collection costs land at the top of the modelled range or API
++  proxies are indefensible, unit economics fail at any reachable density. None
++  of these has been tested.
++
++## Unresolved assumptions
++
++- A1: owners/partners of 1–20-staff practices will personally pay ≥£19/mo for a
++  monthly digest.
++- A2: AI invisibility is a felt, frequent problem for them (not merely
++  interesting when shown).
++- A3: the free scan creates enough pull to yield ≥25% email capture.
++- A4: at least one non-paid channel produces conversations with non-network
++  practices.
++- A5: collection cost stays ≤£95/market/month at launch, or an API-equivalent
++  proxy is defensible.
++- A6: the contractor/IR35 specialism is the right beachhead rather than "small
++  practice serving local SMEs".
++- A7: monthly cadence matches the buyer's decision rhythm.
++
++## Cheapest decisive experiment
++
++The 1-week demand spike in `experiments/geonerd-demand-spike/plan.md`: five
++conversations with target practices, a manual scan for each, a within-subject
++£9/£19/£29 price ladder, and a pre-fixed decision rule (≥2 of 5 commit at
++≥£19/mo **and** ≥25% email capture **and** ≥1 non-network conversation).
++Estimated bound: £50, 20 human-hours, 7 calendar days — at the review
++threshold, not above it. Falsification target: A1 and A3.
++
++## Decision log
++
++| Date | Actor | Decision | Rationale |
++|---|---|---|---|
++| 2026-09-20 | bootstrap (human owner, issue #1) | Seed at `validation-ready`; request independent review | GeoNerd already has a full desk-research base and a specified decisive test; primary demand and commercial validation remain outstanding, so no further advance is permitted |
+diff --git a/ideas/geonerd/scorecard.json b/ideas/geonerd/scorecard.json
+new file mode 100644
+index 0000000..a2e92c8
+--- /dev/null
++++ b/ideas/geonerd/scorecard.json
+@@ -0,0 +1,163 @@
++{
++  "schema_version": 1,
++  "method_version": "1.0.0",
++  "weights_version": "1.0.0",
++  "idea_id": "geonerd",
++  "slug": "geonerd",
++  "title": "GeoNerd: AI visibility digest for UK accountancy practices",
++  "state": "validation-ready",
++  "updated": "2026-09-20",
++  "dimensions": {
++    "problem_severity_frequency": {
++      "weight": 15,
++      "score": 3,
++      "confidence": "medium",
++      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
++      "rationale": "AIO/YMYL exposure is documented and the shared-question structure is coherent, but no target buyer has confirmed the problem is felt or frequent (assumption A2)."
++    },
++    "buyer_budget_clarity": {
++      "weight": 15,
++      "score": 3,
++      "confidence": "medium",
++      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
++      "rationale": "Buyer and decision maker are precisely identified (1-20 staff practice owner/partner); budget authority is plausible but no observed willingness to pay exists (assumption A1)."
++    },
++    "evidence_strength": {
++      "weight": 15,
++      "score": 3,
++      "confidence": "medium",
++      "evidence": ["evidence/geonerd/2026-09-20-spike-findings.md"],
++      "rationale": "All evidence is internal desk research with secondary sources; coherent and specific, but no independent or buyer-derived evidence. No material claim rises above medium confidence."
++    },
++    "distribution": {
++      "weight": 10,
++      "score": 3,
++      "confidence": "medium",
++      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
++      "rationale": "Named non-paid channels exist (communities, directories, SEO, benchmark report) but no yield has been measured (assumption A4)."
++    },
++    "differentiation": {
++      "weight": 10,
++      "score": 3,
++      "confidence": "medium",
++      "evidence": ["evidence/geonerd/2026-09-20-competitive-teardown.md"],
++      "rationale": "Vertical depth + honest measurement + plain-language actions is a real angle, but TendorAI contests the same vertical and SearchScore undercuts on price; wedge unproven against buyers."
++    },
++    "validation_speed_cost": {
++      "weight": 10,
++      "score": 4,
++      "confidence": "high",
++      "evidence": ["evidence/geonerd/2026-09-20-demand-validation-plan.md"],
++      "rationale": "A 1-week, £50, 20 human-hour test with a pre-fixed mechanical decision rule exists and directly targets the central assumption."
++    },
++    "feasibility": {
++      "weight": 5,
++      "score": 4,
++      "confidence": "medium",
++      "evidence": ["evidence/geonerd/2026-09-20-spike-findings.md"],
++      "rationale": "Manual scan is straightforward; the technical uncertainty (UI vs API equivalence) is bounded and deferred to the measurement bake-off rather than blocking the demand test."
++    },
++    "economics": {
++      "weight": 10,
++      "score": 4,
++      "confidence": "medium",
++      "evidence": ["evidence/geonerd/2026-09-20-wedge-strategy.md"],
++      "rationale": "Modelled contribution is positive at >=10 customers per market at £19.99/mo with plausible cost ranges; the cost model is untested against a real provider bill (assumption A5)."
++    },
++    "founder_fit": {
++      "weight": 5,
++      "score": null,
++      "confidence": "none",
++      "evidence": [],
++      "rationale": "No evidence recorded about the founder's domain access, distribution or time budget beyond the existence of the GeoNerd research repo; left unscored rather than guessed."
++    },
++    "risk": {
++      "weight": 5,
++      "score": 3,
++      "confidence": "medium",
++      "evidence": ["evidence/geonerd/2026-09-20-competitive-teardown.md"],
++      "rationale": "No regulated personal data or platform-risk story, but incumbent contest and dependency on third-party AI surfaces are material and unresolved."
++    }
++  },
++  "hard_filters": {
++    "economic_buyer": {
++      "status": "pass",
++      "date": "2026-09-20",
++      "note": "Practice owner/partner is the decision maker; £19.99/mo is a small purchase against the value of one client."
++    },
++    "painful_frequent_or_budgeted": {
++      "status": "pass",
++      "date": "2026-09-20",
++      "note": "Assumed painful and recurring by analogy with search visibility tracking; desk evidence only (assumption A2)."
++    },
++    "non_paid_distribution": {
++      "status": "pass",
++      "date": "2026-09-20",
++      "note": "Directory outreach, professional communities, SEO and a benchmark report are credible non-paid routes (assumption A4)."
++    },
++    "defensible_wedge": {
++      "status": "pass",
++      "date": "2026-09-20",
++      "note": "Vertical depth + honest measurement + plain-language actions versus free checkers and £299/mo done-for-you services."
++    },
++    "no_network_effects_needed": {
++      "status": "pass",
++      "date": "2026-09-20",
++      "note": "Market-level prompt set is usable by a single customer; benchmarks improve with density but are not required for value."
++    },
++    "plausible_margins": {
++      "status": "pass",
++      "date": "2026-09-20",
++      "note": "Modelled contribution positive at >=10 customers per market at £19.99/mo; cost model untested."
++    },
++    "acceptable_risk": {
++      "status": "pass",
++      "date": "2026-09-20",
++      "note": "No personal data beyond submitted email; claims about AI answers are reproducible and disclaimered."
++    },
++    "cheap_disconfirming_test": {
++      "status": "pass",
++      "date": "2026-09-20",
++      "note": "£50 / 20 human-hours / 1-week demand spike with a pre-fixed decision rule can falsify the central assumption."
++    },
++    "not_all_optimistic": {
++      "status": "pass",
++      "date": "2026-09-20",
++      "note": "Stop rules fire on 0/5 commitments and on incumbent satisfaction; iterate path is defined."
++    }
++  },
++  "vetoes": [],
++  "aggregate": {
++    "scored_weight": 95,
++    "raw_weighted_points": 62.0,
++    "weighted_total": 65.3,
++    "threshold": 65,
++    "meets_threshold": true
++  },
++  "confidence": "medium",
++  "review": {
++    "status": "requested",
++    "requested_from": "ChatGPT (independent reviewer)",
++    "request_path": "reviews/2026-09-20-geonerd-review-request.md",
++    "last_reviewed_revision": null,
++    "history": [
++      {
++        "date": "2026-09-20",
++        "from": "not-required",
++        "to": "requested",
++        "actor": "bootstrap",
++        "reason": "Bootstrap seed at validation-ready under issue #1; independent review requested because the idea is proposed at an advanced state."
++      }
++    ]
++  },
++  "experiment": {
++    "id": "geonerd-demand-spike",
++    "status": "proposed",
++    "approval": {
++      "required": true,
++      "granted": false
++    },
++    "plan": "experiments/geonerd-demand-spike/plan.md",
++    "results": null
++  }
++}
+diff --git a/ideas/index.json b/ideas/index.json
+new file mode 100644
+index 0000000..045f4a1
+--- /dev/null
++++ b/ideas/index.json
+@@ -0,0 +1,63 @@
++{
++  "schema_version": 1,
++  "method_version": "1.0.0",
++  "updated": "2026-09-20",
++  "limits": {
++    "max_unreviewed_before_generation_stops": 10,
++    "max_new_candidates_per_run": 3,
++    "max_validation_ready_advances_per_run": 1
++  },
++  "counts": {
++    "total": 1,
++    "unreviewed": 0,
++    "by_state": {
++      "validation-ready": 1
++    },
++    "killed": 0
++  },
++  "ideas": [
++    {
++      "id": "geonerd",
++      "slug": "geonerd",
++      "title": "GeoNerd: AI visibility digest for UK accountancy practices",
++      "state": "validation-ready",
++      "discovered": "2026-09-20",
++      "updated": "2026-09-20",
++      "evidence_level": "Validation-ready",
++      "score": 65.3,
++      "confidence": "medium",
++      "fingerprint": {
++        "buyer": "UK accountancy practices, 1-20 staff, owner/partner decision maker; first beachhead contractor/IR35 specialists",
++        "problem": "Practices cannot see whether AI assistants recommend them when local business owners ask for an accountant, who is recommended instead, or why",
++        "mechanism": "Free domain-in AI visibility scan plus a £19.99/mo plain-language monthly digest of visibility changes and prioritised actions",
++        "keywords": [
++          "AI visibility",
++          "generative engine optimisation",
++          "GEO",
++          "accountancy",
++          "contractor IR35",
++          "monthly digest"
++        ]
++      },
++      "paths": {
++        "dir": "ideas/geonerd",
++        "dossier": "ideas/geonerd/dossier.md",
++        "decision": "ideas/geonerd/decision.md",
++        "scorecard": "ideas/geonerd/scorecard.json"
++      },
++      "review": {
++        "status": "requested",
++        "path": "reviews/2026-09-20-geonerd-review-request.md"
++      },
++      "experiment": {
++        "id": "geonerd-demand-spike",
++        "status": "proposed",
++        "approval": {
++          "required": true,
++          "granted": false
++        },
++        "plan": "experiments/geonerd-demand-spike/plan.md"
++      }
++    }
++  ]
++}
+diff --git a/method/VERSION b/method/VERSION
+new file mode 100644
+index 0000000..3eefcb9
+--- /dev/null
++++ b/method/VERSION
+@@ -0,0 +1 @@
++1.0.0
+diff --git a/method/calibration.md b/method/calibration.md
+new file mode 100644
+index 0000000..0ad3d6a
+--- /dev/null
++++ b/method/calibration.md
+@@ -0,0 +1,72 @@
++# Calibration
++
++Method version: see `method/VERSION`.
++
++Before the method is trusted for routine use it must be calibrated against known cases.
++Calibration is the acceptance test for the loop itself; it is not market validation of
++any idea.
++
++## What calibration must cover
++
++1. **GeoNerd** (real, pre-existing case). The worker re-reads the GeoNerd evidence
++   registers, verifies or challenges the seeded scorecard, and either keeps it at
++   `validation-ready` (with the review request raised) or moves it down with reasons.
++2. **At least two weak/rejected ideas** generated by the worker in the normal way. These
++   exercise the hard filters and the kill path, including preserved reasons.
++3. **One attractive-looking control** that should fail adversarial review. This tests
++   that the adversarial pass and the reviewer are genuinely willing to kill something
++   that looks good.
++4. **Independent critique.** At least one DeepSeek-produced result is compared with a
++   ChatGPT critique. The critique is recorded as a review response file per
++   `method/review-policy.md`, and the worker must respond to it explicitly in a later
++   run (changes accepted or disputed with evidence).
++5. **Tuning.** Instructions, templates and thresholds are adjusted based on what
++   calibration exposes. Material changes increment `method/VERSION` and themselves
++   require a review request (trigger 2 in `method/review-policy.md`).
++
++## Fixtures
++
++| Fixture | Source | Status |
++|---|---|---|
++| GeoNerd | Seeded from the geonerd repo at commit `327f02e`; evidence registers under `evidence/geonerd/` | Seeded, review requested |
++| Weak/rejected x2 | Produced by the first calibration worker run | Pending |
++| Attractive control | Produced by the first calibration worker run | Pending |
++
++The weak/rejected and control fixtures are NOT seeded by hand; generating them is part
++of the first run, so that the run exercises the real generation and kill path.
++
++## Procedure
++
++1. Human owner triggers a normal run: `scripts/run.sh` (after reviewing a dry run with
++   `scripts/run.sh --dry-run`).
++2. Worker processes queued reviews first (GeoNerd) and then performs its standard run per
++   `method/run-protocol.md`, bounded to the fixture work where the run budget allows.
++3. Human owner sends the generated review request(s) to ChatGPT and commits the response
++   files under `reviews/`.
++4. Worker responds to the review in the next run.
++5. Human owner records what was learned in `retrospectives/`, and updates the status
++   table below.
++
++## Exit criteria
++
++Calibration is complete when:
++
++- [ ] GeoNerd has a recorded review outcome and its state reflects it.
++- [ ] >=2 weak ideas were generated and killed through the documented path, with reasons
++      preserved and a false-negative audit sampled correctly.
++- [ ] >=1 attractive control failed adversarial review or review with reasons recorded.
++- [ ] >=1 DeepSeek result was compared with a written ChatGPT critique, and the worker
++      responded to it explicitly.
++- [ ] The first tuning pass is recorded in a retrospective, with any method changes
++      versioned and review-requested.
++
++## Status
++
++| Step | Owner | Status | Date | Notes |
++|---|---|---|---|---|
++| Seed GeoNerd + request review | bootstrap | done | 2026-09-20 | `reviews/2026-09-20-geonerd-review-request.md` |
++| First dry run | human | pending | | `scripts/run.sh --dry-run` |
++| First normal run (fixtures) | human | pending | | `scripts/run.sh` |
++| ChatGPT review response recorded | human | pending | | `reviews/<date>-geonerd-chatgpt.md` |
++| Worker response to review | human | pending | | next run |
++| Retrospective + tuning | human | pending | | `retrospectives/` |
+diff --git a/method/evidence-policy.md b/method/evidence-policy.md
+new file mode 100644
+index 0000000..010010b
+--- /dev/null
++++ b/method/evidence-policy.md
+@@ -0,0 +1,64 @@
++# Evidence Policy
++
++Method version: see `method/VERSION`.
++
++## The three registers
++
++Every material statement in a dossier, scorecard or decision record belongs to exactly
++one register, and is labelled in the text:
++
++| Register | Meaning | Example | What it can support |
++|---|---|---|---|
++| **Evidence** | An externally checkable fact with a dated source | "SearchScore lists 1,038 audited UK accountancy firms (searchscore site, accessed 2026-09-20)" | Scores, transitions, kill decisions |
++| **Assumption** | Something we believe but have not verified; must be falsifiable | "We assume owners read a monthly email" | The design of an experiment; never a score by itself |
++| **Inference** | A conclusion drawn from evidence, with the reasoning shown | "Density makes per-customer collection cost fall, so £19.99 is viable at d>=10" | Lower-confidence scores; must cite the evidence it rests on |
++
++An unlabelled material statement is treated as an inference at best. If it has no source
++and no reasoning, it is noise and must be removed or marked as an assumption.
++
++## Sources
++
++- Every material claim in `evidence/` carries: source name, URL or file path, access
++  date, and a one-line note on why it is credible.
++- `ideas/**/scorecard.json` entries point at evidence register files (paths under
++  `evidence/`) or external URLs with an access date.
++- Dates are `YYYY-MM-DD`.
++- Self-reported vendor claims, listicles, and AI-generated summaries are usable only as
++  weak secondary evidence and must be labelled as such. Vendor claims never establish
++  demand.
++- Desk research, search volume, survey interest, and model opinion are **not** demand
++  evidence. Only target buyers doing something costly counts.
++
++## Scoring rule
++
++**No source, no score.** A dimension with no evidence scores `null` (not 0) and is
++excluded from the weighted aggregate; the exclusion is counted and reported. An idea
++scored on fewer than 8 of the 10 dimensions is never `validation-ready`.
++
++Scores are integers 0-5 and confidence is recorded separately per dimension:
++
++- `high` - primary evidence, current (<=6 months) and directly about this buyer/market
++- `medium` - credible secondary evidence or older primary evidence
++- `low` - analogy, inference, or a single weak source
++
++## Evidence levels
++
++The per-idea evidence level (`Plausible`, `Promising`, `Validation-ready`, `Demand
++evidence`, `Commercial evidence`, `Repeatability evidence`) is defined in
++`method/lifecycle.md` and is derived from the strongest evidence present, not from the
++number of sources.
++
++## External evidence
++
++Real-world results (experiments, conversations, commitments) are recorded by the human
++owner, or by the worker transcribing results the owner supplies, under `experiments/`
++and linked from the idea dossier. The worker may never fabricate, extrapolate or
++"clean up" external results. Contradictory results must be recorded, not reconciled
++away.
++
++## Preservation
++
++- `evidence/` entries are append-only once cited. Corrections are new entries that
++  reference the old one, or explicit annotations marked `CORRECTION`.
++- Rejected and killed ideas keep their evidence and reasons in place.
++- Nothing in the ledger is silently overwritten; history is added.
+diff --git a/method/experiment-rules.md b/method/experiment-rules.md
+new file mode 100644
+index 0000000..f7c2720
+--- /dev/null
++++ b/method/experiment-rules.md
+@@ -0,0 +1,66 @@
++# Experiment Rules
++
++Method version: see `method/VERSION`.
++
++An experiment is the only way an idea moves past `validation-ready`. Desk research can
++rank ideas; it cannot validate them.
++
++## Rules for proposing an experiment
++
++1. **One central assumption.** State the single assumption whose failure kills the
++   idea. Everything else is secondary.
++2. **Pre-fixed decision rule.** The proceed / iterate / stop rule, including numbers and
++   a timebox, must be written before the experiment starts and must not change
++   mid-experiment. If the rule is wrong, record a new experiment; do not edit the old
++   one.
++3. **Cheapest decisive test.** Prefer the smallest test that can produce disconfirming
++   evidence. Cost bound is recorded (`cost_bound`: money, human hours, calendar days).
++4. **Kill condition.** Every experiment states what result means "stop". An experiment
++   with no possible failing outcome is not an experiment.
++5. **Human approval first.** The worker may only propose. The human owner decides
++   whether the experiment runs, and performs or authorises all outreach, spend,
++   publication and commitments. `approval.granted` must be `true` before any external
++   action.
++6. **Benchmark effort threshold.** A proposed experiment whose projected effort exceeds
++   `20 human-hours` or `GBP 100` requires an independent review request (see
++   `method/review-policy.md`) before human approval.
++
++## Lifecycle of an experiment
++
++```
++proposed -> awaiting-approval -> approved -> running -> completed | abandoned
++```
++
++- `proposed`: worker created `experiments/<id>/plan.md` and the index entry.
++- `awaiting-approval`: plan is complete and ready for the human owner.
++- `approved`: human owner recorded approval (`approval.granted = true`, date, name).
++- `running`: external activity has started (only after approval).
++- `completed`: results recorded in `experiments/<id>/results.md` and summarised in the
++  dossier.
++- `abandoned`: stopped before completion; reason recorded.
++
++## Recording results
++
++- Results are recorded by the human owner or transcribed verbatim by the worker from
++  material the owner supplies. Direct quotes are labelled as quotes.
++- `results.md` must include: dates, what actually happened, the numbers the decision
++  rule needs, anything that contradicted expectations, and raw artefacts (transcripts,
++  spreadsheets) or links to them.
++- The decision rule is then applied mechanically in a `Verdict` section. If evidence is
++  insufficient to apply the rule, the verdict is "insufficient evidence", not
++  "proceed".
++- The worker then updates: the experiment status, the idea dossier, the decision record,
++  the scorecard evidence links, and `ideas/index.json`. The human owner decides the
++  resulting state (`validated`, `iterate`, `killed`).
++- Negative and messy results are first-class: they are recorded with the same care as
++  positive ones. A well-run experiment that produces a stop decision is a success.
++
++## Guardrails
++
++- Never contact a real person, create an account, publish anything, or spend money
++  without explicit recorded approval.
++- Never fabricate or extrapolate results. Missing data is reported as missing.
++- Do not run a second experiment on the same assumption to "confirm" a favourable first
++  result; run the pre-fixed decision rule instead.
++- Survey interest, search volume, and model opinion are not demand. Actions with cost
++  (time, data, introductions, money) are.
+diff --git a/method/lifecycle.md b/method/lifecycle.md
+new file mode 100644
+index 0000000..a234477
+--- /dev/null
++++ b/method/lifecycle.md
+@@ -0,0 +1,69 @@
++# Lifecycle
++
++Method version: see `method/VERSION`. This file defines the only legal states for an
++idea, who may move it, and what each transition requires.
++
++## States
++
++| State | Meaning | Set by |
++|---|---|---|
++| `discovered` | Candidate recorded with a buyer/problem hypothesis; not yet screened | worker |
++| `desk-screened` | Hard rejection filters applied; first pass of evidence recorded | worker |
++| `adversarially-researched` | Explicit kill attempt documented; strongest disconfirming case stated | worker |
++| `validation-ready` | Narrow proposition plus a cheap, decisive external test with a pre-fixed decision rule | worker, subject to the review rules in `method/review-policy.md` |
++| `externally-tested` | At least one approved external test has run and its results are recorded under `experiments/` | state recorded by worker from results supplied by the human owner |
++| `validated` / `iterate` / `killed` | Outcomes after external evidence | human owner decides; worker records |
++
++`killed` is reachable from any state. Killed ideas are never deleted; they are preserved
++with their reason (including false-negative audits).
++
++## Who may advance what
++
++- The worker (OpenCode + DeepSeek) may set `discovered`, `desk-screened`,
++  `adversarially-researched`, and `validation-ready` (subject to the review trigger),
++  and may record `killed` with a reason.
++- The worker MUST NOT set `externally-tested`, `validated` or `iterate` without
++  human-recorded real-world evidence. It may only propose these transitions.
++- The human owner approves all external tests, outreach, expenditure, publication,
++  external account creation, and commitments. Approval is recorded in the experiment
++  record (`approval.granted`) before anything external happens.
++- A second model (e.g. ChatGPT) is a reviewer, not a validator. Its opinion is never
++  market evidence and never advances an idea on its own; it can block or require
++  changes to a proposed transition.
++
++## Allowed transitions
++
++| From | To | Requires |
++|---|---|---|
++| `discovered` | `desk-screened` | Hard filters all `pass`; at least one dated source for the problem; decision record written |
++| `discovered` / `desk-screened` | `killed` | A failed hard filter or a documented disconfirming finding; reason preserved |
++| `desk-screened` | `adversarially-researched` | Adversarial pass recorded: strongest disconfirming case, and why the idea survives it (or the idea is killed) |
++| `adversarially-researched` | `validation-ready` | Scorecard meets the threshold in `method/scorecard.md`; all hard filters `pass`; no active veto; review triggered (`review.status != not-required`) |
++| `validation-ready` | `externally-tested` | `review.status == approved` AND human owner approved the experiment AND results are recorded |
++| `externally-tested` | `validated` / `iterate` / `killed` | Human owner decision recorded in the decision record |
++| any | `killed` | Reason recorded; prior state kept in history |
++
++Downward moves (e.g. `validation-ready` -> `adversarially-researched` after a
++`changes-requested` review) are legal and must be recorded as a transition, never
++edited away.
++
++## Evidence levels
++
++Evidence level is recorded per idea; it caps the safe state.
++
++| Level | Definition | Highest state it supports |
++|---|---|---|
++| Plausible | Coherent problem + buyer hypothesis, no external evidence yet | `desk-screened` |
++| Promising | Credible secondary evidence, no fatal desk objection | `adversarially-researched` |
++| Validation-ready | Narrow proposition + cheap decisive external test with a pre-fixed decision rule | `validation-ready` |
++| Demand evidence | Target buyers take meaningful action (time, data, introductions, real usage), not just expressed interest | `externally-tested` |
++| Commercial evidence | >=2 unrelated target customers pay, pre-order, or commit a scarce resource | `externally-tested` / `validated` |
++| Repeatability evidence | Acquisition and delivery repeat at workable economics | `validated` |
++
++## Where state lives
++
++- `ideas/index.json` carries `state` for every idea (machine-readable).
++- The idea's `scorecard.json` carries the same `state` plus the `review` block and
++  `review.history` (append-only).
++
++These must never disagree; `scripts/validate_repo.py` fails the repository if they do.
+diff --git a/method/review-policy.md b/method/review-policy.md
+new file mode 100644
+index 0000000..db1e1e0
+--- /dev/null
++++ b/method/review-policy.md
+@@ -0,0 +1,108 @@
++# Review Policy
++
++Method version: see `method/VERSION`.
++
++Reviews are how a second model (ChatGPT) and the human owner oversee the worker. Reviews
++happen through committed artefacts, not shared chat. The reviewer must be able to work
++from the repository alone.
++
++## When a review is required
++
++Trigger a review request when any of these is true:
++
++1. An idea is proposed for `validation-ready`.
++2. Scoring weights, evidence rules, or lifecycle thresholds change materially.
++3. A high score rests on contradictory or low-confidence evidence.
++4. There is material legal, regulatory, privacy, trust, safety or platform risk.
++5. A proposed experiment exceeds 20 human-hours or GBP 100 projected effort.
++6. Every 5th killed idea (false-negative audit; sample the oldest un-audited one).
++7. The human owner asks.
++
++## When a review is not required
++
++Routine formatting, source capture, obvious hard-filter rejections, dossier updates that
++do not change state or scores, and unchanged low-activity runs do not need a review
++request. The worker proceeds and records normally.
++
++## States
++
++```
++not-required -> requested -> changes-requested | approved | killed
++```
++
++- `not-required`: no trigger applies.
++- `requested`: worker wrote the review request and set it in `scorecard.json#review`.
++  Only the worker/human may set this.
++- `changes-requested`: reviewer requires more evidence or a correction. The worker MUST
++  respond in the next run: address each point with new evidence or a documented
++  concession; never overwrite the review.
++- `approved`: the reviewer agrees with the proposal. This is a gate, not validation: it
++  still does not permit external action without human approval.
++- `killed`: the reviewer's case is strong enough that the idea should stop. The worker
++  moves the idea to `killed` (or raises a new, evidence-backed review request disputing
++  it; the disagreeing state is recorded, and the idea does not advance until resolved).
++
++Every state change appends to `scorecard.json#review.history`:
++
++```json
++{
++  "date": "YYYY-MM-DD",
++  "from": "not-required",
++  "to": "requested",
++  "actor": "worker | human-owner | reviewer",
++  "reviewer": "chatgpt",
++  "model": "gpt-5.x or null",
++  "reason": "why",
++  "revision": "git sha or commit",
++  "artefacts": ["path", "..."]
++}
++```
++
++History is append-only. Reviews are also preserved as files in `reviews/` (see below).
++
++## Request package
++
++`scripts/build_review_request.py` generates `reviews/<date>-<slug>-review-request.md`
++containing, for the idea under review:
++
++- the lifecycle state and proposed transition;
++- score and confidence per dimension, with the aggregate and threshold;
++- hard-filter results and any vetoes;
++- dated evidence links (path + one-line summary);
++- the strongest supporting case and the strongest disconfirming case;
++- unresolved assumptions;
++- the cheapest decisive experiment with its pre-fixed decision rule;
++- the machine-readable review block (`scorecard.json#review`);
++- explicit instructions for the reviewer and where to write the response.
++
++The worker must not paraphrase away inconvenient evidence; disconfirming findings appear
++in the package.
++
++## Response files
++
++Reviewer responses are saved as `reviews/<date>-<slug>-<reviewer>-<model>.md`
++(example: `2026-09-20-geonerd-chatgpt.md`) using `templates/review/response.md`. The
++human owner (or the worker transcribing the reviewer's exact text) records:
++
++- verdict (`changes-requested` | `approved` | `killed`);
++- reviewer, provider/model, date, reviewed revision;
++- per-point reasoning, including any evidence the reviewer checked;
++- the condition that would change the verdict.
++
++The worker then updates `scorecard.json#review.status` and `review.history`, and
++`ideas/index.json` if the state changes. The worker's response to each point is written
++in the next run summary and, where relevant, the dossier.
++
++## False-negative audits
++
++Killed ideas are sampled: every 5th kill triggers an audit by the reviewer, which asks
++whether the kill was correct and what evidence would have changed it. The audit result
++is recorded in the killed idea's decision record (`## False-negative audit`). An idea
++may return to `desk-screened` only via a new decision record with genuinely new
++evidence, not via re-argument.
++
++## Reviewer independence
++
++The reviewer is never market validation. A second model's agreement is a quality signal
++about the reasoning, nothing more. No state beyond `validation-ready` is reachable
++without real-world evidence recorded under `experiments/`.
+diff --git a/method/run-protocol.md b/method/run-protocol.md
+new file mode 100644
+index 0000000..05cbd09
+--- /dev/null
++++ b/method/run-protocol.md
+@@ -0,0 +1,142 @@
++# Run Protocol
++
++Method version: see `method/VERSION`. This is the exact procedure for one worker run.
++The worker is the OpenCode `idea-worker` agent running DeepSeek. A normal run is
++invoked manually and non-interactively via `scripts/run.sh`.
++
++## Limits (hard)
++
++| Limit | Value | Enforced by |
++|---|---|---|
++| Max new candidates per run | 3 | worker instructions; validator reports counts |
++| Generation stops when unreviewed ideas reach | 10 (`state == discovered`) | worker instructions; validator warns at 8+ and fails at >10 |
++| Max advances to `validation-ready` per run | 1 | worker instructions |
++| Max new evidence entries per idea per run | 8 | worker instructions |
++| Max web lookups (search + fetch) per run | 25 | worker instructions |
++| Max agent steps | 80 | agent `steps` config |
++| Max provider retries per run | 2 (3 attempts total) | `scripts/run.sh` |
++| Max cost per run | USD 1.00 default (`--max-cost`) | `scripts/run.sh` post-run check + report |
++| Default timeout | 3600 s (`--timeout`) | `scripts/run.sh` |
++
++Cost and token usage are recorded per run. If a run finishes but exceeded the cost
++bound, the run is marked `over-budget` and treated as failed: its ledger changes must
++be reviewed by the human owner before keeping them.
++
++## One run, in order
++
++1. **Orientation.** Read `ideas/index.json`, all active experiments
++   (`experiments/index.json`), the review queue, the most recent retrospectives, and the
++   decision records of recently killed ideas. Note any `changes-requested` reviews:
++   these MUST be answered in this run (see step 8).
++2. **Unreviewed check.** Count ideas with `state == discovered`. If >= 10, generate no
++   new candidates this run and say so in the run summary.
++3. **Generate candidates (<= 3, only if step 2 allows).** Materially distinct from each
++   other and from all existing ideas. For each candidate apply duplicate detection:
++   - normalised title/slug collision => duplicate, do not create;
++   - same buyer AND same problem AND (same mechanism OR >= 3 shared fingerprint
++     keywords) as any existing idea => duplicate unless the candidate states what is
++     materially different;
++   - a variant of a killed idea without addressing the recorded kill reason => reject,
++     with the reason noted.
++   For each accepted candidate create `ideas/<slug>/{dossier.md,decision.md,scorecard.json}`
++   and an entry in `ideas/index.json` with `state: discovered`.
++4. **Hard filters before deep research.** Apply all nine filters from
++   `method/scorecard.md` to each new candidate. Any `fail` => `killed` (preserve reason).
++   `unknown`/`defer` => park at `desk-screened` at most, and state what would resolve it.
++5. **Desk screen survivors.** Gather dated evidence into `evidence/` (append-only), fill
++   the scorecard dimensions that evidence supports, and move to `desk-screened`.
++6. **Adversarial pass.** For promising candidates, write the strongest possible case
++   that the idea is wrong or worthless ("what would have to be true for this to fail"),
++   then either kill the idea or record why it survives. Move to `adversarially-researched`.
++   This pass must be genuinely aimed at killing; the sibling `idea-critic` agent can be
++   used for a second adversarial opinion.
++7. **Advance at most one idea.** Score the candidate(s). At most one idea per run may be
++   proposed for `validation-ready`, and only if the threshold in `method/scorecard.md`
++   and the review trigger in `method/review-policy.md` are satisfied. When triggered,
++   set `review.status: requested`, write `reviews/<date>-<slug>-review-request.md`
++   (generated with `scripts/build_review_request.py`), and stop advancing that idea.
++8. **Answer outstanding reviews.** For every review with status `changes-requested`,
++   address each point with new evidence or a documented concession; never overwrite the
++   review or silently ignore it. For `approved`, require human-recorded experiment
++   results before any state change above `validation-ready`. For `killed`, move the idea
++   to `killed` (or record a well-argued disagreement as a new review request; the state
++   stays put until the reviewer responds).
++9. **Experiment step.** For the idea closest to `validation-ready`, ensure the cheapest
++   decisive experiment is proposed in `experiments/<id>/plan.md` per
++   `method/experiment-rules.md`. Never start it. Approval is the human owner's.
++10. **Run summary.** Write `runs/<run-id>/summary.md`: what advanced, what was killed,
++    what failed, what needs human input, limits hit, and the review queue after the run.
++    Update `ideas/index.json` counters and `experiments/index.json`. Do not commit.
++
++## Output contract
++
++- All changed files are Markdown or JSON under the paths above. No app code, no database.
++- `ideas/index.json`, every `scorecard.json`, `experiments/index.json` and
++  `runs/index.jsonl` must remain valid and pass `scripts/validate_repo.py`. If the
++  validator fails after your run, fix the offending files or (if the model cannot)
++  leave the working tree as it was where possible and explain the failure in the run
++  summary. Never leave the ledger malformed.
++- Every score in a scorecard points at evidence; every state change is explained in the
++  decision record.
++- New evidence entries use `evidence/<idea>/<YYYY-MM-DD>-<slug>.md`.
++
++## Dry run
++
++`scripts/run.sh --dry-run` copies the repository to a scratch directory, runs the worker
++there, validates the copy, and discards the copy's ledger. Nothing in the live ledger
++changes. The run report (`runs/<run-id>/dry-run.diff` plus `summary.md`) shows what the
++worker would have changed. Use it to test prompt/agent changes and to audit before a
++real run.
++
++## Failure handling
++
++- Provider/transport failure with an unchanged working tree: the wrapper retries up to 2
++  times, then fails with the provider error.
++- Failure after the worker changed files: no automatic retry (avoid compounding partial
++  writes). The run is marked failed with the change list and the exact commands to
++  inspect or revert (`git status`, `git diff`, `git restore .`). Prior committed state is
++  always recoverable.
++- Validation failure: run marked `invalid-output`; changes are preserved for diagnosis;
++  the human decides whether to fix or revert. The next run must explicitly handle the
++  mess (see step 1) rather than ignore it.
++- Never auto-commit, auto-push, or open issues/PRs.
++
++## Run metadata
++
++Every run writes `runs/<run-id>/run.json`:
++
++```json
++{
++  "schema_version": 1,
++  "run_id": "20260920T210000Z",
++  "mode": "normal | dry-run | smoke",
++  "status": "success | failed | invalid-output | over-budget",
++  "started_at": "ISO-8601",
++  "finished_at": "ISO-8601",
++  "agent": "idea-worker",
++  "model": "opencode-go/deepseek-v4.1-flash",
++  "method_version": "1.0.0",
++  "input_revision": "git sha or 'none'",
++  "output_revision": "git sha or 'none (uncommitted)'",
++  "attempts": 1,
++  "timeout_seconds": 3600,
++  "max_cost_usd": 1.0,
++  "cost_usd": 0.0,
++  "tokens": {"input": 0, "output": 0, "total": 0},
++  "changed_files": [],
++  "validation": {"status": "pass", "errors": []},
++  "summary_path": "runs/<run-id>/summary.md"
++}
++```
++
++and appends one line to `runs/index.jsonl`. Token/cost data is parsed from
++`opencode run --format json` events; `null` is recorded honestly when the provider does
++not report usage.
++
++## Determinism
++
++The command is fixed, the model is pinned, the prompt is a versioned file
++(`scripts/prompts/lab-run.md`), temperature is fixed in the agent config, and limits are
++constants. Identical inputs will not produce byte-identical outputs (the model is
++stochastic); "deterministic" means one command, no interactive choices, and a
++reproducible boundary around the model's work.
+diff --git a/method/scorecard.md b/method/scorecard.md
+new file mode 100644
+index 0000000..4614d2d
+--- /dev/null
++++ b/method/scorecard.md
+@@ -0,0 +1,102 @@
++# Scorecard
++
++Method version: see `method/VERSION`. Weights version: `1.0.0`.
++
++Scores are integers 0-5 per dimension. Every score is linked to evidence; unsupported
++dimensions score `null` and are excluded from the aggregate (see
++`method/evidence-policy.md`). Confidence is recorded per dimension and separately as an
++overall confidence.
++
++## Dimensions and weights
++
++| Key | Dimension | Weight | What a 3 ("adequate") looks like |
++|---|---|---|---|
++| `problem_severity_frequency` | Problem severity + frequency | 15 | The problem is recurring and costly enough that a named buyer should already spend money somewhere |
++| `buyer_budget_clarity` | Buyer + budget clarity | 15 | A specific role owns the problem and a plausible existing budget line exists (not proven) |
++| `evidence_strength` | Evidence strength | 15 | Credible secondary evidence, no fatal objection; no primary evidence |
++| `distribution` | Distribution | 10 | A credible route to the first 10 buyers that does not require paid acquisition |
++| `differentiation` | Differentiation | 10 | A stated wedge against the cheapest credible incumbent that is more than price |
++| `validation_speed_cost` | Validation speed + cost | 10 | A decisive test can be run in weeks and within a documented cost bound |
++| `feasibility` | Feasibility | 5 | Buildable and operable by a small team with known technology; no heroics |
++| `economics` | Economics | 10 | Plausible contribution margin at realistic density/scale, with assumptions stated |
++| `founder_fit` | Founder fit | 5 | The founder can credibly reach the buyer and do the work; evidence required (null if unknown) |
++| `risk` | Legal/regulatory/platform/trust risk | 5 | Manageable risks with no veto-level exposure |
++
++Score anchors: `0` = hostile or no basis; `1` = weak; `2` = below the bar;
++`3` = adequate/plausible; `4` = strong; `5` = exceptional, primary evidence.
++
++No-score rule: `null` when no evidence exists for the dimension. A score is never
++inferred from another dimension's evidence.
++
++## Aggregate
++
++```
++raw_points      = sum(weight * score / 5)      over scored dimensions
++scored_weight   = sum(weight)                  over scored dimensions
++weighted_total  = round(raw_points / scored_weight * 100, 1)
++```
++
++Normalisation by `scored_weight` means unscored dimensions neither help nor punish, but
++they are reported and they cap confidence. At least 8 of 10 dimensions must be scored
++for a `validation-ready` proposal; `problem_severity_frequency`, `buyer_budget_clarity`
++and `evidence_strength` must always be scored and must each be >= 3.
++
++## Threshold for `validation-ready`
++
++An idea may be proposed for `validation-ready` only if all of:
++
++1. `weighted_total >= 65`
++2. all hard filters `pass` (no `fail`, `defer` or `unknown`)
++3. no active veto
++4. the three gating dimensions are scored >= 3
++5. at least 8 dimensions are scored
++6. overall confidence is `medium` or `high`
++7. review has been triggered (`review.status != not-required`) per `method/review-policy.md`
++
++The aggregate never overrides a hard veto. A single veto-level finding kills or parks
++the idea regardless of score.
++
++## Confidence
++
++- Per dimension: `high` | `medium` | `low` | `none` (when `null`).
++- Overall confidence: the lowest confidence among scored gating dimensions, downgraded
++  one step if more than two dimensions are unscored. Recorded in `scorecard.json` as
++  `confidence`.
++
++## Hard filters
++
++Recorded in `scorecard.json` under `hard_filters`, each with `status`
++(`pass` | `fail` | `defer` | `unknown`) and a one-line note:
++
++| Key | Filter |
++|---|---|
++| `economic_buyer` | There is a clear economic buyer |
++| `painful_frequent_or_budgeted` | Evidence of a painful/frequent problem or an existing budget |
++| `non_paid_distribution` | A credible route to early buyers without paid acquisition |
++| `defensible_wedge` | Not commodity positioning; a defensible wedge exists |
++| `no_network_effects_needed` | Value exists before network effects |
++| `plausible_margins` | Plausible margins; no disproportionate service burden |
++| `acceptable_risk` | Legal/regulatory/privacy/trust/platform risk is acceptable |
++| `cheap_disconfirming_test` | A cheap test capable of disconfirming evidence exists |
++| `not_all_optimistic` | Viability does not require every optimistic assumption to be true |
++
++## Vetoes
++
++`vetoes` is a list of `{key, note, date}`. Any active veto overrides the aggregate and
++forces `killed` or `adversarially-researched` (parked) with the reason recorded.
++
++## Worked example (GeoNerd, bootstrap seed)
++
++Weights 15/15/15/10/10/10/5/10/5/5. Scores: problem 3, buyer 3, evidence 3,
++distribution 3, differentiation 3, validation speed/cost 4, feasibility 4, economics 4,
++founder fit `null` (no evidence), risk 3.
++
++```
++raw_points    = 9 + 9 + 9 + 6 + 6 + 8 + 4 + 8 + 3 = 62
++scored_weight = 95
++weighted_total = 62 / 95 * 100 = 65.3   -> meets the 65 threshold
++```
++
++Founder fit is excluded rather than scored, and overall confidence is capped at
++`medium`. (`founder_fit` is intentionally `null` until evidence about the actual founder
++exists; the human owner can supply it.)
+diff --git a/opencode.jsonc b/opencode.jsonc
+new file mode 100644
+index 0000000..72ce256
+--- /dev/null
++++ b/opencode.jsonc
+@@ -0,0 +1,23 @@
++{
++  // Project configuration for the business-idea-lab discovery loop.
++  // Docs: https://opencode.ai/docs/config
++  "$schema": "https://opencode.ai/config.json",
++
++  // Pinned provider/model: DeepSeek via the opencode-go gateway.
++  // Authenticate once with `opencode` then `/connect` -> opencode-go.
++  "model": "opencode-go/deepseek-v4.1-flash",
++  "small_model": "opencode-go/deepseek-v4.1-flash",
++
++  // Routine runs use the specialised worker; the critic is a subagent.
++  "default_agent": "idea-worker",
++
++  // Never publish session data from this repository.
++  "share": "disabled",
++
++  "instructions": ["AGENTS.md"],
++
++  // Keep generated repository noise out of the model's file scans.
++  "watcher": {
++    "ignore": ["runs/**"]
++  }
++}
+diff --git a/retrospectives/README.md b/retrospectives/README.md
+new file mode 100644
+index 0000000..de8525a
+--- /dev/null
++++ b/retrospectives/README.md
+@@ -0,0 +1,19 @@
++# retrospectives/ — what the loop itself should learn
++
++Written after a run (or a series of runs) to improve the method, wording of
++prompts, calibration and thresholds — never to re-litigate an idea's score
++outside the evidence process.
++
++Suggested file name: `<YYYY-MM-DD>-<topic>.md`. Contents worth recording:
++
++- What the run produced and what it cost (link the `runs/<id>/run.json`).
++- Where the method, templates or instructions were ambiguous or wrong.
++- Repeated failure modes (e.g. candidate generation drifting into duplicates,
++  scores resting on one vendor page).
++- Calibration observations, including any comparison against independent
++  review.
++- Concrete proposed method changes, each marked `proposed` until a human owner
++  approves them.
++
++Retrospectives are inputs to the next run's step 1; they are not authoritative
++over `method/`.
+diff --git a/reviews/2026-09-20-geonerd-review-request.md b/reviews/2026-09-20-geonerd-review-request.md
+new file mode 100644
+index 0000000..6f1b8ab
+--- /dev/null
++++ b/reviews/2026-09-20-geonerd-review-request.md
+@@ -0,0 +1,146 @@
++# Review request: GeoNerd: AI visibility digest for UK accountancy practices
++
++- **Idea:** `geonerd`
++- **Date:** 2026-09-20
++- **Trigger:** proposed for validation-ready (bootstrap seed)
++- **State:** `validation-ready`
++- **Proposed transition:** not-required -> requested
++- **Reviewed revision:** `327f02e`
++- **Requested from:** ChatGPT (independent reviewer; not market validation)
++
++## What the reviewer must decide
++
++Whether `not-required -> requested` is justified by the evidence in this repository, or whether the idea should receive `changes-requested` or be `killed`.
++
++## State and scores
++
++| Dimension | Weight | Score | Confidence | Evidence |
++|---|---|---|---|---|
++| problem_severity_frequency | 15 | 3 | medium | `evidence/geonerd/2026-09-20-wedge-strategy.md` |
++| buyer_budget_clarity | 15 | 3 | medium | `evidence/geonerd/2026-09-20-wedge-strategy.md` |
++| evidence_strength | 15 | 3 | medium | `evidence/geonerd/2026-09-20-spike-findings.md` |
++| distribution | 10 | 3 | medium | `evidence/geonerd/2026-09-20-wedge-strategy.md` |
++| differentiation | 10 | 3 | medium | `evidence/geonerd/2026-09-20-competitive-teardown.md` |
++| validation_speed_cost | 10 | 4 | high | `evidence/geonerd/2026-09-20-demand-validation-plan.md` |
++| feasibility | 5 | 4 | medium | `evidence/geonerd/2026-09-20-spike-findings.md` |
++| economics | 10 | 4 | medium | `evidence/geonerd/2026-09-20-wedge-strategy.md` |
++| founder_fit | 5 | unscored | none | - |
++| risk | 5 | 3 | medium | `evidence/geonerd/2026-09-20-competitive-teardown.md` |
++
++- Weighted total: **65.3 / 100** (threshold 65, meets_threshold=True)
++- Scored weight: 95 / 100
++- Overall confidence: **medium**
++- Evidence level: `Validation-ready`
++- Vetoes: none
++
++## Hard filters
++
++| Filter | Status | Note |
++|---|---|---|
++| economic_buyer | pass | Practice owner/partner is the decision maker; £19.99/mo is a small purchase against the value of one client. |
++| painful_frequent_or_budgeted | pass | Assumed painful and recurring by analogy with search visibility tracking; desk evidence only (assumption A2). |
++| non_paid_distribution | pass | Directory outreach, professional communities, SEO and a benchmark report are credible non-paid routes (assumption A4). |
++| defensible_wedge | pass | Vertical depth + honest measurement + plain-language actions versus free checkers and £299/mo done-for-you services. |
++| no_network_effects_needed | pass | Market-level prompt set is usable by a single customer; benchmarks improve with density but are not required for value. |
++| plausible_margins | pass | Modelled contribution positive at >=10 customers per market at £19.99/mo; cost model untested. |
++| acceptable_risk | pass | No personal data beyond submitted email; claims about AI answers are reproducible and disclaimered. |
++| cheap_disconfirming_test | pass | £50 / 20 human-hours / 1-week demand spike with a pre-fixed decision rule can falsify the central assumption. |
++| not_all_optimistic | pass | Stop rules fire on 0/5 commitments and on incumbent satisfaction; iterate path is defined. |
++
++## Strongest supporting case
++
++- Accountancy is dense in shared AI buying questions, the buyer is identifiable
++  and reachable through non-paid professional communities, and the incumbent
++  landscape leaves a genuine gap between free checkers and £299/mo
++  done-for-you services. A £19.99/mo decision aid is a rounding error against
++  the value of one new client, and the "honest measurement" angle is a credible
++  response to documented UI/API noise (6–24% brand overlap).
++
++## Strongest disconfirming case
++
++- The wedge may be an artefact of desk research. TendorAI already sells AI
++  visibility to UK accountants and SearchScore has audited 1,038 UK accountancy
++  firms; if either satisfies even two of five interviewed practices, the stop
++  rule fires. Owners may treat the free scan as a one-off curiosity and never
++  pay monthly ("nice to know, not worth £20"). The honest-measurement
++  positioning may actively reduce perceived value by admitting the number is
++  noisy. If collection costs land at the top of the modelled range or API
++  proxies are indefensible, unit economics fail at any reachable density. None
++  of these has been tested.
++
++## Unresolved assumptions
++
++- A1: owners/partners of 1–20-staff practices will personally pay ≥£19/mo for a
++  monthly digest.
++- A2: AI invisibility is a felt, frequent problem for them (not merely
++  interesting when shown).
++- A3: the free scan creates enough pull to yield ≥25% email capture.
++- A4: at least one non-paid channel produces conversations with non-network
++  practices.
++- A5: collection cost stays ≤£95/market/month at launch, or an API-equivalent
++  proxy is defensible.
++- A6: the contractor/IR35 specialism is the right beachhead rather than "small
++  practice serving local SMEs".
++- A7: monthly cadence matches the buyer's decision rhythm.
++
++## Cheapest decisive experiment
++
++The 1-week demand spike in `experiments/geonerd-demand-spike/plan.md`: five
++conversations with target practices, a manual scan for each, a within-subject
++£9/£19/£29 price ladder, and a pre-fixed decision rule (≥2 of 5 commit at
++≥£19/mo **and** ≥25% email capture **and** ≥1 non-network conversation).
++Estimated bound: £50, 20 human-hours, 7 calendar days — at the review
++threshold, not above it. Falsification target: A1 and A3.
++
++## Experiment register
++
++- `geonerd-demand-spike` status=`proposed` approval.granted=`False` plan=`experiments/geonerd-demand-spike/plan.md` results=`none`
++  - Central assumption: Owner-partners of 1-20-staff UK accountancy practices will pay at least £19/month for a monthly AI visibility digest after seeing a free scan.
++  - Kill condition: Zero of five interviewed practices make any concrete commitment at any price, or the dominant reaction is 'interesting but I would not pay' after the iterate week, or interviewed practices already pay for a satisfying incumbent.
++
++## Decision record
++
++Initial ledger entry. GeoNerd was seeded from the existing research repository
++`/home/richard/projects/geonerd` @ `327f02e` as a single bootstrap idea at
++`validation-ready`, with an independent review requested and the demand
++validation spike registered as a proposed experiment. No worker run has been
++executed against this repository yet.
++
++## Machine-readable review block
++
++```json
++{
++  "status": "requested",
++  "requested_from": "ChatGPT (independent reviewer)",
++  "request_path": "reviews/2026-09-20-geonerd-review-request.md",
++  "last_reviewed_revision": null,
++  "history": [
++    {
++      "date": "2026-09-20",
++      "from": "not-required",
++      "to": "requested",
++      "actor": "bootstrap",
++      "reason": "Bootstrap seed at validation-ready under issue #1; independent review requested because the idea is proposed at an advanced state."
++    }
++  ]
++}
++```
++
++## Instructions to the reviewer
++
++1. Work only from the repository artefacts listed below. Do not fetch or assume outside data.
++2. Attack the weakest link: unsupported inference, convenience evidence, mis-scored dimension, premature advancement, missed legal/platform risk, or a hard filter that should have failed.
++3. State a verdict: `changes-requested`, `approved`, or `killed`.
++4. For each finding, give the evidence checked and the condition that would change the verdict.
++5. Write the response as `reviews/2026-09-20-geonerd-<reviewer>-<model>.md` following `templates/review/response.md`.
++6. A second model is not market validation. Agreement is not demand evidence and cannot advance the idea beyond `validation-ready`.
++
++## Artefacts for review
++
++- `ideas/geonerd/dossier.md`
++- `ideas/geonerd/scorecard.json`
++- `ideas/geonerd/decision.md`
++- `evidence/geonerd/`
++- `experiments/index.json`
++- `ideas/index.json`
++
+diff --git a/reviews/README.md b/reviews/README.md
+new file mode 100644
+index 0000000..95b3199
+--- /dev/null
++++ b/reviews/README.md
+@@ -0,0 +1,22 @@
++# reviews/ — independent review packages and outcomes
++
++Review is repository-mediated: the reviewer works only from committed artefacts
++and writes a response file here. Full policy in `method/review-policy.md`.
++
++- **Request:** `reviews/<YYYY-MM-DD>-<slug>-review-request.md`, generated with
++  `python3 scripts/build_review_request.py --slug <slug> --trigger "..." --transition "..."`.
++- **Response:** `reviews/<YYYY-MM-DD>-<slug>-<reviewer>-<model>.md`, following
++  `templates/review/response.md`.
++- **States:** `not-required -> requested -> changes-requested | approved | killed`.
++  History is append-only in `ideas/<slug>/scorecard.json` (`review.history`).
++- The worker must respond to a `changes-requested` review explicitly at the
++  start of its next run; it must never silently overwrite an outcome.
++
++A review request is triggered by: proposing `validation-ready`; material method
++or threshold changes; contradictory or low-confidence evidence carrying a high
++score; material legal/privacy/trust/platform risk; an experiment above the
++20-human-hour / £100 threshold; every fifth killed idea (false-negative audit);
++or a human request.
++
++A second model (ChatGPT) is **not** independent market validation. It can only
++challenge the evidence chain, never supply demand evidence.
+diff --git a/scripts/build_review_request.py b/scripts/build_review_request.py
+new file mode 100755
+index 0000000..a4f3456
+--- /dev/null
++++ b/scripts/build_review_request.py
+@@ -0,0 +1,212 @@
++#!/usr/bin/env python3
++"""Generate a review request package from repository artefacts.
++
++Usage:
++    python3 scripts/build_review_request.py --slug geonerd \
++        --trigger "proposed for validation-ready" \
++        --transition "adversarially-researched -> validation-ready"
++
++Reads ideas/index.json, ideas/<slug>/{scorecard.json,dossier.md,decision.md},
++experiments/index.json and writes reviews/<date>-<slug>-review-request.md.
++Stdlib only.
++"""
++from __future__ import annotations
++
++import argparse
++import json
++import sys
++from datetime import date
++from pathlib import Path
++
++DIM_ORDER = [
++    "problem_severity_frequency",
++    "buyer_budget_clarity",
++    "evidence_strength",
++    "distribution",
++    "differentiation",
++    "validation_speed_cost",
++    "feasibility",
++    "economics",
++    "founder_fit",
++    "risk",
++]
++
++
++def load(path: Path):
++    with path.open(encoding="utf-8") as fh:
++        return json.load(fh)
++
++
++def dim_table(scorecard: dict) -> str:
++    lines = [
++        "| Dimension | Weight | Score | Confidence | Evidence |",
++        "|---|---|---|---|---|",
++    ]
++    for key in DIM_ORDER:
++        dim = scorecard["dimensions"][key]
++        score = "unscored" if dim.get("score") is None else str(dim["score"])
++        refs = dim.get("evidence") or []
++        evidence = ", ".join(f"`{r}`" for r in refs) if refs else "-"
++        lines.append(f"| {key} | {dim['weight']} | {score} | {dim['confidence']} | {evidence} |")
++    return "\n".join(lines)
++
++
++def filter_table(scorecard: dict) -> str:
++    lines = ["| Filter | Status | Note |", "|---|---|---|"]
++    for key, item in scorecard["hard_filters"].items():
++        lines.append(f"| {key} | {item['status']} | {item.get('note', '')} |")
++    return "\n".join(lines)
++
++
++def extract_section(path: Path, heading: str) -> str:
++    """Return the body of a '## <heading>' section from a Markdown file."""
++    if not path.exists():
++        return "(file missing)"
++    text = path.read_text(encoding="utf-8")
++    marker = f"## {heading}"
++    index = text.find(marker)
++    if index == -1:
++        return f"(section '{heading}' not found in {path.name})"
++    rest = text[index + len(marker):]
++    end = rest.find("\n## ")
++    return (rest[:end] if end != -1 else rest).strip()
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", default=".")
++    parser.add_argument("--slug", required=True)
++    parser.add_argument("--date", default=date.today().isoformat())
++    parser.add_argument("--trigger", required=True)
++    parser.add_argument("--transition", required=True)
++    parser.add_argument("--revision", default="uncommitted")
++    parser.add_argument("--out", default=None)
++    args = parser.parse_args()
++
++    root = Path(args.root).resolve()
++    index = load(root / "ideas" / "index.json")
++    entry = next((i for i in index["ideas"] if i["slug"] == args.slug), None)
++    if entry is None:
++        print(f"ERROR: idea '{args.slug}' not found in ideas/index.json", file=sys.stderr)
++        return 1
++    scorecard = load(root / "ideas" / args.slug / "scorecard.json")
++    dossier = root / "ideas" / args.slug / "dossier.md"
++    decision = root / "ideas" / args.slug / "decision.md"
++
++    experiments = []
++    exp_index_path = root / "experiments" / "index.json"
++    if exp_index_path.exists():
++        experiments = [
++            e for e in load(exp_index_path).get("experiments", []) if e.get("idea_id") == args.slug
++        ]
++
++    agg = scorecard["aggregate"]
++    vetoes = scorecard.get("vetoes") or []
++    review = scorecard["review"]
++
++    out_path = Path(args.out) if args.out else root / "reviews" / f"{args.date}-{args.slug}-review-request.md"
++
++    lines = [
++        f"# Review request: {entry['title']}",
++        "",
++        f"- **Idea:** `{args.slug}`",
++        f"- **Date:** {args.date}",
++        f"- **Trigger:** {args.trigger}",
++        f"- **State:** `{entry['state']}`",
++        f"- **Proposed transition:** {args.transition}",
++        f"- **Reviewed revision:** `{args.revision}`",
++        "- **Requested from:** ChatGPT (independent reviewer; not market validation)",
++        "",
++        "## What the reviewer must decide",
++        "",
++        f"Whether `{args.transition}` is justified by the evidence in this repository, or whether "
++        "the idea should receive `changes-requested` or be `killed`.",
++        "",
++        "## State and scores",
++        "",
++        dim_table(scorecard),
++        "",
++        f"- Weighted total: **{agg['weighted_total']} / 100** (threshold {agg['threshold']}, "
++        f"meets_threshold={agg['meets_threshold']})",
++        f"- Scored weight: {agg['scored_weight']} / 100",
++        f"- Overall confidence: **{scorecard['confidence']}**",
++        f"- Evidence level: `{entry['evidence_level']}`",
++        f"- Vetoes: {('none' if not vetoes else json.dumps(vetoes))}",
++        "",
++        "## Hard filters",
++        "",
++        filter_table(scorecard),
++        "",
++        "## Strongest supporting case",
++        "",
++        extract_section(dossier, "Strongest supporting case"),
++        "",
++        "## Strongest disconfirming case",
++        "",
++        extract_section(dossier, "Adversarial case (strongest case this is wrong)"),
++        "",
++        "## Unresolved assumptions",
++        "",
++        extract_section(dossier, "Unresolved assumptions"),
++        "",
++        "## Cheapest decisive experiment",
++        "",
++        extract_section(dossier, "Cheapest decisive experiment"),
++        "",
++        "## Experiment register",
++        "",
++    ]
++    if experiments:
++        for exp in experiments:
++            lines += [
++                f"- `{exp['id']}` status=`{exp['status']}` approval.granted=`{exp['approval']['granted']}` "
++                f"plan=`{exp['plan']}` results=`{exp.get('results') or 'none'}`",
++                f"  - Central assumption: {exp['central_assumption']}",
++                f"  - Kill condition: {exp['kill_condition']}",
++            ]
++    else:
++        lines.append("(no experiment registered)")
++
++    lines += [
++        "",
++        "## Decision record",
++        "",
++        extract_section(decision, "What changed"),
++        "",
++        "## Machine-readable review block",
++        "",
++        "```json",
++        json.dumps(review, indent=2),
++        "```",
++        "",
++        "## Instructions to the reviewer",
++        "",
++        "1. Work only from the repository artefacts listed below. Do not fetch or assume outside data.",
++        "2. Attack the weakest link: unsupported inference, convenience evidence, mis-scored dimension, "
++        "premature advancement, missed legal/platform risk, or a hard filter that should have failed.",
++        "3. State a verdict: `changes-requested`, `approved`, or `killed`.",
++        "4. For each finding, give the evidence checked and the condition that would change the verdict.",
++        f"5. Write the response as `reviews/{args.date}-{args.slug}-<reviewer>-<model>.md` following "
++        "`templates/review/response.md`.",
++        "6. A second model is not market validation. Agreement is not demand evidence and cannot "
++        "advance the idea beyond `validation-ready`.",
++        "",
++        "## Artefacts for review",
++        "",
++        f"- `ideas/{args.slug}/dossier.md`",
++        f"- `ideas/{args.slug}/scorecard.json`",
++        f"- `ideas/{args.slug}/decision.md`",
++        f"- `evidence/{args.slug}/`",
++        "- `experiments/index.json`",
++        "- `ideas/index.json`",
++        "",
++    ]
++
++    out_path.parent.mkdir(parents=True, exist_ok=True)
++    out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
++    print(out_path)
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/scripts/extract_usage.py b/scripts/extract_usage.py
+new file mode 100755
+index 0000000..14379dd
+--- /dev/null
++++ b/scripts/extract_usage.py
+@@ -0,0 +1,87 @@
++#!/usr/bin/env python3
++"""Extract cost and token usage from `opencode run --format json` output.
++
++Reads JSONL events on stdin, prints a usage summary as JSON on stdout.
++
++The event stream is not a documented interface, so this walks each event
++recursively looking for cost/token fields. For cumulative fields (opencode emits
++progressively updated message records) the maximum seen is used rather than the
++sum, to avoid double counting. `found: false` is reported honestly when nothing
++is recognised.
++"""
++from __future__ import annotations
++
++import json
++import sys
++
++
++def walk(obj, costs: list[float], tokens: dict[str, float]) -> None:
++    if isinstance(obj, dict):
++        for key, value in obj.items():
++            if key == "cost" and isinstance(value, (int, float)) and not isinstance(value, bool):
++                costs.append(float(value))
++            elif key == "tokens" and isinstance(value, dict):
++                for token_key, token_value in value.items():
++                    if isinstance(token_value, (int, float)) and not isinstance(token_value, bool):
++                        tokens[token_key] = max(tokens.get(token_key, 0.0), float(token_value))
++            elif (
++                key in {"input_tokens", "output_tokens", "total_tokens", "reasoning_tokens",
++                        "cache_read_tokens", "cache_write_tokens"}
++                and isinstance(value, (int, float))
++                and not isinstance(value, bool)
++            ):
++                tokens[key] = max(tokens.get(key, 0.0), float(value))
++            else:
++                walk(value, costs, tokens)
++    elif isinstance(obj, list):
++        for item in obj:
++            walk(item, costs, tokens)
++
++
++def pick(tokens: dict[str, float], *names: str):
++    for name in names:
++        if name in tokens:
++            return int(tokens[name])
++    return None
++
++
++def main() -> int:
++    costs: list[float] = []
++    tokens: dict[str, float] = {}
++    events = 0
++    for line in sys.stdin:
++        line = line.strip()
++        if not line:
++            continue
++        try:
++            event = json.loads(line)
++        except json.JSONDecodeError:
++            continue
++        events += 1
++        walk(event, costs, tokens)
++
++    input_tokens = pick(tokens, "input", "input_tokens")
++    output_tokens = pick(tokens, "output", "output_tokens")
++    total = pick(tokens, "total", "total_tokens")
++    if total is None and (input_tokens is not None or output_tokens is not None):
++        total = (input_tokens or 0) + (output_tokens or 0)
++
++    result = {
++        "found": events > 0,
++        "events": events,
++        "cost_usd": round(max(costs), 6) if costs else None,
++        "tokens": {
++            "input": input_tokens,
++            "output": output_tokens,
++            "reasoning": pick(tokens, "reasoning", "reasoning_tokens"),
++            "cache_read": pick(tokens, "cache_read", "cache_read_tokens"),
++            "cache_write": pick(tokens, "cache_write", "cache_write_tokens"),
++            "total": total,
++        },
++    }
++    print(json.dumps(result, indent=2))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/scripts/finalize_run.py b/scripts/finalize_run.py
+new file mode 100755
+index 0000000..9053ff8
+--- /dev/null
++++ b/scripts/finalize_run.py
+@@ -0,0 +1,106 @@
++#!/usr/bin/env python3
++"""Write run metadata (`runs/<run-id>/run.json`) and append to `runs/index.jsonl`.
++
++Called by scripts/run.sh at the end of every run (including failures). Stdlib only.
++"""
++from __future__ import annotations
++
++import argparse
++import json
++import sys
++from pathlib import Path
++
++
++def load_json(path: Path):
++    if not path.exists():
++        return None
++    try:
++        with path.open(encoding="utf-8") as fh:
++            return json.load(fh)
++    except (json.JSONDecodeError, OSError):
++        return None
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", required=True)
++    parser.add_argument("--run-id", required=True)
++    parser.add_argument("--mode", required=True, choices=["normal", "dry-run", "smoke"])
++    parser.add_argument("--status", required=True, choices=["success", "failed", "invalid-output", "over-budget"])
++    parser.add_argument("--started", required=True)
++    parser.add_argument("--finished", required=True)
++    parser.add_argument("--agent", required=True)
++    parser.add_argument("--model", required=True)
++    parser.add_argument("--method-version", required=True)
++    parser.add_argument("--input-revision", required=True)
++    parser.add_argument("--output-revision", required=True)
++    parser.add_argument("--attempts", type=int, required=True)
++    parser.add_argument("--timeout", type=int, required=True)
++    parser.add_argument("--max-cost", type=float, required=True)
++    parser.add_argument("--changed-file", action="append", default=[])
++    parser.add_argument("--summary", default="")
++    args = parser.parse_args()
++
++    root = Path(args.root).resolve()
++    run_dir = root / "runs" / args.run_id
++    run_dir.mkdir(parents=True, exist_ok=True)
++
++    usage = load_json(run_dir / "usage.json") or {}
++    validation = load_json(run_dir / "validation.json") or {"status": "not-run", "errors": [], "warnings": []}
++
++    record = {
++        "schema_version": 1,
++        "run_id": args.run_id,
++        "mode": args.mode,
++        "status": args.status,
++        "started_at": args.started,
++        "finished_at": args.finished,
++        "agent": args.agent,
++        "model": args.model,
++        "method_version": args.method_version,
++        "input_revision": args.input_revision,
++        "output_revision": args.output_revision,
++        "attempts": args.attempts,
++        "timeout_seconds": args.timeout,
++        "max_cost_usd": args.max_cost,
++        "cost_usd": usage.get("cost_usd"),
++        "tokens": usage.get("tokens", {"input": None, "output": None, "total": None}),
++        "changed_files": sorted(args.changed_file),
++        "validation": {
++            "status": validation.get("status", "not-run"),
++            "errors": validation.get("errors", []),
++        },
++        "summary_path": args.summary or None,
++    }
++    with (run_dir / "run.json").open("w", encoding="utf-8") as fh:
++        json.dump(record, fh, indent=2)
++        fh.write("\n")
++
++    index_line = {
++        "run_id": args.run_id,
++        "mode": args.mode,
++        "status": args.status,
++        "started_at": args.started,
++        "finished_at": args.finished,
++        "agent": args.agent,
++        "model": args.model,
++        "method_version": args.method_version,
++        "input_revision": args.input_revision,
++        "output_revision": args.output_revision,
++        "cost_usd": usage.get("cost_usd"),
++        "tokens_total": (usage.get("tokens") or {}).get("total"),
++        "validation": validation.get("status", "not-run"),
++        "summary": args.summary or None,
++    }
++    index_path = root / "runs" / "index.jsonl"
++    existing = index_path.read_text(encoding="utf-8") if index_path.exists() else ""
++    if args.run_id in existing:
++        pass  # never duplicate a run record
++    else:
++        with index_path.open("a", encoding="utf-8") as fh:
++            fh.write(json.dumps(index_line) + "\n")
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/scripts/prompts/lab-run.md b/scripts/prompts/lab-run.md
+new file mode 100644
+index 0000000..47fcb53
+--- /dev/null
++++ b/scripts/prompts/lab-run.md
+@@ -0,0 +1,28 @@
++You are the `idea-worker` agent for the business-idea-lab repository.
++
++Execute exactly one run of the standard protocol defined in `method/run-protocol.md`.
++
++Before doing anything else:
++
++1. Read `AGENTS.md`, `method/run-protocol.md`, `method/lifecycle.md`,
++   `method/evidence-policy.md`, `method/scorecard.md`, `method/experiment-rules.md`
++   and `method/review-policy.md`.
++2. Read `ideas/index.json`, `experiments/index.json`, the review queue, and the most
++   recent retrospectives.
++3. Handle any outstanding `changes-requested` reviews first, then follow the run
++   protocol in order, respecting every limit in it.
++
++Write your run summary to `runs/$LAB_RUN_ID/summary.md` (the wrapper sets
++`LAB_RUN_ID`; you can read it with the shell: `printenv LAB_RUN_ID`). If that variable
++is empty, name the file using the current UTC timestamp.
++
++Hard rules:
++
++- Do not commit, push, or open issues or pull requests.
++- Do not contact anyone, spend money, publish anything, create external accounts, or
++  make commitments. You may only propose experiments.
++- Do not edit files under `method/` unless the run is explicitly a method-calibration
++  run; if you believe the method is wrong, note it in the run summary instead.
++- Never silently overwrite a review outcome. Respond to it explicitly.
++- If you cannot complete the run safely, stop and explain why in the run summary.
++- Finish by confirming in the summary that you ran no disallowed actions.
+diff --git a/scripts/run.sh b/scripts/run.sh
+new file mode 100755
+index 0000000..1ca70f4
+--- /dev/null
++++ b/scripts/run.sh
+@@ -0,0 +1,222 @@
++#!/usr/bin/env bash
++# Deterministic, non-interactive runner for the business-idea-lab discovery loop.
++#
++# Usage:
++#   scripts/run.sh [--dry-run] [--smoke] [--allow-dirty]
++#                  [--timeout SECONDS] [--max-cost USD] [--max-attempts N]
++#                  [--model provider/model] [--agent NAME]
++#
++# Modes:
++#   normal   run the worker against the live repository and write run metadata
++#   --dry-run  run the worker against a throwaway copy under runs/<id>/repo,
++#              leave the live ledger untouched, and write runs/<id>/dry-run.diff
++#   --smoke  plumbing check only: one trivial model call, no ledger changes
++#   --dry-run --smoke  exercise the dry-run copy/diff mechanics cheaply
++#              (trivial prompt, throwaway copy)
++#
++# Every invocation writes runs/<run-id>/ (raw output, usage, validation, summary)
++# and appends one line to runs/index.jsonl via scripts/finalize_run.py.
++set -euo pipefail
++
++ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
++OPENCODE_BIN="${OPENCODE_BIN:-opencode}"
++PROMPT_FILE="$ROOT/scripts/prompts/lab-run.md"
++SMOKE_PROMPT="Reply with exactly: LAB_SMOKE_OK. Do not use any tools."
++
++MODE="normal"
++SMOKE=0
++DRY=0
++ALLOW_DIRTY=0
++TIMEOUT=3600
++MAX_COST="1.00"
++MAX_ATTEMPTS=3
++MODEL="opencode-go/deepseek-v4.1-flash"
++AGENT="idea-worker"
++
++usage() {
++    sed -n '2,17p' "$0" | sed 's/^# \{0,1\}//'
++    exit "${1:-0}"
++}
++
++while [ $# -gt 0 ]; do
++    case "$1" in
++        --dry-run)      DRY=1 ;;
++        --smoke)        SMOKE=1 ;;
++        --allow-dirty)  ALLOW_DIRTY=1 ;;
++        --timeout)      TIMEOUT="$2"; shift ;;
++        --max-cost)     MAX_COST="$2"; shift ;;
++        --max-attempts) MAX_ATTEMPTS="$2"; shift ;;
++        --model)        MODEL="$2"; shift ;;
++        --agent)        AGENT="$2"; shift ;;
++        -h|--help)      usage 0 ;;
++        *) echo "error: unknown argument: $1" >&2; usage 1 ;;
++    esac
++    shift
++done
++
++command -v "$OPENCODE_BIN" >/dev/null 2>&1 || {
++    echo "error: opencode binary not found on PATH (set OPENCODE_BIN)" >&2
++    exit 1
++}
++
++if [ "$DRY" -eq 1 ]; then
++    MODE="dry-run"
++elif [ "$SMOKE" -eq 1 ]; then
++    MODE="smoke"
++fi
++if [ "$SMOKE" -eq 1 ]; then
++    PROMPT="$SMOKE_PROMPT"
++else
++    PROMPT="$(cat "$PROMPT_FILE")"
++fi
++git -C "$ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1 || {
++    echo "error: $ROOT is not a git repository" >&2
++    exit 1
++}
++
++# --- preconditions -----------------------------------------------------------
++if [ "$ALLOW_DIRTY" -ne 1 ]; then
++    dirty="$(git -C "$ROOT" status --porcelain -- . ':(exclude)runs' || true)"
++    if [ -n "$dirty" ]; then
++        echo "error: working tree is dirty (runs/ excluded). Commit or stash first," >&2
++        echo "       or pass --allow-dirty to run anyway." >&2
++        echo "$dirty" | sed 's/^/       /' >&2
++        exit 1
++    fi
++fi
++
++METHOD_VERSION="$(tr -d '[:space:]' < "$ROOT/method/VERSION")"
++STARTED="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
++RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)-${MODE}"
++RUN_DIR="$ROOT/runs/$RUN_ID"
++INPUT_REVISION="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo uncommitted)"
++mkdir -p "$RUN_DIR"
++
++tree_fingerprint() {
++    git -C "$ROOT" status --porcelain -- . ':(exclude)runs' | sha1sum | cut -d' ' -f1
++}
++
++run_worker() {
++    # $1 = directory to run in
++    local workdir="$1"
++    set +e
++    LAB_RUN_ID="$RUN_ID" timeout "$TIMEOUT" \
++        "$OPENCODE_BIN" run --dir "$workdir" --agent "$AGENT" --model "$MODEL" \
++        --format json "$PROMPT" > "$RUN_DIR/raw.jsonl" 2> "$RUN_DIR/stderr.log"
++    local rc=$?
++    set -e
++    return $rc
++}
++
++ATTEMPT=0
++RC=1
++TREE_BEFORE="$(tree_fingerprint)"
++LAST_ATTEMPT_DIR="$ROOT"
++
++while [ "$ATTEMPT" -lt "$MAX_ATTEMPTS" ]; do
++    ATTEMPT=$((ATTEMPT + 1))
++    echo "run $RUN_ID: attempt $ATTEMPT/$MAX_ATTEMPTS (mode=$MODE)"
++    if [ "$MODE" = "dry-run" ]; then
++        WORKDIR="$RUN_DIR/repo"
++        rm -rf "$WORKDIR"
++        mkdir -p "$WORKDIR"
++        tar -C "$ROOT" --exclude=./runs -cf - . | tar -C "$WORKDIR" -xf -
++    else
++        WORKDIR="$ROOT"
++    fi
++    LAST_ATTEMPT_DIR="$WORKDIR"
++    if run_worker "$WORKDIR"; then
++        RC=0
++        break
++    fi
++    RC=$?
++    echo "run $RUN_ID: attempt $ATTEMPT failed (exit $RC)" >&2
++    if [ "$ATTEMPT" -ge "$MAX_ATTEMPTS" ]; then
++        break
++    fi
++    # only retry when the tree is unchanged (no partial edits to build on)
++    if [ "$(tree_fingerprint)" != "$TREE_BEFORE" ] || [ "$INPUT_REVISION" = "uncommitted" ]; then
++        echo "run $RUN_ID: tree changed or no revision to restore to; not retrying" >&2
++        break
++    fi
++    TREE_BEFORE="$(tree_fingerprint)"
++done
++
++# --- collect usage -----------------------------------------------------------
++python3 "$ROOT/scripts/extract_usage.py" < "$RUN_DIR/raw.jsonl" > "$RUN_DIR/usage.json"
++COST="$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1])).get("cost_usd") or "")' "$RUN_DIR/usage.json")"
++
++# --- validate ----------------------------------------------------------------
++if [ "$MODE" = "dry-run" ]; then
++    VALIDATION_ROOT="$RUN_DIR/repo"
++    (
++        cd "$VALIDATION_ROOT"
++        git add -A >/dev/null 2>&1 || true
++        git diff --cached > "$RUN_DIR/dry-run.diff" 2>/dev/null || true
++    )
++    if [ -f "$WORKDIR/runs/$RUN_ID/summary.md" ]; then
++        cp "$WORKDIR/runs/$RUN_ID/summary.md" "$RUN_DIR/summary.md"
++    fi
++else
++    VALIDATION_ROOT="$ROOT"
++fi
++
++set +e
++python3 "$ROOT/scripts/validate_repo.py" --root "$VALIDATION_ROOT" --json > "$RUN_DIR/validation.json" 2>"$RUN_DIR/validation.stderr.log"
++VALIDATION_RC=$?
++set -e
++if [ "$VALIDATION_RC" -ne 0 ]; then
++    if [ ! -s "$RUN_DIR/validation.json" ]; then
++        printf '{"status":"error","errors":["validator crashed; see validation.stderr.log"],"warnings":[]}\n' > "$RUN_DIR/validation.json"
++    fi
++fi
++
++# --- decide status -----------------------------------------------------------
++STATUS="success"
++if [ "$RC" -ne 0 ]; then
++    STATUS="failed"
++elif [ "$VALIDATION_RC" -ne 0 ]; then
++    STATUS="invalid-output"
++elif [ -n "$COST" ] && python3 -c 'import sys;sys.exit(0 if float(sys.argv[1])>float(sys.argv[2]) else 1)' "$COST" "$MAX_COST"; then
++    STATUS="over-budget"
++fi
++
++if [ "$MODE" = "dry-run" ]; then
++    CHANGED_SOURCE="$VALIDATION_ROOT"
++else
++    CHANGED_SOURCE="$ROOT"
++fi
++CHANGED_FILES="$(git -C "$CHANGED_SOURCE" status --porcelain -- . ':(exclude)runs' | cut -c4- || true)"
++
++OUTPUT_REVISION="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo uncommitted)"
++SUMMARY_PATH=""
++[ -f "$RUN_DIR/summary.md" ] && SUMMARY_PATH="runs/$RUN_ID/summary.md"
++
++FINISHED="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
++FINALIZE_ARGS=(
++    --root "$ROOT" --run-id "$RUN_ID" --mode "$MODE" --status "$STATUS"
++    --started "$STARTED" --finished "$FINISHED"
++    --agent "$AGENT" --model "$MODEL" --method-version "$METHOD_VERSION"
++    --input-revision "$INPUT_REVISION" --output-revision "$OUTPUT_REVISION"
++    --attempts "$ATTEMPT" --timeout "$TIMEOUT" --max-cost "$MAX_COST"
++)
++if [ -n "$SUMMARY_PATH" ]; then
++    FINALIZE_ARGS+=(--summary "$SUMMARY_PATH")
++fi
++while IFS= read -r f; do
++    [ -n "$f" ] && FINALIZE_ARGS+=(--changed-file "$f")
++done <<< "$CHANGED_FILES"
++python3 "$ROOT/scripts/finalize_run.py" "${FINALIZE_ARGS[@]}"
++
++# --- report ------------------------------------------------------------------
++echo
++echo "run id:        $RUN_ID"
++echo "mode:          $MODE"
++echo "status:        $STATUS"
++echo "cost (USD):    ${COST:-unknown} (bound $MAX_COST)"
++echo "attempts:      $ATTEMPT/$MAX_ATTEMPTS"
++echo "validation:    $([ "$VALIDATION_RC" -eq 0 ] && echo pass || echo fail)"
++echo "run dir:       runs/$RUN_ID"
++[ -n "$SUMMARY_PATH" ] && echo "summary:       $SUMMARY_PATH"
++[ "$MODE" = "dry-run" ] && echo "dry-run diff:  runs/$RUN_ID/dry-run.diff"
++[ "$STATUS" = "success" ] || exit 1
+diff --git a/scripts/validate_repo.py b/scripts/validate_repo.py
+new file mode 100755
+index 0000000..3cec1d5
+--- /dev/null
++++ b/scripts/validate_repo.py
+@@ -0,0 +1,708 @@
++#!/usr/bin/env python3
++"""Validate the business-idea-lab ledger.
++
++Stdlib only. Exit code 0 when the repository is valid, 1 when there are errors.
++
++Usage:
++    python3 scripts/validate_repo.py [--root DIR] [--json] [--queue] [--quiet]
++"""
++from __future__ import annotations
++
++import argparse
++import json
++import sys
++from pathlib import Path
++
++SCHEMA_VERSION = 1
++WEIGHTS_VERSION = "1.0.0"
++
++DIMENSIONS = {
++    "problem_severity_frequency": 15,
++    "buyer_budget_clarity": 15,
++    "evidence_strength": 15,
++    "distribution": 10,
++    "differentiation": 10,
++    "validation_speed_cost": 10,
++    "feasibility": 5,
++    "economics": 10,
++    "founder_fit": 5,
++    "risk": 5,
++}
++GATING_DIMENSIONS = {"problem_severity_frequency", "buyer_budget_clarity", "evidence_strength"}
++MIN_SCORED_DIMENSIONS = 8
++THRESHOLD = 65
++MIN_GATING_SCORE = 3
++
++HARD_FILTERS = [
++    "economic_buyer",
++    "painful_frequent_or_budgeted",
++    "non_paid_distribution",
++    "defensible_wedge",
++    "no_network_effects_needed",
++    "plausible_margins",
++    "acceptable_risk",
++    "cheap_disconfirming_test",
++    "not_all_optimistic",
++]
++FILTER_STATUSES = {"pass", "fail", "defer", "unknown"}
++
++STATES = {
++    "discovered",
++    "desk-screened",
++    "adversarially-researched",
++    "validation-ready",
++    "externally-tested",
++    "validated",
++    "iterate",
++    "killed",
++}
++ADVANCED_STATES = {"validation-ready", "externally-tested", "validated", "iterate"}
++EVIDENCE_LEVELS = {
++    "Plausible",
++    "Promising",
++    "Validation-ready",
++    "Demand evidence",
++    "Commercial evidence",
++    "Repeatability evidence",
++}
++CONFIDENCES = {"none", "low", "medium", "high"}
++REVIEW_STATUSES = {"not-required", "requested", "changes-requested", "approved", "killed"}
++REVIEW_TRANSITIONS = {
++    ("not-required", "requested"),
++    ("requested", "changes-requested"),
++    ("requested", "approved"),
++    ("requested", "killed"),
++    ("changes-requested", "requested"),
++    ("changes-requested", "approved"),
++    ("changes-requested", "killed"),
++    ("approved", "requested"),
++    ("killed", "requested"),
++}
++EXPERIMENT_STATUSES = {"proposed", "awaiting-approval", "approved", "running", "completed", "abandoned"}
++LIMITS = {
++    "max_unreviewed_before_generation_stops": 10,
++    "max_new_candidates_per_run": 3,
++    "max_validation_ready_advances_per_run": 1,
++}
++
++
++class Report:
++    def __init__(self) -> None:
++        self.errors: list[str] = []
++        self.warnings: list[str] = []
++
++    def error(self, msg: str) -> None:
++        self.errors.append(msg)
++
++    def warn(self, msg: str) -> None:
++        self.warnings.append(msg)
++
++
++def load_json(report: Report, path: Path, label: str):
++    if not path.exists():
++        report.error(f"{label}: missing file {path}")
++        return None
++    try:
++        with path.open(encoding="utf-8") as fh:
++            return json.load(fh)
++    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
++        report.error(f"{label}: invalid JSON in {path}: {exc}")
++        return None
++
++
++def as_dict(report: Report, value, label: str) -> dict:
++    if not isinstance(value, dict):
++        report.error(f"{label}: expected an object")
++        return {}
++    return value
++
++
++def require_keys(report: Report, obj: dict, keys: list[str], label: str) -> bool:
++    ok = True
++    for key in keys:
++        if key not in obj:
++            report.error(f"{label}: missing required key '{key}'")
++            ok = False
++    return ok
++
++
++def check_dated(report: Report, value, label: str) -> None:
++    import re
++
++    if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
++        report.error(f"{label}: expected a YYYY-MM-DD date, got {value!r}")
++
++
++def resolve_path(root: Path, ref: str) -> Path | None:
++    if ref.startswith(("http://", "https://")):
++        return None
++    return root / ref
++
++
++def check_evidence_refs(report: Report, root: Path, refs, label: str) -> None:
++    if not isinstance(refs, list):
++        report.error(f"{label}: evidence must be a list")
++        return
++    for ref in refs:
++        if not isinstance(ref, str) or not ref.strip():
++            report.error(f"{label}: evidence entries must be non-empty strings")
++            continue
++        path = resolve_path(root, ref)
++        if path is not None and not path.exists():
++            report.error(f"{label}: evidence path does not exist: {ref}")
++
++
++def recompute_aggregate(report: Report, dimensions: dict, label: str) -> dict:
++    scored_weight = 0
++    raw = 0.0
++    scored_dims = 0
++    for key, weight in DIMENSIONS.items():
++        dim = dimensions.get(key)
++        if not isinstance(dim, dict):
++            continue
++        score = dim.get("score")
++        if score is None:
++            continue
++        scored_weight += weight
++        raw += weight * score / 5.0
++        scored_dims += 1
++    weighted_total = round(raw / scored_weight * 100, 1) if scored_weight else None
++    return {
++        "scored_weight": scored_weight,
++        "raw_weighted_points": round(raw, 1),
++        "weighted_total": weighted_total,
++        "scored_dimensions": scored_dims,
++    }
++
++
++def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_version: str) -> dict | None:
++    path = root / "ideas" / slug / "scorecard.json"
++    label = f"ideas/{slug}/scorecard.json"
++    sc = load_json(report, path, label)
++    if sc is None:
++        return None
++    sc = as_dict(report, sc, label)
++    if not require_keys(
++        report,
++        sc,
++        ["schema_version", "method_version", "weights_version", "idea_id", "slug", "title",
++         "state", "updated", "dimensions", "hard_filters", "vetoes", "aggregate", "confidence",
++         "review", "experiment"],
++        label,
++    ):
++        return sc
++
++    if sc.get("schema_version") != SCHEMA_VERSION:
++        report.error(f"{label}: schema_version must be {SCHEMA_VERSION}")
++    if sc.get("method_version") != method_version:
++        report.error(f"{label}: method_version {sc.get('method_version')!r} != {method_version!r}")
++    if sc.get("weights_version") != WEIGHTS_VERSION:
++        report.error(f"{label}: weights_version must be {WEIGHTS_VERSION}")
++    if sc.get("slug") != slug or sc.get("idea_id") != slug:
++        report.error(f"{label}: slug/idea_id must match directory name '{slug}'")
++    if sc.get("state") != entry.get("state"):
++        report.error(f"{label}: state {sc.get('state')!r} != ideas/index.json state {entry.get('state')!r}")
++    if sc.get("state") not in STATES:
++        report.error(f"{label}: illegal state {sc.get('state')!r}")
++    if sc.get("confidence") not in CONFIDENCES:
++        report.error(f"{label}: illegal confidence {sc.get('confidence')!r}")
++
++    # Dimensions
++    dims = as_dict(report, sc.get("dimensions"), label)
++    for key, weight in DIMENSIONS.items():
++        dim = dims.get(key)
++        if not isinstance(dim, dict):
++            report.error(f"{label}: dimensions.{key} missing or not an object")
++            continue
++        if dim.get("weight") != weight:
++            report.error(f"{label}: dimensions.{key}.weight must be {weight}")
++        score = dim.get("score")
++        if score is not None and (not isinstance(score, int) or isinstance(score, bool) or not 0 <= score <= 5):
++            report.error(f"{label}: dimensions.{key}.score must be null or an integer 0-5, got {score!r}")
++        confidence = dim.get("confidence")
++        if confidence not in CONFIDENCES:
++            report.error(f"{label}: dimensions.{key}.confidence must be one of {sorted(CONFIDENCES)}")
++        if score is None and confidence != "none":
++            report.error(f"{label}: dimensions.{key} is unscored but confidence is {confidence!r} (must be 'none')")
++        if score is not None and confidence == "none":
++            report.error(f"{label}: dimensions.{key} is scored but confidence is 'none'")
++        if score:  # a positive score requires evidence
++            refs = dim.get("evidence")
++            if not refs:
++                report.error(f"{label}: dimensions.{key} scored {score} with no evidence")
++        check_evidence_refs(report, root, dim.get("evidence", []), f"{label}: dimensions.{key}")
++    extra = set(dims) - set(DIMENSIONS)
++    if extra:
++        report.error(f"{label}: unknown dimensions: {sorted(extra)}")
++
++    # Hard filters
++    filters = as_dict(report, sc.get("hard_filters"), label)
++    for key in HARD_FILTERS:
++        item = filters.get(key)
++        if not isinstance(item, dict):
++            report.error(f"{label}: hard_filters.{key} missing or not an object")
++            continue
++        if item.get("status") not in FILTER_STATUSES:
++            report.error(f"{label}: hard_filters.{key}.status must be one of {sorted(FILTER_STATUSES)}")
++    extra = set(filters) - set(HARD_FILTERS)
++    if extra:
++        report.error(f"{label}: unknown hard filters: {sorted(extra)}")
++
++    # Vetoes
++    vetoes = sc.get("vetoes", [])
++    if not isinstance(vetoes, list):
++        report.error(f"{label}: vetoes must be a list")
++        vetoes = []
++    for veto in vetoes:
++        if not isinstance(veto, dict) or not veto.get("key"):
++            report.error(f"{label}: each veto needs a 'key'")
++        elif "date" in veto:
++            check_dated(report, veto.get("date"), f"{label}: veto {veto.get('key')}")
++
++    # Aggregate
++    agg = as_dict(report, sc.get("aggregate"), label)
++    computed = recompute_aggregate(report, dims, label)
++    for key in ("scored_weight", "raw_weighted_points", "weighted_total"):
++        if agg.get(key) != computed[key]:
++            report.error(
++                f"{label}: aggregate.{key} is {agg.get(key)!r}, computed {computed[key]!r}"
++            )
++    if agg.get("threshold") != THRESHOLD:
++        report.error(f"{label}: aggregate.threshold must be {THRESHOLD}")
++    expected_meets = computed["weighted_total"] is not None and computed["weighted_total"] >= THRESHOLD
++    if bool(agg.get("meets_threshold")) != expected_meets:
++        report.error(f"{label}: aggregate.meets_threshold is {agg.get('meets_threshold')!r}, computed {expected_meets}")
++
++    # State-dependent rules
++    state = sc.get("state")
++    statuses = {k: (filters.get(k) or {}).get("status") for k in HARD_FILTERS}
++    fails = [k for k, v in statuses.items() if v == "fail"]
++    unknowns = [k for k, v in statuses.items() if v in {"unknown", "defer"}]
++
++    if fails and state != "killed":
++        report.error(f"{label}: hard filters failed ({', '.join(fails)}) but state is {state!r} (must be 'killed')")
++    if unknowns and state not in {"discovered", "killed"}:
++        report.error(
++            f"{label}: hard filters unresolved ({', '.join(unknowns)}) but state is {state!r} (must be 'discovered' or 'killed')"
++        )
++    if not fails and not unknowns and state == "discovered":
++        report.warn(f"{label}: all hard filters pass but state is still 'discovered'")
++    if vetoes and state not in {"killed", "adversarially-researched"}:
++        report.error(f"{label}: vetoes present but state is {state!r} (must be 'killed' or 'adversarially-researched')")
++
++    if state in ADVANCED_STATES:
++        if computed["weighted_total"] is None or computed["weighted_total"] < THRESHOLD:
++            report.error(f"{label}: state {state!r} requires weighted_total >= {THRESHOLD}")
++        if computed["scored_dimensions"] < MIN_SCORED_DIMENSIONS:
++            report.error(
++                f"{label}: state {state!r} requires >= {MIN_SCORED_DIMENSIONS} scored dimensions "
++                f"(have {computed['scored_dimensions']})"
++            )
++        for key in GATING_DIMENSIONS:
++            score = (dims.get(key) or {}).get("score")
++            if score is None or score < MIN_GATING_SCORE:
++                report.error(f"{label}: state {state!r} requires dimensions.{key} score >= {MIN_GATING_SCORE}")
++        if sc.get("confidence") not in {"medium", "high"}:
++            report.error(f"{label}: state {state!r} requires overall confidence medium or high")
++        if fails:
++            report.error(f"{label}: state {state!r} has failed hard filters")
++        if vetoes:
++            report.error(f"{label}: state {state!r} has active vetoes")
++        review = sc.get("review") or {}
++        if review.get("status") == "not-required":
++            report.error(f"{label}: state {state!r} requires review.status != 'not-required'")
++    if state == "killed" and (sc.get("review") or {}).get("status") not in {None, "not-required", "killed", "requested", "changes-requested"}:
++        report.error(f"{label}: killed idea has impossible review.status")
++    if (sc.get("review") or {}).get("status") == "killed" and state != "killed":
++        report.error(f"{label}: review.status 'killed' requires state 'killed'")
++    if entry.get("evidence_level") not in EVIDENCE_LEVELS:
++        report.error(f"ideas/index.json: invalid evidence_level for {slug}: {entry.get('evidence_level')!r}")
++    if state in {"externally-tested", "validated", "iterate"}:
++        if (sc.get("review") or {}).get("status") != "approved":
++            report.error(f"{label}: state {state!r} requires review.status 'approved'")
++        exp = sc.get("experiment") or {}
++        if not exp.get("results"):
++            report.error(f"{label}: state {state!r} requires recorded experiment results")
++        elif not (root / str(exp.get("results"))).exists():
++            report.error(f"{label}: experiment results file missing: {exp.get('results')}")
++
++    # Review block
++    review = as_dict(report, sc.get("review"), label)
++    status = review.get("status")
++    if status not in REVIEW_STATUSES:
++        report.error(f"{label}: review.status must be one of {sorted(REVIEW_STATUSES)}")
++    history = review.get("history", [])
++    if not isinstance(history, list):
++        report.error(f"{label}: review.history must be a list")
++        history = []
++    if status == "not-required" and history:
++        report.error(f"{label}: review.status is 'not-required' but history is not empty")
++    if status != "not-required" and not history:
++        report.error(f"{label}: review.status {status!r} requires non-empty review.history")
++    previous = None
++    for i, item in enumerate(history):
++        if not isinstance(item, dict):
++            report.error(f"{label}: review.history[{i}] must be an object")
++            continue
++        for key in ("date", "from", "to", "actor", "reason"):
++            if key not in item:
++                report.error(f"{label}: review.history[{i}] missing '{key}'")
++        check_dated(report, item.get("date"), f"{label}: review.history[{i}].date")
++        pair = (item.get("from"), item.get("to"))
++        if pair not in REVIEW_TRANSITIONS:
++            report.error(f"{label}: illegal review transition {pair}")
++        if item.get("actor") not in {"worker", "human-owner", "reviewer", "bootstrap"}:
++            report.error(f"{label}: review.history[{i}].actor must be worker|human-owner|reviewer|bootstrap")
++        previous = item.get("to")
++    if history and previous != status:
++        report.error(f"{label}: review.history ends at {previous!r} but review.status is {status!r}")
++    if status != "not-required":
++        request_path = review.get("request_path")
++        if not request_path:
++            report.error(f"{label}: review.status {status!r} requires review.request_path")
++        elif not (root / str(request_path)).exists():
++            report.error(f"{label}: review request file missing: {request_path}")
++
++    # Experiment reference
++    exp = sc.get("experiment") or {}
++    if exp.get("id"):
++        if not exp.get("plan"):
++            report.error(f"{label}: experiment.id set but experiment.plan is empty")
++        elif not (root / str(exp.get("plan"))).exists():
++            report.error(f"{label}: experiment plan file missing: {exp.get('plan')}")
++        if exp.get("status") not in EXPERIMENT_STATUSES | {"none"}:
++            report.error(f"{label}: illegal experiment.status {exp.get('status')!r}")
++        if exp.get("results") and not (root / str(exp.get("results"))).exists():
++            report.error(f"{label}: experiment results file missing: {exp.get('results')}")
++    return sc
++
++
++def check_index(report: Report, root: Path, index: dict, method_version: str) -> list[dict]:
++    label = "ideas/index.json"
++    if index.get("schema_version") != SCHEMA_VERSION:
++        report.error(f"{label}: schema_version must be {SCHEMA_VERSION}")
++    if index.get("method_version") != method_version:
++        report.error(f"{label}: method_version {index.get('method_version')!r} != {method_version!r}")
++    limits = index.get("limits") or {}
++    for key, value in LIMITS.items():
++        if limits.get(key) != value:
++            report.warn(f"{label}: limits.{key} is {limits.get(key)!r}, expected {value}")
++    ideas = index.get("ideas")
++    if not isinstance(ideas, list):
++        report.error(f"{label}: ideas must be a list")
++        return []
++
++    seen_ids: set[str] = set()
++    seen_slugs: set[str] = set()
++    seen_titles: set[str] = set()
++    by_state: dict[str, int] = {}
++    unreviewed = 0
++
++    for entry in ideas:
++        entry = as_dict(report, entry, label)
++        if not require_keys(
++            report,
++            entry,
++            ["id", "slug", "title", "state", "discovered", "updated", "evidence_level", "score",
++             "confidence", "fingerprint", "paths", "review", "experiment"],
++            f"{label}: idea entry",
++        ):
++            continue
++        slug = entry.get("slug")
++        if not isinstance(slug, str) or not slug:
++            report.error(f"{label}: idea slug must be a non-empty string")
++            continue
++        if slug in seen_slugs:
++            report.error(f"{label}: duplicate slug '{slug}'")
++        seen_slugs.add(slug)
++        idea_id = entry.get("id")
++        if idea_id in seen_ids:
++            report.error(f"{label}: duplicate id {idea_id!r}")
++        if isinstance(idea_id, str):
++            seen_ids.add(idea_id)
++        title_key = str(entry.get("title", "")).strip().lower()
++        if title_key in seen_titles:
++            report.error(f"{label}: duplicate title {entry.get('title')!r}")
++        seen_titles.add(title_key)
++        if entry.get("state") not in STATES:
++            report.error(f"{label}: illegal state for {slug}: {entry.get('state')!r}")
++            continue
++        by_state[entry["state"]] = by_state.get(entry["state"], 0) + 1
++        if entry["state"] == "discovered":
++            unreviewed += 1
++        check_dated(report, entry.get("discovered"), f"{label}: {slug}.discovered")
++        check_dated(report, entry.get("updated"), f"{label}: {slug}.updated")
++
++        fp = as_dict(report, entry.get("fingerprint"), f"{label}: {slug}.fingerprint")
++        for key in ("buyer", "problem", "mechanism"):
++            if not isinstance(fp.get(key), str) or not fp.get(key, "").strip():
++                report.error(f"{label}: {slug}.fingerprint.{key} must be a non-empty string")
++        if not isinstance(fp.get("keywords"), list) or not fp.get("keywords"):
++            report.error(f"{label}: {slug}.fingerprint.keywords must be a non-empty list")
++
++        paths = as_dict(report, entry.get("paths"), f"{label}: {slug}.paths")
++        expected = {
++            "dir": f"ideas/{slug}",
++            "dossier": f"ideas/{slug}/dossier.md",
++            "decision": f"ideas/{slug}/decision.md",
++            "scorecard": f"ideas/{slug}/scorecard.json",
++        }
++        for key, value in expected.items():
++            if paths.get(key) != value:
++                report.error(f"{label}: {slug}.paths.{key} must be '{value}'")
++            elif not (root / value).exists():
++                report.error(f"{label}: {slug}.paths.{key} points at missing file {value}")
++
++        review = as_dict(report, entry.get("review"), f"{label}: {slug}.review")
++        if review.get("status") not in REVIEW_STATUSES:
++            report.error(f"{label}: {slug}.review.status invalid: {review.get('status')!r}")
++        if review.get("status") != "not-required":
++            if not review.get("path"):
++                report.error(f"{label}: {slug}.review.path required when status is {review.get('status')!r}")
++            elif not (root / str(review.get("path"))).exists():
++                report.error(f"{label}: {slug}.review.path missing: {review.get('path')}")
++
++        exp = as_dict(report, entry.get("experiment"), f"{label}: {slug}.experiment")
++        if exp.get("id") and exp.get("status") not in EXPERIMENT_STATUSES:
++            report.error(f"{label}: {slug}.experiment.status invalid: {exp.get('status')!r}")
++
++        sc = check_scorecard(report, root, slug, entry, method_version)
++        if sc is not None:
++            if entry.get("score") != (sc.get("aggregate") or {}).get("weighted_total"):
++                report.error(
++                    f"{label}: {slug}.score {entry.get('score')!r} != scorecard weighted_total "
++                    f"{(sc.get('aggregate') or {}).get('weighted_total')!r}"
++                )
++            if entry.get("confidence") != sc.get("confidence"):
++                report.error(
++                    f"{label}: {slug}.confidence {entry.get('confidence')!r} != scorecard confidence "
++                    f"{sc.get('confidence')!r}"
++                )
++
++    # Orphan idea directories
++    ideas_dir = root / "ideas"
++    if ideas_dir.is_dir():
++        for child in sorted(ideas_dir.iterdir()):
++            if child.is_dir() and child.name not in seen_slugs:
++                report.error(f"ideas/: orphan directory with no index entry: {child.name}")
++
++    # Counts
++    counts = as_dict(report, index.get("counts"), f"{label}: counts")
++    if counts.get("total") != len(ideas):
++        report.error(f"{label}: counts.total {counts.get('total')!r} != {len(ideas)} ideas")
++    if counts.get("unreviewed") != unreviewed:
++        report.error(f"{label}: counts.unreviewed {counts.get('unreviewed')!r} != computed {unreviewed}")
++    if counts.get("by_state") != by_state:
++        report.error(f"{label}: counts.by_state {counts.get('by_state')!r} != computed {by_state!r}")
++    if counts.get("killed") != by_state.get("killed", 0):
++        report.error(f"{label}: counts.killed {counts.get('killed')!r} != {by_state.get('killed', 0)}")
++    if unreviewed > LIMITS["max_unreviewed_before_generation_stops"]:
++        report.error(
++            f"{label}: {unreviewed} unreviewed ideas exceeds the limit of "
++            f"{LIMITS['max_unreviewed_before_generation_stops']}; generation must stop"
++        )
++    elif unreviewed >= 8:
++        report.warn(f"{label}: {unreviewed} unreviewed ideas (limit 10)")
++    killed = by_state.get("killed", 0)
++    if killed and killed % 5 == 0:
++        report.warn(f"{label}: {killed} killed ideas; a false-negative audit is due (every 5th kill)")
++    return ideas
++
++
++def check_experiments(report: Report, root: Path, method_version: str, slugs: set[str]) -> dict:
++    path = root / "experiments" / "index.json"
++    label = "experiments/index.json"
++    data = load_json(report, path, label)
++    if data is None:
++        return {}
++    data = as_dict(report, data, label)
++    if data.get("schema_version") != SCHEMA_VERSION:
++        report.error(f"{label}: schema_version must be {SCHEMA_VERSION}")
++    if data.get("method_version") != method_version:
++        report.error(f"{label}: method_version {data.get('method_version')!r} != {method_version!r}")
++    experiments = data.get("experiments")
++    if not isinstance(experiments, list):
++        report.error(f"{label}: experiments must be a list")
++        return {}
++    seen: set[str] = set()
++    by_id: dict[str, dict] = {}
++    for exp in experiments:
++        exp = as_dict(report, exp, label)
++        exp_id = exp.get("id")
++        if not isinstance(exp_id, str) or not exp_id:
++            report.error(f"{label}: experiment id must be a non-empty string")
++            continue
++        if exp_id in seen:
++            report.error(f"{label}: duplicate experiment id '{exp_id}'")
++        seen.add(str(exp_id))
++        by_id[str(exp_id)] = exp
++        if exp.get("idea_id") not in slugs:
++            report.error(f"{label}: experiment {exp_id} references unknown idea {exp.get('idea_id')!r}")
++        if exp.get("status") not in EXPERIMENT_STATUSES:
++            report.error(f"{label}: experiment {exp_id} illegal status {exp.get('status')!r}")
++        for key in ("hypothesis", "central_assumption", "kill_condition", "decision_rule"):
++            if not isinstance(exp.get(key), str) or not exp.get(key, "").strip():
++                report.error(f"{label}: experiment {exp_id} missing '{key}'")
++        check_dated(report, exp.get("created"), f"{label}: {exp_id}.created")
++        check_dated(report, exp.get("updated"), f"{label}: {exp_id}.updated")
++        plan = exp.get("plan")
++        if not plan or not (root / str(plan)).exists():
++            report.error(f"{label}: experiment {exp_id} plan file missing: {plan!r}")
++        results = exp.get("results")
++        if results and not (root / str(results)).exists():
++            report.error(f"{label}: experiment {exp_id} results file missing: {results!r}")
++        approval = as_dict(report, exp.get("approval"), f"{label}: {exp_id}.approval")
++        if not isinstance(approval.get("required"), bool):
++            report.error(f"{label}: experiment {exp_id}.approval.required must be a boolean")
++        if not isinstance(approval.get("granted"), bool):
++            report.error(f"{label}: experiment {exp_id}.approval.granted must be a boolean")
++        if approval.get("granted"):
++            if not approval.get("granted_by") or not approval.get("granted_date"):
++                report.error(f"{label}: experiment {exp_id} approved but granted_by/granted_date missing")
++            check_dated(report, approval.get("granted_date"), f"{label}: {exp_id}.approval.granted_date")
++        if exp.get("status") in {"approved", "running", "completed"} and not approval.get("granted"):
++            report.error(f"{label}: experiment {exp_id} status {exp.get('status')!r} requires approval.granted")
++        if exp.get("status") == "completed" and not results:
++            report.error(f"{label}: experiment {exp_id} completed but results path is empty")
++        bound = as_dict(report, exp.get("cost_bound"), f"{label}: {exp_id}.cost_bound")
++        for key in ("money_gbp", "human_hours", "calendar_days"):
++            if not isinstance(bound.get(key), (int, float)) or isinstance(bound.get(key), bool):
++                report.error(f"{label}: experiment {exp_id}.cost_bound.{key} must be a number")
++        if bound.get("human_hours", 0) > 20 or bound.get("money_gbp", 0) > 100:
++            report.warn(
++                f"{label}: experiment {exp_id} exceeds the review threshold "
++                "(20 human-hours / GBP 100); a review request is required before approval"
++            )
++    return by_id
++
++
++def check_runs(report: Report, root: Path, method_version: str) -> None:
++    path = root / "runs" / "index.jsonl"
++    if not path.exists():
++        report.warn("runs/index.jsonl: missing (no runs recorded yet)")
++        return
++    seen: set[str] = set()
++    for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
++        if not line.strip():
++            continue
++        try:
++            run = json.loads(line)
++        except json.JSONDecodeError as exc:
++            report.error(f"runs/index.jsonl:{lineno}: invalid JSON: {exc}")
++            continue
++        if not isinstance(run, dict):
++            report.error(f"runs/index.jsonl:{lineno}: expected an object")
++            continue
++        for key in ("run_id", "mode", "status", "started_at", "agent", "model", "method_version", "validation", "summary"):
++            if key not in run:
++                report.error(f"runs/index.jsonl:{lineno}: missing '{key}'")
++        run_id = run.get("run_id")
++        if run_id in seen:
++            report.error(f"runs/index.jsonl:{lineno}: duplicate run_id {run_id!r}")
++        if isinstance(run_id, str):
++            seen.add(run_id)
++        if run.get("mode") not in {"normal", "dry-run", "smoke"}:
++            report.error(f"runs/index.jsonl:{lineno}: illegal mode {run.get('mode')!r}")
++        if run.get("status") not in {"success", "failed", "invalid-output", "over-budget"}:
++            report.error(f"runs/index.jsonl:{lineno}: illegal status {run.get('status')!r}")
++        if run.get("method_version") != method_version:
++            report.error(f"runs/index.jsonl:{lineno}: method_version mismatch")
++        if run.get("validation") not in {"pass", "fail", "not-run"}:
++            report.error(f"runs/index.jsonl:{lineno}: illegal validation {run.get('validation')!r}")
++        summary = run.get("summary")
++        if summary and not (root / str(summary)).exists():
++            report.warn(f"runs/index.jsonl:{lineno}: summary file missing: {summary}")
++
++
++def run(root: Path, quiet: bool = False) -> Report:
++    report = Report()
++    version_file = root / "method" / "VERSION"
++    if not version_file.exists():
++        report.error("method/VERSION missing")
++        method_version = "unknown"
++    else:
++        method_version = version_file.read_text(encoding="utf-8").strip()
++        if not method_version:
++            report.error("method/VERSION is empty")
++
++    index = load_json(report, root / "ideas" / "index.json", "ideas/index.json")
++    slugs: set[str] = set()
++    if index is not None:
++        index = as_dict(report, index, "ideas/index.json")
++        ideas = check_index(report, root, index, method_version)
++        slugs = {
++            str(i.get("slug"))
++            for i in ideas
++            if isinstance(i, dict) and isinstance(i.get("slug"), str)
++        }
++        check_experiments(report, root, method_version, slugs)
++    check_runs(report, root, method_version)
++    return report
++
++
++def queue(root: Path) -> int:
++    index_path = root / "ideas" / "index.json"
++    if not index_path.exists():
++        print("No ideas/index.json found.", file=sys.stderr)
++        return 1
++    index = json.loads(index_path.read_text(encoding="utf-8"))
++    ideas = index.get("ideas", [])
++    rows = []
++    for entry in ideas:
++        if not isinstance(entry, dict):
++            continue
++        review = entry.get("review") or {}
++        status = review.get("status")
++        if status and status != "not-required":
++            rows.append((entry.get("slug"), entry.get("state"), status, review.get("path")))
++    killed = sum(1 for e in ideas if isinstance(e, dict) and e.get("state") == "killed")
++    unreviewed = sum(1 for e in ideas if isinstance(e, dict) and e.get("state") == "discovered")
++    print("Review queue")
++    print("------------")
++    if not rows:
++        print("(empty)")
++    for slug, state, status, path in rows:
++        print(f"- {slug:<24} state={state:<22} review={status:<17} {path or ''}")
++    print()
++    print(f"Unreviewed ideas: {unreviewed} / {LIMITS['max_unreviewed_before_generation_stops']}")
++    print(f"Killed ideas: {killed} (false-negative audit due every 5th kill)")
++    if killed and killed % 5 == 0:
++        print("  -> audit due now")
++    return 0
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", default=".", help="repository root (default: current directory)")
++    parser.add_argument("--json", action="store_true", help="print machine-readable result to stdout")
++    parser.add_argument("--queue", action="store_true", help="print the review queue and exit")
++    parser.add_argument("--quiet", action="store_true", help="suppress warnings in human output")
++    args = parser.parse_args()
++
++    root = Path(args.root).resolve()
++    if args.queue:
++        return queue(root)
++
++    report = run(root)
++    result = {
++        "status": "pass" if not report.errors else "fail",
++        "errors": report.errors,
++        "warnings": report.warnings,
++    }
++    if args.json:
++        print(json.dumps(result, indent=2))
++    else:
++        for warning in report.warnings:
++            if not args.quiet:
++                print(f"WARN: {warning}")
++        for error in report.errors:
++            print(f"ERROR: {error}")
++        print(
++            f"{result['status'].upper()}: {len(report.errors)} error(s), "
++            f"{len(report.warnings)} warning(s) in {root}"
++        )
++    return 1 if report.errors else 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/templates/evidence/entry.md b/templates/evidence/entry.md
+new file mode 100644
+index 0000000..d0e5d69
+--- /dev/null
++++ b/templates/evidence/entry.md
+@@ -0,0 +1,28 @@
++# Evidence: <claim or source name>
++
++- **Idea / scope:** `<slug>` (or `method`)
++- **Register:** evidence | assumption | inference
++- **Source:** <name, URL, or file path>
++- **Accessed / dated:** YYYY-MM-DD
++- **Credibility:** primary | credible secondary | weak secondary | vendor claim
++
++## Claim(s) supported
++
++- <One factual claim per bullet, as close to the source's own wording as possible.>
++
++## Exact detail
++
++<Quote or close paraphrase of the relevant passage, numbers, dates. Enough that a
++reviewer can verify the claim without re-fetching the source.>
++
++## Why it is credible
++
++<One or two lines. If weak, say so plainly.>
++
++## What it does NOT show
++
++<The limits of the source: what cannot be concluded from it. This section is required.>
++
++## Links
++
++- Used by: `ideas/<slug>/scorecard.json#<dimension>`
+diff --git a/templates/experiment/plan.md b/templates/experiment/plan.md
+new file mode 100644
+index 0000000..86fe2aa
+--- /dev/null
++++ b/templates/experiment/plan.md
+@@ -0,0 +1,51 @@
++# Experiment plan: <title>
++
++- **ID:** `<experiment-id>`
++- **Idea:** `<slug>`
++- **Created:** YYYY-MM-DD
++- **Status:** proposed
++- **Approval:** required (human owner) | granted (date, name) | not-required
++
++## Central assumption
++
++<The single assumption whose failure kills the idea. One sentence.>
++
++## Hypothesis
++
++If <intervention>, then <measurable outcome>, because <reason>. Stated so that it can be
++wrong.
++
++## Test design
++
++- Population / sample:
++- What participants see or do:
++- Recruitment route:
++- Instrumentation / what is recorded:
++- Timebox:
++- What is deliberately NOT included:
++
++## Decision rule (fixed before running)
++
++| Outcome | Verdict | Action |
++|---|---|---|
++| <threshold> | proceed | |
++| <threshold> | iterate | |
++| <threshold> | stop | |
++
++## Kill condition
++
++<What result means stop, precisely.>
++
++## Cost bound
++
++- Money: GBP
++- Human hours:
++- Calendar days:
++
++## Risks and safeguards
++
++<Including: no contact/spend/publication until approval is recorded.>
++
++## Results
++
++<Filled in by the human owner or transcribed from owner-supplied material.>
+diff --git a/templates/experiment/results.md b/templates/experiment/results.md
+new file mode 100644
+index 0000000..018c2d6
+--- /dev/null
++++ b/templates/experiment/results.md
+@@ -0,0 +1,35 @@
++# Experiment results: <title>
++
++- **ID:** `<experiment-id>`
++- **Idea:** `<slug>`
++- **Dates run:** YYYY-MM-DD to YYYY-MM-DD
++- **Recorded by:** human-owner | worker (transcribed)
++- **Approval record:** <date, name, link>
++
++## What actually happened
++
++<Chronological, factual. Include what went wrong and what was skipped.>
++
++## Raw numbers
++
++| Metric | Target | Actual | Notes |
++|---|---|---|---|
++
++## Quotes / raw artefacts
++
++<Verbatim quotes labelled as such; links or paths to transcripts and spreadsheets.>
++
++## Contradictions and surprises
++
++<Anything that cut against the hypothesis or the plan. Do not smooth these over.>
++
++## Verdict against the pre-fixed decision rule
++
++<Apply the rule mechanically. If the evidence is insufficient, say "insufficient
++evidence" - not "proceed".>
++
++## Follow-up
++
++- Idea state proposed: externally-tested -> validated | iterate | killed
++- Human decision (if made):
++- Next experiment (if any):
+diff --git a/templates/idea/decision.md b/templates/idea/decision.md
+new file mode 100644
+index 0000000..9bf6937
+--- /dev/null
++++ b/templates/idea/decision.md
+@@ -0,0 +1,50 @@
++# Decision record: <idea title>
++
++- **Idea:** `<slug>`
++- **Date:** YYYY-MM-DD
++- **Run:** `<run-id or bootstrap>`
++- **Decision:** advance | hold | kill | defer
++- **State:** `<from>` -> `<to>`
++- **Actor:** worker | human-owner
++
++## What changed
++
++<One paragraph: what was learned or decided this run.>
++
++## Hard filters
++
++| Filter | Status | Note |
++|---|---|---|
++| economic_buyer | pass | |
++| painful_frequent_or_budgeted | pass | |
++| non_paid_distribution | pass | |
++| defensible_wedge | pass | |
++| no_network_effects_needed | pass | |
++| plausible_margins | pass | |
++| acceptable_risk | pass | |
++| cheap_disconfirming_test | pass | |
++| not_all_optimistic | pass | |
++
++## Evidence considered
++
++<Dated links to evidence register entries. Include anything that cut against the
++decision.>
++
++## Scores
++
++<Weighted total, threshold, per-dimension summary; link `scorecard.json`.>
++
++## Review
++
++<Review status, request/response links, and how the worker responded to each point.>
++
++## Reasons if killed
++
++<Why; what evidence would have changed the decision; preserved for future reference.>
++
++## False-negative audit (killed ideas only)
++
++- Audited: yes/no
++- Reviewer / date:
++- Verdict:
++- What new evidence would justify reopening:
+diff --git a/templates/idea/dossier.md b/templates/idea/dossier.md
+new file mode 100644
+index 0000000..c9a9b08
+--- /dev/null
++++ b/templates/idea/dossier.md
+@@ -0,0 +1,71 @@
++# <Idea title>
++
++- **ID / slug:** `<slug>`
++- **State:** `discovered`
++- **Evidence level:** `Plausible`
++- **Owner:** worker | human-owner
++- **Created:** YYYY-MM-DD
++- **Updated:** YYYY-MM-DD
++- **Source:** how this candidate was generated (worker run ID or human)
++
++## One-sentence proposition
++
++> <Buyer> has <problem>; we provide <mechanism> at <price/business model>.
++
++## Buyer
++
++- Who exactly pays (role, company size, segment):
++- Who uses it:
++- Evidence: [link]
++
++## Problem
++
++- What is painful/frequent/expensive:
++- Current alternatives and their weaknesses:
++- Evidence: [link]
++
++## Mechanism / wedge
++
++- What we would actually do:
++- Why it is defensible against the cheapest credible incumbent:
++- Evidence: [link]
++
++## Distribution
++
++- Route to the first 10 buyers without paid acquisition:
++- Evidence: [link]
++
++## Economics (assumptions labelled)
++
++- Price hypothesis:
++- Cost drivers:
++- Contribution margin at realistic scale:
++
++## Founder fit
++
++- Reach, skills, motivation (evidence only; `null` if unknown):
++
++## Adversarial case (strongest case this is wrong)
++
++<Written deliberately to kill the idea. If the idea survives, say why.>
++
++## Strongest supporting case
++
++## Unresolved assumptions
++
++| Assumption | How it could be falsified | Status |
++|---|---|---|
++
++## Cheapest decisive experiment
++
++- Assumption under test:
++- Proposed test:
++- Pre-fixed decision rule:
++- Cost bound:
++- Status: proposed | awaiting-approval | approved | running | completed | abandoned
++- Link: `experiments/<id>/plan.md`
++
++## Decision log (append-only)
++
++| Date | State change | Why | Link |
++|---|---|---|---|
+diff --git a/templates/idea/scorecard.json b/templates/idea/scorecard.json
+new file mode 100644
+index 0000000..4a01371
+--- /dev/null
++++ b/templates/idea/scorecard.json
+@@ -0,0 +1,115 @@
++{
++  "schema_version": 1,
++  "method_version": "1.0.0",
++  "weights_version": "1.0.0",
++  "idea_id": "<slug>",
++  "slug": "<slug>",
++  "title": "<Idea title>",
++  "state": "discovered",
++  "updated": "YYYY-MM-DD",
++  "dimensions": {
++    "problem_severity_frequency": {
++      "weight": 15,
++      "score": null,
++      "confidence": "none",
++      "evidence": [],
++      "rationale": ""
++    },
++    "buyer_budget_clarity": {
++      "weight": 15,
++      "score": null,
++      "confidence": "none",
++      "evidence": [],
++      "rationale": ""
++    },
++    "evidence_strength": {
++      "weight": 15,
++      "score": null,
++      "confidence": "none",
++      "evidence": [],
++      "rationale": ""
++    },
++    "distribution": {
++      "weight": 10,
++      "score": null,
++      "confidence": "none",
++      "evidence": [],
++      "rationale": ""
++    },
++    "differentiation": {
++      "weight": 10,
++      "score": null,
++      "confidence": "none",
++      "evidence": [],
++      "rationale": ""
++    },
++    "validation_speed_cost": {
++      "weight": 10,
++      "score": null,
++      "confidence": "none",
++      "evidence": [],
++      "rationale": ""
++    },
++    "feasibility": {
++      "weight": 5,
++      "score": null,
++      "confidence": "none",
++      "evidence": [],
++      "rationale": ""
++    },
++    "economics": {
++      "weight": 10,
++      "score": null,
++      "confidence": "none",
++      "evidence": [],
++      "rationale": ""
++    },
++    "founder_fit": {
++      "weight": 5,
++      "score": null,
++      "confidence": "none",
++      "evidence": [],
++      "rationale": ""
++    },
++    "risk": {
++      "weight": 5,
++      "score": null,
++      "confidence": "none",
++      "evidence": [],
++      "rationale": ""
++    }
++  },
++  "hard_filters": {
++    "economic_buyer": { "status": "unknown", "note": "" },
++    "painful_frequent_or_budgeted": { "status": "unknown", "note": "" },
++    "non_paid_distribution": { "status": "unknown", "note": "" },
++    "defensible_wedge": { "status": "unknown", "note": "" },
++    "no_network_effects_needed": { "status": "unknown", "note": "" },
++    "plausible_margins": { "status": "unknown", "note": "" },
++    "acceptable_risk": { "status": "unknown", "note": "" },
++    "cheap_disconfirming_test": { "status": "unknown", "note": "" },
++    "not_all_optimistic": { "status": "unknown", "note": "" }
++  },
++  "vetoes": [],
++  "aggregate": {
++    "scored_weight": 0,
++    "raw_weighted_points": 0,
++    "weighted_total": null,
++    "threshold": 65,
++    "meets_threshold": false
++  },
++  "confidence": "none",
++  "review": {
++    "status": "not-required",
++    "requested_from": null,
++    "request_path": null,
++    "last_reviewed_revision": null,
++    "history": []
++  },
++  "experiment": {
++    "id": null,
++    "status": "none",
++    "plan": null,
++    "results": null
++  }
++}
+diff --git a/templates/review/request.md b/templates/review/request.md
+new file mode 100644
+index 0000000..23fc7f8
+--- /dev/null
++++ b/templates/review/request.md
+@@ -0,0 +1,66 @@
++# Review request: <idea title>
++
++- **Idea:** `<slug>`
++- **Date:** YYYY-MM-DD
++- **Trigger:** <which review trigger from method/review-policy.md>
++- **Proposed transition:** `<from>` -> `<to>`
++- **Reviewed revision:** `<git sha or 'uncommitted'>`
++- **Requested from:** chatgpt (independent reviewer)
++
++## What the reviewer must decide
++
++<One paragraph: the single question the review answers.>
++
++## Decision summary
++
++<3-6 sentences a busy reviewer can act on.>
++
++## State and scores
++
++| Dimension | Weight | Score | Confidence | Evidence |
++|---|---|---|---|---|
++
++- Weighted total: X / 100 (threshold 65)
++- Overall confidence:
++- Hard filters: <pass/fail summary>
++- Vetoes: <list or none>
++
++## Strongest supporting case
++
++## Strongest disconfirming case
++
++## Unresolved assumptions
++
++| Assumption | How it could be falsified | If it fails |
++|---|---|---|
++
++## Cheapest decisive experiment
++
++- Test:
++- Pre-fixed decision rule:
++- Cost bound:
++- Status:
++
++## Machine-readable review block
++
++<Copy of `scorecard.json#review` and `ideas/index.json` entry.>
++
++## Instructions to the reviewer
++
++1. Work only from the repository artefacts listed below.
++2. Attack the weakest link: unsupported inference, convenience evidence, mis-scored
++   dimension, premature advancement, missed risk.
++3. State a verdict: `changes-requested`, `approved`, or `killed`.
++4. For each verdict, list the condition that would change it.
++5. Write the response as `reviews/<date>-<slug>-<reviewer>-<model>.md` using
++   `templates/review/response.md`.
++6. A second model is not market validation. Do not treat agreement as demand evidence.
++
++## Artefacts for review
++
++- `ideas/<slug>/dossier.md`
++- `ideas/<slug>/scorecard.json`
++- `ideas/<slug>/decision.md`
++- `evidence/<slug>/...`
++- `experiments/<id>/plan.md`
++- `ideas/index.json`
+diff --git a/templates/review/response.md b/templates/review/response.md
+new file mode 100644
+index 0000000..1255453
+--- /dev/null
++++ b/templates/review/response.md
+@@ -0,0 +1,24 @@
++# Review response: <idea title>
++
++- **Idea:** `<slug>`
++- **Verdict:** changes-requested | approved | killed
++- **Reviewer:** <human name / model>
++- **Provider / model:** <provider / model id>
++- **Date:** YYYY-MM-DD
++- **Reviewed revision:** `<git sha or 'uncommitted'>`
++- **Request:** `reviews/<date>-<slug>-review-request.md`
++
++## Reasoning
++
++<The case for the verdict. Cite the artefacts and evidence checked.>
++
++## Per-point findings
++
++| Point | Finding | Evidence checked | Required action |
++|---|---|---|---|
++
++## Conditions that would change this verdict
++
++## Reviewer's own uncertainty
++
++<What the reviewer could not verify from the repository.>
+diff --git a/templates/run/summary.md b/templates/run/summary.md
+new file mode 100644
+index 0000000..a8589a2
+--- /dev/null
++++ b/templates/run/summary.md
+@@ -0,0 +1,42 @@
++# Run summary: <run-id>
++
++- **Mode:** normal | dry-run | smoke
++- **Started / finished:** ISO-8601
++- **Agent / model:** idea-worker / opencode-go/deepseek-v4.1-flash
++- **Method version:** 1.0.0
++- **Input / output revision:** `<sha>` / `<sha or 'uncommitted'>`
++- **Status:** success | failed | invalid-output | over-budget
++
++## What advanced
++
++| Idea | From | To | Why |
++|---|---|---|---|
++
++## What was killed
++
++| Idea | Reason | Preserved in |
++|---|---|---|
++
++## What failed or was skipped
++
++## Limits encountered
++
++- Candidates generated: n / 3
++- Unreviewed after run: n / 10
++- Advances to validation-ready: n / 1
++- Web lookups: n / 25
++- Cost: $x / $1.00 (tokens: n)
++
++## Decisions needing human input
++
++| Decision | Options | Deadline / trigger | Where recorded |
++|---|---|---|---|
++
++## Review queue after this run
++
++| Idea | Review status | Request | Outstanding since |
++|---|---|---|---|
++
++## Next run should
++
++<Two or three concrete priorities.>

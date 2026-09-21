@@ -1,0 +1,13 @@
+{
+  "found": true,
+  "events": 3,
+  "cost_usd": 0.005156,
+  "tokens": {
+    "input": 34346,
+    "output": 7,
+    "reasoning": 0,
+    "cache_read": null,
+    "cache_write": null,
+    "total": 34353
+  }
+}

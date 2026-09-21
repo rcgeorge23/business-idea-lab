@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "method_version": "1.0.0",
+  "updated": "2026-09-20",
+  "limits": {
+    "max_unreviewed_before_generation_stops": 10,
+    "max_new_candidates_per_run": 3,
+    "max_validation_ready_advances_per_run": 1
+  },
+  "counts": {
+    "total": 4,
+    "unreviewed": 0,
+    "by_state": {
+      "validation-ready": 1,
+      "killed": 3
+    },
+    "killed": 3
+  },
+  "ideas": [
+    {
+      "id": "geonerd",
+      "slug": "geonerd",
+      "title": "GeoNerd: AI visibility digest for UK accountancy practices",
+      "state": "validation-ready",
+      "discovered": "2026-09-20",
+      "updated": "2026-09-20",
+      "evidence_level": "Validation-ready",
+      "score": 65.3,
+      "confidence": "medium",
+      "fingerprint": {
+        "buyer": "UK accountancy practices, 1-20 staff, owner/partner decision maker; first beachhead contractor/IR35 specialists",
+        "problem": "Practices cannot see whether AI assistants recommend them when local business owners ask for an accountant, who is recommended instead, or why",
+        "mechanism": "Free domain-in AI visibility scan plus a £19.99/mo plain-language monthly digest of visibility changes and prioritised actions",
+        "keywords": [
+          "AI visibility",
+          "generative engine optimisation",
+          "GEO",
+          "accountancy",
+          "contractor IR35",
+          "monthly digest"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/geonerd",
+        "dossier": "ideas/geonerd/dossier.md",
+        "decision": "ideas/geonerd/decision.md",
+        "scorecard": "ideas/geonerd/scorecard.json"
+      },
+      "review": {
+        "status": "requested",
+        "path": "reviews/2026-09-20-geonerd-review-request.md"
+      },
+      "experiment": {
+        "id": "geonerd-demand-spike",
+        "status": "proposed",
+        "approval": {
+          "required": true,
+          "granted": false
+        },
+        "plan": "experiments/geonerd-demand-spike/plan.md"
+      }
+    },
+    {
+      "id": "shiftswap",
+      "slug": "shiftswap",
+      "title": "ShiftSwap: last-minute shift cover for UK hospitality",
+      "state": "killed",
+      "discovered": "2026-09-20",
+      "updated": "2026-09-20",
+      "evidence_level": "Plausible",
+      "score": 45.3,
+      "confidence": "medium",
+      "fingerprint": {
+        "buyer": "Small UK hospitality venue owners/GMs (1-5 sites); duty managers and hourly staff as users",
+        "problem": "Last-minute absences leave shifts uncovered, forcing managers to phone around or close sections",
+        "mechanism": "Standalone shift-cover app/marketplace where staff offer and claim shifts, with manager approval",
+        "keywords": [
+          "hospitality",
+          "shift swaps",
+          "rota software",
+          "staff absences",
+          "UK venues"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/shiftswap",
+        "dossier": "ideas/shiftswap/dossier.md",
+        "decision": "ideas/shiftswap/decision.md",
+        "scorecard": "ideas/shiftswap/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    },
+    {
+      "id": "wonkybox",
+      "slug": "wonkybox",
+      "title": "WonkyBox: local surplus-produce subscription",
+      "state": "killed",
+      "discovered": "2026-09-20",
+      "updated": "2026-09-20",
+      "evidence_level": "Plausible",
+      "score": 36.8,
+      "confidence": "medium",
+      "fingerprint": {
+        "buyer": "Food-waste-conscious UK households buying a weekly grocery box",
+        "problem": "Odd-shaped and surplus produce goes to waste while households want affordable fresh food",
+        "mechanism": "Local weekly surplus-produce box subscription at roughly £10-£18 per box, delivered or collected",
+        "keywords": [
+          "surplus produce",
+          "wonky veg",
+          "subscription box",
+          "food waste",
+          "DTC grocery"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/wonkybox",
+        "dossier": "ideas/wonkybox/dossier.md",
+        "decision": "ideas/wonkybox/decision.md",
+        "scorecard": "ideas/wonkybox/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    },
+    {
+      "id": "grantscout",
+      "slug": "grantscout",
+      "title": "GrantScout: matched UK grant digest for small businesses",
+      "state": "killed",
+      "discovered": "2026-09-20",
+      "updated": "2026-09-20",
+      "evidence_level": "Plausible",
+      "score": 62.1,
+      "confidence": "medium",
+      "fingerprint": {
+        "buyer": "UK SME owners/directors, or their accountants and advisers",
+        "problem": "Eligible grant schemes are hard to find and interpret, and missing funding is a direct loss",
+        "mechanism": "Monthly matched grant digest (£15-£29/mo) with plain-language eligibility and deadlines",
+        "keywords": [
+          "UK grants",
+          "SME funding",
+          "grant matching",
+          "accountants",
+          "monthly digest"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/grantscout",
+        "dossier": "ideas/grantscout/dossier.md",
+        "decision": "ideas/grantscout/decision.md",
+        "scorecard": "ideas/grantscout/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    }
+  ]
+}

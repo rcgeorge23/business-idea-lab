@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "run_id": "20260920T210455Z-smoke",
+  "mode": "smoke",
+  "status": "success",
+  "started_at": "2026-09-20T21:04:55Z",
+  "finished_at": "2026-09-20T21:05:03Z",
+  "agent": "idea-worker",
+  "model": "opencode-go/deepseek-v4.1-flash",
+  "method_version": "1.0.0",
+  "input_revision": "uncommitted",
+  "output_revision": "uncommitted",
+  "attempts": 1,
+  "timeout_seconds": 3600,
+  "max_cost_usd": 1.0,
+  "cost_usd": 0.005156,
+  "tokens": {
+    "input": 34346,
+    "output": 7,
+    "reasoning": 0,
+    "cache_read": null,
+    "cache_write": null,
+    "total": 34353
+  },
+  "changed_files": [
+    ".env.example",
+    ".gitignore",
+    ".opencode/",
+    "AGENTS.md",
+    "README.md",
+    "evidence/",
+    "experiments/",
+    "ideas/",
+    "method/",
+    "opencode.jsonc",
+    "retrospectives/",
+    "reviews/",
+    "scripts/",
+    "templates/"
+  ],
+  "validation": {
+    "status": "pass",
+    "errors": []
+  },
+  "summary_path": null
+}
