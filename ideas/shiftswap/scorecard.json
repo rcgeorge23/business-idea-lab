@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.2.0",
+  "method_version": "1.3.0",
   "weights_version": "1.2.0",
   "idea_id": "shiftswap",
   "slug": "shiftswap",
@@ -24,7 +24,7 @@
       "evidence": [
         "evidence/shiftswap/2026-09-20-incumbent-rota-software.md"
       ],
-      "rationale": "Venue owners control a small software budget but it is anchored to £0-£49/mo commodity tools, leaving little headroom."
+      "rationale": "Venue owners control a small software budget but it is anchored to \u00a30-\u00a349/mo commodity tools, leaving little headroom."
     },
     "evidence_strength": {
       "weight": 15,
@@ -78,7 +78,7 @@
       "evidence": [
         "evidence/shiftswap/2026-09-20-incumbent-rota-software.md"
       ],
-      "rationale": "Advertised alternatives at £0, £9, £10 and £49/mo leave no defensible price above acquisition cost."
+      "rationale": "Advertised alternatives at \u00a30, \u00a39, \u00a310 and \u00a349/mo leave no defensible price above acquisition cost."
     },
     "founder_fit": {
       "weight": 5,
@@ -100,7 +100,7 @@
   "hard_filters": {
     "economic_buyer": {
       "status": "pass",
-      "note": "Venue owner/GM controls a small software budget, though anchored to £0-£49/mo commodity tools.",
+      "note": "Venue owner/GM controls a small software budget, though anchored to \u00a30-\u00a349/mo commodity tools.",
       "evidence": [
         "evidence/shiftswap/2026-09-20-incumbent-rota-software.md"
       ],
@@ -134,7 +134,7 @@
     },
     "plausible_margins": {
       "status": "fail",
-      "note": "Advertised alternatives at £0/£9/£10/£49 per month leave no viable price above cost of acquisition.",
+      "note": "Advertised alternatives at \u00a30/\u00a39/\u00a310/\u00a349 per month leave no viable price above cost of acquisition.",
       "evidence": [],
       "resolve_via": ""
     },

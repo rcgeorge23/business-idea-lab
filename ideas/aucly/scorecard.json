@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.2.0",
+  "method_version": "1.3.0",
   "weights_version": "1.2.0",
   "idea_id": "aucly",
   "slug": "aucly",
@@ -26,7 +26,7 @@
         "evidence/aucly/2026-09-21-pricing-and-payments.md",
         "evidence/aucly/2026-09-21-competitive-landscape.md"
       ],
-      "rationale": "The buyer is identifiable (PTA chair/committee, school fundraiser, small charity organiser) with budget authority over the event. Aucly's £60/£120 paid tiers and incumbent commission pricing show the budget line exists. The roughly seven paid auctions are owner-supplied and unverified, so this is not a 4."
+      "rationale": "The buyer is identifiable (PTA chair/committee, school fundraiser, small charity organiser) with budget authority over the event. Aucly's \u00a360/\u00a3120 paid tiers and incumbent commission pricing show the budget line exists. The roughly seven paid auctions are owner-supplied and unverified, so this is not a 4."
     },
     "evidence_strength": {
       "weight": 15,
@@ -46,7 +46,7 @@
       "evidence": [
         "evidence/aucly/2026-09-21-seo-and-acquisition.md"
       ],
-      "rationale": "Negative primary evidence: a substantial SEO investment produced 45 GSC clicks and 2,333 recorded visitors in the export window with 0 accounts, 0 auctions launched and £0 revenue; queries are brand-dominated. No unpaid channel has demonstrated it can reach organisers, so the plausible-only cap applies."
+      "rationale": "Negative primary evidence: a substantial SEO investment produced 45 GSC clicks and 2,333 recorded visitors in the export window with 0 accounts, 0 auctions launched and \u00a30 revenue; queries are brand-dominated. No unpaid channel has demonstrated it can reach organisers, so the plausible-only cap applies."
     },
     "differentiation": {
       "weight": 10,
@@ -83,7 +83,7 @@
         "evidence/aucly/2026-09-21-pricing-and-payments.md",
         "evidence/aucly/2026-09-21-build-and-operating-burden.md"
       ],
-      "rationale": "Flat £0/£60/£120 one-off pricing caps revenue per organiser per event; with roughly seven unverified paid auctions, per-auction contribution after hosting, email and founder time is not quantified. Modelled-only economics cap at 2."
+      "rationale": "Flat \u00a30/\u00a360/\u00a3120 one-off pricing caps revenue per organiser per event; with roughly seven unverified paid auctions, per-auction contribution after hosting, email and founder time is not quantified. Modelled-only economics cap at 2."
     },
     "founder_fit": {
       "weight": 5,
@@ -108,7 +108,7 @@
   "hard_filters": {
     "economic_buyer": {
       "status": "pass",
-      "note": "PTA/school/charity organisers control the event budget and already pay for auction platforms in the category (commission or managed services); Aucly's own paid tiers exist at £60/£120.",
+      "note": "PTA/school/charity organisers control the event budget and already pay for auction platforms in the category (commission or managed services); Aucly's own paid tiers exist at \u00a360/\u00a3120.",
       "evidence": [
         "evidence/aucly/2026-09-21-pricing-and-payments.md",
         "evidence/aucly/2026-09-21-competitive-landscape.md"
@@ -117,7 +117,7 @@
     },
     "painful_frequent_or_budgeted": {
       "status": "pass",
-      "note": "Fundraising auctions are a recurring annual job for schools/PTAs, and the recorded Furzedown auction shows engaged organisers and bidders (44 lots, 63 unique bidders, 1,074 bids, £2,265 raised).",
+      "note": "Fundraising auctions are a recurring annual job for schools/PTAs, and the recorded Furzedown auction shows engaged organisers and bidders (44 lots, 63 unique bidders, 1,074 bids, \u00a32,265 raised).",
       "evidence": [
         "evidence/aucly/2026-09-21-live-auctions-and-customers.md"
       ],
@@ -149,7 +149,7 @@
     },
     "plausible_margins": {
       "status": "unknown",
-      "note": "£60/£120 per auction against Railway hosting, Brevo email and continuing founder maintenance; per-auction contribution is not quantified.",
+      "note": "\u00a360/\u00a3120 per auction against Railway hosting, Brevo email and continuing founder maintenance; per-auction contribution is not quantified.",
       "evidence": [
         "evidence/aucly/2026-09-21-pricing-and-payments.md",
         "evidence/aucly/2026-09-21-build-and-operating-burden.md"

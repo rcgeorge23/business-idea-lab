@@ -165,9 +165,9 @@ The Aucly calibration keeps a no-hindsight pre-launch reconstruction
 (`ideas/aucly/pre-launch-assessment.md`; 49.5, parked, cheap test proposed) and
 a current-state assessment on real operating evidence (`ideas/aucly/dossier.md`;
 60.0, parked, early commercial evidence only). The independent ChatGPT
-critiques (GeoNerd review request v2, method v1.1.0 and method v1.2.0 requests,
-and the shiftswap false-negative audit) are **still pending**, so the loop's
-output must not yet be treated as trusted.
+critiques (GeoNerd review request v2, method v1.1.0, v1.2.0 and v1.3.0
+requests, and the shiftswap false-negative audit) are **still pending**, so the
+loop's output must not yet be treated as trusted.
 
 ## Status
 
@@ -183,6 +183,24 @@ output must not yet be treated as trusted.
   review requests are open for v1.1.0 and v1.2.0
   (`reviews/2026-09-21-method-v1.1.0-review-request.md`,
   `reviews/2026-09-21-method-v1.2.0-review-request.md`).
+- Method 1.3.0 (2026-09-21) is **discovery-only**: candidates must investigate
+  second-order operational effects and prefer an awkward workflow/integration
+  seam over a generic compliance product; the seed register is reviewed at run
+  start and seeds never inherit their parent's scores or evidence; each
+  candidate's provenance (`seed:<slug>` or `fresh`) and second-order analysis
+  are recorded, and the summary carries a convergence assessment. Scoring
+  weights, threshold and hard-filter semantics are unchanged at 1.2.0. Review
+  request: `reviews/2026-09-21-method-v1.3.0-review-request.md`.
+- Latest run `20260921T081223Z-normal` (USD 0.008245): seed register reviewed
+  (one seed dropped, one kept with reasons, one new non-inheriting seed), two
+  fresh candidates, `wastetrack` killed (#9) on `defensible_wedge` and
+  `bikpayroll` parked at `desk-screened` (50.5) with a desk-only incumbent
+  capability scan proposed; **0 advances**. The convergence review
+  (`retrospectives/2026-09-21-issue4-convergence-review.md`) finds discovery is
+  **not yet converging**: the `defensible_wedge` cluster now spans six
+  candidates. It is flagged for review rather than the filter being weakened,
+  and the next run is directed to search at least one non-regulatory source
+  class and to re-check further seeds.
 - GeoNerd is parked at `adversarially-researched` with score 49.5 (down from
   65.3 under the looser 1.0.0 semantics), an independent review requested
   (`reviews/2026-09-21-geonerd-review-request-v2.md`) and a proposed

@@ -12,17 +12,31 @@ Before doing anything else:
 3. Handle any outstanding `changes-requested` reviews first, then follow the run
    protocol in order, respecting every limit in it.
 
-Discovery expectations for this run (method 1.2.0):
+Discovery expectations for this run (method 1.3.0):
 
 - Generate candidates only from identified discontinuities, not from generic startup
   ideas. Every candidate needs an evidenced "why now?" per `method/discovery.md`
   (what changed, when, evidence, why it materially improves the opportunity, whether
   competitors responded). A missing/unevidenced why-now caps the score and is a reason
   to reject a crowded candidate.
+- Review the seed register (`seeds/index.json`) at the start: list unexplored seeds and
+  shallowly re-check the most promising against current evidence and incumbents. A seed
+  becomes a candidate only after full fresh research (own evidence, hard filters,
+  scorecard) and never inherits the parent's score or evidence level. Do not run a
+  seed-only cycle: also search for fresh discontinuities.
+- Look beyond the obvious first-order product. For each discontinuity, investigate
+  second-order operational effects (manual handoffs, re-keying, reconciliation,
+  evidence collection, exception handling, status chasing, awkward exports/imports,
+  mandated data transformations, integration gaps, workflow steps incumbents handle
+  poorly, newly automatable human review, underserved subsegments). Prefer an awkward
+  operational seam over a generic compliance/dashboard product, or record why the
+  first-order product is genuinely better.
+- Record in the run summary: the seed register review, source classes searched, why-now
+  quality (strong | weak | absent) per candidate, provenance (`seed:<slug>` | `fresh`),
+  the second-order seam per candidate, and whether discovery is converging on less
+  obvious opportunities or repeating one class of rejection.
 - Run the novelty/incumbent sanity check before deep research and record it in the
   dossier.
-- Record in the run summary which source classes you searched and the why-now quality
-  (strong | weak | absent) per candidate.
 - Hard filters use `pass` | `unknown` | `fail`; `pass` requires cited evidence, an
   assumption or analogy can only produce `unknown` with a `resolve_via`, and a `fail`
   kills. Never present an `unknown` as a pass.

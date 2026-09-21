@@ -24,22 +24,29 @@ be reviewed by the human owner before keeping them.
 
 ## One run, in order
 
-1. **Orientation.** Read `ideas/index.json`, `seeds/index.json`, all active experiments
-   (`experiments/index.json`), the review queue, the most recent retrospectives, the
-   discovery log of recent runs (source classes already searched), and the decision
-   records of recently killed ideas. Note any `changes-requested` reviews: these MUST be
-   answered in this run (see step 9).
+1. **Orientation.** Read `ideas/index.json`, `seeds/index.json` (list the `unexplored`
+   and `exploring` seeds and identify the most relevant or promising ones for a shallow
+   re-check), all active experiments (`experiments/index.json`), the review queue, the
+   most recent retrospectives, the discovery log of recent runs (source classes already
+   searched), and the decision records of recently killed ideas. Note any
+   `changes-requested` reviews: these MUST be answered in this run (see step 9).
 2. **Unreviewed check.** Count ideas with `state == discovered`. If >= 10, generate no
    new candidates this run and say so in the run summary.
 3. **Hunt discontinuities (<= 3 candidates, only if step 2 allows).** Follow
    `method/discovery.md`: search source classes for something that recently changed, form
    candidates around it, and require each to complete "This was not an attractive
    business three years ago, but it might be now because ___ changed." An idea generated
-   merely because a problem exists is rejected at this step. Apply the duplicate
-   detection rules in `method/discovery.md` (slug/title collision; same buyer AND
-   problem AND mechanism/keywords; variant of a killed idea that does not address the
-   recorded kill reason). Record the source classes actually searched for the run
-   summary.
+   merely because a problem exists is rejected at this step. Candidates may come from
+   fresh discovery (`fresh`) or from a shallow re-check of an existing seed that is then
+   researched from scratch (`seed:<slug>`); a run is never seed-only. Before promoting a
+   candidate, investigate the second-order effects of the change and prefer an awkward
+   workflow/integration seam to a generic compliance/dashboard product; if the
+   first-order product is chosen, record why the second-order options were weaker
+   (`method/discovery.md`). Apply the duplicate detection rules in `method/discovery.md`
+   (slug/title collision; same buyer AND problem AND mechanism/keywords; variant of a
+   killed idea that does not address the recorded kill reason). Record the source classes
+   actually searched, the candidates' provenance, and their second-order analysis for the
+   run summary.
 4. **Novelty / incumbent sanity check.** Before any deep research, run the screening
    checklist in `method/discovery.md` (exact product exists? multiple credible providers?
    wedge already a standard feature? adequate free/authoritative alternative? incumbent
@@ -84,8 +91,10 @@ be reviewed by the human owner before keeping them.
     until a later run researches it from scratch.
 12. **Run summary.** Write `runs/<run-id>/summary.md`: what advanced, what was killed,
     what failed, what needs human input, limits hit, the source classes searched, the
-    why-now quality of generated candidates, and the review queue after the run. Update
-    `ideas/index.json` counters and `experiments/index.json`. Do not commit.
+    why-now quality of generated candidates, each candidate's provenance (`seed:<slug>`
+    or `fresh`) and second-order seam, whether discovery is converging on less obvious
+    opportunities or repeating one class of rejection, and the review queue after the
+    run. Update `ideas/index.json` counters and `experiments/index.json`. Do not commit.
 
 ## Output contract
 
@@ -134,7 +143,7 @@ Every run writes `runs/<run-id>/run.json`:
   "finished_at": "ISO-8601",
   "agent": "idea-worker",
   "model": "opencode-go/deepseek-v4.1-flash",
-  "method_version": "1.1.0",
+  "method_version": "1.3.0",
   "input_revision": "git sha or 'none'",
   "output_revision": "git sha or 'none (uncommitted)'",
   "attempts": 1,

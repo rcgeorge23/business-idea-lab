@@ -72,6 +72,27 @@ of the first run, so that the run exercises the real generation and kill path.
 4. **Method 1.2.0 review requested** (`reviews/2026-09-21-method-v1.2.0-review-request.md`);
    outcome to be recorded in `method/CHANGELOG.md` and answered in a later run.
 
+## Regression checks under method 1.3.0 (2026-09-21, issue #4)
+
+1. **Discovery-only change.** 1.3.0 adds second-order effects guidance, seed-aware
+   discovery and candidate-provenance/convergence recording. Scoring weights,
+   threshold and hard-filter semantics are unchanged at 1.2.0 and no score moved;
+   the validator passes on one coherent method version.
+2. **Post-change run** `20260921T081223Z-normal` (USD 0.008245): the seed register
+   was reviewed at run start (`uk-epr-small-producer-tooling` dropped,
+   `corporate-property-aml-monitor` kept with reasons, one new non-inheriting seed
+   from a rejection); two candidates were generated, both `fresh` with a recorded
+   second-order analysis. `wastetrack` was killed (#9) on `defensible_wedge`
+   against 54-79 approved providers; `bikpayroll` was parked at `desk-screened`
+   (50.5, six `unknown` filters with `resolve_via`) with a desk-only incumbent
+   scan proposed. Nothing advanced.
+3. **Convergence flagged, filter untouched.** The `defensible_wedge` cluster
+   spanning `vetcma`, `prsregister`, `propident`, `packproof`, `agentready` and
+   `wastetrack` is recorded as "not converging yet" in the run summary and in
+   `retrospectives/2026-09-21-issue4-convergence-review.md`; the filter was not
+   weakened, and the next-run actions (non-regulatory source class, seed
+   re-checks, `bikpayroll` scan) were recorded instead.
+
 ## Procedure
 
 1. Human owner triggers a normal run: `scripts/run.sh` (after reviewing a dry run with
@@ -108,6 +129,8 @@ Calibration is complete when:
 | Post-change discovery run | worker | done | 2026-09-21 | `runs/20260921T065316Z-normal`; 3 discontinuity candidates, 2 kills, 1 parked; source classes + why-now recorded; reviewed in `retrospectives/2026-09-21-issue2-delta-review.md` |
 | False-negative audit (kill #5) | worker + reviewer | requested | 2026-09-21 | `reviews/2026-09-21-false-negative-audit-request.md` (shiftswap self-audit recorded) |
 | Aucly calibration (issue #3) | worker | done | 2026-09-21 | Pre-launch 49.5 parked + today 60.0 parked; twelve-question review and fixture comparison in `ideas/aucly/decision.md`; method 1.2.0 review requested |
+| Method 1.3.0 discovery refinement (issue #4) | worker | done | 2026-09-21 | Second-order effects + seed-aware discovery + provenance/convergence recording; weights unchanged (1.2.0); review requested (`reviews/2026-09-21-method-v1.3.0-review-request.md`) |
+| Post-change discovery run (issue #4) | worker | done | 2026-09-21 | `runs/20260921T081223Z-normal`; seed register reviewed; 2 fresh candidates; 1 kill on `defensible_wedge`, 1 parked; convergence flag reviewed in `retrospectives/2026-09-21-issue4-convergence-review.md` |
 | ChatGPT review response recorded | human | pending | | `reviews/<date>-geonerd-chatgpt.md` |
 | Worker response to review | human | pending | | next run |
 | Retrospective + tuning | human | pending | | `retrospectives/` |

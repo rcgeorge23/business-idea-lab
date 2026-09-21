@@ -38,6 +38,39 @@ A run need not cover every class, but it must search across several and record w
 classes it searched in the run summary. Rotating deliberately across classes is
 expected; repeatedly mining one class is a reason to justify the choice.
 
+## Second-order effects
+
+A discontinuity usually invites an obvious first-order product: a compliance dashboard,
+a checklist, a reminder service, a registration helper. That response is often quick to
+build and equally quick for incumbents to absorb — the first 2026-mandate candidates
+died exactly there (`vetcma`, `prsregister`, `propident`,
+run `20260921T075410Z-normal`).
+
+Before promoting a candidate, investigate what the change does to the *work around* the
+obvious product. Look explicitly for a second-order problem:
+
+| Second-order effect | What to look for |
+|---|---|
+| Manual handoffs between systems | Work that now has to move between two systems that do not talk |
+| Duplicate entry / re-keying | The same data now entered into a new portal as well as the old system |
+| Reconciliation | Money, quantities or records that must now be matched across sources |
+| Evidence / document collection | New duties requiring per-case documents gathered and evidenced |
+| Exception handling | Cases that do not fit the standard process and stall |
+| Status chasing | Chasing counterparties, authorities or suppliers for progress |
+| Awkward exports / imports | Formats that must be transformed by hand or via scripts |
+| Mandated structured-data transformations | New schemas that must be derived from legacy records |
+| Integration gaps between incumbents | Two incumbent tools whose overlap is now an operational seam |
+| New workflow steps incumbents handle poorly | Steps grafted onto software not designed for them |
+| Expensive human review newly automatable | Review work that current models can do or pre-screen |
+| Underserved subsegments | Buyers for whom incumbent solutions are disproportionately costly or complex |
+
+Prefer a candidate built on an awkward operational seam over a generic
+dashboard/checklist/compliance product. The preference is not a requirement to invent a
+second-order opportunity where the evidence does not support one: if the direct
+first-order product is genuinely the best opportunity, record why the second-order
+options were weaker. What is not acceptable is promoting the obvious product without
+looking.
+
 ## Why now?
 
 Every candidate records `why_now` in `ideas/index.json` and a "Why now?" section in its
@@ -77,6 +110,25 @@ practice to self-serve configuration we can remove").
    category leader losing money at scale)?
 6. Is this merely a feature of an established category rather than a standalone product?
 
+## Seed-aware discovery
+
+Seeds are an input to discovery, not a museum. At the start of every normal run, review
+`seeds/index.json`:
+
+1. List the seeds with status `unexplored` (and re-read any `exploring` ones).
+2. Shallowly re-check the most relevant or promising seeds against current public
+   evidence: has the discontinuity strengthened, weakened, or been captured by an
+   incumbent? This is a short check, not a full dossier.
+3. A seed may become a candidate only after the same research a fresh discovery would
+   get: its own fingerprint, evidence register, hard filters and scorecard. It never
+   inherits the parent idea's score, evidence level, hard-filter results or favourable
+   assumptions.
+4. Record provenance for every candidate: `seed:<seed-slug>` or `fresh`. A run is not
+   seed-only: fresh discontinuity hunting remains required, and seeds that do not
+   survive the shallow check stay seeds (update their status, or note in the run
+   summary why they remain `unexplored`).
+5. The candidate limit (3 per run) is unchanged; provenance does not add an allowance.
+
 ## Duplicate detection
 
 Before creating a candidate, check against every entry in `ideas/index.json` and every
@@ -107,4 +159,11 @@ without resurrecting the killed idea:
 - The run summary lists the source classes searched and what they yielded.
 - The run summary states, for each generated candidate, whether its why-now is
   evidenced (`strong` | `weak` | `absent`).
+- The run summary states each candidate's provenance (`seed:<seed-slug>` or `fresh`)
+  and, where a second-order seam exists, the seam the candidate addresses and why it
+  was preferred to the obvious first-order product.
+- The run summary answers whether discovery appears to be converging on less obvious,
+  better-defended opportunities, or repeatedly finding and rejecting the same class of
+  candidate. A recurring cluster of `defensible_wedge` kills is a signal to review
+  discovery — not to weaken the filter.
 - Rejected candidates keep their why-now analysis in the decision record.

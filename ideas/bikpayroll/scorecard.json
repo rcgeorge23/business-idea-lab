@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "method_version": "1.3.0",
+  "weights_version": "1.2.0",
+  "idea_id": "bikpayroll",
+  "slug": "bikpayroll",
+  "title": "Benefits-in-kind payroll data bridge (April 2027 mandate)",
+  "state": "desk-screened",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/bikpayroll/2026-09-21-mandatory-bik-payrolling.md"
+      ],
+      "rationale": "The obligation is dated, primary-evidenced and recurring (monthly payroll from 2027-04-06), but buyer-felt severity is undemonstrated: voluntary payrolling has supported per-period BiK values for years, and no employer/bureau pain or failed workaround is cited. Mandate is market context, not demand. Cap: problem asserted without buyer-side evidence => max 2."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/bikpayroll/2026-09-21-mandatory-bik-payrolling.md"
+      ],
+      "rationale": "Buyer hypothesis (SME finance/payroll or bureau principal) is identifiable but no budget owner, budget line or comparable existing spend is evidenced. ADP/Saffery recommendations are advisory content, which is not demand."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/bikpayroll/2026-09-21-mandatory-bik-payrolling.md"
+      ],
+      "rationale": "Strong dated primary sources (HMRC policy paper, SI 2026/189) corroborated by ATT/CIOT/ICAEW and vendor commentary. Adequate for the market/regulatory facts, but no primary evidence about buyer behaviour, incumbents or willingness to pay."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/bikpayroll/2026-09-21-mandatory-bik-payrolling.md"
+      ],
+      "rationale": "Channels (bureau networks, accountant/payroll communities, software marketplaces) are plausible but untested with no prospects. Cap: channel plausible, no prospects => max 2."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/bikpayroll/2026-09-21-mandatory-bik-payrolling.md"
+      ],
+      "rationale": "Wedge is contested: the seam has existed under voluntary payrolling since 2016 and payroll vendors are building the adjacent RTI fields; no cited incumbent already ingests provider data, but the data owners can self-supply. Cap: incumbent/adjacent contest => max 2."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "experiments/bikpayroll-incumbent-capability/plan.md"
+      ],
+      "rationale": "Decisive disconfirmation available in ≤3 days at £0 via a desk capability scan with pre-fixed thresholds; a WTP test is also cheap (≤20 human-hours) once the scan survives."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/bikpayroll/2026-09-21-mandatory-bik-payrolling.md"
+      ],
+      "rationale": "Ingestion/normalisation of provider exports into payroll import formats is ordinary integration work; the hard part is provider cooperation and per-product formats, not novel technology."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/bikpayroll/2026-09-21-mandatory-bik-payrolling.md"
+      ],
+      "rationale": "Pricing and margin are modelled assumptions on untested inputs; if provider data must be chased manually the business is services-like and thin. Cap: modelled economics on untested inputs => max 2, low confidence."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": "No evidence recorded on founder fit."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/bikpayroll/2026-09-21-mandatory-bik-payrolling.md"
+      ],
+      "rationale": "Handles payroll and medical-benefit personal data (privacy/trust exposure, DPIA and security needed) and depends on payroll-vendor import formats and provider cooperation; no regulated activity identified. Manageable but not yet mitigated."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "unknown",
+      "note": "Buyer hypothesis exists but no budget owner or comparable spend is evidenced.",
+      "evidence": [],
+      "resolve_via": "Bureau/employer interviews confirming who owns the budget and what they spend today on P11D/benefit administration."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "unknown",
+      "note": "Obligation is recurring and dated; buyer-felt pain and willingness to pay are unproven.",
+      "evidence": [],
+      "resolve_via": "Willingness-to-pay test (escalation experiment) after the capability scan survives."
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "Bureau/accountant channels plausible; no prospects or channel tests.",
+      "evidence": [],
+      "resolve_via": "Channel test: measure whether bureaus/accountant networks engage without paid acquisition."
+    },
+    "defensible_wedge": {
+      "status": "unknown",
+      "note": "No cited incumbent ingests provider BiK data, so fail cannot be affirmed; but the seam is decade-old under voluntary payrolling, vendors are building adjacent RTI fields, and data owners can self-supply.",
+      "evidence": [],
+      "resolve_via": "bikpayroll-incumbent-capability desk scan: do >=3 providers supply machine-readable per-period data free, or >=2 platforms ingest it?"
+    },
+    "no_network_effects_needed": {
+      "status": "pass",
+      "note": "Single-sided ingestion tool; value does not depend on other users joining.",
+      "evidence": [
+        "evidence/bikpayroll/2026-09-21-mandatory-bik-payrolling.md"
+      ],
+      "resolve_via": ""
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "Software margin only if ingestion is automated; services burden if providers must be chased.",
+      "evidence": [],
+      "resolve_via": "Build/desk estimate of automation coverage plus pilot unit economics."
+    },
+    "acceptable_risk": {
+      "status": "unknown",
+      "note": "Payroll and medical-benefit personal data; privacy/trust and platform-dependency risk not yet assessed.",
+      "evidence": [],
+      "resolve_via": "DPIA and security review before any pilot; confirm no regulated activity."
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "Desk-only capability scan with pre-fixed kill thresholds: GBP 0, <=6 human-hours, <=3 calendar days.",
+      "evidence": [
+        "experiments/bikpayroll-incumbent-capability/plan.md"
+      ],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Viability currently requires several independent optimistic assumptions (providers do not self-supply, vendors do not bundle, buyers pay, channel works).",
+      "evidence": [],
+      "resolve_via": "Capability scan, then willingness-to-pay test; re-score if any optimistic assumption fails."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 95,
+    "raw_weighted_points": 48.0,
+    "weighted_total": 50.5,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "low",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": "bikpayroll-incumbent-capability",
+    "status": "proposed",
+    "plan": "experiments/bikpayroll-incumbent-capability/plan.md",
+    "results": null
+  }
+}

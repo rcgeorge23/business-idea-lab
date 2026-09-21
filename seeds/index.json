@@ -1,11 +1,12 @@
 {
   "schema_version": 1,
-  "method_version": "1.2.0",
+  "method_version": "1.3.0",
   "updated": "2026-09-21",
   "counts": {
-    "total": 6,
+    "total": 7,
     "by_status": {
-      "unexplored": 6
+      "unexplored": 6,
+      "dropped": 1
     }
   },
   "seeds": [
@@ -46,10 +47,11 @@
       "observation": "The PackProof kill found the EU PPWR compliance-software space crowded (PPWR Copilot, PPWRify, PPWR Connect, Trace One and others). UK EPR for packaging is a distinct regime from EU PPWR: large UK producers register annually, report every six months, buy PRNs/PERNs and pay the PackUK waste disposal fee, while small producers register and report by 1 April with data-retention duties. The EU-focused PPWR vendors may not serve this UK-only workflow.",
       "why_materially_different": "It addresses a different regulation and buyer (UK EPR obligations for UK producers, not EU PPWR duties for exporters into the EU) with a different job (recurring registration, reporting and PRN/PERN obligations rather than packaging dossiers and Declarations of Conformity), against a different competitive set (UK EPR compliance schemes and obligated-producer reporting tools). It must be researched from scratch and may fail the same wedge and regulation filters.",
       "recorded": "2026-09-21",
-      "status": "unexplored",
+      "status": "dropped",
       "evidence": [
         "ideas/packproof/decision.md",
-        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
+        "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md",
+        "evidence/packproof/2026-09-21-uk-epr-small-producer-recheck.md"
       ]
     },
     {
@@ -88,7 +90,21 @@
       "recorded": "2026-09-21",
       "status": "unexplored",
       "evidence": [
-        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md"
+        "evidence/propident/2026-09-21-hmlr-identifiers-and-incumbents.md",
+        "evidence/propident/2026-09-21-corporate-ownership-data-shallow-recheck.md"
+      ]
+    },
+    {
+      "id": "cross-border-green-list-waste-bridge",
+      "slug": "cross-border-green-list-waste-bridge",
+      "title": "UK/EU green-list waste shipment documentation bridge",
+      "origin_idea": "wastetrack",
+      "observation": "The WasteTrack kill found the domestic receiver-side digital waste tracking market saturated, but noted that the EU's Digital Waste Shipment System (DIWASS) became the mandatory route for transboundary waste shipments from 21 May 2026 with reported adoption only ~18.1% of ~137,000 eligible operators, while UK green-list (Article 18) tracking was deferred to a future UK DWT phase and waste carrier/broker/dealer registration becomes permit-based from 22 July 2027.",
+      "why_materially_different": "It is a cross-border shipment notification/documentation job for UK exporters, brokers and forwarding intermediaries, not domestic receiver record-keeping; it faces EU DIWASS compliance tooling and freight/customs software rather than the Defra-approved domestic provider list. It must be researched from scratch and may fail on whether the UK-side duty is felt and whether forwarders already perform it.",
+      "recorded": "2026-09-21",
+      "status": "unexplored",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
       ]
     }
   ]

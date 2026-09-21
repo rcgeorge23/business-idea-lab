@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "method_version": "1.3.0",
+  "weights_version": "1.2.0",
+  "idea_id": "wastetrack",
+  "slug": "wastetrack",
+  "title": "WasteTrack: receiver-side digital waste tracking records",
+  "state": "killed",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "rationale": "Mandatory per-load digital records and two-working-day submission from 1 October 2026, evidenced by SI 2026/729 and GOV.UK service guidance."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "rationale": "Operators of ~12,000 permitted facilities are a clear buyer with a mandated £26/year statutory fee, but a new entrant's budget is unproven."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 4,
+      "confidence": "high",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "rationale": "Primary legislation plus GOV.UK service design and an official approved-provider list; crowding counts come from credible secondary comparisons."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "rationale": "Capped at 2: trade-body and search routes are plausible but no prospects were tested, and incumbents are embedded."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "high",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "rationale": "Capped at 2: 54-79 approved providers including free tiers, with tracking bundled into weighbridge and waste-management systems."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "rationale": "A receiver-demand test would be cheap and fast, but the wedge evidence makes it unnecessary."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "rationale": "Integration with the report-receipt-of-waste API and approval testing is achievable but adds compliance overhead."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "rationale": "Capped at 2: untested price hypothesis (£15-£40/month/site) against free tiers and a £26/year statutory fee; margins unproven."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": "No evidence about the founder's reach into waste-management operations."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "rationale": "No regulated activity, but regulatory timing and API dependency risk; the decisive risk is competitive, not legal."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "pass",
+      "note": "Operators of ~12,000 permitted waste facilities in England; the £26/year statutory operator fee is already mandated.",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "resolve_via": ""
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "pass",
+      "note": "Per-load digital records must be submitted within two working days from 1 October 2026, with correction duties.",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "resolve_via": ""
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "Trade-body and search routes are plausible, but no prospects were identified against embedded incumbents.",
+      "evidence": [],
+      "resolve_via": "Test whether permitted-site operators would find and buy a new entrant through CIWM/trade media without paid acquisition; moot given the wedge fail."
+    },
+    "defensible_wedge": {
+      "status": "fail",
+      "note": "54-79 approved providers (two independent comparisons), at least two free tiers, tracking bundled into weighbridge/waste-management systems, and a free government spreadsheet fallback expected until at least October 2027.",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "resolve_via": ""
+    },
+    "no_network_effects_needed": {
+      "status": "pass",
+      "note": "Single-site record-keeping tool; no multi-sided network required.",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "resolve_via": ""
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "Modelled £15-£40/month/site against free incumbents and a £26/year statutory fee; unproven.",
+      "evidence": [],
+      "resolve_via": "Only relevant if a wedge existed; measure paid conversion and support cost against a free incumbent."
+    },
+    "acceptable_risk": {
+      "status": "pass",
+      "note": "No regulated activity beyond using an approved government API; no licence to operate required.",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "resolve_via": ""
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "A receiver-demand test is cheap, though the wedge evidence killed the idea before it ran.",
+      "evidence": [
+        "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+      ],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Would require winning share against free/embedded incumbents and timing the October 2027 carrier phase.",
+      "evidence": [],
+      "resolve_via": "Only relevant if a wedge existed; the incumbent evidence makes the optimistic case implausible."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 95,
+    "raw_weighted_points": 56.0,
+    "weighted_total": 58.9,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "medium",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

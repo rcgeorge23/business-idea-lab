@@ -3,7 +3,7 @@
 - **Seed ID / slug:** `uk-epr-small-producer-tooling`
 - **Origin idea:** `packproof` (state: `killed`)
 - **Recorded:** 2026-09-21
-- **Status:** `unexplored`
+- **Status:** `dropped`
 
 > Seeds carry **no score, confidence or evidence level**. They are observations
 > preserved from a rejection, not candidates. A seed does not inherit anything from its
@@ -52,3 +52,4 @@ failed the defensible-wedge filter. During that review a separate regime was not
 | Date | Status | Note |
 |---|---|---|
 | 2026-09-21 | unexplored | Recorded from the PackProof kill; no research performed yet. |
+| 2026-09-21 | dropped | Shallow re-check (run `20260921T081223Z-normal`): small-producer burden is low (registration/report by 1 April, 2025 fee £1,216 plus £332 late), a free GOV.UK reporting service exists, and established compliance schemes (Valpak, ERP, Countrystyle) serve the workflow, so no defensible wedge is visible. Note a source contradiction on whether small producers must buy PRNs/PERNs (Countrystyle says yes; Commons Library CBP-10352 says they are exempt) - recorded as unresolved, not asserted. See `evidence/packproof/2026-09-21-uk-epr-small-producer-recheck.md`. |

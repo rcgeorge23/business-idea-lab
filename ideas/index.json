@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.2.0",
+  "method_version": "1.3.0",
   "updated": "2026-09-21",
   "limits": {
     "max_unreviewed_before_generation_stops": 10,
@@ -8,13 +8,14 @@
     "max_validation_ready_advances_per_run": 1
   },
   "counts": {
-    "total": 11,
+    "total": 13,
     "unreviewed": 0,
     "by_state": {
       "adversarially-researched": 3,
-      "killed": 8
+      "desk-screened": 1,
+      "killed": 9
     },
-    "killed": 8
+    "killed": 9
   },
   "ideas": [
     {
@@ -595,6 +596,111 @@
           "granted": false
         },
         "plan": null
+      }
+    },
+    {
+      "id": "wastetrack",
+      "slug": "wastetrack",
+      "title": "WasteTrack: receiver-side digital waste tracking records",
+      "state": "killed",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 58.9,
+      "confidence": "medium",
+      "fingerprint": {
+        "buyer": "Operators of permitted waste facilities (approx. 12,000) in England; later waste carriers, brokers and dealers",
+        "problem": "From 1 October 2026 permitted operators must keep digital waste records and submit them within two working days, with correction duties and a £26/year statutory fee",
+        "mechanism": "Receiver-side digital waste record tool integrating the report-receipt-of-waste API at a low monthly price",
+        "keywords": [
+          "digital waste tracking",
+          "SI 2026/729",
+          "waste receivers",
+          "Defra approved software",
+          "compliance"
+        ]
+      },
+      "why_now": {
+        "changed": "The Digital Waste Tracking (England) Regulations 2026 (SI 2026/729) were made on 24 June 2026 and come into force on 1 October 2026, mandating digital waste records and two-working-day submission for permitted facility operators",
+        "changed_date": "2026-06-24",
+        "evidence": [
+          "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
+        ],
+        "why_it_matters": "Creates a mandatory, dated, recurring record-keeping and submission duty for a captive population that did not exist three years ago",
+        "competitors_responded": "Yes - a Defra-approved provider list already exists; one comparison catalogues 54 providers (18 Aug 2026) and another states 'around 79', with free tiers and weighbridge/waste-management vendors bundling tracking",
+        "strength": "strong"
+      },
+      "paths": {
+        "dir": "ideas/wastetrack",
+        "dossier": "ideas/wastetrack/dossier.md",
+        "decision": "ideas/wastetrack/decision.md",
+        "scorecard": "ideas/wastetrack/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    },
+    {
+      "id": "bikpayroll",
+      "slug": "bikpayroll",
+      "title": "Benefits-in-kind payroll data bridge (April 2027 mandate)",
+      "state": "desk-screened",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 50.5,
+      "confidence": "low",
+      "fingerprint": {
+        "buyer": "Payroll bureaus and accountants serving SME clients, and SME employers (roughly 10-250 staff) that provide company cars or medical benefits, with no benefits-administration platform",
+        "problem": "From 6 April 2027 income tax and Class 1A NIC on the most common benefits in kind must be reported in real time through payroll, forcing third-party provider data (fleet, insurers, fuel cards) into every pay period instead of an annual P11D reconciliation",
+        "mechanism": "Data bridge that collects, validates and reconciles provider benefit exports into each payroll product's incoming-BiK format, with an exception queue",
+        "keywords": [
+          "payrolling benefits in kind",
+          "P11D",
+          "RTI",
+          "payroll",
+          "Class 1A NIC",
+          "benefits data"
+        ]
+      },
+      "why_now": {
+        "changed": "HMRC confirmed mandatory real-time reporting of benefits in kind through payroll software from 6 April 2027 (company cars, car/van fuel, employer-provided medical benefits; most others from April 2028), and SI 2026/189 (made 14 September 2026) removed the voluntary-registration route from tax year 2027-28",
+        "changed_date": "2026-07-13",
+        "evidence": [
+          "evidence/bikpayroll/2026-09-21-mandatory-bik-payrolling.md"
+        ],
+        "why_it_matters": "A dated mandate moves a recurring, data-dependent reporting obligation into every pay period for a large employer population, on standardised RTI fields that software developers must build",
+        "competitors_responded": "Partially - payroll vendors are building the adjacent RTI fields; no cited product yet does employer-side third-party benefit-data ingestion, but fleet/insurer/fuel-card data owners can self-supply at no separate fee",
+        "strength": "strong"
+      },
+      "paths": {
+        "dir": "ideas/bikpayroll",
+        "dossier": "ideas/bikpayroll/dossier.md",
+        "decision": "ideas/bikpayroll/decision.md",
+        "scorecard": "ideas/bikpayroll/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": "bikpayroll-incumbent-capability",
+        "status": "proposed",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": "experiments/bikpayroll-incumbent-capability/plan.md"
       }
     }
   ]

@@ -4,6 +4,40 @@ Every material change to the method bumps `method/VERSION` and is listed here wi
 review status. Review status values: `not-required` | `requested` | `changes-requested` |
 `approved` | `killed`. See `method/review-policy.md` (section "Method changes").
 
+## 1.3.0 - 2026-09-21
+
+Motivated by issue #4, following the first normal run under method 1.2.0
+(`20260921T075410Z-normal`), where all three candidates had strong dated discontinuities
+but died on `defensible_wedge` because the obvious first-order product was already
+served by incumbents or free alternatives.
+
+Changed (discovery guidance only - scoring, weights, threshold, hard filters and
+evidence semantics unchanged):
+
+- **Second-order effects**: `method/discovery.md` now requires an explicit investigation
+  of the operational seam a discontinuity creates (manual handoffs, re-keying,
+  reconciliation, evidence collection, exception handling, status chasing, awkward
+  imports/exports, mandated data transformations, integration gaps, poor incumbent
+  workflow steps, newly automatable review, underserved subsegments) and prefers an
+  awkward workflow/integration seam to a generic compliance/dashboard product.
+- **Seed-aware discovery**: normal runs must review the seed register at orientation and
+  shallowly re-check the most relevant seeds; a seed becomes a candidate only via full
+  fresh research (own fingerprint, evidence, filters, scorecard) with no inheritance;
+  runs remain explicitly not seed-only.
+- **Provenance and convergence recording**: candidates record provenance
+  (`seed:<slug>` or `fresh`) and their second-order seam; the run summary must assess
+  whether discovery is converging on less obvious opportunities or repeating one class
+  of rejection (and flag it for review rather than weakening a filter).
+- Run protocol steps 1/3/12, AGENTS.md, the worker agent prompt, the lab-run prompt and
+  the run summary template updated to match. Candidate/advance limits (3/1) unchanged.
+
+Regression: weights version stays 1.2.0; no scoring rule, threshold, hard filter or
+evidence level changed, so every existing scorecard keeps its scores. Killed fixtures
+and parked ideas are unaffected by construction.
+
+Review: requested - see `reviews/2026-09-21-method-v1.3.0-review-request.md`. Update this
+entry with the outcome when the review lands and answer it in the next run.
+
 ## 1.2.0 - 2026-09-21
 
 Motivated by issue #3 (Aucly calibration). One narrow, evidence-driven change; all other

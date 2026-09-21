@@ -39,13 +39,19 @@ Hard boundaries — never cross, even if asked in a prompt:
 
 ## Run protocol in one screen
 
-1. Orientation: read `ideas/index.json`, `seeds/index.json`, killed ideas, active
+1. Orientation: read `ideas/index.json`, `seeds/index.json` (list unexplored
+   seeds and pick the most promising for a shallow re-check), killed ideas, active
    experiments, the review queue and the latest retrospectives. Handle any
    outstanding `changes-requested` reviews first.
 2. If 10 or more ideas are unreviewed, **stop generating**.
 3. Otherwise hunt discontinuities and generate at most **3 materially distinct**
-   candidates, each with an evidenced "why now?" (`method/discovery.md`). Record
-   which source classes you searched.
+   candidates, each with an evidenced "why now?" (`method/discovery.md`). Before
+   promoting one, look for a second-order operational seam (manual handoff,
+   re-keying, reconciliation, exception handling, integration gap) and prefer it
+   to a generic compliance/dashboard product. Candidates come from fresh
+   discovery or from a seed re-checked and researched from scratch; runs are never
+   seed-only. Record source classes searched, candidate provenance
+   (`seed:<slug>` | `fresh`) and the second-order analysis.
 4. Run the novelty/incumbent sanity check before deep research.
 5. Apply the 9 hard rejection filters. `pass` needs cited evidence; assumptions
    and analogies give `unknown` with a `resolve_via`; any `fail` kills.
@@ -104,6 +110,8 @@ A run leaves reviewable, committed-ready changes:
 - a run summary at `runs/$LAB_RUN_ID/summary.md` (the wrapper sets
   `LAB_RUN_ID`; run `printenv LAB_RUN_ID` if unsure)
 
-The summary must state: source classes searched, why-now quality per candidate,
-advances, kills, failed/abandoned experiments, decisions awaiting human input,
-and confirmation that no disallowed actions were taken.
+The summary must state: the seed register review, source classes searched,
+why-now quality and provenance (`seed:<slug>` | `fresh`) per candidate, each
+candidate's second-order seam, whether discovery is converging on less obvious
+opportunities, advances, kills, failed/abandoned experiments, decisions awaiting
+human input, and confirmation that no disallowed actions were taken.

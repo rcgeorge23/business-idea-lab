@@ -28,3 +28,9 @@ alerting and workflow rather than lookup price.
 
 This seed does not inherit propident's score, confidence or evidence level. Any
 promotion requires its own research, dossier, evidence register and scorecard.
+
+## Outcome (append-only)
+
+| Date | Status | Note |
+|---|---|---|
+| 2026-09-21 | unexplored | Shallow re-check (run `20260921T081223Z-normal`): no evidence found that the Companies/Overseas identifier tables this seed depends on have shipped; the existing propident defeat (landregistry.company at £1.00/title, CCOD v2026.04, 3,814,226 titles, 98,412 overseas entities) still stands. Remains undeveloped and blocked on the dataset release. See `evidence/propident/2026-09-21-corporate-ownership-data-shallow-recheck.md`. |
