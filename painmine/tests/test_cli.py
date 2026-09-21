@@ -49,13 +49,37 @@ class TestCli(unittest.TestCase):
 
             observations = cli.read_json(os.path.join(out, "observations.json"))
             self.assertTrue(observations)
-            promoted = [o for o in observations if o["triage"] == "promote"]
-            self.assertTrue(1 <= len(promoted) <= 3)
-            self.assertTrue(all(o["discovery_priority"]["band"] == "A" for o in promoted))
+            self.assertLessEqual(len(observations), 20)
+            self.assertTrue(all("triage" not in o for o in observations))
+            self.assertTrue(all("triage_reason" not in o for o in observations))
+            self.assertTrue(all(o["discovery_priority"]["band"] for o in observations))
+            self.assertTrue(all(o["recurrence"]["independent_source_count"] >= 1 for o in observations))
 
             self.assertEqual(cli.main(["validate", "--run-dir", out]), 0)
             self.assertEqual(cli.main(["observations", "--run-dir", out]), 0)
             self.assertEqual(cli.main(["report", "--run-dir", out]), 0)
+
+    def test_pipeline_does_not_touch_idea_ledger(self):
+        root = os.path.abspath(os.path.join(HERE, "..", ".."))
+        ledger = os.path.join(root, "ideas", "index.json")
+        with open(ledger, "rb") as handle:
+            before = handle.read()
+        with tempfile.TemporaryDirectory() as tmp:
+            rc = cli.main(
+                [
+                    "pipeline",
+                    "--offline-fixture",
+                    FIXTURE,
+                    "--out",
+                    os.path.join(tmp, "run"),
+                    "--run-id",
+                    "pm-ledger-check",
+                ]
+            )
+            self.assertEqual(rc, 0)
+        with open(ledger, "rb") as handle:
+            after = handle.read()
+        self.assertEqual(before, after)
 
     def test_unknown_family_exits(self):
         with self.assertRaises(SystemExit):

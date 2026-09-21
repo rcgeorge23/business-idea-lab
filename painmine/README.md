@@ -4,8 +4,8 @@ A bounded, cheap **pain-signal mining** spike for this lab (GitHub issue #9).
 It collects public practitioner statements of recurring business pain,
 extracts them into an auditable schema, collapses duplicates, clusters them
 into candidate opportunity patterns, ranks them by *discovery priority* (not
-business score) and renders the strongest into the Method 1.6 observation-pool
-format.
+business score) and renders the strongest into ranked observation inputs for a
+Method 1.6 discovery run (no Method triage labels, no candidate selection).
 
 > **Status: spike / ITERATE.** See [`SPIKE-REPORT.md`](SPIKE-REPORT.md) for
 > the Part 10 evaluation, measured results and the recommendation. This
@@ -84,7 +84,49 @@ See `limits.json`; the CLI can only clamp `--max-requests` downwards.
 | Model USD / run | 0.25 |
 | Wall clock / run | 420 s |
 | Retained raw item rows / run | 240 (600-char excerpts) |
+| State signal records | 2,000 (180-day TTL) |
+| State cluster records | 200 (365-day TTL) |
+| State seen ids | 5,000 |
 | GHA artifact retention | 14 days |
+
+## Cross-run state (v0.2.0)
+
+`--state <path>` enables cumulative evidence tracking. State v0.2.0 keeps a
+bounded record per collected signal and per cluster:
+
+- **Signal identity** — an exact SHA-1 fingerprint plus a 24-permutation
+  MinHash signature over the same normalised text basis as dedupe (statement +
+  workaround + task). A restatement of a previously seen problem from another
+  source links to the earlier signal instead of counting again.
+- **Cluster lineage** — clusters are matched to prior runs on role family,
+  role, key terms, named systems and label. A matched cluster keeps its stable
+  `cluster_id`, and a `lineage` object records the action (`created`,
+  `matched`, `merged`, `split`), match score and matched dimensions, so cluster
+  identity stays explainable as membership changes.
+- **Cumulative recurrence** — reports keep current-run volume separate from
+  cumulative evidence: `current_independent_sources` (this run) versus
+  `cumulative_independent_sources` (all retained runs), plus `runs_seen`.
+- **Independence dimensions** — source, author and organisation independence
+  are counted separately where evidence supports it. Primary recurrence uses
+  `(source_type, author)` when an author exists, else the signal id.
+- **Expiry and caps** — signal records expire after 180 days and cluster
+  records after 365 days; records are capped (signals 2,000, clusters 200,
+  member ids and independence keys 60 each). Caps never overcount: keys that
+  cannot be stored are marked truncated.
+- **Corruption safety** — unreadable, non-object or unknown-version state is
+  quarantined to `<path>.corrupt-<timestamp>` and the run continues with
+  history reported unavailable (`state_health.status = degraded`). Recurrence
+  is never inferred from corrupt state. Legacy v0.1 state migrates
+  automatically. Saves are atomic (temp file + `os.replace`).
+- **Repeat collection** — re-collecting the same source refreshes the record's
+  `last_seen_run`; it never increases recurrence.
+
+Each run writes `cross-run-links.json` (what linked to what); `run-meta.json`
+gains `cross_run` and `state_health`; `report.md`/`report.json` add a
+"Cross-run evidence state" section distinguishing current-run from cumulative
+evidence. Deterministic tests cover exact duplicates, paraphrased reposts,
+mirrors, independent recurrence, expiry, corruption and input-order
+independence.
 
 ## Inference policy
 
@@ -137,17 +179,33 @@ python3 -m painmine.cli pipeline --family all --enable-llm --synthesis \
 
 # validate a completed run, re-render observations, rebuild the report
 python3 -m painmine.cli validate --run-dir painmine/poc/<run-dir>
-python3 -m painmine.cli observations --run-dir painmine/poc/<run-dir> --max-promote 3
+python3 -m painmine.cli observations --run-dir painmine/poc/<run-dir> --max-observations 20
 python3 -m painmine.cli report --run-dir painmine/poc/<run-dir>
 
 # tests (no network)
 python3 -m unittest discover -s painmine/tests -t .
 ```
 
+Local notes (verified on the owner's laptop, 2026-09-21):
+
+- A first live run creates `painmine/state/state.json` automatically. Legacy
+  v0.1 state is migrated in place; unreadable or unknown state is quarantined
+  rather than guessed.
+- `--max-requests` can only lower the 24-request hard cap, and requests are
+  spent in source order (Hacker News, Stack Exchange, GitHub, Reddit), so later
+  sources may be skipped when the cap is reached. Set `GITHUB_TOKEN` (or
+  `GH_TOKEN`) in the environment to raise GitHub API rate limits.
+- Model synthesis stays off unless `--enable-llm` is passed and OpenCode
+  credentials are available; enabling it spends against the `llm` limits and
+  needs owner approval.
+- The offline fixture path and the full test suite need no network access.
+
 ## Data retention
 
 - Raw collected items (`poc/**/raw-items.jsonl`) and cross-run state
-  (`state/`) are **not** committed (see `.gitignore`).
+  (`state/`) are **not** committed (see `.gitignore`). The state file is
+  TTL-pruned and capped on every save (signals 2,000 / 180 days, clusters 200 /
+  365 days) and quarantines unreadable or unknown versions instead of guessing.
 - Structured artefacts are kept in `poc/<run>/`: `signals.jsonl`,
   `dedupe-stats.json`, `clusters.json`, `observations.md/json`, `report.json/md`,
   `run-meta.json` — all small and auditable.

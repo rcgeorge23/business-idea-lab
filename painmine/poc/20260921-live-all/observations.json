@@ -18,7 +18,8 @@
         "systems": [
           "Excel",
           "QuickBooks"
-        ]
+        ],
+        "confidence": 0.67
       },
       {
         "source": "hn_algolia",
@@ -28,7 +29,8 @@
         "excerpt": "Using an Excel spreadsheet with no macros, formatting, or functions doesn't really give you much that double entry bookkeeping in a real book wouldn't already have given you.",
         "systems": [
           "Excel"
-        ]
+        ],
+        "confidence": 0.67
       },
       {
         "source": "hn_algolia",
@@ -38,7 +40,8 @@
         "excerpt": "by hand), you'll need proper (tamper-resistant!) double-entry bookkeeping software, which (last time I looked) is not free, either.",
         "systems": [
           "Excel"
-        ]
+        ],
+        "confidence": 0.6
       },
       {
         "source": "stack_exchange",
@@ -48,7 +51,8 @@
         "excerpt": "Here is the working code: Thanks once again, now I don't need to double entry all my wife's word invoices into a spreadsheet.",
         "systems": [
           "Excel"
-        ]
+        ],
+        "confidence": 0.47
       },
       {
         "source": "hn_algolia",
@@ -58,7 +62,8 @@
         "excerpt": "Your financial statements are the result of a sequence of double-entry bookeeping statements, and the balance sheet is one particular view on the data processed by this formalism.",
         "systems": [
           "Excel"
-        ]
+        ],
+        "confidence": 0.47
       },
       {
         "source": "stack_exchange",
@@ -66,12 +71,11 @@
         "date": "unknown",
         "type": "practitioner",
         "excerpt": "Firstly build logging, monitoring & double entry systems into what you're building.",
-        "systems": []
+        "systems": [],
+        "confidence": 0.44
       }
     ],
     "incumbent_free_alternative_check": "Named systems in evidence: Excel, QuickBooks. Practitioners still describe workarounds despite these products (see evidence). Persistence mechanisms supported: none. Hypotheses only; a Method 1.6 novelty/incumbent check is still required downstream.",
-    "triage": "promote",
-    "triage_reason": "painmine discovery priority 70.8/100 (band A); 6 independent source(s); persistence thesis weak; vendor-led risk low. Not a business score; Method 1.6 triage still applies.",
     "discovery_priority": {
       "score": 70.8,
       "band": "A",
@@ -134,7 +138,23 @@
       "mechanism_detail": {},
       "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
     },
-    "independent_source_count": 6
+    "recurrence": {
+      "independent_source_count": 6,
+      "source_type_count": 2,
+      "duplicate_count": 0,
+      "runs_seen": 1,
+      "note": "Independent authors/sources within this run. Reposts are linked via duplicate_of and never counted twice; cross-run recurrence lives in the state history, not in this field."
+    },
+    "extraction": {
+      "evidence_rows": 6,
+      "min_confidence": 0.44,
+      "max_confidence": 0.67,
+      "caveats": [
+        "Deterministic cue extraction from public posts; no model or human validation.",
+        "Clusters are lexical-similarity groups, not verified businesses, budgets or buyer commitments.",
+        "Discovery priority is a ranking input for the consuming method run, not a business score or a lifecycle state."
+      ]
+    }
   },
   {
     "id": "PM-02",
@@ -154,7 +174,8 @@
         "excerpt": "But as with most things in Python, it gives you a way to do it manually.",
         "systems": [
           "Notion"
-        ]
+        ],
+        "confidence": 0.59
       },
       {
         "source": "stack_exchange",
@@ -162,7 +183,8 @@
         "date": "unknown",
         "type": "practitioner",
         "excerpt": "How do I manually throw/raise an exception in Python? Use the most specific Exception constructor that semantically fits your issue.",
-        "systems": []
+        "systems": [],
+        "confidence": 0.51
       },
       {
         "source": "hn_algolia",
@@ -170,7 +192,8 @@
         "date": "2026-01-09",
         "type": "practitioner",
         "excerpt": "Also, you have things like version control and CI/CD mechanisms where you can do reviews and manually approve things.",
-        "systems": []
+        "systems": [],
+        "confidence": 0.39
       },
       {
         "source": "hn_algolia",
@@ -178,12 +201,11 @@
         "date": "2026-03-11",
         "type": "practitioner",
         "excerpt": "The limits on that are not technical; they have to do with (1) how much work we still do manually—the classic \"no time to do things that would make the things that take all our ti…",
-        "systems": []
+        "systems": [],
+        "confidence": 0.27
       }
     ],
     "incumbent_free_alternative_check": "Named systems in evidence: Notion. Practitioners still describe workarounds despite these products (see evidence). Persistence mechanisms supported: none. Hypotheses only; a Method 1.6 novelty/incumbent check is still required downstream.",
-    "triage": "watch",
-    "triage_reason": "painmine discovery priority 67.5/100 (band B); 4 independent source(s); persistence thesis weak; vendor-led risk low. Not a business score; Method 1.6 triage still applies.",
     "discovery_priority": {
       "score": 67.5,
       "band": "B",
@@ -244,7 +266,23 @@
       "mechanism_detail": {},
       "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
     },
-    "independent_source_count": 4
+    "recurrence": {
+      "independent_source_count": 4,
+      "source_type_count": 2,
+      "duplicate_count": 0,
+      "runs_seen": 1,
+      "note": "Independent authors/sources within this run. Reposts are linked via duplicate_of and never counted twice; cross-run recurrence lives in the state history, not in this field."
+    },
+    "extraction": {
+      "evidence_rows": 4,
+      "min_confidence": 0.27,
+      "max_confidence": 0.59,
+      "caveats": [
+        "Deterministic cue extraction from public posts; no model or human validation.",
+        "Clusters are lexical-similarity groups, not verified businesses, budgets or buyer commitments.",
+        "Discovery priority is a ranking input for the consuming method run, not a business score or a lifecycle state."
+      ]
+    }
   },
   {
     "id": "PM-03",
@@ -265,7 +303,8 @@
         "systems": [
           "Excel",
           "Gmail"
-        ]
+        ],
+        "confidence": 0.76
       },
       {
         "source": "stack_exchange",
@@ -275,7 +314,8 @@
         "excerpt": "The easy solution, which I've used for other tables in the db, was to use something like SQLite Manager (the Firefox extension) to export to CSV, but this fails with what I'd imag…",
         "systems": [
           "MySQL"
-        ]
+        ],
+        "confidence": 0.71
       },
       {
         "source": "stack_exchange",
@@ -286,7 +326,8 @@
         "systems": [
           "Excel",
           "WooCommerce"
-        ]
+        ],
+        "confidence": 0.67
       },
       {
         "source": "stack_exchange",
@@ -294,7 +335,8 @@
         "date": "unknown",
         "type": "practitioner",
         "excerpt": "here an example: in \"1\" I need to input from a to dates the issue is that after filtering here, the tables are collapsed with and I have to open with \"2\" I have the option to manu…",
-        "systems": []
+        "systems": [],
+        "confidence": 0.63
       },
       {
         "source": "stack_exchange",
@@ -302,7 +344,8 @@
         "date": "unknown",
         "type": "practitioner",
         "excerpt": "I import the lib using the command: I am able to do a however these values are being stored then displayed in the UI, I do see an option to then manually export to CSV.",
-        "systems": []
+        "systems": [],
+        "confidence": 0.63
       },
       {
         "source": "stack_exchange",
@@ -313,7 +356,8 @@
         "systems": [
           "Excel",
           "MySQL"
-        ]
+        ],
+        "confidence": 0.59
       },
       {
         "source": "stack_exchange",
@@ -324,7 +368,8 @@
         "systems": [
           "Excel",
           "Outlook"
-        ]
+        ],
+        "confidence": 0.59
       },
       {
         "source": "stack_exchange",
@@ -332,12 +377,11 @@
         "date": "unknown",
         "type": "practitioner",
         "excerpt": "I can manually export as Text and then save it as CSV, when I go to the \"Advanced...\" settings I select and this works perfectly.",
-        "systems": []
+        "systems": [],
+        "confidence": 0.51
       }
     ],
     "incumbent_free_alternative_check": "Named systems in evidence: Excel, Gmail, MySQL, Outlook, WooCommerce. Practitioners still describe workarounds despite these products (see evidence). Persistence mechanisms supported: partial_or_manual_integration. Hypotheses only; a Method 1.6 novelty/incumbent check is still required downstream.",
-    "triage": "watch",
-    "triage_reason": "painmine discovery priority 67.0/100 (band B); 10 independent source(s); persistence thesis strong; vendor-led risk low. Not a business score; Method 1.6 triage still applies.",
     "discovery_priority": {
       "score": 67.0,
       "band": "B",
@@ -474,7 +518,23 @@
       },
       "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
     },
-    "independent_source_count": 10
+    "recurrence": {
+      "independent_source_count": 10,
+      "source_type_count": 2,
+      "duplicate_count": 0,
+      "runs_seen": 1,
+      "note": "Independent authors/sources within this run. Reposts are linked via duplicate_of and never counted twice; cross-run recurrence lives in the state history, not in this field."
+    },
+    "extraction": {
+      "evidence_rows": 10,
+      "min_confidence": 0.39,
+      "max_confidence": 0.76,
+      "caveats": [
+        "Deterministic cue extraction from public posts; no model or human validation.",
+        "Clusters are lexical-similarity groups, not verified businesses, budgets or buyer commitments.",
+        "Discovery priority is a ranking input for the consuming method run, not a business score or a lifecycle state."
+      ]
+    }
   },
   {
     "id": "PM-04",
@@ -492,7 +552,8 @@
         "date": "unknown",
         "type": "practitioner",
         "excerpt": "Budget sheet example: https://docs.google.com/spreadsheets/d/1ggYjZmGBLnfP-Wzq5dFKpfjaOZj78lgJr8LAl2GtV-I/edit?usp=sharing I am trying to build a code that can match data from 'Ac…",
-        "systems": []
+        "systems": [],
+        "confidence": 0.68
       },
       {
         "source": "github_issues",
@@ -500,7 +561,8 @@
         "date": "2025-08-14",
         "type": "practitioner",
         "excerpt": "Rather than manually copy/paste/inserting this data each time, it would be nice to have a vlookup set up for this based on Agency name within the spreadsheet.",
-        "systems": []
+        "systems": [],
+        "confidence": 0.56
       },
       {
         "source": "stack_exchange",
@@ -508,12 +570,11 @@
         "date": "unknown",
         "type": "practitioner",
         "excerpt": "The easy solution, I feel, is to rebuild the data in each sample file, by rebuilding and reformatting the columns in a new sheet (searching for the column header, error capture if…",
-        "systems": []
+        "systems": [],
+        "confidence": 0.56
       }
     ],
     "incumbent_free_alternative_check": "Named systems in evidence: none. Practitioners still describe workarounds despite these products (see evidence). Persistence mechanisms supported: none. Hypotheses only; a Method 1.6 novelty/incumbent check is still required downstream.",
-    "triage": "watch",
-    "triage_reason": "painmine discovery priority 51.0/100 (band B); 3 independent source(s); persistence thesis weak; vendor-led risk low. Not a business score; Method 1.6 triage still applies.",
     "discovery_priority": {
       "score": 51.0,
       "band": "B",
@@ -574,7 +635,23 @@
       "mechanism_detail": {},
       "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
     },
-    "independent_source_count": 3
+    "recurrence": {
+      "independent_source_count": 3,
+      "source_type_count": 2,
+      "duplicate_count": 0,
+      "runs_seen": 1,
+      "note": "Independent authors/sources within this run. Reposts are linked via duplicate_of and never counted twice; cross-run recurrence lives in the state history, not in this field."
+    },
+    "extraction": {
+      "evidence_rows": 3,
+      "min_confidence": 0.56,
+      "max_confidence": 0.68,
+      "caveats": [
+        "Deterministic cue extraction from public posts; no model or human validation.",
+        "Clusters are lexical-similarity groups, not verified businesses, budgets or buyer commitments.",
+        "Discovery priority is a ranking input for the consuming method run, not a business score or a lifecycle state."
+      ]
+    }
   },
   {
     "id": "PM-05",
@@ -592,7 +669,8 @@
         "date": "2022-12-26",
         "type": "practitioner",
         "excerpt": "I wish it integrated with Linux& gnome a bit better, but I just work around that by bookmarking the browser link to the password page in Firefox.",
-        "systems": []
+        "systems": [],
+        "confidence": 0.51
       },
       {
         "source": "hn_algolia",
@@ -600,7 +678,8 @@
         "date": "2026-04-01",
         "type": "practitioner",
         "excerpt": "I wish it integrated with contacts and it simply does not. I recently had to choose between google workspace for my email and fastmail, I was really going all in on fastmail and t…",
-        "systems": []
+        "systems": [],
+        "confidence": 0.39
       },
       {
         "source": "hn_algolia",
@@ -608,12 +687,11 @@
         "date": "2014-05-27",
         "type": "practitioner",
         "excerpt": "I like HipChat but I really really wish it integrated with an irc client.",
-        "systems": []
+        "systems": [],
+        "confidence": 0.39
       }
     ],
     "incumbent_free_alternative_check": "Named systems in evidence: none. Practitioners still describe workarounds despite these products (see evidence). Persistence mechanisms supported: none. Hypotheses only; a Method 1.6 novelty/incumbent check is still required downstream.",
-    "triage": "reject",
-    "triage_reason": "painmine discovery priority 47.5/100 (band C); 3 independent source(s); persistence thesis absent; vendor-led risk low. Not a business score; Method 1.6 triage still applies.",
     "discovery_priority": {
       "score": 47.5,
       "band": "C",
@@ -674,7 +752,23 @@
       "mechanism_detail": {},
       "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
     },
-    "independent_source_count": 3
+    "recurrence": {
+      "independent_source_count": 3,
+      "source_type_count": 1,
+      "duplicate_count": 0,
+      "runs_seen": 1,
+      "note": "Independent authors/sources within this run. Reposts are linked via duplicate_of and never counted twice; cross-run recurrence lives in the state history, not in this field."
+    },
+    "extraction": {
+      "evidence_rows": 3,
+      "min_confidence": 0.39,
+      "max_confidence": 0.51,
+      "caveats": [
+        "Deterministic cue extraction from public posts; no model or human validation.",
+        "Clusters are lexical-similarity groups, not verified businesses, budgets or buyer commitments.",
+        "Discovery priority is a ranking input for the consuming method run, not a business score or a lifecycle state."
+      ]
+    }
   },
   {
     "id": "PM-06",
@@ -692,7 +786,8 @@
         "date": "2016-01-27",
         "type": "practitioner",
         "excerpt": "There has to be a better way to help 44 million uninsured Americans.",
-        "systems": []
+        "systems": [],
+        "confidence": 0.59
       },
       {
         "source": "stack_exchange",
@@ -700,7 +795,8 @@
         "date": "unknown",
         "type": "practitioner",
         "excerpt": "There has to be a better way because what if some nefarious employee and removed everyone but themselves.",
-        "systems": []
+        "systems": [],
+        "confidence": 0.35
       },
       {
         "source": "stack_exchange",
@@ -708,7 +804,8 @@
         "date": "unknown",
         "type": "practitioner",
         "excerpt": "There has to be a better way than just using title_en, title_de, etc, right?",
-        "systems": []
+        "systems": [],
+        "confidence": 0.35
       },
       {
         "source": "hn_algolia",
@@ -716,7 +813,8 @@
         "date": "2015-01-30",
         "type": "practitioner",
         "excerpt": "There has to be a better way. For example: Better contracts, better checks, and active support by investing in parts of Europe that are struggling.",
-        "systems": []
+        "systems": [],
+        "confidence": 0.27
       },
       {
         "source": "stack_exchange",
@@ -724,12 +822,11 @@
         "date": "unknown",
         "type": "practitioner",
         "excerpt": "It works fine for selecting the list (User.staff.all works), but I'd really like the \"?\" ability to easily check - right now I've hacked it together using Surely there has to be a…",
-        "systems": []
+        "systems": [],
+        "confidence": 0.27
       }
     ],
     "incumbent_free_alternative_check": "Named systems in evidence: none. Practitioners still describe workarounds despite these products (see evidence). Persistence mechanisms supported: none. Hypotheses only; a Method 1.6 novelty/incumbent check is still required downstream.",
-    "triage": "reject",
-    "triage_reason": "painmine discovery priority 41.0/100 (band C); 5 independent source(s); persistence thesis absent; vendor-led risk low. Not a business score; Method 1.6 triage still applies.",
     "discovery_priority": {
       "score": 41.0,
       "band": "C",
@@ -792,6 +889,22 @@
       "mechanism_detail": {},
       "disclaimer": "Hypotheses for the lab to test; not an assertion of a defensible wedge."
     },
-    "independent_source_count": 5
+    "recurrence": {
+      "independent_source_count": 5,
+      "source_type_count": 2,
+      "duplicate_count": 0,
+      "runs_seen": 1,
+      "note": "Independent authors/sources within this run. Reposts are linked via duplicate_of and never counted twice; cross-run recurrence lives in the state history, not in this field."
+    },
+    "extraction": {
+      "evidence_rows": 5,
+      "min_confidence": 0.27,
+      "max_confidence": 0.59,
+      "caveats": [
+        "Deterministic cue extraction from public posts; no model or human validation.",
+        "Clusters are lexical-similarity groups, not verified businesses, budgets or buyer commitments.",
+        "Discovery priority is a ranking input for the consuming method run, not a business score or a lifecycle state."
+      ]
+    }
   }
 ]

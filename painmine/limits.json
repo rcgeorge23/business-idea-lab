@@ -43,6 +43,18 @@
     "poc_raw_jsonl_in_git": false,
     "gha_artifact_retention_days": 14
   },
+  "state": {
+    "$comment": "Cross-run state v0.2.0 (issue #10). TTL days and record caps are enforced on load and save; corrupt state is quarantined and history reported unavailable rather than guessed.",
+    "signal_records_cap": 2000,
+    "cluster_records_cap": 200,
+    "signal_ttl_days": 180,
+    "cluster_ttl_days": 365,
+    "member_ids_cap": 60,
+    "independent_keys_cap": 60,
+    "excerpt_chars": 240,
+    "near_duplicate_threshold": 0.62,
+    "lineage_match_min_score": 0.35
+  },
   "ranking": {
     "promote_band_a_min": 70,
     "watch_band_b_min": 50

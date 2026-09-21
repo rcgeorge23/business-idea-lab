@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 import unittest
@@ -54,45 +55,74 @@ def craft_cluster(score=85, band="A", strength="strong", regulatory=False, clust
 
 
 class TestToObservation(unittest.TestCase):
-    def test_band_a_with_persistence_promotes(self):
+    def test_observation_carries_no_method_triage_labels(self):
         obs = cluster_to_observation(craft_cluster(), 1)
         self.assertEqual(obs["id"], "PM-01")
-        self.assertEqual(obs["triage"], "promote")
+        self.assertNotIn("triage", obs)
+        self.assertNotIn("triage_reason", obs)
+        blob = json.dumps(obs)
+        for label in ('"promote"', '"watch"', '"reject"', '"candidate"', '"lifecycle"'):
+            self.assertNotIn(label, blob)
         self.assertEqual(obs["target_user_buyer"], "Accountant")
         self.assertIn("Xero", obs["incumbent_free_alternative_check"])
         self.assertEqual(obs["evidence"][0]["type"], "practitioner")
-        self.assertIn("Not a business score", obs["triage_reason"])
 
-    def test_band_a_without_persistence_is_watched(self):
-        obs = cluster_to_observation(craft_cluster(strength="absent"), 1)
-        self.assertEqual(obs["triage"], "watch")
-
-    def test_band_b_is_watched_and_band_c_rejected(self):
-        self.assertEqual(cluster_to_observation(craft_cluster(score=55, band="B"), 1)["triage"], "watch")
-        self.assertEqual(cluster_to_observation(craft_cluster(score=20, band="C"), 1)["triage"], "reject")
+    def test_priority_band_is_an_input_not_a_state(self):
+        # Changing the discovery band changes ranking metadata only: the record
+        # has no lifecycle field, so it cannot advance, park or kill an idea.
+        band_a = cluster_to_observation(craft_cluster(score=85, band="A"), 1)
+        band_c = cluster_to_observation(craft_cluster(score=20, band="C"), 1)
+        self.assertEqual(set(band_a), set(band_c))
+        self.assertEqual(band_a["discovery_priority"]["band"], "A")
+        self.assertEqual(band_c["discovery_priority"]["band"], "C")
+        for obs in (band_a, band_c):
+            self.assertNotIn("triage", obs)
+            self.assertNotIn("lifecycle", obs)
+            self.assertNotIn("candidate_state", obs)
 
     def test_regulatory_flag(self):
         self.assertFalse(cluster_to_observation(craft_cluster(), 1)["regulatory_derived"])
         self.assertTrue(cluster_to_observation(craft_cluster(regulatory=True), 1)["regulatory_derived"])
 
-    def test_promotion_cap(self):
-        clusters = [craft_cluster(cluster_id=f"c-{i}") for i in range(5)]
-        observations = to_observations(clusters, max_promote=2)
-        self.assertEqual(sum(1 for o in observations if o["triage"] == "promote"), 2)
-        self.assertEqual(sum(1 for o in observations if o["triage"] == "watch"), 3)
-        self.assertTrue(all("demoted" in o["triage_reason"] for o in observations if o["triage"] == "watch"))
+    def test_recurrence_and_extraction_blocks(self):
+        obs = cluster_to_observation(craft_cluster(), 1)
+        self.assertEqual(obs["recurrence"]["independent_source_count"], 3)
+        self.assertEqual(obs["recurrence"]["source_type_count"], 2)
+        self.assertIn("duplicate_of", obs["recurrence"]["note"])
+        self.assertEqual(obs["extraction"]["min_confidence"], 0.8)
+        self.assertEqual(obs["extraction"]["max_confidence"], 0.8)
+        self.assertTrue(obs["extraction"]["caveats"])
 
-    def test_observation_cap(self):
+    def test_observation_cap_and_no_filler(self):
         clusters = [craft_cluster(cluster_id=f"c-{i}") for i in range(30)]
         self.assertEqual(len(to_observations(clusters, max_observations=20)), 20)
+        self.assertEqual(len(to_observations(clusters, max_observations=2)), 2)
+        self.assertEqual(to_observations([]), [])
 
-    def test_render_pool_uses_method_columns_and_audit_note(self):
-        text = render_pool(to_observations([craft_cluster()], max_promote=3), {"run_id": "pm-test"})
-        self.assertIn("| ID | Observation (problem / workflow) | Buyer | Source class | Reg? | Archetype |", text)
+    def test_small_pool_is_not_padded(self):
+        observations = to_observations([craft_cluster()])
+        self.assertEqual(len(observations), 1)
+        text = render_pool(observations, {"run_id": "pm-test"})
+        self.assertIn("Pool size: 1", text)
+        self.assertIn("never padded with filler", text)
+
+    def test_empty_pool_renders_without_filler(self):
+        text = render_pool([], {"run_id": "pm-test"})
+        self.assertIn("Pool size: 0", text)
+        self.assertIn("no clusters met the minimum size in this run", text)
+
+    def test_render_pool_input_contract(self):
+        text = render_pool(to_observations([craft_cluster()]), {"run_id": "pm-test"})
+        self.assertIn("ranked observation INPUTS only", text)
+        self.assertIn("does not consume", text)
         self.assertIn("Triage false-negative audit", text)
         self.assertIn("PM-01", text)
         self.assertIn("Method 1.6", text)
         self.assertIn("No source was accessed through authentication", text)
+        self.assertIn("never writes", text)
+        self.assertNotIn("| Triage |", text)
+        self.assertNotIn("## Promoted observations", text)
+        self.assertNotIn("demoted", text)
 
 
 if __name__ == "__main__":

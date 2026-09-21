@@ -182,7 +182,10 @@ statement, an explicit "hypotheses only, Method 1.6 check still required"
 caveat, and a triage reason that states the discovery score is not a business
 score. The pool table matches the Method 1.6 column contract and the audit
 placeholder instructs the consuming method run to perform its own sampled
-false-negative audit.
+false-negative audit. (Updated 2026-09-21 under issue #12: the renderer no
+longer emits triage labels, promotion decisions or the three-candidate cap —
+it exports ranked, evidence-backed observation *inputs* only, and the
+consuming Method 1.6 run performs its own sweep, triage and audit.)
 
 ## 6. Recurrence and independence assessment
 
