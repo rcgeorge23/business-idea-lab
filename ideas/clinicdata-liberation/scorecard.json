@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "method_version": "1.5.0",
+  "weights_version": "1.2.0",
+  "idea_id": "clinicdata-liberation",
+  "slug": "clinicdata-liberation",
+  "title": "ClinicData Liberation: productised data extraction and migration for no-export clinical software",
+  "state": "killed",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-eol-cluster-2026.md",
+        "evidence/clinicdata-liberation/2026-09-21-migration-pain-and-tooling.md"
+      ],
+      "rationale": "End-of-life deadlines and documented migration workload (weeks of overlap, PDF-only disconnected charts) are real, but the event is one-shot rather than frequent."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-no-export-extraction-and-pricing.md"
+      ],
+      "rationale": "Capped at 2: the only budget evidence is one vendor's published list bands (inferred budget), and the receiving vendor gives the substitute away free."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-eol-cluster-2026.md",
+        "evidence/clinicdata-liberation/2026-09-21-no-export-extraction-and-pricing.md",
+        "evidence/clinicdata-liberation/2026-09-21-migration-pain-and-tooling.md"
+      ],
+      "rationale": "Dated switch-offs, a named case study and independent migration benchmarks support the pain; the key buyer-behaviour evidence is vendor-sourced."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-eol-cluster-2026.md"
+      ],
+      "rationale": "SEO on end-of-life queries and receiving-vendor partnerships are plausible but unvalidated, and the receiving vendor competes for the same switch."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-no-export-extraction-and-pricing.md",
+        "evidence/clinicdata-liberation/2026-09-21-enterprise-archive-crowding.md"
+      ],
+      "rationale": "Capped at 2: direct incumbent overlap. ValueStreamAI sells the exact method and migration is an established services category."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-migration-pain-and-tooling.md"
+      ],
+      "rationale": "A desk check plus three switcher interviews is cheap, but no test was actually run and a real pilot would need approval."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-no-export-extraction-and-pricing.md"
+      ],
+      "rationale": "Feasible and already demonstrated by a services vendor; per-source recipes and licence checks add real work."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-no-export-extraction-and-pricing.md"
+      ],
+      "rationale": "Capped at 2: modelled only. One-shot fixed fee against variable hours with no retention."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": "No source about who would found or sell this; null per method/scorecard.md (no source, no score)."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 2,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-no-export-extraction-and-pricing.md"
+      ],
+      "rationale": "UI-level extraction of special-category clinical records has unresolved licence-term and UK data-protection exposure; risk is elevated."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "unknown",
+      "note": "The 'documented' fees are one vendor's published list bands (inferred budget), and the receiving vendor gives the substitute away free, so a paying third-party buyer is not established.",
+      "evidence": [],
+      "resolve_via": "Interview 3 recent UK switchers about what they actually paid and to whom."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "pass",
+      "note": "Forced-action end-of-life dates plus documented migration workload (weeks of overlap; PDF-only, disconnected charts); event-driven rather than frequent.",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-eol-cluster-2026.md",
+        "evidence/clinicdata-liberation/2026-09-21-migration-pain-and-tooling.md"
+      ],
+      "resolve_via": ""
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "SEO and receiving-vendor referral are plausible, but the receiving vendor is also a competitor for the switch.",
+      "evidence": [],
+      "resolve_via": "Test whether any receiving vendor will refer migrations and whether content reaches clinic owners without paid spend."
+    },
+    "defensible_wedge": {
+      "status": "fail",
+      "note": "ValueStreamAI already sells the exact UI-level extraction method at published bands; receiving vendors (Nookal, Upheal) ship guided migration and give it away in onboarding; data migration services are an established category. Under method/scorecard.md a wedge that is a feature of an established category is a hard-filter failure, and a services skill is not a durable asset.",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-no-export-extraction-and-pricing.md",
+        "evidence/clinicdata-liberation/2026-09-21-migration-pain-and-tooling.md",
+        "evidence/clinicdata-liberation/2026-09-21-enterprise-archive-crowding.md"
+      ],
+      "resolve_via": ""
+    },
+    "no_network_effects_needed": {
+      "status": "pass",
+      "note": "One clinic's migration delivers value without other participants.",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-eol-cluster-2026.md"
+      ],
+      "resolve_via": ""
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "Fixed fee against variable hours; margin depends on recipe amortisation and there is no retention.",
+      "evidence": [],
+      "resolve_via": "Price a pilot against the documented band and measure hours per migration."
+    },
+    "acceptable_risk": {
+      "status": "unknown",
+      "note": "Licence terms and UK data-protection posture for UI-level extraction of special-category clinical records are unresolved; a review-policy trigger 4 matter.",
+      "evidence": [],
+      "resolve_via": "Obtain a legal view on 2 representative source-system licences and UK data-protection before any client work."
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "A desk check of named systems plus three switcher interviews is cheap and decisive about whether a third party is ever paid.",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-migration-pain-and-tooling.md"
+      ],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "fail",
+      "note": "Buyer, wedge, margin and legal risk would all have to resolve favourably; the wedge is already contradicted and the buyer is removed by a free substitute.",
+      "evidence": [
+        "evidence/clinicdata-liberation/2026-09-21-migration-pain-and-tooling.md"
+      ],
+      "resolve_via": ""
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 95,
+    "raw_weighted_points": 47.0,
+    "weighted_total": 49.5,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "low",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

@@ -12,8 +12,8 @@ invoked manually and non-interactively via `scripts/run.sh`.
 | Generation stops when unreviewed ideas reach | 10 (`state == discovered`) | worker instructions; validator warns at 8+ and fails at >10 |
 | Max advances to `validation-ready` per run | 1 | worker instructions |
 | Max new evidence entries per idea per run | 8 | worker instructions |
-| Max web lookups (search + fetch) per run | 25 | worker instructions |
-| Max agent steps | 80 | agent `steps` config |
+| Max web lookups (search + fetch) per run | 40 | worker instructions |
+| Max agent steps | 120 | agent `steps` config |
 | Max provider retries per run | 2 (3 attempts total) | `scripts/run.sh` |
 | Max cost per run | USD 1.00 default (`--max-cost`) | `scripts/run.sh` post-run check + report |
 | Default timeout | 3600 s (`--timeout`) | `scripts/run.sh` |
@@ -32,25 +32,45 @@ be reviewed by the human owner before keeping them.
    `changes-requested` reviews: these MUST be answered in this run (see step 9).
 2. **Unreviewed check.** Count ideas with `state == discovered`. If >= 10, generate no
    new candidates this run and say so in the run summary.
-3. **Hunt discontinuities (<= 3 candidates, only if step 2 allows).** Follow
-   `method/discovery.md`: search source classes for something that recently changed, form
-   candidates around it, and require each to complete "This was not an attractive
-   business three years ago, but it might be now because ___ changed." An idea generated
-   merely because a problem exists is rejected at this step. Candidates may come from
-   fresh discovery (`fresh`) or from a shallow re-check of an existing seed that is then
-   researched from scratch (`seed:<slug>`); a run is never seed-only. Before promoting a
-   candidate, investigate the second-order effects of the change and prefer an awkward
-   workflow/integration seam to a generic compliance/dashboard product; if the
-   first-order product is chosen, record why the second-order options were weaker
-   (`method/discovery.md`). Apply the duplicate detection rules in `method/discovery.md`
-   (slug/title collision; same buyer AND problem AND mechanism/keywords; variant of a
-   killed idea that does not address the recorded kill reason). Apply the **source-class
+3. **Run the observation funnel (<= 3 candidates, only if step 2 allows).** Follow the
+   `method/discovery.md` funnel:
+   - **3.1 Observation sweep.** Build a pool of 15-20 materially distinct opportunity
+     observations, recorded in `observations/<run-id>.md` from
+     `templates/observation/pool.md`. Cover both archetypes: change-driven (conventional
+     evidenced why-now) and persistent market failure (no forced discontinuity; answer
+     "why does this problem still persist despite existing alternatives?"). Deliberately
+     search poor/expensive narrow incumbent software, manual structured-data/re-keying
+     workflows and awkward integrations between established systems, and seek
+     practitioner/community evidence where feasible. Observations are cheap: no
+     scorecard, dossier or evidence level.
+   - **3.2 Shallow triage.** Reject observations cheaply where desk evidence already
+     shows a standard incumbent feature, an adequate free/authoritative alternative,
+     many credible vendors in the seam, unattractive one-shot economics, no plausible
+     buyer, a mere feature request or a network-effects dependency. Record the negative
+     evidence and reason for every rejection.
+   - **3.3 Promotion.** Select at most 3 observations for full candidate treatment using
+     the strongest combination of credible problem evidence, identifiable buyer,
+     plausible payment route, a real gap left by alternatives, cheap falsification and
+     fit for a small bootstrapped business. Zero, one or two promotions are valid; never
+     manufacture candidates to fill slots.
+   For each promoted candidate: run the discontinuity test where the why-now is
+   change-driven ("This was not an attractive business three years ago, but it might be
+   now because ___ changed."), apply the duplicate detection rules in
+   `method/discovery.md` (slug/title collision; same buyer AND problem AND
+   mechanism/keywords; variant of a killed idea that does not address the recorded kill
+   reason), investigate second-order effects and prefer an awkward workflow/integration
+   seam to a generic compliance/dashboard product (if the first-order product is chosen,
+   record why the second-order options were weaker), and apply the **source-class
    budget** (`method/discovery.md`): at least 2 of the 3 candidate slots must originate
    from non-regulatory source classes, at most 1 may be primarily regulation-derived,
    and at least one previously underexplored non-regulatory class must actually be
-   searched; never manufacture weak candidates to satisfy it. Record the source classes
+   searched; never manufacture weak candidates to satisfy it. Candidates may come from
+   fresh discovery (`fresh`) or from a shallow re-check of an existing seed that is then
+   researched from scratch (`seed:<slug>`); a run is never seed-only. Record the source classes
    actually searched (regulatory vs non-regulatory, successful and unsuccessful), the
-   candidates' provenance, the class each candidate qualifies under and why, and whether
+   pool statistics (total observations, source mix, archetype split, triage rejections
+   and principal reasons, promotions and why), the candidates' provenance, the class
+   each candidate qualifies under and why, the originating observation ID, and whether
    the budget was satisfied, for the run summary.
 4. **Novelty / incumbent sanity check.** Before any deep research, run the screening
    checklist in `method/discovery.md` (exact product exists? multiple credible providers?
@@ -95,7 +115,10 @@ be reviewed by the human owner before keeping them.
     A seed never inherits the killed idea's score or evidence level, and is never an idea
     until a later run researches it from scratch.
 12. **Run summary.** Write `runs/<run-id>/summary.md`: what advanced, what was killed,
-    what failed, what needs human input, limits hit, the source classes searched
+    what failed, what needs human input, limits hit, the funnel statistics (total
+    observations, source-class distribution, change-driven vs persistent split, number
+    rejected in shallow triage with principal reasons, observations promoted and why,
+    research cost / lookup usage), the source classes searched
     (regulatory vs non-regulatory, successful and unsuccessful), the source-budget
     outcome (quota met or not, and why), the why-now quality of generated candidates,
     each candidate's provenance (`seed:<slug>` or `fresh`), source class and
@@ -150,7 +173,7 @@ Every run writes `runs/<run-id>/run.json`:
   "finished_at": "ISO-8601",
   "agent": "idea-worker",
   "model": "opencode-go/deepseek-v4.1-flash",
-  "method_version": "1.4.0",
+  "method_version": "1.5.0",
   "input_revision": "git sha or 'none'",
   "output_revision": "git sha or 'none (uncommitted)'",
   "attempts": 1,

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.4.0",
+  "method_version": "1.5.0",
   "updated": "2026-09-21",
   "limits": {
     "max_unreviewed_before_generation_stops": 10,
@@ -8,13 +8,13 @@
     "max_validation_ready_advances_per_run": 1
   },
   "counts": {
-    "total": 16,
+    "total": 18,
     "unreviewed": 0,
     "by_state": {
       "adversarially-researched": 3,
-      "killed": 13
+      "killed": 15
     },
-    "killed": 13
+    "killed": 15
   },
   "ideas": [
     {
@@ -843,6 +843,112 @@
         "dossier": "ideas/agent-checkout-offplatform/dossier.md",
         "decision": "ideas/agent-checkout-offplatform/decision.md",
         "scorecard": "ideas/agent-checkout-offplatform/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    },
+    {
+      "id": "vetlab-bridge",
+      "slug": "vetlab-bridge",
+      "title": "VetLab Bridge: veterinary diagnostics results interchange for independent labs and the long tail",
+      "state": "killed",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 47.4,
+      "confidence": "low",
+      "why_now": {
+        "changed": "DIN EN 18029:2026-04 (E), a European standard for electronic exchange of veterinary laboratory analysis data (request, result and acknowledgement files plus a data dictionary), was published in April 2026, giving a common format for the first time; it is a standard, not a mandate.",
+        "changed_date": "2026-04-01",
+        "evidence": [
+          "evidence/vetlab-bridge/2026-09-21-din-en-18029-standard.md"
+        ],
+        "why_it_matters": "A common format could lower the per-lab mapping burden that made certified integrations uneconomic for small labs, but the published record shows no vendor implementation and creates no buyer budget.",
+        "competitors_responded": "Yes - ManuCare already markets universal CSV/HL7 lab-result import into the patient case and DataHub Vet normalises PIMS data into long-tail systems; Bitwerx, Covetrus Connect, Covetrus LabLink, PupPilot and expanding IDEXX lab integrations occupy the adjacent layers.",
+        "strength": "weak"
+      },
+      "fingerprint": {
+        "buyer": "Independent/regional veterinary diagnostic labs seeking distribution into independent practices, with the practice as user",
+        "problem": "Independent labs cannot economically deliver results into long-tail practice management systems, so staff re-key values or attach PDFs",
+        "mechanism": "Semantic results-interchange layer (any lab format in, PIMS-ready structured result out with analyte mapping and an exception queue) sold to labs at a per-practice monthly fee",
+        "keywords": [
+          "veterinary diagnostics",
+          "lab interoperability",
+          "semantic mapping",
+          "PIMS",
+          "DIN EN 18029",
+          "results interchange"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/vetlab-bridge",
+        "dossier": "ideas/vetlab-bridge/dossier.md",
+        "decision": "ideas/vetlab-bridge/decision.md",
+        "scorecard": "ideas/vetlab-bridge/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": null,
+        "status": "none",
+        "approval": {
+          "required": false,
+          "granted": false
+        },
+        "plan": null
+      }
+    },
+    {
+      "id": "clinicdata-liberation",
+      "slug": "clinicdata-liberation",
+      "title": "ClinicData Liberation: productised data extraction and migration for no-export clinical software",
+      "state": "killed",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 49.5,
+      "confidence": "low",
+      "why_now": {
+        "changed": "A 2026 end-of-life set forces migrations: BP Allied switches off on 31 July 2026 with no further support, Cherwell Service Management reaches end-of-life on 31 December 2026, and on-premise RoboVet reached end-of-life with a UK practice migrating in June 2026.",
+        "changed_date": "2026-07-31",
+        "evidence": [
+          "evidence/clinicdata-liberation/2026-09-21-eol-cluster-2026.md"
+        ],
+        "why_it_matters": "A fixed switch-off forces an action clinics would otherwise defer, and uncertified niche platforms carry no legal export obligation, so extraction has to be done by someone.",
+        "competitors_responded": "Yes - ValueStreamAI already sells UI-level extraction of no-export clinical systems at published bands and receiving vendors (Nookal, Upheal) ship guided migration and give it away in onboarding.",
+        "strength": "strong"
+      },
+      "fingerprint": {
+        "buyer": "Owner/manager of a small UK clinic (allied health, therapy, veterinary or specialist) facing a forced migration, with the receiving software vendor as a second buyer",
+        "problem": "End-of-life or no-export practice-management software forces a migration that risks losing clinical records, with the source system providing no export path",
+        "mechanism": "Productised UI-level extraction, normalisation and document re-association at a fixed fee per migration, with an optional managed archive",
+        "keywords": [
+          "data migration",
+          "end of life software",
+          "clinical records",
+          "no export",
+          "extraction",
+          "archive"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/clinicdata-liberation",
+        "dossier": "ideas/clinicdata-liberation/dossier.md",
+        "decision": "ideas/clinicdata-liberation/decision.md",
+        "scorecard": "ideas/clinicdata-liberation/scorecard.json"
       },
       "review": {
         "status": "not-required",

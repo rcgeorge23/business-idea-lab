@@ -12,38 +12,59 @@ Before doing anything else:
 3. Handle any outstanding `changes-requested` reviews first, then follow the run
    protocol in order, respecting every limit in it.
 
-Discovery expectations for this run (method 1.4.0):
+Discovery expectations for this run (method 1.5.0):
 
-- Generate candidates only from identified discontinuities, not from generic startup
-  ideas. Every candidate needs an evidenced "why now?" per `method/discovery.md`
-  (what changed, when, evidence, why it materially improves the opportunity, whether
-  competitors responded). A missing/unevidenced why-now caps the score and is a reason
-  to reject a crowded candidate.
+- Run the opportunity-observation funnel. Before any candidate work, sweep a pool of
+  15-20 materially distinct observations into `observations/<run-id>.md` using
+  `templates/observation/pool.md`, then shallow-triage every observation, then promote
+  at most 3. Observations are cheap (problem/workflow, buyer, source class, evidence,
+  incumbent/free check, archetype, triage outcome) — no scorecards or dossiers for
+  them, and no evidence level. Zero, one or two promotions are valid; never manufacture
+  filler to fill slots.
+- Support both archetypes. Change-driven observations need a conventional evidenced
+  "why now?". Persistent market failures do not need a discontinuity: answer "why does
+  this problem still persist despite existing alternatives?" and never invent a
+  justification — "could not establish" is an honest triage answer.
+- Bias the sweep toward ugly persistent problems: poor/expensive narrow incumbent
+  software, manual structured-data / spreadsheet / email / PDF re-keying, and awkward
+  integrations between established systems. Seek practitioner/community evidence where
+  feasible (complaints, forums, support threads, trade discussions, job ads,
+  consultancy pricing, incumbent release notes, migration guides) rather than relying
+  on vendor announcements and generic technology news. Coverage is mandatory for the
+  three classes above; the source-class budget still applies at promotion and creates
+  no second quota.
+- Shallow triage cheaply rejects: standard incumbent feature, adequate
+  free/authoritative alternative, many credible vendors in the seam, unattractive
+  one-shot economics (unless a service business is intentionally being considered), no
+  plausible economic buyer, mere feature request, or network effects required before
+  value. Record negative evidence and the reason for every rejection. Triage is not a
+  replacement for the hard filters.
 - Review the seed register (`seeds/index.json`) at the start: list unexplored seeds and
   shallowly re-check the most promising against current evidence and incumbents. A seed
   becomes a candidate only after full fresh research (own evidence, hard filters,
   scorecard) and never inherits the parent's score or evidence level. Do not run a
-  seed-only cycle: also search for fresh discontinuities.
-- Look beyond the obvious first-order product. For each discontinuity, investigate
-  second-order operational effects (manual handoffs, re-keying, reconciliation,
-  evidence collection, exception handling, status chasing, awkward exports/imports,
-  mandated data transformations, integration gaps, workflow steps incumbents handle
-  poorly, newly automatable human review, underserved subsegments). Prefer an awkward
-  operational seam over a generic compliance/dashboard product, or record why the
-  first-order product is genuinely better.
-- Apply the source-class budget (`method/discovery.md`): at least 2 of the 3 candidate
-  slots must come from non-regulatory source classes, at most 1 may be primarily
-  regulation-derived, and at least one previously underexplored non-regulatory class
-  must actually be searched. Fewer than three candidates is a valid run — never
-  manufacture filler to satisfy the quota.
-- Record in the run summary: the seed register review, source classes searched
-  (regulatory vs non-regulatory, successful and unsuccessful), whether the source
-  budget was satisfied and why, why-now quality (strong | weak | absent) per candidate,
-  provenance (`seed:<slug>` | `fresh`), the source class each candidate qualifies under
-  and why, the second-order seam per candidate, and whether discovery is converging on
-  less obvious opportunities or repeating one class of rejection.
-- Run the novelty/incumbent sanity check before deep research and record it in the
-  dossier.
+  seed-only cycle: also search fresh opportunities.
+- For each promoted candidate, prefer a second-order operational seam (manual handoff,
+  re-keying, reconciliation, exception handling, integration gap) over a generic
+  compliance/dashboard product, or record why the first-order product is genuinely
+  better. Apply the source-class budget (`method/discovery.md`): at least 2 of the 3
+  candidate slots must come from non-regulatory source classes, at most 1 may be
+  primarily regulation-derived, and at least one previously underexplored non-regulatory
+  class must actually be searched.
+- Promoted candidates then go through the existing full process unchanged: duplicate
+  check, novelty/incumbent sanity check recorded in the dossier, evidence register, hard
+  filters, scorecard, adversarial review, lifecycle decision. Surviving triage confers
+  no inherited positive evidence; each decision record must name the originating
+  observation ID.
+- Record in the run summary: pool statistics (total observations, source mix,
+  change-driven vs persistent split, triage rejections and principal reasons, promotions
+  and why), the seed register review, source classes searched (regulatory vs
+  non-regulatory, successful and unsuccessful), whether the source budget was satisfied
+  and why, why-now quality (strong | weak | absent) per candidate, provenance
+  (`seed:<slug>` | `fresh`), the source class each candidate qualifies under and why,
+  the originating observation ID and second-order seam per candidate, and whether
+  discovery is converging on less obvious opportunities or repeating one class of
+  rejection.
 - Hard filters use `pass` | `unknown` | `fail`; `pass` requires cited evidence, an
   assumption or analogy can only produce `unknown` with a `resolve_via`, and a `fail`
   kills. Never present an `unknown` as a pass.

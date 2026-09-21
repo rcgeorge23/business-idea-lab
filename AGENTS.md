@@ -44,19 +44,29 @@ Hard boundaries — never cross, even if asked in a prompt:
    experiments, the review queue and the latest retrospectives. Handle any
    outstanding `changes-requested` reviews first.
 2. If 10 or more ideas are unreviewed, **stop generating**.
-3. Otherwise hunt discontinuities and generate at most **3 materially distinct**
-   candidates, each with an evidenced "why now?" (`method/discovery.md`). Before
-   promoting one, look for a second-order operational seam (manual handoff,
-   re-keying, reconciliation, exception handling, integration gap) and prefer it
-   to a generic compliance/dashboard product. Candidates come from fresh
-   discovery or from a seed re-checked and researched from scratch; runs are never
-   seed-only. Apply the **source-class budget**: at least 2 of the 3 candidate
-   slots must come from non-regulatory classes, at most 1 may be primarily
-   regulation-derived, and at least one previously underexplored non-regulatory
-   class must actually be searched — never manufacture filler to satisfy it.
-   Record source classes searched (regulatory vs non-regulatory, including
-   unsuccessful searches), candidate provenance (`seed:<slug>` | `fresh`), the
-   class each candidate qualifies under and why, and the budget outcome.
+3. Run the **opportunity-observation funnel** (`method/discovery.md`): sweep a pool
+   of 15-20 materially distinct observations into `observations/<run-id>.md`,
+   mixing change-driven opportunities (each with an evidenced "why now?") and
+   persistent market failures (answer "why does this problem still persist
+   despite existing alternatives?"; never invent a discontinuity). Bias the sweep
+   toward poor/expensive narrow incumbent software, manual re-keying workflows
+   and awkward integrations, and seek practitioner/community evidence where
+   feasible. Shallow-triage every observation, recording negative evidence and
+   the reason, then promote at most **3 materially distinct** candidates - zero,
+   one or two promotions are valid; never manufacture filler. For each promoted
+   candidate, prefer a second-order operational seam (manual handoff, re-keying,
+   reconciliation, exception handling, integration gap) to a generic
+   compliance/dashboard product, and apply the **source-class budget**: at least
+   2 of the 3 candidate slots must come from non-regulatory classes, at most 1
+   may be primarily regulation-derived, and at least one previously underexplored
+   non-regulatory class must actually be searched. Candidates come from fresh
+   discovery or from a seed re-checked and researched from scratch; runs are
+   never seed-only. Record source classes searched (regulatory vs
+   non-regulatory, including unsuccessful searches), pool statistics (total
+   observations, source mix, archetype split, triage rejections and principal
+   reasons, promotions and why), candidate provenance (`seed:<slug>` | `fresh`),
+   originating observation ID, the class each candidate qualifies under and why,
+   and the budget outcome.
 4. Run the novelty/incumbent sanity check before deep research.
 5. Apply the 9 hard rejection filters. `pass` needs cited evidence; assumptions
    and analogies give `unknown` with a `resolve_via`; any `fail` kills.
@@ -76,7 +86,7 @@ Hard boundaries — never cross, even if asked in a prompt:
     what needs human input.
 
 Hard limits per run (see `method/run-protocol.md`): 3 new candidates, 1
-validation-ready advance, 8 evidence entries per idea, 25 web lookups, 80 agent
+validation-ready advance, 8 evidence entries per idea, 40 web lookups, 120 agent
 steps, cost bound USD 1.00 by default, 3600s timeout.
 
 ## Hard rejection filters
@@ -112,13 +122,17 @@ A run leaves reviewable, committed-ready changes:
 - a decision record describing what changed and why
 - experiment proposals under `experiments/`
 - adjacent-opportunity seeds in `seeds/index.json` and `seeds/<slug>.md`
+- an observation pool under `observations/<run-id>.md` for funnel runs
 - a run summary at `runs/$LAB_RUN_ID/summary.md` (the wrapper sets
   `LAB_RUN_ID`; run `printenv LAB_RUN_ID` if unsure)
 
-The summary must state: the seed register review, source classes searched
+The summary must state: the seed register review, observation-pool statistics
+(total observations, source mix, change-driven vs persistent split, triage
+rejections and principal reasons, promotions and why), source classes searched
 (regulatory vs non-regulatory, successful and unsuccessful), whether the
 source-class budget was satisfied and why, why-now quality, provenance
-(`seed:<slug>` | `fresh`) and source class per candidate, each candidate's
-second-order seam, whether discovery is converging on less obvious
-opportunities, advances, kills, failed/abandoned experiments, decisions awaiting
-human input, and confirmation that no disallowed actions were taken.
+(`seed:<slug>` | `fresh`), source class and originating observation ID per
+candidate, each candidate's second-order seam, whether discovery is converging
+on less obvious opportunities, advances, kills, failed/abandoned experiments,
+decisions awaiting human input, and confirmation that no disallowed actions were
+taken.

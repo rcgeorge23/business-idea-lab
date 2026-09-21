@@ -3,7 +3,7 @@
 - **Mode:** normal | dry-run | smoke
 - **Started / finished:** ISO-8601
 - **Agent / model:** idea-worker / opencode-go/deepseek-v4.1-flash
-- **Method version:** 1.4.0
+- **Method version:** 1.5.0
 - **Input / output revision:** `<sha>` / `<sha or 'uncommitted'>`
 - **Status:** success | failed | invalid-output | over-budget
 
@@ -11,6 +11,22 @@
 
 | Seed | Shallow re-check result | Action (candidate / stays seed / status change) |
 |---|---|---|
+
+## Opportunity observations
+
+| Metric | Value |
+|---|---|
+| Observations in pool | n (target 15–20) |
+| Source-class distribution | ... |
+| Change-driven / persistent market failure | n / n |
+| Rejected in shallow triage | n |
+| Principal triage rejection reasons | ... |
+| Promoted to full candidates | n (≤ 3) |
+| Promoted observations and why | O1 → candidate-x: ... |
+
+**Pool file:** `observations/<run-id>.md`. Observations carry no score,
+confidence or evidence level, and triage survival confers no inherited
+positive evidence on a promoted candidate.
 
 ## Source classes searched
 
@@ -45,8 +61,8 @@ why, and why no filler candidates were manufactured]
 
 ## Candidate provenance
 
-| Candidate | Provenance (seed:<slug> or fresh) | Source class (regulatory?) | Why it qualifies for that class | Second-order seam | Why not the obvious first-order product |
-|---|---|---|---|---|---|
+| Candidate | Observation ID | Provenance (seed:<slug> or fresh) | Source class (regulatory?) | Why it qualifies for that class | Second-order seam | Why not the obvious first-order product |
+|---|---|---|---|---|---|---|
 
 ## What advanced
 
@@ -71,7 +87,7 @@ same hard filter? Flag it for method review; do not weaken a filter.>
 - Candidates generated: n / 3
 - Unreviewed after run: n / 10
 - Advances to validation-ready: n / 1
-- Web lookups: n / 25
+- Web lookups: n / 40
 - Cost: $x / $1.00 (tokens: n)
 
 ## Decisions needing human input

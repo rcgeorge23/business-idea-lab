@@ -44,7 +44,17 @@ The incumbent's filings function as a natural experiment: if a well-capitalised 
 
 ## False-negative audit (killed ideas only)
 
-- Audited: no — kill #2 of the run; the fifth-kill audit trigger has not been reached.
-- Reviewer / date: n/a
-- Verdict: n/a
-- What new evidence would justify reopening: audited unit economics showing a non-delivery model reaches positive contribution per box at small scale.
+- Audited: sampled for the kill-#15 trigger (every 5th kill, oldest unaudited)
+  on 2026-09-21; external audit request raised at
+  `reviews/2026-09-21-false-negative-audit-request-wonkybox.md`.
+- Worker self-audit: **kill upheld**. The kill rests on the category leader's
+  reported accounts (Oddbox ~£27m revenue, widening losses, churn), which are a
+  natural experiment in the delivered-box model; no delivery-density argument
+  improves a small entrant's economics relative to the leader. Residual
+  uncertainty: the evidence covers delivered boxes only, not pickup-only or B2B
+  surplus channels.
+- Reviewer / date: pending — no reviewer response has been received; no verdict
+  is claimed.
+- What new evidence would justify reopening: independently verifiable evidence
+  that a structurally different distribution model (pickup, B2B, community hub)
+  reaches positive contribution per box at small scale.

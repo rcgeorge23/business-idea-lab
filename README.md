@@ -165,11 +165,14 @@ The Aucly calibration keeps a no-hindsight pre-launch reconstruction
 (`ideas/aucly/pre-launch-assessment.md`; 49.5, parked, cheap test proposed) and
 a current-state assessment on real operating evidence (`ideas/aucly/dossier.md`;
 60.0, parked, early commercial evidence only). The independent ChatGPT
-critiques (GeoNerd review request v2, method v1.1.0, v1.2.0 and v1.3.0
-requests, and the shiftswap and BiK false-negative audits) are **still
-pending** — none has a reviewer response file — so the loop's output must not
-yet be treated as trusted. The full backlog and what would close each item is
-recorded in `reviews/2026-09-21-review-queue-reconciliation.md`.
+critiques were received and reconciled in issue #6: GeoNerd v2, the ShiftSwap
+audit, the BiK audit and method v1.1.0/v1.2.0/v1.3.0 are all `approved` with
+caveats preserved, and the falsification-first character of the method was
+endorsed. What remains outstanding is the method **1.4.0** request (superseded
+by 1.5.0 before a response; retained for cumulative review), the method
+**1.5.0** request, and the `wonkybox` kill-#15 false-negative audit. The full
+backlog and what closed each item is recorded in
+`reviews/2026-09-21-review-queue-reconciliation.md`.
 
 ## Status
 
@@ -238,8 +241,34 @@ recorded in `reviews/2026-09-21-review-queue-reconciliation.md`.
   reports that changing the source class changed the candidate subject matter
   but not the rejection reason, and escalates the third consecutive
   `defensible_wedge` cluster to a human-led review of discovery sourcing and
-  framing. The filter is explicitly **not** weakened. Method 1.4.0 review is
-  requested; `reasonable-steps-willingness` remains deferred with no outreach.
+  framing. The filter is explicitly **not** weakened. The 1.4.0 review request
+  was superseded by 1.5.0 before a response and is retained for cumulative
+  review; `reasonable-steps-willingness` remains deferred with no outreach.
+- Method 1.5.0 (2026-09-21, issue #7) is **discovery-shape only**: every normal
+  run now sweeps a pool of 15-20 materially distinct **opportunity
+  observations** (`observations/<run-id>.md`) covering both change-driven
+  opportunities and persistent market failures, shallow-triages all of them with
+  recorded negative evidence, and promotes at most 3 to full candidates through
+  the unchanged evaluation machinery. Persistent-market-failure observations
+  answer "why does this problem still persist despite existing alternatives?"
+  instead of a forced why-now, and the sweep must cover poor/expensive narrow
+  incumbent software, manual re-keying workflows and awkward integrations, with
+  practitioner/community evidence where feasible. Scoring, threshold,
+  hard-filter semantics and lifecycle gates are unchanged; funnel limits are 40
+  web lookups / 120 agent steps. Review request:
+  `reviews/2026-09-21-method-v1.5.0-review-request.md`.
+- Latest run `20260921T091851Z-normal` (USD 0.016822, method 1.5.0): 20
+  observations across 12 source classes (5 change-driven / 15 persistent), 18
+  rejected in shallow triage with cited reasons, 2 promoted - `vetlab-bridge`
+  (47.4) and `clinicdata-liberation` (49.5) - and **both killed on
+  `defensible_wedge`**; 0 advances. The source-class budget was met with 2 of 2
+  promotions non-regulatory. The funnel retrospective
+  (`retrospectives/2026-09-21-issue7-funnel-review.md`) **retains the funnel
+  unchanged**: breadth widened the search cheaply but did not raise candidate
+  quality on this run, so the third consecutive `defensible_wedge` cluster is
+  escalated to a human-led sourcing/framing review rather than a filter change.
+  The kill-#15 audit was raised for `wonkybox`
+  (`reviews/2026-09-21-false-negative-audit-request-wonkybox.md`).
 - GeoNerd is parked at `adversarially-researched` with score 49.5 (down from
   65.3 under the looser 1.0.0 semantics), an independent review requested
   (`reviews/2026-09-21-geonerd-review-request-v2.md`) and a proposed

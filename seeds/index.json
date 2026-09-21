@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "method_version": "1.4.0",
+  "method_version": "1.5.0",
   "updated": "2026-09-21",
   "counts": {
-    "total": 8,
+    "total": 10,
     "by_status": {
       "dropped": 1,
       "promoted": 1,
-      "unexplored": 6
+      "unexplored": 8
     }
   },
   "seeds": [
@@ -121,6 +121,36 @@
       "evidence": [
         "evidence/prsregister/2026-09-21-prs-database-rollout-recheck.md",
         "evidence/prsregister/2026-09-21-prs-database-and-incumbents.md"
+      ]
+    },
+    {
+      "id": "vetlab-standard-conformance",
+      "slug": "vetlab-standard-conformance",
+      "title": "DIN EN 18029 / VetXML exchange conformance tooling for veterinary lab and PIMS vendors",
+      "origin_idea": "vetlab-bridge",
+      "observation": "The VetLab Bridge kill found the lab-to-long-tail-PIMS delivery mechanism already sold by ManuCare and DataHub Vet and therefore killed the idea. The same research surfaced a different job: DIN EN 18029:2026-04 (E) was published in April 2026 as a European standard for veterinary laboratory data exchange (request, result and acknowledgement files plus a data dictionary), and VetXML is adopted by only some UK PIMS vendors and insurers, with no evidence that any vendor has implemented DIN EN 18029.",
+      "why_materially_different": "It serves a different buyer (PIMS/LIS and laboratory software vendors, and labs that must attest exchange conformance) with a different mechanism (a conformance/test-fixture and mapping-validation toolkit rather than a results-delivery service), and its value comes from standards adoption rather than from operating a channel. It must be researched from scratch and may fail on whether the standard is actually being adopted by any buyer, and on the small number of vendors.",
+      "recorded": "2026-09-21",
+      "status": "unexplored",
+      "evidence": [
+        "ideas/vetlab-bridge/decision.md",
+        "evidence/vetlab-bridge/2026-09-21-din-en-18029-standard.md",
+        "evidence/vetlab-bridge/2026-09-21-incumbent-bridges-and-lab-integrations.md"
+      ]
+    },
+    {
+      "id": "clinic-legacy-managed-archive",
+      "slug": "clinic-legacy-managed-archive",
+      "title": "Managed read-only archive and retention for clinics that keep legacy clinical records",
+      "origin_idea": "clinicdata-liberation",
+      "observation": "The ClinicData Liberation kill found the one-shot migration service already sold by ValueStreamAI and given away by receiving vendors. The same research surfaced a different, recurring job: clinics that switch off an end-of-life system must keep historical clinical records accessible for years, and Cherwell's evidence shows the documented alternative to re-migration is a purpose-built read-only archive reading the database backup. No UK small-clinic-tier managed archive product surfaced.",
+      "why_materially_different": "It has a different buyer (clinics that are retiring or have retired a system and need long-term read access, and the receiving vendors that would rather not store legacy data), a different mechanism (hosted read-only archive plus retention schedule and export-on-request, not migration), and recurring subscription economics rather than a one-shot fee. It must be researched from scratch and may fail the same wedge filter if archive vendors, receiving PIMS or the NHS already provide retention at no charge.",
+      "recorded": "2026-09-21",
+      "status": "unexplored",
+      "evidence": [
+        "ideas/clinicdata-liberation/decision.md",
+        "evidence/clinicdata-liberation/2026-09-21-eol-cluster-2026.md",
+        "evidence/clinicdata-liberation/2026-09-21-enterprise-archive-crowding.md"
       ]
     }
   ]

@@ -164,6 +164,138 @@ applies to every normal run (v1.4.0):
   non-regulatory class yields anything worth registering), that is itself a
   convergence signal to report — not a reason to relax the rule or promote filler.
 
+## Opportunity-observation funnel
+
+Discovery runs as a funnel, not as a search for three ideas:
+
+> **15–20 raw opportunity observations → shallow triage → at most 3 full candidates
+> → the existing rigorous evaluation.**
+
+The funnel exists to search more of the opportunity space before committing research
+budget to a candidate. It changes the *shape of discovery only*: scoring, threshold,
+hard-filter semantics, evidence levels, lifecycle gates and the candidate/advancement
+maxima are unchanged. Observations are not scored and carry no evidence level.
+
+### What counts as an observation
+
+An observation is deliberately lighter than a business idea. It describes an evidenced
+problem, workflow, dissatisfaction, market failure or change, without requiring a
+polished product proposition. Acceptable shapes include:
+
+- "Small firms in segment X repeatedly export data from system A and manually re-key
+  it into system B."
+- "Organisations in niche Y pay disproportionately high annual fees for software they
+  use only a few times per year."
+- "Users of incumbent Z repeatedly complain about a specific workflow that remains
+  unresolved."
+- "A repetitive professional service costing £N per case now appears technically
+  automatable."
+- "A platform/API/product change has created a new operational task for an
+  identifiable buyer."
+
+Do not create scorecards or dossiers for observations.
+
+### Observation record
+
+A run records its pool in `observations/<run-id>.md` (template:
+`templates/observation/pool.md`). Each observation records at minimum:
+
+- a concise problem/workflow statement;
+- the target user/buyer, if identifiable;
+- the source class it came from;
+- its evidence/source(s) and the evidence type — primary, practitioner/community,
+  vendor, or secondary;
+- why it may represent an opportunity;
+- an obvious incumbent / free-alternative check;
+- whether it is **change-driven** or a **persistent market failure**;
+- the triage outcome and reason.
+
+Keep each row compact: the pool must fit comfortably inside one run's budget.
+
+### Two discovery archetypes
+
+**A. Change-driven.** Something changed and created or materially worsened the
+problem: regulation, platform/API/pricing/access change, product end-of-life, a new
+dataset, a new technical capability, market restructuring. These record a conventional
+`why now?` per the section above.
+
+**B. Persistent market failure.** No recent discontinuity is required. Examples: poor
+or overpriced niche incumbent software; a narrow segment poorly served by products
+built for larger customers; recurring spreadsheet/email/PDF/manual workflows; awkward
+integration seams; expensive repetitive service work; persistent complaints about an
+incumbent; pricing disproportionate to the narrow job being performed. For these
+observations, replace a forced "why now?" with:
+
+> **Why does this problem still persist despite existing alternatives?**
+
+Possible answers: the market is too small for large vendors, incumbent lock-in,
+fragmented buyers, legacy architecture, low vendor priority, a recent fall in
+build/automation cost, or a narrow underserved segment. Do not invent a justification
+the evidence does not support — "I could not establish why this persists" is an honest
+and acceptable answer, and it is itself triage evidence.
+
+A candidate promoted from archetype B still needs a `why_now` object in its index
+entry. Record `strength: "absent"` when there is no favourable discontinuity, and put
+the persistence rationale (or its absence) in `why_it_matters` and the decision
+record. The v1.2.0 cap on `differentiation` and `problem_severity_frequency` for
+missing/unevidenced why-now still applies unchanged at `Plausible`/`Promising`
+evidence levels; the cap lifts at `Demand evidence` or better. Do not manufacture a
+discontinuity to escape the cap, and do not expect this issue's funnel to lift it.
+
+### Bias the sweep toward ugly persistent problems
+
+Method 1.5.0 deliberately aims meaningful search effort at:
+
+- poor / expensive / unpopular narrow incumbent software;
+- manual structured-data / spreadsheet / email / PDF re-keying workflows;
+- awkward integrations between established systems.
+
+Search practitioner and community evidence where feasible, not only vendor
+announcements and generic technology news. Useful evidence includes user complaints
+and reviews, practitioner forums and communities, support threads, trade/professional
+discussions, job descriptions showing repetitive admin, consultancy/service pricing,
+incumbent pricing/support/release notes, migration guides, and
+spreadsheet/CSV/manual-submission instructions.
+
+The source-class budget above still applies at candidate promotion. The observation
+pool should itself make source diversity visible; do not create a second quota.
+
+### Shallow triage
+
+Every observation gets a cheap first-pass triage before any candidate is promoted.
+Triage eliminates observations where desk evidence already shows, for example:
+
+- the exact solution is a standard incumbent feature;
+- an authoritative/free alternative adequately solves the job;
+- many credible vendors already occupy the proposed seam;
+- the problem is obviously one-shot with no attractive economics (unless a service
+  business is intentionally being considered);
+- no plausible economic buyer exists;
+- the observation is merely a feature request rather than a standalone or
+  meaningfully differentiated opportunity;
+- the apparent opportunity depends on network effects before value can be delivered.
+
+Triage is **not** a replacement for the hard filters; it is a cheap way to avoid
+spending full candidate-research effort on obvious dead ends. Record the negative
+evidence and the reason for every rejection. An observation that fails triage but
+contains an adjacent insight becomes a seed under `seeds/` rather than a candidate.
+
+### Promotion
+
+At most **3** observations become full candidates. Favour observations with the
+strongest combination of: credible problem evidence; an identifiable buyer; a
+plausible route to payment; evidence that alternatives leave a meaningful gap; an
+inexpensive path to falsification; and reasonable fit for a small/bootstrapped
+business. Zero, one or two promotions are valid — never select candidates merely to
+fill three slots, and never promote filler to satisfy the source-class budget.
+
+Once promoted, a candidate goes through the **existing full process unchanged**:
+fresh research, fingerprint/duplicate check, incumbent/novelty sanity check, evidence
+register, hard filters, scorecard, adversarial review, lifecycle decision, and at most
+one `validation-ready` advancement. Name the originating observation ID in the
+candidate's decision record. Surviving triage confers **no** inherited positive
+evidence of any kind.
+
 ## Duplicate detection
 
 Before creating a candidate, check against every entry in `ideas/index.json` and every
@@ -202,3 +334,8 @@ without resurrecting the killed idea:
   candidate. A recurring cluster of `defensible_wedge` kills is a signal to review
   discovery — not to weaken the filter.
 - Rejected candidates keep their why-now analysis in the decision record.
+- A funnel run reports the observation pool: total observations, source-class
+  distribution, change-driven vs persistent-market-failure split, the number rejected
+  during shallow triage with the principal reasons, the observations promoted and why,
+  and the research cost / lookup usage where available. The pool itself is written to
+  `observations/<run-id>.md` and is never treated as scored evidence.

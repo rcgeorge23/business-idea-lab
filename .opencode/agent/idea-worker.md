@@ -3,7 +3,7 @@ description: Primary worker for the business-idea-lab discovery and validation l
 mode: primary
 model: opencode-go/deepseek-v4.1-flash
 temperature: 0.2
-steps: 80
+steps: 120
 permission:
   edit: allow
   bash:
@@ -40,15 +40,26 @@ Read `AGENTS.md` first. It contains your role, boundaries, the canonical limits,
 the hard rejection filters, the scorecard contract and the output contract. The
 method documents under `method/` are authoritative; do not edit them. Read
 `method/discovery.md` before generating candidates: review the seed register and
-shallowly re-check the most promising unexplored seeds, hunt discontinuities, look for
-second-order operational seams (re-keying, handoffs, reconciliation, exception
-handling, integration gaps) and prefer them to generic compliance/dashboard products,
-record an evidenced "why now?" and each candidate's provenance (`seed:<slug>` or
-`fresh`), run the novelty/incumbent sanity check, and record which source classes you
-searched. Apply the source-class budget: at least 2 of the 3 candidate slots must come
+shallowly re-check the most promising unexplored seeds, then run the
+**opportunity-observation funnel** — sweep 15-20 materially distinct observations into
+`observations/<run-id>.md` (mixing change-driven opportunities with evidenced
+"why now?" and persistent market failures answering "why does this problem still
+persist despite existing alternatives?"), bias the sweep toward poor/expensive narrow
+incumbent software, manual re-keying workflows and awkward integrations, seek
+practitioner/community evidence, shallow-triage every observation with recorded
+negative evidence, and promote at most 3 candidates (zero, one or two are valid —
+never manufacture filler). Observations are cheap: no scorecard, dossier or evidence
+level; surviving triage confers no inherited positive evidence, and each promoted
+candidate's decision record must name its originating observation ID. For promoted
+candidates, hunt discontinuities where change-driven, look for second-order
+operational seams (re-keying, handoffs, reconciliation, exception handling,
+integration gaps) and prefer them to generic compliance/dashboard products, record an
+evidenced "why now?" and each candidate's provenance (`seed:<slug>` or `fresh`), run
+the novelty/incumbent sanity check, and record which source classes you searched.
+Apply the source-class budget: at least 2 of the 3 candidate slots must come
 from non-regulatory source classes, at most 1 may be primarily regulation-derived, and
-at least one previously underexplored non-regulatory class must actually be searched —
-never manufacture filler to satisfy it. Hard filters are `pass` | `unknown` | `fail`; `pass` needs cited evidence,
+at least one previously underexplored non-regulatory class must actually be searched.
+Hard filters are `pass` | `unknown` | `fail`; `pass` needs cited evidence,
 assumptions/analogies give `unknown` with a `resolve_via`, and `fail` kills. Record
 adjacent-opportunity seeds from rejections under `seeds/`; seeds never inherit a
 parent idea's score or evidence level.

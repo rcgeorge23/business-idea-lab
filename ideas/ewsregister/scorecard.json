@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.4.0",
+  "method_version": "1.5.0",
   "weights_version": "1.2.0",
   "idea_id": "ewsregister",
   "slug": "ewsregister",
@@ -12,21 +12,27 @@
       "weight": 15,
       "score": 3,
       "confidence": "medium",
-      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "evidence": [
+        "evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"
+      ],
       "rationale": "A dated, non-negotiable EWS disablement (2026-10-01) and shutdown (2027-04-01) with hidden dependencies in backup jobs, archive connectors, public folders and scripts is adequately evidenced for this market by a credible secondary source; the breakage is one-time rather than frequent, which keeps this at 3."
     },
     "buyer_budget_clarity": {
       "weight": 15,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "evidence": [
+        "evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"
+      ],
       "rationale": "Buyer assumed (MSPs / SMB IT managers on Microsoft 365); no evidence of budget ownership or purchase. Capped at 2."
     },
     "evidence_strength": {
       "weight": 15,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "evidence": [
+        "evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"
+      ],
       "rationale": "Single credible secondary source about the platform change; no primary or buyer-side evidence."
     },
     "distribution": {
@@ -40,7 +46,9 @@
       "weight": 10,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "evidence": [
+        "evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"
+      ],
       "rationale": "No defensible wedge: Microsoft's free authoritative EWS usage report plus `EWSEnabled` / `EWSAllowedAppIDs` controls cover the core need, and the residual work is one-shot migration services MSPs already sell. A first-party alternative makes this undifferentiable, capped at 2."
     },
     "validation_speed_cost": {
@@ -61,7 +69,9 @@
       "weight": 10,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "evidence": [
+        "evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"
+      ],
       "rationale": "A one-shot need priced as a subscription is a poor recurring business; support and spec-maintenance costs unmodelled. Modelled economics on untested inputs capped at 2."
     },
     "founder_fit": {
@@ -101,7 +111,9 @@
     "defensible_wedge": {
       "status": "fail",
       "note": "Microsoft's free EWS usage report and `EWSEnabled` / `EWSAllowedAppIDs` controls already cover the core discovery need, and the residual work is one-shot migration services MSPs already sell.",
-      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "evidence": [
+        "evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"
+      ],
       "resolve_via": ""
     },
     "no_network_effects_needed": {
@@ -125,7 +137,9 @@
     "cheap_disconfirming_test": {
       "status": "pass",
       "note": "A zero-cost desk competitive scan was sufficient to disconfirm the wedge this run.",
-      "evidence": ["evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"],
+      "evidence": [
+        "evidence/ewsregister/2026-09-21-ews-retirement-and-usage-visibility.md"
+      ],
       "resolve_via": ""
     },
     "not_all_optimistic": {

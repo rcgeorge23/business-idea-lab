@@ -4,6 +4,50 @@ Every material change to the method bumps `method/VERSION` and is listed here wi
 review status. Review status values: `not-required` | `requested` | `changes-requested` |
 `approved` | `killed`. See `method/review-policy.md` (section "Method changes").
 
+## 1.5.0 - 2026-09-21
+
+Motivated by issue #7: the source-class budget worked (the 1.4.0 run produced three
+non-regulatory candidates) but candidate quality did not improve, so the next
+experiment increases **breadth before depth** rather than weakening filters or
+rerunning the same three-candidate process.
+
+Changed (discovery shape only - scorecard weights, threshold 65, hard-filter
+semantics, `defensible_wedge`, evidence-level definitions, lifecycle gates and the
+candidate/advancement maxima are unchanged):
+
+- **`method/discovery.md`**: new `## Opportunity-observation funnel` section. A run
+  sweeps 15-20 materially distinct opportunity observations into
+  `observations/<run-id>.md` before promoting at most 3 full candidates. Supports both
+  change-driven opportunities (conventional evidenced why-now) and persistent market
+  failures (answer "why does this problem still persist despite existing
+  alternatives?"; never invent a discontinuity). Biases the sweep toward poor/expensive
+  narrow incumbent software, manual structured-data/re-keying workflows and awkward
+  integrations between established systems, seeking practitioner/community evidence.
+  Defines the observation record, shallow triage with recorded negative evidence, and
+  promotion criteria; observations carry no score, dossier or evidence level and
+  surviving triage confers no inherited positive evidence. The 1.4.0 source-class budget
+  is retained unchanged and applies at promotion.
+- **`templates/observation/pool.md`** (new) and **`observations/README.md`** (new): the
+  compact pool format and directory rules.
+- **`method/run-protocol.md`**: step 3 is now the funnel (3.1 observation sweep, 3.2
+  shallow triage, 3.3 promotion); step 12 and the limits table updated (web lookups
+  25 -> 40, agent steps 80 -> 120); run metadata example now 1.5.0.
+- **`templates/run/summary.md`**: new `## Opportunity observations` section (pool
+  statistics, triage outcomes, promotions) and an Observation ID column in the
+  candidate provenance table.
+- `AGENTS.md`, `scripts/prompts/lab-run.md` and `.opencode/agent/idea-worker.md` state
+  the funnel and its recording requirements; the worker agent iteration limit is 120.
+
+Regression: the funnel changes where candidates come from and how much of the space is
+inspected first; it is not a score input, so no score, evidence level or hard-filter
+outcome can move because of it. Killed fixtures remain rejected for their recorded
+reasons; parked ideas remain parked. The empirical check is the post-change run
+required by issue #7, whose assessment is recorded in
+`retrospectives/2026-09-21-issue7-funnel-review.md`.
+
+Review: `requested` - see `reviews/2026-09-21-method-v1.5.0-review-request.md`. Update
+this entry with the outcome when the review lands and answer it in the next run.
+
 ## 1.4.0 - 2026-09-21
 
 Motivated by issue #6, implementing the non-regulatory source-budget proposal recorded
@@ -37,9 +81,11 @@ rejected for their recorded reasons; parked ideas remain parked. The empirical c
 the post-change run required by issue #6, whose convergence assessment is recorded in
 `retrospectives/2026-09-21-issue6-convergence-review.md`.
 
-Review: `requested` - see `reviews/2026-09-21-method-v1.4.0-review-request.md`. This
-entry must be updated with the outcome when the review lands; there are no other
-outstanding review requests.
+Review: `requested`, then **superseded by method 1.5.0 on 2026-09-21 before a
+response was received** - see `reviews/2026-09-21-method-v1.4.0-review-request.md`.
+The 1.4.0 source-class budget is retained unchanged inside 1.5.0, so a reviewer may
+answer the two versions cumulatively; this entry must be updated with the outcome when
+the review lands.
 
 ## 1.3.0 - 2026-09-21
 

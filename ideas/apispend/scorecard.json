@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.4.0",
+  "method_version": "1.5.0",
   "weights_version": "1.2.0",
   "idea_id": "apispend",
   "slug": "apispend",
@@ -12,21 +12,27 @@
       "weight": 15,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "evidence": [
+        "evidence/apispend/2026-09-21-metered-api-pricing-shift.md"
+      ],
       "rationale": "Metered API and agent-traffic cost pain is inferred from a vendor primary (Autodesk pricing from 2026-08-17), industry commentary and one unverifiable operator diary; no buyer-specific frequency or budget evidence. Capped at 2 (plausible but undemonstrated)."
     },
     "buyer_budget_clarity": {
       "weight": 15,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "evidence": [
+        "evidence/apispend/2026-09-21-metered-api-pricing-shift.md"
+      ],
       "rationale": "Buyer assumed (engineering/finance leads at 20-200 staff software firms) but no evidence anyone buys a standalone tool for this job. Capped at 2."
     },
     "evidence_strength": {
       "weight": 15,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "evidence": [
+        "evidence/apispend/2026-09-21-metered-api-pricing-shift.md"
+      ],
       "rationale": "One vendor primary plus weak secondary/opinion sources; no primary evidence about this buyer or market."
     },
     "distribution": {
@@ -40,7 +46,9 @@
       "weight": 10,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "evidence": [
+        "evidence/apispend/2026-09-21-metered-api-pricing-shift.md"
+      ],
       "rationale": "No defensible wedge: per-integration/per-agent attribution, budgets, quotas and chargeback are standard API-gateway and FinOps functionality already marketed by WSO2 AI Gateway, Moesif, Workato Enterprise MCP, Arcade and n8n. Direct incumbents contest the position, so capped at 2."
     },
     "validation_speed_cost": {
@@ -61,7 +69,9 @@
       "weight": 10,
       "score": 2,
       "confidence": "low",
-      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "evidence": [
+        "evidence/apispend/2026-09-21-metered-api-pricing-shift.md"
+      ],
       "rationale": "Self-serve price and support load unmodelled; modelled economics on untested inputs are capped at 2 with low confidence."
     },
     "founder_fit": {
@@ -101,7 +111,9 @@
     "defensible_wedge": {
       "status": "fail",
       "note": "Metering, attribution, quota and chargeback are standard gateway/FinOps functionality and multiple vendors already market the position (Moesif per-agent attribution; WSO2 AI Gateway token budgets; Workato Enterprise MCP; Arcade; n8n).",
-      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "evidence": [
+        "evidence/apispend/2026-09-21-metered-api-pricing-shift.md"
+      ],
       "resolve_via": ""
     },
     "no_network_effects_needed": {
@@ -125,7 +137,9 @@
     "cheap_disconfirming_test": {
       "status": "pass",
       "note": "A zero-cost desk competitive scan was sufficient to disconfirm the wedge this run.",
-      "evidence": ["evidence/apispend/2026-09-21-metered-api-pricing-shift.md"],
+      "evidence": [
+        "evidence/apispend/2026-09-21-metered-api-pricing-shift.md"
+      ],
       "resolve_via": ""
     },
     "not_all_optimistic": {
