@@ -59,9 +59,14 @@ O14 (insurance broker submission re-keying) was re-checked as the first sampled 
 the rejection was upheld on demonstrated incumbent occupation, not on mere competitor
 existence.
 
-Review: `requested` - see `reviews/2026-09-21-method-v1.6.0-review-request.md`. This
-version answers the `changes-requested` 1.5.0 review recorded below; the 1.4.0 review is
-recorded as `approved` in its entry below.
+Review: **`approved`** - response received 2026-09-21 in
+`reviews/2026-09-21-method-v1.6.0-chatgpt.md` (ChatGPT/GPT-5.6 Sol): the two-part
+persistence test is tight enough, one sampled audit per run is the right starting
+cadence, the competitor-existence clarification does not weaken `defensible_wedge`, the
+regressions are sufficient, and the funnel/pool size is retained. No changes requested;
+the reviewer's monitor list for the next run is recorded in the response. This version
+answers the `changes-requested` 1.5.0 review recorded below; the 1.4.0 review is recorded
+as `approved` in its entry below.
 
 ## 1.5.0 - 2026-09-21
 

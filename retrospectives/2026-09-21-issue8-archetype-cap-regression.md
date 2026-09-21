@@ -142,8 +142,8 @@ restored. The persistent archetype is now explicitly admitted where permitted
 
 ## Method status
 
-Method 1.6.0 carries these changes with review `requested`
-(`reviews/2026-09-21-method-v1.6.0-review-request.md`); it answers the 1.5.0
-`changes-requested` review and records 1.4.0 as approved. The funnel and its 15-20
+Method 1.6.0 carries these changes with review **`approved`**
+(`reviews/2026-09-21-method-v1.6.0-chatgpt.md`, no changes requested); it answers the
+1.5.0 `changes-requested` review and records 1.4.0 as approved. The funnel and its 15-20
 pool are retained provisionally. `defensible_wedge`, threshold 65, evidence levels and
 lifecycle gates are unchanged.

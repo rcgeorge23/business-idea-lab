@@ -171,10 +171,10 @@ caveats preserved, and the falsification-first character of the method was
 endorsed. The method **1.4.0** request was answered **`approved`**
 (`reviews/2026-09-21-method-v1.4.0-chatgpt.md`) and the method **1.5.0** request was
 answered **`changes-requested`** (`reviews/2026-09-21-method-v1.5.0-chatgpt.md`);
-method 1.6.0 implements those changes and has a new independent review request
-outstanding. The only other outstanding item is the `wonkybox` kill-#15 false-negative
-audit. The full backlog and what closed each item is recorded in
-`reviews/2026-09-21-review-queue-reconciliation.md`.
+method 1.6.0 implements those changes and was itself answered **`approved`**
+(`reviews/2026-09-21-method-v1.6.0-chatgpt.md`, no changes requested). The only
+outstanding item is the `wonkybox` kill-#15 false-negative audit. The full backlog and
+what closed each item is recorded in `reviews/2026-09-21-review-queue-reconciliation.md`.
 
 ## Status
 
@@ -284,8 +284,12 @@ audit. The full backlog and what closed each item is recorded in
   threshold 65, `defensible_wedge`, evidence levels and lifecycle gates are unchanged.
   Regression re-reads (Aucly pre-launch, `shiftswap`, `wonkybox`, `grantscout`) revived
   nothing, and the first sampled audit (O14 broker submission re-keying) upheld its
-  triage rejection on demonstrated incumbent occupation. Review request:
-  `reviews/2026-09-21-method-v1.6.0-review-request.md`.
+  triage rejection on demonstrated incumbent occupation. Review request
+  `reviews/2026-09-21-method-v1.6.0-review-request.md`, answered **`approved`**
+  (`reviews/2026-09-21-method-v1.6.0-chatgpt.md`), no changes requested; the reviewer
+  asked that the next run be judged on the monitor list in that response (persistence
+  test on real evidence, audit outcome, incumbent-captured promotions, pool padding,
+  budget pressure, candidate strength).
 - GeoNerd is parked at `adversarially-researched` with score 49.5 (down from
   65.3 under the looser 1.0.0 semantics), an independent review requested
   (`reviews/2026-09-21-geonerd-review-request-v2.md`) and a proposed

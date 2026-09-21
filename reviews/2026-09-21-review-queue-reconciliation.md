@@ -116,8 +116,8 @@ The method requests raised after this reconciliation were also answered:
 | - | - | - |
 | Method v1.4.0 (source-class budget) | `approved` — budget retained as a discovery-only experiment; no quota gaming; do not tighten | `2026-09-21-method-v1.4.0-chatgpt.md` |
 | Method v1.5.0 (observation funnel) | `changes-requested` — funnel retained; archetype-aware missing-why-now cap and sampled triage false-negative audit required; threshold/filter/evidence semantics unchanged | `2026-09-21-method-v1.5.0-chatgpt.md` |
+| Method v1.6.0 (review-findings fix) | `approved` — persistence test tight enough, one sampled audit is the right cadence, competitor-existence clarification does not weaken `defensible_wedge`, regressions sufficient, funnel/pool retained; no changes requested | `2026-09-21-method-v1.6.0-chatgpt.md` |
 
-Method 1.6.0 implements the requested changes and carries
-`reviews/2026-09-21-method-v1.6.0-review-request.md`. The only outstanding reviews
-under the method track are that request and the `wonkybox` kill-#15 false-negative
-audit request.
+Method 1.6.0 implements the changes requested by the v1.5.0 review and was approved in
+return. The only outstanding review under the method track is the `wonkybox` kill-#15
+false-negative audit request.

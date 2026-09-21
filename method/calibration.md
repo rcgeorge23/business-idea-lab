@@ -147,9 +147,10 @@ All five criteria were met by 2026-09-21 (issue #6 response reconciliation; see 
 status table). Later method reviews are now reconciled too: 1.4.0 was **approved** on
 receipt of `reviews/2026-09-21-method-v1.4.0-chatgpt.md`; 1.5.0 was answered
 **`changes-requested`** (`reviews/2026-09-21-method-v1.5.0-chatgpt.md`) and method 1.6.0
-implements the requested changes with a new review requested (issue #8). The only
-outstanding reviews are the `wonkybox` kill-#15 false-negative audit and the method
-1.6.0 request; neither blocks the calibration exit criteria.
+implements the requested changes with a new review requested (issue #8). That 1.6.0
+review has since been answered **`approved`** (`reviews/2026-09-21-method-v1.6.0-chatgpt.md`,
+no changes requested), so the only outstanding review is the `wonkybox` kill-#15
+false-negative audit; it does not block the calibration exit criteria.
 
 ## Status
 
@@ -177,5 +178,5 @@ outstanding reviews are the `wonkybox` kill-#15 false-negative audit and the met
 | Funnel discovery run (issue #7) | worker | done | 2026-09-21 | `runs/20260921T091851Z-normal` (USD 0.016822; validator pass); 20 observations (12 classes; 5 change-driven / 15 persistent), 18 rejected in shallow triage with reasons, 2 promoted (`vetlab-bridge` 47.4, `clinicdata-liberation` 49.5), both killed on `defensible_wedge`; 0 advances; budget met (2/2 non-regulatory); pool at `observations/20260921T091851Z-normal.md` |
 | Funnel retrospective (issue #7) | worker | done | 2026-09-21 | `retrospectives/2026-09-21-issue7-funnel-review.md`; funnel retained unchanged at 15–20 observations; breadth did not raise candidate quality on this run; third `defensible_wedge` cluster escalated to human-led sourcing review; filter not weakened |
 | False-negative audit (kill #15) | worker + reviewer | requested | 2026-09-21 | `wonkybox` sampled (oldest unaudited); worker self-audit upheld the kill; request `reviews/2026-09-21-false-negative-audit-request-wonkybox.md`; no reviewer response yet |
-| Method 1.6.0 review-findings fix (issue #8) | worker | done | 2026-09-21 | Archetype-aware missing-why-now cap (persistence thesis, two-part test), sampled triage false-negative audit (one rejection per funnel run), competitor-existence clarification; funnel and pool retained at 15–20; scoring, threshold 65, `defensible_wedge`, evidence levels and lifecycle gates unchanged; review requested (`reviews/2026-09-21-method-v1.6.0-review-request.md`) |
+| Method 1.6.0 review-findings fix (issue #8) | worker | done | 2026-09-21 | Archetype-aware missing-why-now cap (persistence thesis, two-part test), sampled triage false-negative audit (one rejection per funnel run), competitor-existence clarification; funnel and pool retained at 15–20; scoring, threshold 65, `defensible_wedge`, evidence levels and lifecycle gates unchanged; review request `reviews/2026-09-21-method-v1.6.0-review-request.md` answered **`approved`** (`reviews/2026-09-21-method-v1.6.0-chatgpt.md`), no changes requested |
 | Method 1.6.0 regression + triage audit (issue #8) | worker | done | 2026-09-21 | Aucly pre-launch, `shiftswap`, `wonkybox`, `grantscout` re-read with nothing revived; first sampled triage audit O14 upheld on demonstrated incumbent occupation; recorded in `retrospectives/2026-09-21-issue8-archetype-cap-regression.md` and the v1.5 pool file |
