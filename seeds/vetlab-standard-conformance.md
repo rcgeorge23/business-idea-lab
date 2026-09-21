@@ -3,7 +3,7 @@
 - **Seed ID / slug:** `vetlab-standard-conformance` / `vetlab-standard-conformance`
 - **Origin idea:** `vetlab-bridge` (`killed`)
 - **Recorded:** 2026-09-21
-- **Status:** `unexplored`
+- **Status:** `promoted`
 
 **This seed does not inherit any score, evidence level or hard-filter status from
 `vetlab-bridge`.** The parent was killed on the `defensible_wedge` hard filter. A future
@@ -56,3 +56,4 @@ selling to the implementers of a new standard instead of operating the integrati
 | Date | Outcome | Why | Link |
 |---|---|---|---|
 | 2026-09-21 | created | Surfaced during the `vetlab-bridge` kill; recorded as a non-inheriting adjacent opportunity | this file |
+| 2026-09-21 | promoted | Full fresh research during run `20260921T100247Z-normal` produced candidate `vetlab-en18029-conformance` (observation O5); the candidate carries its own evidence, hard filters and 44.2/100 score and inherits nothing from `vetlab-bridge` | `ideas/vetlab-en18029-conformance/` |

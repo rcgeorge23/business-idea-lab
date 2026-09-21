@@ -96,6 +96,29 @@
         "human_hours": 6,
         "calendar_days": 3
       }
+    },
+    {
+      "id": "vetlab-en18029-conformance-buyer-wedge",
+      "idea_id": "vetlab-en18029-conformance",
+      "title": "Buyer-wedge test: will lab/PIMS vendors fund EN 18029 conformance before a mandate?",
+      "status": "proposed",
+      "created": "2026-09-21",
+      "updated": "2026-09-21",
+      "hypothesis": "If EN 18029 conformance and reference-list work is a real implementation cost, then at least two of five named laboratories or PIMS/LIMS vendors will name a currently funded conformance or reference-list need or commit to a paid pilot, because implementers must exchange laboratory data and the standard omits the code lists.",
+      "central_assumption": "Veterinary PIMS/LIMS and laboratory software vendors, or laboratories themselves, will fund EN 18029 conformance and reference-list tooling before any mandate requires it.",
+      "kill_condition": "Zero of five interviewees name a funded conformance/reference-list need, or the dominant response is that nothing will be done before a mandate, or the desk step shows a shipping vendor conformance/reference-list product that adequately occupies the exact seam for the defined buyer.",
+      "decision_rule": "Proceed iff >=2 of 5 interviewees name a currently funded EN 18029/VetXML conformance or reference-list need or commit to a paid pilot at a stated price. Iterate once if exactly 1 does, or several name the need but no budget owner exists. Kill if 0 of 5 do or the dominant response is that no work is needed until a mandate. Record as untested if interviews cannot be arranged.",
+      "plan": "experiments/vetlab-en18029-conformance-buyer-wedge/plan.md",
+      "results": null,
+      "approval": {
+        "required": true,
+        "granted": false
+      },
+      "cost_bound": {
+        "money_gbp": 0,
+        "human_hours": 12,
+        "calendar_days": 21
+      }
     }
   ]
 }

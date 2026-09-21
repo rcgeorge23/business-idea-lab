@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "method_version": "1.6.0",
+  "weights_version": "1.2.0",
+  "idea_id": "vetlab-en18029-conformance",
+  "slug": "vetlab-en18029-conformance",
+  "title": "EN 18029 exchange conformance and reference-list tooling for veterinary lab and PIMS/LIMS vendors",
+  "state": "desk-screened",
+  "updated": "2026-09-21",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-en18029-standard-scope.md",
+        "evidence/vetlab-en18029-conformance/2026-09-21-vet-interoperability-and-incumbents.md"
+      ],
+      "rationale": "EN 18029 specifies request/result/acknowledgement files but explicitly excludes the code lists needed for unambiguous exchange, and veterinary PIMS/lab APIs are described as closed, undocumented or fee-gated. The problem is plausible and structurally recurring, but no buyer has been shown to feel it as a budgeted pain and no frequency or cost figure is evidenced, so the archetype-aware missing-why-now cap limits this to 2."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-vetlab-market-and-buyer-economics.md",
+        "evidence/vetlab-en18029-conformance/2026-09-21-vet-interoperability-and-incumbents.md"
+      ],
+      "rationale": "A conceivable buyer set exists (PIMS/LIMS and laboratory software vendors, and laboratories attesting conformance), but no named buyer, budget line, price point or procurement route is evidenced. The UK diagnostic-laboratories software segment is small (USD 6.35m in 2025). Assumption, not evidence, so this is scored 2 with low confidence."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-en18029-standard-scope.md"
+      ],
+      "rationale": "The standard's existence and scope are primary-sourced, but there is no evidence of adoption, implementation demand or budget. The register is thin and all three entries leave the central assumption unresolved, so this is a Plausible-level evidence base only."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-vetlab-market-and-buyer-economics.md",
+        "evidence/vetlab-en18029-conformance/2026-09-21-vet-interoperability-and-incumbents.md"
+      ],
+      "rationale": "A named target list exists in principle (VetXML consortium members, LIMS vendors), which suggests a plausible direct route, but no prospect has been contacted or evidenced and no channel test has been run. Plausible-but-no-prospects caps this at 2."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-vet-interoperability-and-incumbents.md"
+      ],
+      "rationale": "No shipping EN 18029 conformance, test-fixture or reference-list product was found, so the exact seam is not demonstrably occupied; but VetXML publishes free schemas and a hub, adjacent middleware exists (Bitwerx, Covetrus Connect) and the why-now is weak (a standard, not a mandate), so the missing-why-now cap limits differentiation to 2."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-en18029-standard-scope.md"
+      ],
+      "rationale": "The disconfirming question (will any vendor or lab fund conformance tooling without a mandate?) can be tested cheaply by a desk check of vendor documentation plus a small number of approval-gated interviews, with no money required. Medium confidence because no test has yet been run."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-en18029-standard-scope.md",
+        "evidence/vetlab-en18029-conformance/2026-09-21-vet-interoperability-and-incumbents.md"
+      ],
+      "rationale": "Schema validation, test fixtures and mapping tables are buildable from public standards documentation; the hard part is the maintained reference-list content and vendor access, which is plausible but unproven. Scored 3 with medium confidence."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-vetlab-market-and-buyer-economics.md"
+      ],
+      "rationale": "No price point, contract or margin is evidenced and the buying population (software vendors and labs) is small with a documented one-off tender at GBP 202,652 and a single offer. Economics are modelled assumptions only, which caps this at 2."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": "No founder or team detail was available in this run, so founder fit is unscored rather than asserted."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-vet-interoperability-and-incumbents.md"
+      ],
+      "rationale": "No legal or regulatory risk: this is a voluntary technical standard, not a mandate, so there is no compliance liability. The main risks are demand risk (vendors may not pay before a mandate) and content-maintenance burden in the reference lists, which are ordinary commercial risks rather than unacceptable ones."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "unknown",
+      "note": "A buyer set can be named (PIMS/LIMS and laboratory software vendors, and laboratories attesting exchange conformance) but no specific buyer, budget or procurement route is evidenced, so this is an assumption, not a pass.",
+      "evidence": [],
+      "resolve_via": "Ask five named labs/PIMS vendors (VetXML member list) whether a funded EN 18029/VetXML conformance or reference-list need exists and who owns the budget."
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "unknown",
+      "note": "The problem is structurally recurring (every lab-to-prescriber exchange needs mapping and code lists) but no evidence yet shows it is felt as a budgeted pain; no frequency or cost figure is cited.",
+      "evidence": [],
+      "resolve_via": "Document vendor and lab statements about conformance effort/cost in the interviews proposed in experiments/vetlab-en18029-conformance-buyer-wedge/plan.md."
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "A plausible non-paid route exists (the public VetXML member list and standards bodies), but no prospect has been reached or evidenced, so the filter is untested.",
+      "evidence": [],
+      "resolve_via": "Attempt direct approaches to at least five named vendors/labs from the public member list and record reply rates."
+    },
+    "defensible_wedge": {
+      "status": "unknown",
+      "note": "No shipping product demonstrably occupies the exact EN 18029 conformance/reference-list seam (competitor existence is not treated as wedge failure), but the wedge is unproven and the standard is voluntary; the missing-why-now cap keeps differentiation at 2.",
+      "evidence": [],
+      "resolve_via": "Desk-check whether any vendor ships EN 18029 conformance or maintained cross-walk tooling, and test whether implementers will pay for it absent a mandate."
+    },
+    "no_network_effects_needed": {
+      "status": "pass",
+      "note": "A single laboratory and a single PIMS/LIMS vendor derive value from validating a file exchange and using a common reference list pair; value does not require a critical mass of participants.",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-en18029-standard-scope.md"
+      ],
+      "resolve_via": ""
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "Software margins could be high if reference-list upkeep is light, but no pricing evidence exists and the buyer population is small, so margins are modelled assumptions only (economics capped at 2).",
+      "evidence": [],
+      "resolve_via": "Test willingness to pay for a conformance package at a specific price in the proposed interviews and compare against estimated upkeep effort."
+    },
+    "acceptable_risk": {
+      "status": "unknown",
+      "note": "No legal, privacy or platform risk is evident for a voluntary standard, but demand risk is material and unassessed because no buyer has been tested.",
+      "evidence": [],
+      "resolve_via": "The proposed buyer-wedge experiment will measure whether demand exists before a mandate, which is the principal risk."
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "A cheap, decisive test exists: a desk check of vendor documentation plus a small number of approval-gated interviews, costing zero money and about twelve human-hours, with a pre-fixed decision rule.",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-en18029-standard-scope.md"
+      ],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Viability does not depend on every optimistic assumption being true, but several central assumptions (buyer, budget, adoption) remain unevidenced, so this cannot be a pass.",
+      "evidence": [],
+      "resolve_via": "The proposed experiment tests the central assumption directly; if it fails, the idea is killed."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 95,
+    "raw_weighted_points": 42.0,
+    "weighted_total": 44.2,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "low",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": "vetlab-en18029-conformance-buyer-wedge",
+    "status": "proposed",
+    "plan": "experiments/vetlab-en18029-conformance-buyer-wedge/plan.md",
+    "results": null
+  }
+}

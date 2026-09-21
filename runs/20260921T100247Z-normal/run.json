@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "run_id": "20260921T100247Z-normal",
+  "mode": "normal",
+  "status": "success",
+  "started_at": "2026-09-21T10:02:47Z",
+  "finished_at": "2026-09-21T10:11:30Z",
+  "agent": "idea-worker",
+  "model": "opencode-go/deepseek-v4.1-flash",
+  "method_version": "1.6.0",
+  "input_revision": "b25fe8c",
+  "output_revision": "b25fe8c",
+  "attempts": 1,
+  "timeout_seconds": 3600,
+  "max_cost_usd": 1.0,
+  "cost_usd": 0.010209,
+  "tokens": {
+    "input": 37380,
+    "output": 6503,
+    "reasoning": 6008,
+    "cache_read": null,
+    "cache_write": null,
+    "total": 217703
+  },
+  "changed_files": [
+    "evidence/vetlab-en18029-conformance/",
+    "experiments/index.json",
+    "experiments/vetlab-en18029-conformance-buyer-wedge/",
+    "ideas/index.json",
+    "ideas/vetlab-en18029-conformance/",
+    "observations/20260921T100247Z-normal.md",
+    "seeds/index.json",
+    "seeds/vetlab-reference-list-management.md",
+    "seeds/vetlab-standard-conformance.md"
+  ],
+  "validation": {
+    "status": "pass",
+    "errors": []
+  },
+  "summary_path": "runs/20260921T100247Z-normal/summary.md"
+}

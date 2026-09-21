@@ -8,10 +8,11 @@
     "max_validation_ready_advances_per_run": 1
   },
   "counts": {
-    "total": 18,
+    "total": 19,
     "unreviewed": 0,
     "by_state": {
       "adversarially-researched": 3,
+      "desk-screened": 1,
       "killed": 15
     },
     "killed": 15
@@ -962,6 +963,59 @@
           "granted": false
         },
         "plan": null
+      }
+    },
+    {
+      "id": "vetlab-en18029-conformance",
+      "slug": "vetlab-en18029-conformance",
+      "title": "EN 18029 exchange conformance and reference-list tooling for veterinary lab and PIMS/LIMS vendors",
+      "state": "desk-screened",
+      "discovered": "2026-09-21",
+      "updated": "2026-09-21",
+      "evidence_level": "Plausible",
+      "score": 44.2,
+      "confidence": "low",
+      "why_now": {
+        "changed": "DIN EN 18029:2026-04 (E), a European standard for electronic exchange of veterinary laboratory analysis data (request, result and acknowledgement files plus a data dictionary), was published in April 2026; it explicitly excludes the code lists required for unambiguous exchange.",
+        "changed_date": "2026-04-01",
+        "evidence": [
+          "evidence/vetlab-en18029-conformance/2026-09-21-en18029-standard-scope.md"
+        ],
+        "why_it_matters": "A common exchange format with an explicit code-list gap creates a conformance and reference-list job for implementers, but as a voluntary standard it creates no buyer budget by itself.",
+        "competitors_responded": "No dedicated conformance or reference-list product was found; VetXML publishes free schemas and a hub, and middleware such as Bitwerx and Covetrus Connect occupies adjacent delivery and structural layers.",
+        "strength": "weak"
+      },
+      "fingerprint": {
+        "buyer": "Veterinary PIMS/LIMS and laboratory software vendors, and laboratories that must attest electronic exchange conformance",
+        "problem": "EN 18029 defines the exchange files but omits the code lists needed for unambiguous exchange, and veterinary lab/PIMS APIs are closed, undocumented or fee-gated, so implementers lack conformance and mapping tooling",
+        "mechanism": "Conformance and mapping-validation toolkit (schema validation, test fixtures, certification report, exception queue) plus a maintained veterinary reference-list and cross-walk service",
+        "keywords": [
+          "EN 18029",
+          "veterinary diagnostics",
+          "lab interoperability",
+          "reference lists",
+          "conformance testing",
+          "PIMS"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/vetlab-en18029-conformance",
+        "dossier": "ideas/vetlab-en18029-conformance/dossier.md",
+        "decision": "ideas/vetlab-en18029-conformance/decision.md",
+        "scorecard": "ideas/vetlab-en18029-conformance/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": "vetlab-en18029-conformance-buyer-wedge",
+        "status": "proposed",
+        "approval": {
+          "required": true,
+          "granted": false
+        },
+        "plan": "experiments/vetlab-en18029-conformance-buyer-wedge/plan.md"
       }
     }
   ]

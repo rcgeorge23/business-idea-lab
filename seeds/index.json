@@ -3,10 +3,10 @@
   "method_version": "1.6.0",
   "updated": "2026-09-21",
   "counts": {
-    "total": 10,
+    "total": 11,
     "by_status": {
       "dropped": 1,
-      "promoted": 1,
+      "promoted": 2,
       "unexplored": 8
     }
   },
@@ -131,7 +131,7 @@
       "observation": "The VetLab Bridge kill found the lab-to-long-tail-PIMS delivery mechanism already sold by ManuCare and DataHub Vet and therefore killed the idea. The same research surfaced a different job: DIN EN 18029:2026-04 (E) was published in April 2026 as a European standard for veterinary laboratory data exchange (request, result and acknowledgement files plus a data dictionary), and VetXML is adopted by only some UK PIMS vendors and insurers, with no evidence that any vendor has implemented DIN EN 18029.",
       "why_materially_different": "It serves a different buyer (PIMS/LIS and laboratory software vendors, and labs that must attest exchange conformance) with a different mechanism (a conformance/test-fixture and mapping-validation toolkit rather than a results-delivery service), and its value comes from standards adoption rather than from operating a channel. It must be researched from scratch and may fail on whether the standard is actually being adopted by any buyer, and on the small number of vendors.",
       "recorded": "2026-09-21",
-      "status": "unexplored",
+      "status": "promoted",
       "evidence": [
         "ideas/vetlab-bridge/decision.md",
         "evidence/vetlab-bridge/2026-09-21-din-en-18029-standard.md",
@@ -151,6 +151,20 @@
         "ideas/clinicdata-liberation/decision.md",
         "evidence/clinicdata-liberation/2026-09-21-eol-cluster-2026.md",
         "evidence/clinicdata-liberation/2026-09-21-enterprise-archive-crowding.md"
+      ]
+    },
+    {
+      "id": "vetlab-reference-list-management",
+      "slug": "vetlab-reference-list-management",
+      "title": "Veterinary exchange reference-list / code-list management and mapping service",
+      "origin_idea": "vetlab-en18029-conformance",
+      "observation": "EN 18029 specifies the interchange files and data dictionary but explicitly excludes the required code lists, and the parent research found no maintained veterinary reference-list or cross-walk service; any implementation of the standard needs a shared, versioned set of codes (analytes, units, species, methods, sample types) plus mappings between each laboratory's internal codes and the exchanged codes.",
+      "why_materially_different": "It is a content-and-governance service (maintained reference data, versioning, cross-walks and exception queues) rather than a conformance/test toolkit, with a potentially different buyer (a national body, a consortium, or laboratories collectively rather than an individual vendor) and subscription economics independent of any single implementation. It must be researched from scratch and may fail on whether any body will fund or mandate a shared list.",
+      "recorded": "2026-09-21",
+      "status": "unexplored",
+      "evidence": [
+        "evidence/vetlab-en18029-conformance/2026-09-21-en18029-standard-scope.md",
+        "evidence/vetlab-en18029-conformance/2026-09-21-vet-interoperability-and-incumbents.md"
       ]
     }
   ]
