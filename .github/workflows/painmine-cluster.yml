@@ -1,14 +1,13 @@
 name: painmine cluster (weekly)
 
-# Weekly, wider clustering pass for the painmine spike (issue #9).
+# Wider clustering pass for the painmine spike (issue #9).
+# - Scheduled runs are disabled: the owner runs the pipeline locally, ad hoc.
 # Runs every query family in one bounded pass and renders the cluster report.
 # Part 6 independent synthesis is opt-in per dispatch because it spends
 # OpenCode Go credit; it never substitutes a different inference provider.
 
 on:
-  schedule:
-    # Non-round minute, Mondays. Wider run than the daily collector.
-    - cron: "43 7 * * 1"
+  # Scheduled runs disabled (owner runs locally, ad hoc). Manual dispatch only.
   workflow_dispatch:
     inputs:
       max_requests:

@@ -1,6 +1,7 @@
 name: painmine collect
 
-# Bounded daily collector for the painmine spike (issue #9).
+# Bounded collector for the painmine spike (issue #9).
+# - Scheduled runs are disabled: the owner runs the pipeline locally, ad hoc.
 # - Deterministic retrieval/extraction/dedup/clustering by default.
 # - OpenCode Go / DeepSeek spend only when workflow_dispatch sets synthesis=true
 #   and the repository secret OPENCODE_AUTH_JSON (or OPENCODE_API_KEY) is set.
@@ -8,9 +9,7 @@ name: painmine collect
 #   source APIs, and stops with partial results when a hard limit is reached.
 
 on:
-  schedule:
-    # Non-round minute, daily. Query family rotates with day-of-year.
-    - cron: "17 6 * * *"
+  # Scheduled runs disabled (owner runs locally, ad hoc). Manual dispatch only.
   workflow_dispatch:
     inputs:
       family:
