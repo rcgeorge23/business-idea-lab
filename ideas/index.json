@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
-  "method_version": "1.7.0",
-  "updated": "2026-09-21",
+  "method_version": "1.8.0",
+  "updated": "2026-09-22",
   "limits": {
     "max_unreviewed_before_generation_stops": 10,
     "max_new_candidates_per_run": 3,
     "max_validation_ready_advances_per_run": 1
   },
   "counts": {
-    "total": 19,
+    "total": 20,
     "unreviewed": 0,
     "by_state": {
       "adversarially-researched": 3,
-      "desk-screened": 1,
+      "desk-screened": 2,
       "killed": 15
     },
     "killed": 15
@@ -1035,6 +1035,62 @@
           "granted": false
         },
         "plan": "experiments/vetlab-en18029-conformance-buyer-wedge/plan.md"
+      }
+    },
+    {
+      "id": "housing-repairs-invoice-sor-validation",
+      "slug": "housing-repairs-invoice-sor-validation",
+      "title": "Provider-side invoice-to-SOR validation for housing repairs",
+      "industry": "property-lettings",
+      "state": "desk-screened",
+      "discovered": "2026-09-22",
+      "updated": "2026-09-22",
+      "evidence_level": "Promising",
+      "score": 61.1,
+      "confidence": "low",
+      "why_now": {
+        "changed": "The cost of extracting structured line items from an unstructured contractor invoice and matching them against a reference rate set has fallen sharply with current document/LLM tooling, making a provider-side invoice-to-SOR check economic for the first time; Rentari.ai has already productised the mechanism for the US market.",
+        "changed_date": "2026-09-22",
+        "evidence": [
+          "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+        ],
+        "why_it_matters": "The check is only economic if reading an invoice costs less than the human time it saves; that threshold has now been crossed, and the UK provider-side SOR-specific seam is unoccupied.",
+        "competitors_responded": "Partly - Rentari.ai has productised the mechanism in the US (per-unit pricing, 50-state/HUD focus); no UK provider-side SOR-specific product was found, but housing-management suite vendors could add it as a feature.",
+        "strength": "weak"
+      },
+      "fingerprint": {
+        "buyer": "UK housing associations and local-authority housing repairs and maintenance finance functions (Head of Landlord Services / Repairs and Maintenance Manager; Finance Officer and Head of Assets)",
+        "problem": "Every contractor repairs invoice must be checked by hand against the works order and the NHF Schedule of Rates before payment; the control demonstrably fails (council audits found invoice-authorisation backlogs, no cost breakdown on large work orders, duplication indications, and a GBP 300,000 overcharge from five SOR codes)",
+        "mechanism": "Read the contractor invoice, extract SOR codes, quantities and rates, and validate each line against the works order, the versioned NHF rate set with the client uplift, and the contractor's own history; flag mismatches, missing codes, duplicates and unrecorded variations for human approval",
+        "keywords": [
+          "social housing",
+          "repairs",
+          "invoice validation",
+          "schedule of rates",
+          "NHF SOR",
+          "works order",
+          "overpayment",
+          "reconciliation"
+        ]
+      },
+      "paths": {
+        "dir": "ideas/housing-repairs-invoice-sor-validation",
+        "dossier": "ideas/housing-repairs-invoice-sor-validation/dossier.md",
+        "decision": "ideas/housing-repairs-invoice-sor-validation/decision.md",
+        "scorecard": "ideas/housing-repairs-invoice-sor-validation/scorecard.json"
+      },
+      "review": {
+        "status": "not-required",
+        "path": null
+      },
+      "experiment": {
+        "id": "housing-repairs-invoice-sor-buyer-wedge",
+        "status": "proposed",
+        "approval": {
+          "required": true,
+          "granted": false
+        },
+        "plan": "experiments/housing-repairs-invoice-sor-buyer-wedge/plan.md"
       }
     }
   ]

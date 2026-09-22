@@ -48,8 +48,15 @@ be reviewed by the human owner before keeping them.
      for a buyer, mechanism, distribution route or falsifiable test).
      Deliberately search poor/expensive narrow incumbent software, manual
      structured-data/re-keying workflows and awkward integrations between established
-     systems, and seek practitioner/community evidence where feasible. Observations are
-     cheap: no scorecard, dossier or evidence level.
+     systems, and seek practitioner/community evidence where feasible. Aim a meaningful
+     share of the search effort at **money-already-moving sources** (v1.8.0): job
+     advertisements describing repetitive administrative work, service/agency pricing
+     pages, public procurement and tender records, incumbent support forums and release
+     notes, trade press reporting spend or staffing, and job descriptions showing a role
+     that exists only to bridge two systems. These carry budget evidence that complaint
+     forums do not; a run that cannot find money-already-moving evidence for a seam must
+     record that as a finding rather than treating complaint-forum observations as
+     equivalent. Observations are cheap: no scorecard, dossier or evidence level.
    - **3.2 Shallow triage.** Reject observations cheaply where desk evidence already
      shows a standard incumbent feature of products the target buyer can readily adopt,
      an adequate free/authoritative alternative for the target buyer, credible vendors

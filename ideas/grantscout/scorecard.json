@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.7.0",
+  "method_version": "1.8.0",
   "weights_version": "1.2.0",
   "idea_id": "grantscout",
   "slug": "grantscout",
@@ -78,7 +78,7 @@
       "evidence": [
         "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
       ],
-      "rationale": "Competing against \u00a30 government search and \u00a329 one-time incumbent pricing leaves little room for a recurring subscription."
+      "rationale": "Competing against £0 government search and £29 one-time incumbent pricing leaves little room for a recurring subscription."
     },
     "founder_fit": {
       "weight": 5,
@@ -122,7 +122,7 @@
     },
     "defensible_wedge": {
       "status": "fail",
-      "note": "Adversarial pass found GovOwed already sells the exact flat-fee wedge (\u00a329 one-time / \u00a3499-per-year) and GOV.UK Find a grant is the free authoritative alternative.",
+      "note": "Adversarial pass found GovOwed already sells the exact flat-fee wedge (£29 one-time / £499-per-year) and GOV.UK Find a grant is the free authoritative alternative.",
       "evidence": [
         "evidence/grantscout/2026-09-20-incumbent-pricing-and-contingency.md"
       ],
@@ -138,7 +138,7 @@
     },
     "plausible_margins": {
       "status": "unknown",
-      "note": "A \u00a315-\u00a329/mo subscription was modelled to cover low content costs; CAC, churn and content-operations cost are untested.",
+      "note": "A £15-£29/mo subscription was modelled to cover low content costs; CAC, churn and content-operations cost are untested.",
       "evidence": [],
       "resolve_via": "run the cheap digest test and record real acquisition cost, content time and churn before any build"
     },
@@ -168,7 +168,7 @@
   "vetoes": [
     {
       "key": "defensible_wedge",
-      "note": "Adversarial pass: the exact flat-fee grant-matching wedge is already occupied by GovOwed at \u00a329 one-time / \u00a3499 per year, while the authoritative alternative (GOV.UK Find a grant) is free and category pricing is anchored to contingency/no-win-no-fee. No defensible wedge survives.",
+      "note": "Adversarial pass: the exact flat-fee grant-matching wedge is already occupied by GovOwed at £29 one-time / £499 per year, while the authoritative alternative (GOV.UK Find a grant) is free and category pricing is anchored to contingency/no-win-no-fee. No defensible wedge survives.",
       "date": "2026-09-20"
     }
   ],

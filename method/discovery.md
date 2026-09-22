@@ -156,7 +156,11 @@ applies to every normal run (v1.4.0):
   datasets; awkward integrations between established systems; recurring
   spreadsheet/email/PDF/manual re-keying workflows; platform access, pricing or policy
   changes that create a new operational problem; underserved subsegments of an
-  existing category.
+  existing category; and (v1.8.0) money-already-moving sources - job advertisements
+  describing repetitive administrative work, service/agency pricing pages, public
+  procurement and tender records, incumbent support forums and release notes, trade
+  press reporting spend or staffing, and job descriptions for roles that exist only to
+  bridge two systems.
 - A candidate "qualifies" for its source class because of where its why-now came
   from. Record the class and the reason in the run summary; a candidate whose primary
   why-now is a mandate counts against the regulatory slot even if it also has a
@@ -357,6 +361,48 @@ spreadsheet/CSV/manual-submission instructions.
 The source-class budget above still applies at candidate promotion. The observation
 pool should itself make source diversity visible; do not create a second quota.
 
+### Bias the sweep toward money already moving (v1.8.0)
+
+Complaint forums are where problems are *discussed*; they are not where budgets are
+*spent*. Six consecutive funnel runs (schools, open banking, trades, regulatory
+changes and the general sweep) produced zero promotions, and the dominant rejection
+reason was demonstrated occupation: every seam with real buyer pain already had at
+least one mature incumbent, usually several, often with a free tier. The convergence
+reviews recorded in `retrospectives/` escalated this to a sourcing/framing problem,
+not a filter problem.
+
+Method 1.8.0 therefore requires every normal funnel run to aim a meaningful share of
+its search effort at **money-already-moving sources** - sources where a buyer is
+already paying, hiring or procuring, rather than describing a problem:
+
+- **job advertisements** that describe repetitive administrative work (a role whose
+  duties are re-keying, reconciling, chasing or assembling documents is evidence that
+  someone is paying a salary to do it);
+- **service and agency pricing pages** (a consultancy or bureau charging for a manual
+  process is evidence of an existing budget line);
+- **public procurement and tender records** (a contract awarded for a manual or
+  outsourced workflow is evidence of spend and of the buyer);
+- **incumbent support forums and release notes** (repeated support threads about the
+  same narrow workflow, or a feature the vendor keeps not shipping, are evidence of
+  persistent unmet demand inside an existing budget);
+- **trade and professional press** where it reports spend, pricing or staffing rather
+  than product announcements;
+- **job descriptions and org charts** showing a role that exists only to bridge two
+  systems.
+
+The point is not that these sources are better in general; it is that they carry
+budget evidence that complaint forums do not. An observation sourced this way should
+still record the costly event, the current workaround, frequency, the incumbent
+response, the buyer and the reachable distribution, and it is still triaged and
+scored under exactly the same rules. This is a sourcing bias, not a scoring change:
+no cap is lifted, no threshold is lowered, no evidence level is redefined, and
+`defensible_wedge` is unchanged.
+
+A run that cannot find money-already-moving evidence for a seam should record that as
+a finding rather than falling back to complaint-forum observations and calling them
+equivalent. The run summary must state which money-already-moving sources were
+searched and what they yielded, including unsuccessful searches.
+
 ### Shallow triage
 
 Every observation gets a cheap first-pass triage before any candidate is promoted.
@@ -461,6 +507,9 @@ without resurrecting the killed idea:
 ## Recording
 
 - The run summary lists the source classes searched and what they yielded.
+- The run summary states which **money-already-moving sources** (v1.8.0) were searched
+  and what they yielded, including unsuccessful searches, and whether the run found
+  budget evidence or only complaint-forum evidence.
 - The run summary states, for each generated candidate, whether its why-now is
   evidenced (`strong` | `weak` | `absent`).
 - The run summary states each candidate's provenance (`seed:<seed-slug>` or `fresh`)

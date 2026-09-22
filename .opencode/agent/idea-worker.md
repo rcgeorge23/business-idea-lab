@@ -52,7 +52,11 @@ admissible only with the six required fields in `method/discovery.md` archetype 
 never a substitute for a buyer, mechanism, distribution route or falsifiable test),
 bias the sweep toward
 poor/expensive narrow incumbent software, manual re-keying workflows and awkward
-integrations, seek practitioner/community evidence, shallow-triage every observation
+integrations, aim a meaningful share of the sweep at money-already-moving sources
+(v1.8.0: job ads describing repetitive admin, service/agency pricing, procurement and
+tender records, incumbent support forums and release notes, trade press reporting spend
+or staffing, bridge-role job descriptions) and record what they yielded including
+unsuccessful searches, seek practitioner/community evidence, shallow-triage every observation
 with recorded negative evidence (never treating competitor existence alone as wedge
 failure), re-check exactly one promising/high-ambiguity triage rejection as the
 sampled false-negative audit and record it in the pool file and run summary, and

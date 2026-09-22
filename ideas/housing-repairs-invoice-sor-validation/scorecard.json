@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "method_version": "1.8.0",
+  "weights_version": "1.2.0",
+  "idea_id": "housing-repairs-invoice-sor-validation",
+  "slug": "housing-repairs-invoice-sor-validation",
+  "title": "Provider-side invoice-to-SOR validation for housing repairs",
+  "state": "desk-screened",
+  "updated": "2026-09-22",
+  "dimensions": {
+    "problem_severity_frequency": {
+      "weight": 15,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "rationale": "Primary council audit evidence that the control fails (Winchester CAB3557(H) 2026-07-06: backlog and delay authorising invoices, no cost breakdown on large work orders, 25 properties with duplication indications) plus a quantified overcharge (Brighton & Hove: ~GBP 300,000 from five SOR codes charged for materials not fitted) and a provider's own policy mandating the manual check (NLM 2026-03). The problem is frequent (every invoice), recurring and evidenced for this buyer. Scored 4 rather than 5 because the evidence is from a small number of councils and the sector-wide rate (SHAC 63%/66%) is weak secondary evidence. The persistence thesis is weak but supported, so the missing-why-now cap does not apply."
+    },
+    "buyer_budget_clarity": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "rationale": "The buyer is identified (repairs and maintenance finance function; Head of Landlord Services / Repairs and Maintenance Manager named in Winchester CAB3557(H); Finance Officer and Head of Assets named in NLM's policy) and there is evidence the buyer already pays for comparable work: salaried reconciliation roles at GBP 29,400-38,115 (St Mungo's, Onward Homes, Houghton Group) and Mears paying for an additional quantity-surveying resource. Scored 3 (adequate, evidenced for this buyer) rather than 4 because the spend is on headcount, not on a comparable software purchase, so the budget line for a product is inferred rather than demonstrated."
+    },
+    "evidence_strength": {
+      "weight": 15,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "rationale": "Credible secondary and primary evidence about this buyer and market with no fatal desk objection: two council audit reports, a provider policy document, employer job advertisements, and a live competitor product. Scored 3 rather than 4 because the evidence is concentrated in a small number of providers and no buyer has been shown to purchase a comparable product."
+    },
+    "distribution": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "rationale": "Channels are plausible (internal-audit partnerships, CIH/NHF networks, repairs-manager community, contractors) but no prospect has been produced and the sector's procurement is framework-bound and slow. Capped at 2 under the 'plausible channel list' rule."
+    },
+    "differentiation": {
+      "weight": 10,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md",
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-desk-scan-vendor-feature.md"
+      ],
+      "rationale": "Raised from 2 to 3 after the desk scan found no housing-management vendor occupying the provider-side invoice-to-SOR validation seam. The wedge is evidenced for this buyer and market (the check is unoccupied and the buyer already pays for the work), but it is not strong: Rentari.ai has already productised the mechanism in the US, and MYRO/Aareon/Ingentive are positioned to add it as a feature. Scored 3 (adequate, evidenced) rather than 4 because the evidence is a negative desk finding plus a documented feature-absorption risk."
+    },
+    "validation_speed_cost": {
+      "weight": 10,
+      "score": 4,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "rationale": "A decisive desk-only test exists (scan housing-management vendor roadmaps and release notes for a shipped or announced invoice-to-SOR validation feature) at GBP 0 and a few hours, with a pre-fixed stop rule. A follow-on interview test would be cheap but requires owner approval."
+    },
+    "feasibility": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "rationale": "Buildable with current document/LLM tooling (Rentari.ai proves the mechanism). Capped at 3 because the works-order integration is bespoke per provider and the NHF rate book is licensed to the provider, not the vendor, so the collection/integration steps are unproven."
+    },
+    "economics": {
+      "weight": 10,
+      "score": 2,
+      "confidence": "low",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "rationale": "Modelled only, with no tested input. Price hypothesis GBP 500-2,000/month per provider or GBP 0.50-2.00 per invoice, anchored on the salaried role it replaces and the outsourced-bookkeeping per-transaction benchmark. Capped at 2 with low confidence under the untested-economics rule."
+    },
+    "founder_fit": {
+      "weight": 5,
+      "score": null,
+      "confidence": "none",
+      "evidence": [],
+      "rationale": "No evidence about the founder's access to UK social-housing finance teams or ability to do the work. Null until real evidence exists."
+    },
+    "risk": {
+      "weight": 5,
+      "score": 3,
+      "confidence": "medium",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "rationale": "No veto-level exposure: the product reads invoices the provider already holds and validates against a rate book the provider already licenses. Risks are commercial (feature absorption by suite vendors, slow framework procurement) rather than legal, privacy or platform. Scored 3."
+    }
+  },
+  "hard_filters": {
+    "economic_buyer": {
+      "status": "pass",
+      "note": "The buyer is identified and named in primary documents: the repairs and maintenance finance function, with the Head of Landlord Services / Repairs and Maintenance Manager owning the audit action plan (Winchester CAB3557(H)) and the Finance Officer / Head of Assets performing and authorising the check (NLM policy).",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "resolve_via": ""
+    },
+    "painful_frequent_or_budgeted": {
+      "status": "pass",
+      "note": "The problem is frequent (every contractor invoice, monthly) and budgeted: providers pay GBP 29,400-38,115/year for reconciliation staff, and Mears paid for an additional quantity-surveying resource after a GBP 300,000 overcharge. Council audits document the control failing.",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "resolve_via": ""
+    },
+    "non_paid_distribution": {
+      "status": "unknown",
+      "note": "Channels are plausible (internal-audit partnerships, CIH/NHF networks, repairs-manager community, contractors) but no prospect has been produced and the sector's procurement is framework-bound.",
+      "evidence": [],
+      "resolve_via": "Identify one non-paid channel that produces a conversation with a repairs finance manager, without paid acquisition."
+    },
+    "defensible_wedge": {
+      "status": "unknown",
+      "note": "Desk scan (2026-09-22) found no housing-management vendor that has shipped or announced invoice-to-SOR validation: MYRO tracks the lifecycle to invoice closure and reports contractor cost but does not validate lines against the rate book; Fixflo applies SOR to works-order costing; Oneserve, Aareon, SDM, CHICS and MRI Greentree have no such feature; Dwellant's S20 warning is a total-level alarm; Plentific compares to the approved quote, not the rate book. The seam is unoccupied today, but the finding is a negative desk check rather than affirmative evidence of a durable wedge, and MYRO/Aareon/Ingentive are one release away from adding it.",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-desk-scan-vendor-feature.md"
+      ],
+      "resolve_via": "Interview two or three repairs finance managers (owner approval required) to test whether the provider would buy a standalone check or wait for its suite vendor; if the answer is 'wait', this filter fails."
+    },
+    "no_network_effects_needed": {
+      "status": "pass",
+      "note": "The check delivers value to a single provider on its own invoices; no network effects are required.",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "resolve_via": ""
+    },
+    "plausible_margins": {
+      "status": "unknown",
+      "note": "Modelled only. Price hypothesis GBP 500-2,000/month per provider or GBP 0.50-2.00 per invoice; processing cost per invoice unknown; the works-order integration may be bespoke per customer, which would create a service burden.",
+      "evidence": [],
+      "resolve_via": "Model contribution margin against a realistic invoice volume and processing cost, and test whether the works-order integration can be standardised."
+    },
+    "acceptable_risk": {
+      "status": "pass",
+      "note": "No veto-level legal, regulatory, privacy, trust or platform risk: the product reads invoices the provider already holds and validates against a rate book the provider already licenses. Commercial risk (feature absorption, slow procurement) is real but not veto-level.",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "resolve_via": ""
+    },
+    "cheap_disconfirming_test": {
+      "status": "pass",
+      "note": "A decisive desk-only test exists: scan housing-management vendor roadmaps and release notes for a shipped or announced invoice-to-SOR validation feature, at GBP 0 and a few hours, with a pre-fixed stop rule.",
+      "evidence": [
+        "evidence/housing-repairs-invoice-sor-validation/2026-09-22-repairs-invoice-sor-evidence.md"
+      ],
+      "resolve_via": ""
+    },
+    "not_all_optimistic": {
+      "status": "unknown",
+      "note": "Viability currently requires several optimistic assumptions to hold simultaneously: that a provider buys a standalone check rather than waiting for its suite vendor; that the works-order integration can be standardised; that the rate-book licence permits vendor consumption; and that the economics work at realistic pricing.",
+      "evidence": [],
+      "resolve_via": "Resolve the standalone-vs-feature question first (the desk scan); if the check is a feature, the idea fails regardless of the other assumptions."
+    }
+  },
+  "vetoes": [],
+  "aggregate": {
+    "scored_weight": 95,
+    "raw_weighted_points": 58,
+    "weighted_total": 61.1,
+    "threshold": 65,
+    "meets_threshold": false
+  },
+  "confidence": "low",
+  "review": {
+    "status": "not-required",
+    "requested_from": null,
+    "request_path": null,
+    "last_reviewed_revision": null,
+    "history": []
+  },
+  "experiment": {
+    "id": null,
+    "status": "none",
+    "plan": null,
+    "results": null
+  }
+}

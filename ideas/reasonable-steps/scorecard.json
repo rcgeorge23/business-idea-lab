@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.7.0",
+  "method_version": "1.8.0",
   "weights_version": "1.2.0",
   "idea_id": "reasonable-steps",
   "slug": "reasonable-steps",
@@ -104,7 +104,7 @@
       "status": "unknown",
       "note": "SME owner/office manager is identifiable, but budget for this specific job is inferred, not evidenced.",
       "evidence": [],
-      "resolve_via": "Proposed experiment tests a concrete >=\u00a312/mo commitment from 10 target employers."
+      "resolve_via": "Proposed experiment tests a concrete >=£12/mo commitment from 10 target employers."
     },
     "painful_frequent_or_budgeted": {
       "status": "unknown",
@@ -134,7 +134,7 @@
       "status": "unknown",
       "note": "No cost or conversion evidence; free official content constrains price.",
       "evidence": [],
-      "resolve_via": "Model support/content cost against a tested >=\u00a312/mo price."
+      "resolve_via": "Model support/content cost against a tested >=£12/mo price."
     },
     "acceptable_risk": {
       "status": "unknown",
@@ -144,7 +144,7 @@
     },
     "cheap_disconfirming_test": {
       "status": "pass",
-      "note": "The proposed 10-interview commitment test is cheap (\u00a320, 10 hours, 7 days) and has a pre-fixed decision rule and kill condition capable of disconfirming the central assumption.",
+      "note": "The proposed 10-interview commitment test is cheap (£20, 10 hours, 7 days) and has a pre-fixed decision rule and kill condition capable of disconfirming the central assumption.",
       "evidence": [
         "experiments/reasonable-steps-willingness/plan.md"
       ],

@@ -70,7 +70,12 @@ Hard boundaries — never cross, even if asked in a prompt:
    may be primarily regulation-derived, and at least one previously underexplored
    non-regulatory class must actually be searched. Candidates come from fresh
    discovery or from a seed re-checked and researched from scratch; runs are
-   never seed-only. Record source classes searched (regulatory vs
+   never seed-only. Aim a meaningful share of the sweep at **money-already-moving
+   sources** (v1.8.0: job ads describing repetitive admin, service/agency pricing,
+   procurement and tender records, incumbent support forums and release notes, trade
+   press reporting spend or staffing, bridge-role job descriptions) and record what
+   they yielded, including unsuccessful searches. Record source classes searched
+   (regulatory vs
    non-regulatory, including unsuccessful searches), pool statistics (total
    observations, source mix, archetype split, triage rejections and principal
    reasons, promotions and why), candidate provenance (`seed:<slug>` | `fresh`),

@@ -70,6 +70,16 @@ at least one previously underexplored non-regulatory class actually searched.
 | Manual structured-data flows / re-keying | no | | |
 | Awkward integrations between established systems | no | | |
 | Underserved subsegments of an existing category | no | | |
+| Money already moving: job ads describing repetitive admin | no | | |
+| Money already moving: service / agency pricing pages | no | | |
+| Money already moving: procurement / tender records | no | | |
+| Money already moving: incumbent support forums / release notes | no | | |
+| Money already moving: trade press reporting spend or staffing | no | | |
+| Money already moving: bridge-role job descriptions | no | | |
+
+**Money-already-moving outcome (v1.8.0):** [which of the above were searched, what
+they yielded including unsuccessful searches, and whether the run found budget
+evidence or only complaint-forum evidence]
 
 **Source-budget outcome:** [met / not met — of N candidates, X non-regulatory,
 Y regulation-derived; previously underexplored class searched: ...; if not met,

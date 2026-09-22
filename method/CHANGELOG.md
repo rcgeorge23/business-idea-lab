@@ -4,6 +4,46 @@ Every material change to the method bumps `method/VERSION` and is listed here wi
 review status. Review status values: `not-required` | `requested` | `changes-requested` |
 `approved` | `killed`. See `method/review-policy.md` (section "Method changes").
 
+## 1.8.0 - 2026-09-22
+
+Motivated by the convergence escalation recorded across six consecutive funnel runs
+(schools, open banking, trades, regulatory changes and the general sweep), all of which
+produced zero promotions with demonstrated occupation as the dominant rejection reason.
+The convergence reviews in `retrospectives/` (issue #6 and issue #7) escalated this to a
+sourcing/framing problem rather than a filter problem: complaint forums are where
+problems are discussed, not where budgets are spent, so the sweep was systematically
+sampling seams that are already monetised.
+
+**Changed (discovery sourcing only):**
+
+- `method/discovery.md` gained the "Bias the sweep toward money already moving
+  (v1.8.0)" section: every normal funnel run must aim a meaningful share of its search
+  effort at sources where a buyer is already paying, hiring or procuring - job
+  advertisements describing repetitive administrative work, service/agency pricing
+  pages, public procurement and tender records, incumbent support forums and release
+  notes, trade press reporting spend or staffing, and job descriptions for roles that
+  exist only to bridge two systems. A run that cannot find money-already-moving
+  evidence for a seam must record that as a finding rather than treating complaint-forum
+  observations as equivalent.
+- The non-regulatory source-class list in `method/discovery.md` now includes the
+  money-already-moving classes.
+- The Recording section requires the run summary to state which money-already-moving
+  sources were searched and what they yielded, including unsuccessful searches.
+- `method/run-protocol.md` step 3.1 states the money-already-moving bias.
+- `AGENTS.md`, `scripts/prompts/lab-run.md` and `.opencode/agent/idea-worker.md` state
+  the bias and its recording requirement.
+- `templates/run/summary.md` source-class table gained six money-already-moving rows
+  and a "Money-already-moving outcome (v1.8.0)" line.
+
+**Regression:** this is a sourcing bias, not a scoring change. Weights stay 1.2.0,
+threshold stays 65, no cap is lifted, no evidence level is redefined, and
+`defensible_wedge` is unchanged. Killed fixtures (shiftswap 44.2, wonkybox 36.8,
+grantscout 55.8) and parked fixtures (geonerd 49.5, reasonable-steps 54.0, aucly 60.0,
+vetlab-en18029-conformance 44.2) are unaffected by construction because no score input
+changed. The empirical check is the sourcing-frame run performed under this version.
+
+**Review:** requested - see `reviews/2026-09-22-method-v1.8.0-review-request.md`.
+
 ## 1.7.0 - 2026-09-22
 
 Motivated by issue #16 ("Add a guarded discovery path for latent, unarticulated

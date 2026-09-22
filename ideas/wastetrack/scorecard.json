@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.7.0",
+  "method_version": "1.8.0",
   "weights_version": "1.2.0",
   "idea_id": "wastetrack",
   "slug": "wastetrack",
@@ -24,7 +24,7 @@
       "evidence": [
         "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
       ],
-      "rationale": "Operators of ~12,000 permitted facilities are a clear buyer with a mandated \u00a326/year statutory fee, but a new entrant's budget is unproven."
+      "rationale": "Operators of ~12,000 permitted facilities are a clear buyer with a mandated £26/year statutory fee, but a new entrant's budget is unproven."
     },
     "evidence_strength": {
       "weight": 15,
@@ -78,7 +78,7 @@
       "evidence": [
         "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
       ],
-      "rationale": "Capped at 2: untested price hypothesis (\u00a315-\u00a340/month/site) against free tiers and a \u00a326/year statutory fee; margins unproven."
+      "rationale": "Capped at 2: untested price hypothesis (£15-£40/month/site) against free tiers and a £26/year statutory fee; margins unproven."
     },
     "founder_fit": {
       "weight": 5,
@@ -100,7 +100,7 @@
   "hard_filters": {
     "economic_buyer": {
       "status": "pass",
-      "note": "Operators of ~12,000 permitted waste facilities in England; the \u00a326/year statutory operator fee is already mandated.",
+      "note": "Operators of ~12,000 permitted waste facilities in England; the £26/year statutory operator fee is already mandated.",
       "evidence": [
         "evidence/wastetrack/2026-09-21-digital-waste-tracking-mandate-and-crowding.md"
       ],
@@ -138,7 +138,7 @@
     },
     "plausible_margins": {
       "status": "unknown",
-      "note": "Modelled \u00a315-\u00a340/month/site against free incumbents and a \u00a326/year statutory fee; unproven.",
+      "note": "Modelled £15-£40/month/site against free incumbents and a £26/year statutory fee; unproven.",
       "evidence": [],
       "resolve_via": "Only relevant if a wedge existed; measure paid conversion and support cost against a free incumbent."
     },

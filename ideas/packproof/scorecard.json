@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.7.0",
+  "method_version": "1.8.0",
   "weights_version": "1.2.0",
   "idea_id": "packproof",
   "slug": "packproof",
@@ -51,7 +51,7 @@
       "evidence": [
         "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
       ],
-      "rationale": "Direct overlap with several live vendors including a UK \u00a349/mo tier; the feature set is the category standard."
+      "rationale": "Direct overlap with several live vendors including a UK £49/mo tier; the feature set is the category standard."
     },
     "validation_speed_cost": {
       "weight": 10,
@@ -78,7 +78,7 @@
       "evidence": [
         "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
       ],
-      "rationale": "Modelled only and untested (capped at 2); a UK incumbent at \u00a349/mo anchors price below a sustainable micro-tool margin."
+      "rationale": "Modelled only and untested (capped at 2); a UK incumbent at £49/mo anchors price below a sustainable micro-tool margin."
     },
     "founder_fit": {
       "weight": 5,
@@ -120,7 +120,7 @@
     },
     "defensible_wedge": {
       "status": "fail",
-      "note": "Multiple credible providers already sell PPWR compliance software, including a UK-branded \u00a349/mo tier; the proposition is a feature of an established compliance-software category.",
+      "note": "Multiple credible providers already sell PPWR compliance software, including a UK-branded £49/mo tier; the proposition is a feature of an established compliance-software category.",
       "evidence": [
         "evidence/packproof/2026-09-21-ppwr-incumbent-landscape.md"
       ],

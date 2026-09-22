@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.7.0",
+  "method_version": "1.8.0",
   "weights_version": "1.2.0",
   "idea_id": "bikpayroll",
   "slug": "bikpayroll",
@@ -60,7 +60,7 @@
       "evidence": [
         "experiments/bikpayroll-incumbent-capability/plan.md"
       ],
-      "rationale": "Decisive disconfirmation available in \u22643 days at \u00a30 via a desk capability scan with pre-fixed thresholds; a WTP test is also cheap (\u226420 human-hours) once the scan survives."
+      "rationale": "Decisive disconfirmation available in ≤3 days at £0 via a desk capability scan with pre-fixed thresholds; a WTP test is also cheap (≤20 human-hours) once the scan survives."
     },
     "feasibility": {
       "weight": 5,

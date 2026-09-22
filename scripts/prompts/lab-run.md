@@ -45,6 +45,14 @@ Discovery expectations for this run (method 1.6.0):
   on vendor announcements and generic technology news. Coverage is mandatory for the
   three classes above; the source-class budget still applies at promotion and creates
   no second quota.
+- Aim a meaningful share of the sweep at **money-already-moving sources** (v1.8.0):
+  job advertisements describing repetitive administrative work, service/agency pricing
+  pages, public procurement and tender records, incumbent support forums and release
+  notes, trade press reporting spend or staffing, and job descriptions for roles that
+  exist only to bridge two systems. These carry budget evidence that complaint forums
+  do not. Record in the summary which money-already-moving sources were searched and
+  what they yielded, including unsuccessful searches; if a seam has no budget evidence,
+  say so rather than treating complaint-forum observations as equivalent.
 - Shallow triage cheaply rejects: standard incumbent feature of products the target
   buyer can readily adopt, adequate free/authoritative alternative for the target
   buyer, credible vendors demonstrably and adequately occupying the exact proposed
