@@ -90,6 +90,16 @@ python3 scripts/build_dashboard.py            # writes dashboard.html at the rep
 python3 scripts/build_dashboard.py --out /tmp/ledger.html
 ```
 
+The dashboard also surfaces the discovery trail that never became a scored idea,
+so early rejections stay visible: an **Intake** section listing each
+owner-nominated note and its hypotheses, and an **Observation pools** section
+listing every funnel run's observations with their triage decision and reason,
+promotions and the sampled triage false-negative audit. Both are parsed from the
+Markdown under `intake/` and `observations/` with a small tolerant parser; a file
+that does not match the expected shape is listed with a note rather than guessed
+at. The experiments table and each idea's experiment block also show the
+experiment hypothesis text.
+
 The dashboard renders only what the machine-readable ledgers contain and shows
 `unknown` / `not recorded` honestly; it is a read-only view and never changes
 the ledger. It is skipped during `--dry-run`.

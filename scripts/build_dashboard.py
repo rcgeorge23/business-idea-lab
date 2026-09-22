@@ -3,8 +3,14 @@
 
 Reads the machine-readable ledgers (ideas/index.json, ideas/<slug>/scorecard.json,
 experiments/index.json, seeds/index.json, runs/index.jsonl, runs/<run-id>/run.json)
-and renders them as one explorable HTML file. Stdlib only, no network, no external
-assets: the output is a single file that opens in any browser.
+plus the discovery trail (intake/*.md, observations/*.md) and renders them as one
+explorable HTML file. Stdlib only, no network, no external assets: the output is a
+single file that opens in any browser.
+
+The intake and observation sections are parsed from Markdown with a deliberately
+small, tolerant parser: they surface the hypotheses and triage outcomes that never
+became scored ideas, so early rejections stay visible. If a file does not match the
+expected shape it is listed with a note rather than guessed at.
 
 The dashboard renders only what the ledgers contain. Missing values are shown as
 "unknown" / "not recorded" rather than guessed. Regenerating is idempotent: the
@@ -23,6 +29,7 @@ import argparse
 import html
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 
@@ -211,7 +218,191 @@ def load_ledger(root):
         "experiments_index": experiments_index,
         "seeds_index": seeds_index,
         "runs": runs,
+        "intake": load_intake(root),
+        "observations": load_observations(root),
     }
+
+
+# --------------------------------------------------------------------------
+# Discovery trail (intake notes and observation pools)
+# --------------------------------------------------------------------------
+
+# A tolerant Markdown parser for the two discovery artefacts. Both are written to
+# templates, so the shapes are stable, but the parser degrades to "listed, not
+# parsed" rather than inventing structure when a file does not match.
+
+_HEADING_RE = re.compile(r"^(#{1,4})\s+(.*)$")
+_TABLE_ROW_RE = re.compile(r"^\|(.+)\|\s*$")
+_TABLE_SEP_RE = re.compile(r"^\|[\s:|-]+\|\s*$")
+
+
+def _read_text(path):
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            return handle.read()
+    except (OSError, UnicodeDecodeError):
+        return None
+
+
+def _split_table_row(line):
+    inner = line.strip()
+    if inner.startswith("|"):
+        inner = inner[1:]
+    if inner.endswith("|"):
+        inner = inner[:-1]
+    return [cell.strip() for cell in inner.split("|")]
+
+
+def _parse_tables(text):
+    """Return a list of tables; each table is {headers: [...], rows: [[...]]}."""
+    tables = []
+    lines = text.splitlines()
+    index = 0
+    while index < len(lines):
+        line = lines[index]
+        if _TABLE_ROW_RE.match(line) and index + 1 < len(lines) and _TABLE_SEP_RE.match(lines[index + 1]):
+            headers = _split_table_row(line)
+            rows = []
+            index += 2
+            while index < len(lines) and _TABLE_ROW_RE.match(lines[index]):
+                rows.append(_split_table_row(lines[index]))
+                index += 1
+            tables.append({"headers": headers, "rows": rows})
+        else:
+            index += 1
+    return tables
+
+
+def _strip_md(text):
+    """Strip the light Markdown used in these files for plain-text display."""
+    if text is None:
+        return None
+    text = re.sub(r"\*\*(.+?)\*\*", r"\1", text)
+    text = re.sub(r"`(.+?)`", r"\1", text)
+    text = re.sub(r"\[(.+?)\]\((.+?)\)", r"\1", text)
+    return text.strip()
+
+
+def _section(text, heading_prefix):
+    """Return the body of the first heading whose text starts with heading_prefix."""
+    lines = text.splitlines()
+    start = None
+    level = None
+    for index, line in enumerate(lines):
+        match = _HEADING_RE.match(line)
+        if match and match.group(2).strip().lower().startswith(heading_prefix.lower()):
+            start = index + 1
+            level = len(match.group(1))
+            break
+    if start is None or level is None:
+        return ""
+    body = []
+    for line in lines[start:]:
+        match = _HEADING_RE.match(line)
+        if match and len(match.group(1)) <= level:
+            break
+        body.append(line)
+    return "\n".join(body)
+
+
+def load_intake(root):
+    """Load intake notes: each file's title, header fields and hypothesis sections."""
+    intake_dir = os.path.join(root, "intake")
+    notes = []
+    try:
+        names = sorted(os.listdir(intake_dir))
+    except OSError:
+        return notes
+    for name in names:
+        if not name.endswith(".md") or name.lower() == "readme.md":
+            continue
+        path = os.path.join(intake_dir, name)
+        text = _read_text(path)
+        if text is None:
+            continue
+        lines = text.splitlines()
+        title = None
+        for line in lines:
+            match = _HEADING_RE.match(line)
+            if match and len(match.group(1)) == 1:
+                title = _strip_md(match.group(2))
+                break
+        fields = []
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith("- **") and ":**" in stripped:
+                label, _, value = stripped[4:].partition(":**")
+                fields.append((label.strip(), _strip_md(value.strip())))
+        hypotheses = []
+        for line in lines:
+            match = _HEADING_RE.match(line)
+            if not match:
+                continue
+            heading = _strip_md(match.group(2)) or ""
+            if re.match(r"^(hypothesis|h\d+\b)", heading, re.IGNORECASE):
+                body = _section(text, heading)
+                hypotheses.append({"heading": heading, "body": body})
+        notes.append(
+            {
+                "file": os.path.join("intake", name),
+                "title": title or name,
+                "fields": fields,
+                "hypotheses": hypotheses,
+                "parsed": bool(hypotheses),
+            }
+        )
+    return notes
+
+
+def load_observations(root):
+    """Load observation pools: header metrics, observation rows and the audit."""
+    obs_dir = os.path.join(root, "observations")
+    pools = []
+    try:
+        names = sorted(os.listdir(obs_dir))
+    except OSError:
+        return pools
+    for name in names:
+        if not name.endswith(".md") or name.lower() == "readme.md":
+            continue
+        path = os.path.join(obs_dir, name)
+        text = _read_text(path)
+        if text is None:
+            continue
+        fields = []
+        for line in text.splitlines():
+            stripped = line.strip()
+            if stripped.startswith("- **") and ":**" in stripped:
+                label, _, value = stripped[4:].partition(":**")
+                fields.append((label.strip(), _strip_md(value.strip())))
+
+        observations = []
+        promoted = []
+        audit = []
+        for table in _parse_tables(text):
+            headers = [h.lower() for h in table["headers"]]
+            if headers and headers[0] == "id" and "observation" in " ".join(headers):
+                for row in table["rows"]:
+                    observations.append(dict(zip(table["headers"], row)))
+            elif headers and headers[0] == "id" and "promoted" in " ".join(headers):
+                for row in table["rows"]:
+                    promoted.append(dict(zip(table["headers"], row)))
+            elif headers and headers[0] == "field" and "record" in headers:
+                for row in table["rows"]:
+                    audit.append((row[0], row[1] if len(row) > 1 else ""))
+
+        pools.append(
+            {
+                "file": os.path.join("observations", name),
+                "run_id": name[:-3],
+                "fields": fields,
+                "observations": observations,
+                "promoted": promoted,
+                "audit": audit,
+                "parsed": bool(observations),
+            }
+        )
+    return pools
 
 
 # --------------------------------------------------------------------------
@@ -601,6 +792,7 @@ def render_experiment(entry, experiments_by_id):
     rows = [
         ("ID", esc(exp.get("id"))),
         ("Status", esc(exp.get("status"))),
+        ("Hypothesis", esc(exp.get("hypothesis"))),
         ("Central assumption", esc(exp.get("central_assumption"))),
         ("Kill condition", esc(exp.get("kill_condition"))),
         ("Decision rule", esc(exp.get("decision_rule"))),
@@ -749,7 +941,7 @@ def render_experiments_table(experiments_index):
         return '<p class="unknown">No experiments recorded.</p>'
     out = ['<table class="grid"><thead><tr>'
            "<th>ID</th><th>Idea</th><th>Status</th><th>Approval</th>"
-           "<th>Cost bound</th><th>Decision rule</th></tr></thead><tbody>"]
+           "<th>Cost bound</th><th>Hypothesis</th><th>Decision rule</th></tr></thead><tbody>"]
     for exp in experiments:
         approval = exp.get("approval") or {}
         cost = exp.get("cost_bound") or {}
@@ -768,10 +960,101 @@ def render_experiments_table(experiments_index):
             f'<td>{esc(exp.get("status"))}</td>'
             f'<td>{esc_raw(approval_text)}</td>'
             f'<td>{esc(cost_text)}</td>'
+            f'<td class="rationale">{esc(exp.get("hypothesis"))}</td>'
             f'<td class="rationale">{esc(exp.get("decision_rule"))}</td>'
             "</tr>"
         )
     out.append("</tbody></table>")
+    return "\n".join(out)
+
+
+def render_intake(intake):
+    """Render owner-nominated intake notes and their hypotheses."""
+    if not intake:
+        return '<p class="unknown">No intake notes recorded.</p>'
+    out = []
+    for note in intake:
+        out.append(f'<details class="idea" id="intake-{esc_raw(os.path.basename(note["file"])[:-3])}">')
+        out.append(
+            "<summary>"
+            f'<span class="idea-title">{esc_raw(note["title"])}</span>'
+            f'<span class="tag">{len(note["hypotheses"])} hypotheses</span>'
+            f'<span class="tag tag-industry">intake</span>'
+            "</summary>"
+        )
+        out.append('<div class="idea-body">')
+        out.append(f'<p class="hint"><code>{esc_raw(note["file"])}</code> - unvalidated discovery input; carries no score, evidence level or hard-filter result.</p>')
+        if note["fields"]:
+            out.append('<table class="kv">')
+            for label, value in note["fields"]:
+                out.append(f"<tr><th>{esc_raw(label)}</th><td>{esc(value)}</td></tr>")
+            out.append("</table>")
+        if note["hypotheses"]:
+            for hypothesis in note["hypotheses"]:
+                out.append(f'<h4>{esc_raw(hypothesis["heading"])}</h4>')
+                body = hypothesis["body"].strip()
+                if body:
+                    out.append(f'<div class="md-body">{esc(body)}</div>')
+        else:
+            out.append('<p class="unknown">No hypothesis sections parsed from this note.</p>')
+        out.append("</div></details>")
+    return "\n".join(out)
+
+
+def render_observations(pools):
+    """Render observation pools: header metrics, observations, promotions and audit."""
+    if not pools:
+        return '<p class="unknown">No observation pools recorded.</p>'
+    out = []
+    for pool in pools:
+        out.append(f'<details class="idea" id="pool-{esc_raw(pool["run_id"])}">')
+        out.append(
+            "<summary>"
+            f'<span class="idea-title">{esc_raw(pool["run_id"])}</span>'
+            f'<span class="tag">{len(pool["observations"])} observations</span>'
+            f'<span class="tag tag-industry">pool</span>'
+            "</summary>"
+        )
+        out.append('<div class="idea-body">')
+        out.append(f'<p class="hint"><code>{esc_raw(pool["file"])}</code> - observations are not scored and confer no inherited positive evidence.</p>')
+        if pool["fields"]:
+            out.append('<table class="kv">')
+            for label, value in pool["fields"]:
+                out.append(f"<tr><th>{esc_raw(label)}</th><td>{esc(value)}</td></tr>")
+            out.append("</table>")
+        if pool["observations"]:
+            headers = list(pool["observations"][0].keys())
+            out.append('<table class="grid"><thead><tr>')
+            for header in headers:
+                out.append(f"<th>{esc_raw(header)}</th>")
+            out.append("</tr></thead><tbody>")
+            for row in pool["observations"]:
+                out.append("<tr>")
+                for header in headers:
+                    cell = row.get(header, "")
+                    cls = ' class="rationale"' if header.lower() in ("observation", "triage reason", "incumbent / free-alternative check") else ""
+                    out.append(f"<td{cls}>{esc(cell)}</td>")
+                out.append("</tr>")
+            out.append("</tbody></table>")
+        else:
+            out.append('<p class="unknown">No observation rows parsed from this pool.</p>')
+        if pool["promoted"]:
+            out.append("<h4>Promoted observations</h4>")
+            headers = list(pool["promoted"][0].keys())
+            out.append('<table class="grid"><thead><tr>')
+            for header in headers:
+                out.append(f"<th>{esc_raw(header)}</th>")
+            out.append("</tr></thead><tbody>")
+            for row in pool["promoted"]:
+                out.append("<tr>" + "".join(f"<td>{esc(row.get(h, ''))}</td>" for h in headers) + "</tr>")
+            out.append("</tbody></table>")
+        if pool["audit"]:
+            out.append("<h4>Triage false-negative audit</h4>")
+            out.append('<table class="kv">')
+            for label, value in pool["audit"]:
+                out.append(f"<tr><th>{esc_raw(label)}</th><td>{esc(value)}</td></tr>")
+            out.append("</table>")
+        out.append("</div></details>")
     return "\n".join(out)
 
 
@@ -956,6 +1239,7 @@ details.idea[open] > summary::before { content: "\\25BE"; }
 .idea-title { flex: 1; font-weight: 600; }
 .idea-score { font-variant-numeric: tabular-nums; font-weight: 600; }
 .idea-body { padding: 4px 16px 18px; border-top: 1px solid var(--border); }
+.md-body { white-space: pre-wrap; font-size: 13px; color: var(--text); background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin: 6px 0 14px; }
 footer { color: var(--muted); font-size: 12px; padding: 0 32px 40px; max-width: 1400px; margin: 0 auto; }
 """
 
@@ -1013,6 +1297,16 @@ def build_html(ledger, root):
     parts.append(render_experiments_table(experiments_index))
     parts.append("</section>")
 
+    parts.append('<section id="intake"><h2>Intake (owner-nominated hypotheses)</h2>')
+    parts.append('<p class="hint">Unvalidated discovery inputs. These carry no score, evidence level or hard-filter result, and are shown so early hypotheses stay visible even when they never become candidates.</p>')
+    parts.append(render_intake(ledger.get("intake") or []))
+    parts.append("</section>")
+
+    parts.append('<section id="observations"><h2>Observation pools</h2>')
+    parts.append('<p class="hint">Every observation swept in a funnel run, with its triage decision and reason. Observations are not scored; a rejection here is the record of why an idea was dropped early.</p>')
+    parts.append(render_observations(ledger.get("observations") or []))
+    parts.append("</section>")
+
     parts.append('<section id="seeds"><h2>Seeds</h2>')
     parts.append(render_seeds_table(seeds_index))
     parts.append("</section>")
@@ -1055,6 +1349,8 @@ def main(argv=None):
         print(
             f"dashboard: wrote {out_path} "
             f"({len(ideas)} ideas, {len(ledger['experiments_index'].get('experiments', []) or [])} experiments, "
+            f"{len(ledger.get('intake') or [])} intake notes, "
+            f"{len(ledger.get('observations') or [])} observation pools, "
             f"{len(ledger['seeds_index'].get('seeds', []) or [])} seeds, {len(runs)} runs)"
         )
     return 0
