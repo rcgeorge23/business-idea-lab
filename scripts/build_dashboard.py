@@ -116,6 +116,48 @@ EVIDENCE_LEVEL_ORDER = [
     "Plausible",
 ]
 
+# Controlled industry vocabulary. Must match INDUSTRIES in scripts/validate_repo.py.
+# Ideas are grouped by this field; an idea with no industry renders as "unknown".
+INDUSTRY_ORDER = [
+    "accountancy-professional-services",
+    "hospitality-leisure",
+    "food-grocery",
+    "ecommerce-retail",
+    "packaging-manufacturing",
+    "hr-employment",
+    "education-charities",
+    "veterinary",
+    "property-lettings",
+    "waste-environment",
+    "payroll-benefits",
+    "software-it",
+    "healthcare-clinics",
+]
+
+INDUSTRY_LABELS = {
+    "accountancy-professional-services": "Accountancy & professional services",
+    "hospitality-leisure": "Hospitality & leisure",
+    "food-grocery": "Food & grocery",
+    "ecommerce-retail": "E-commerce & retail",
+    "packaging-manufacturing": "Packaging & manufacturing",
+    "hr-employment": "HR & employment",
+    "education-charities": "Education & charities",
+    "veterinary": "Veterinary",
+    "property-lettings": "Property & lettings",
+    "waste-environment": "Waste & environment",
+    "payroll-benefits": "Payroll & benefits",
+    "software-it": "Software & IT",
+    "healthcare-clinics": "Healthcare & clinics",
+}
+
+
+def industry_label(value):
+    """Human label for an industry slug; unknown/None renders honestly."""
+    if value is None or value == "":
+        return "unknown"
+    return INDUSTRY_LABELS.get(value, str(value))
+
+
 
 # --------------------------------------------------------------------------
 # Loading
@@ -344,8 +386,13 @@ def render_portfolio(ideas_index, ideas, experiments_index, seeds_index, runs):
     seed_counts = (seeds_index.get("counts", {}) or {}).get("by_status", {}) or {}
     seed_rows = ordered_counts(seed_counts, ["unexplored", "exploring", "promoted", "dropped"])
 
+    industry_counts = count_by([i["entry"] for i in ideas], "industry")
+    industry_rows = ordered_counts(industry_counts, INDUSTRY_ORDER)
+    industry_rows = [(industry_label(k), v) for k, v in industry_rows]
+
     charts = [
         render_bar_chart("Ideas by state", state_rows, total),
+        render_bar_chart("Ideas by industry", industry_rows, total),
         render_bar_chart("Ideas by evidence level", level_rows, total),
         render_bar_chart("Ideas by confidence", conf_rows, total),
         render_bar_chart("Experiments by status", exp_rows, max(len(experiments), 1)),
@@ -593,6 +640,7 @@ def render_idea(item, experiments_by_id):
         f'<span class="idea-title">{esc_raw(title)}</span>'
         f'<span class="tag {state_cls}">{esc(state)}</span>'
         f'<span class="tag">{esc(entry.get("evidence_level"))}</span>'
+        f'<span class="tag tag-industry">{esc_raw(industry_label(entry.get("industry")))}</span>'
         f'<span class="idea-score {score_cls}">{fmt_score(score)}</span>'
         "</summary>"
     )
@@ -600,6 +648,7 @@ def render_idea(item, experiments_by_id):
 
     meta_rows = [
         ("Slug", esc(slug)),
+        ("Industry", esc_raw(industry_label(entry.get("industry")))),
         ("State", esc(state)),
         ("Evidence level", esc(entry.get("evidence_level"))),
         ("Score", fmt_score(score)),
@@ -669,8 +718,29 @@ def render_ideas(ideas, experiments_by_id):
         score = entry.get("score")
         return (state_rank, -(score if isinstance(score, (int, float)) else -1))
 
-    ordered = sorted(ideas, key=sort_key)
-    return "\n".join(render_idea(item, experiments_by_id) for item in ordered)
+    def industry_rank(item):
+        industry = item["entry"].get("industry")
+        try:
+            return INDUSTRY_ORDER.index(industry)
+        except ValueError:
+            return len(INDUSTRY_ORDER)
+
+    # Group by industry (controlled vocabulary order, unknown last), then by the
+    # existing state/score ordering within each group.
+    groups: dict = {}
+    for item in ideas:
+        groups.setdefault(item["entry"].get("industry"), []).append(item)
+
+    out = []
+    for industry in sorted(groups, key=lambda k: (INDUSTRY_ORDER.index(k) if k in INDUSTRY_ORDER else len(INDUSTRY_ORDER))):
+        members = sorted(groups[industry], key=sort_key)
+        label = industry_label(industry)
+        out.append(
+            f'<h3 class="industry-heading" id="industry-{esc_raw(industry or "unknown")}">'
+            f'{esc_raw(label)} <span class="industry-count">{len(members)}</span></h3>'
+        )
+        out.append("\n".join(render_idea(item, experiments_by_id) for item in members))
+    return "\n".join(out)
 
 
 def render_experiments_table(experiments_index):
@@ -869,6 +939,9 @@ table.kv td { padding: 5px 0; }
 .unknown { color: var(--muted); font-style: italic; }
 .tag { display: inline-block; background: var(--panel-2); border: 1px solid var(--border); border-radius: 999px; padding: 1px 9px; font-size: 11px; margin-right: 4px; color: var(--muted); }
 .tag-gating { border-color: var(--accent); color: var(--accent); }
+.tag-industry { border-color: var(--accent); color: var(--accent); }
+.industry-heading { margin: 22px 0 10px; font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+.industry-count { display: inline-block; background: var(--panel-2); border: 1px solid var(--border); border-radius: 999px; padding: 0 8px; font-size: 11px; color: var(--muted); margin-left: 6px; }
 .state-killed { border-color: var(--bad); color: var(--bad); }
 .state-live { border-color: var(--good); color: var(--good); }
 .status { display: inline-block; border-radius: 999px; padding: 1px 9px; font-size: 11px; border: 1px solid var(--border); }
@@ -932,7 +1005,7 @@ def build_html(ledger, root):
     parts.append("</section>")
 
     parts.append('<section id="ideas"><h2>Ideas</h2>')
-    parts.append('<p class="hint">Expand an idea to see its why-now, fingerprint, all ten scorecard dimensions, all nine hard filters, vetoes, review history and experiment.</p>')
+    parts.append('<p class="hint">Ideas are grouped by industry, then ordered by lifecycle state and score. Expand an idea to see its why-now, fingerprint, all ten scorecard dimensions, all nine hard filters, vetoes, review history and experiment.</p>')
     parts.append(render_ideas(ideas, experiments_by_id))
     parts.append("</section>")
 

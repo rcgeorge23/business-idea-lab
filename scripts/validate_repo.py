@@ -67,6 +67,24 @@ EVIDENCE_LEVELS = {
     "Repeatability evidence",
 }
 CONFIDENCES = {"none", "low", "medium", "high"}
+# Controlled industry vocabulary for ideas/index.json entries. The dashboard groups
+# ideas by this field; keep slugs stable and machine-friendly. Adding a new industry
+# is a deliberate ledger change (add it here and to the dashboard's INDUSTRY_ORDER).
+INDUSTRIES = {
+    "accountancy-professional-services",
+    "hospitality-leisure",
+    "food-grocery",
+    "ecommerce-retail",
+    "packaging-manufacturing",
+    "hr-employment",
+    "education-charities",
+    "veterinary",
+    "property-lettings",
+    "waste-environment",
+    "payroll-benefits",
+    "software-it",
+    "healthcare-clinics",
+}
 REVIEW_STATUSES = {"not-required", "requested", "changes-requested", "approved", "killed"}
 REVIEW_TRANSITIONS = {
     ("not-required", "requested"),
@@ -419,7 +437,7 @@ def check_index(report: Report, root: Path, index: dict, method_version: str) ->
         if not require_keys(
             report,
             entry,
-            ["id", "slug", "title", "state", "discovered", "updated", "evidence_level", "score",
+            ["id", "slug", "title", "industry", "state", "discovered", "updated", "evidence_level", "score",
              "confidence", "fingerprint", "why_now", "paths", "review", "experiment"],
             f"{label}: idea entry",
         ):
@@ -428,6 +446,10 @@ def check_index(report: Report, root: Path, index: dict, method_version: str) ->
         if not isinstance(slug, str) or not slug:
             report.error(f"{label}: idea slug must be a non-empty string")
             continue
+        if entry.get("industry") not in INDUSTRIES:
+            report.error(
+                f"{label}: {slug}.industry must be one of {sorted(INDUSTRIES)}; got {entry.get('industry')!r}"
+            )
         if slug in seen_slugs:
             report.error(f"{label}: duplicate slug '{slug}'")
         seen_slugs.add(slug)

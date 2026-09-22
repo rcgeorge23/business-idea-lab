@@ -80,8 +80,10 @@ After finalising the run, `scripts/run.sh` regenerates `dashboard.html`, a
 single self-contained HTML summary of the whole ledger (portfolio statistics,
 score distribution against the 65 threshold, every idea's dimensions, hard
 filters, why-now, review and experiment, plus experiments, seeds and run
-history). Open it in any browser — it needs no server, network or JavaScript
-dependencies. Regenerate it on demand with:
+history). Ideas are grouped by industry, using the controlled vocabulary
+recorded on each idea as `industry` in `ideas/index.json` (see
+`INDUSTRIES` in `scripts/validate_repo.py`). Open it in any browser — it needs
+no server, network or JavaScript dependencies. Regenerate it on demand with:
 
 ```bash
 python3 scripts/build_dashboard.py            # writes dashboard.html at the repo root
@@ -153,7 +155,7 @@ The human owner runs experiments; results go into the repository:
 |---|---|
 | `AGENTS.md` | Worker role, boundaries, protocol in one screen |
 | `method/` | Authoritative method documents + `VERSION` |
-| `ideas/index.json` | Ledger: every idea, state, score, review and experiment link |
+| `ideas/index.json` | Ledger: every idea, state, industry, score, review and experiment link |
 | `ideas/<slug>/` | Dossier, scorecard, decision record |
 | `evidence/<slug>/` | Dated evidence registers (claims, sources, caveats) |
 | `seeds/` | Adjacent-opportunity seeds from rejections (non-inheriting) |

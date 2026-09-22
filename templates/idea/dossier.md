@@ -1,6 +1,7 @@
 # <Idea title>
 
 - **ID / slug:** `<slug>`
+- **Industry:** `<industry-slug>` (controlled vocabulary in `scripts/validate_repo.py`; grouped on the dashboard)
 - **State:** `discovered`
 - **Evidence level:** `Plausible`
 - **Owner:** worker | human-owner
