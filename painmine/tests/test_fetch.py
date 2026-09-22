@@ -69,46 +69,68 @@ class TestSafeFailure(unittest.TestCase):
 
 
 class TestDiscourseCollector(unittest.TestCase):
-    """Public Discourse search: buyer-side communities, no auth."""
+    """Public Discourse browse feeds: buyer-side communities, no auth.
+
+    The standard Discourse robots template disallows /search, so the collector
+    uses only the permitted /latest.json and /top.json browse endpoints and
+    filters topics locally against the query terms.
+    """
 
     def _capture(self, payload):
-        captured: dict = {}
+        captured: dict = {"urls": []}
 
         def fake(url, budget, headers=None):
-            captured["url"] = url
+            captured["urls"].append(url)
             return payload, {"ok": True, "url": url}
 
         return captured, fake
 
-    def test_search_json_used_and_item_ids_include_site(self):
+    def test_browse_endpoints_used_and_item_ids_include_site(self):
         captured, fake = self._capture(
             {
-                "topics": [{"id": 77, "title": "Re-keying supplier invoices", "slug": "rekeying"}],
-                "posts": [
-                    {
-                        "topic_id": 77,
-                        "post_number": 3,
-                        "blurb": "We pay a virtual assistant to type these in every week.",
-                        "username": "buyer_bob",
-                        "created_at": "2026-08-01T10:00:00Z",
-                        "reply_count": 4,
-                    }
-                ],
+                "topic_list": {
+                    "topics": [
+                        {
+                            "id": 77,
+                            "title": "Re-keying supplier invoices",
+                            "slug": "rekeying",
+                            "excerpt": "We pay a virtual assistant to type these in every week.",
+                            "last_poster_username": "buyer_bob",
+                            "created_at": "2026-08-01T10:00:00Z",
+                            "reply_count": 4,
+                        }
+                    ]
+                }
             }
         )
         with mock.patch("painmine.fetch.http_get_json", fake):
             items, status = fetch_discourse(
-                "manual data entry", 10, Budget(LIMITS), site="community.example.org"
+                "supplier invoices", 10, Budget(LIMITS), site="community.example.org"
             )
-        self.assertIn("community.example.org/search.json", captured["url"])
+        self.assertTrue(all("/search.json" not in url for url in captured["urls"]))
+        self.assertTrue(any("/latest.json" in url for url in captured["urls"]))
         self.assertEqual(status["site"], "community.example.org")
         self.assertEqual(status["source_id"], "discourse_public_json")
-        self.assertEqual(items[0]["source_id"], "discourse:community.example.org:77:3")
+        self.assertEqual(items[0]["source_id"], "discourse:community.example.org:77")
         self.assertEqual(
-            items[0]["url"], "https://community.example.org/t/rekeying/77/3"
+            items[0]["url"], "https://community.example.org/t/rekeying/77"
         )
         self.assertEqual(items[0]["extra"]["site"], "community.example.org")
         self.assertEqual(items[0]["title"], "Re-keying supplier invoices")
+
+    def test_topics_without_query_terms_are_filtered_locally(self):
+        payload = {
+            "topic_list": {
+                "topics": [
+                    {"id": 1, "title": "Welcome to the forum", "slug": "welcome", "excerpt": "Say hello."},
+                    {"id": 2, "title": "Manual re-keying pain", "slug": "rekey", "excerpt": "We copy invoices by hand."},
+                ]
+            }
+        }
+        with mock.patch("painmine.fetch.http_get_json", lambda url, budget, headers=None: (payload, {"ok": True, "url": url})):
+            items, status = fetch_discourse("manual re-keying", 10, Budget(LIMITS), site="community.example.org")
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0]["source_id"], "discourse:community.example.org:2")
 
     def test_failure_returns_no_items_with_status(self):
         def fake(url, budget, headers=None):
@@ -122,14 +144,15 @@ class TestDiscourseCollector(unittest.TestCase):
 
     def test_cap_is_respected(self):
         payload = {
-            "topics": [{"id": 1, "title": "t", "slug": "t"}],
-            "posts": [
-                {"topic_id": 1, "post_number": i, "blurb": f"post {i}", "username": "u"}
-                for i in range(1, 11)
-            ],
+            "topic_list": {
+                "topics": [
+                    {"id": i, "title": f"manual post {i}", "slug": f"t{i}", "excerpt": "manual work"}
+                    for i in range(1, 11)
+                ]
+            }
         }
         with mock.patch("painmine.fetch.http_get_json", lambda url, budget, headers=None: (payload, {"ok": True, "url": url})):
-            items, status = fetch_discourse("q", 3, Budget(LIMITS), site="community.example.org")
+            items, status = fetch_discourse("manual", 3, Budget(LIMITS), site="community.example.org")
         self.assertEqual(len(items), 3)
         self.assertEqual(status["items"], 3)
 
@@ -201,6 +224,45 @@ class TestStackExchangeSites(unittest.TestCase):
         self.assertEqual(sites, ["webapps", "money", "webapps"])
         self.assertTrue(all(status.get("ok") for status in statuses))
         self.assertEqual([status["site"] for status in statuses], ["webapps", "money", "webapps"])
+
+    def test_collect_rotates_discourse_sites_without_extra_requests(self):
+        captured: dict = {"urls": []}
+
+        def fake(url, budget, headers=None):
+            captured["urls"].append(url)
+            return {"topic_list": {"topics": []}}, {"ok": True, "url": url}
+
+        budget = Budget(LIMITS)
+        with mock.patch("painmine.fetch.http_get_json", fake):
+            items, statuses = collect(
+                ["q1", "q2", "q3"],
+                ["discourse_public_json"],
+                budget,
+                source_options={
+                    "discourse_public_json": {
+                        "sites": ["community.quickfile.co.uk", "forum.manager.io"]
+                    }
+                },
+            )
+        self.assertEqual(items, [])
+        # Two browse paths per query attempt, so three queries make six calls.
+        self.assertEqual(len(captured["urls"]), 6)
+        hosts = [urllib.parse.urlparse(url).netloc for url in captured["urls"]]
+        self.assertEqual(
+            hosts,
+            [
+                "community.quickfile.co.uk",
+                "community.quickfile.co.uk",
+                "forum.manager.io",
+                "forum.manager.io",
+                "community.quickfile.co.uk",
+                "community.quickfile.co.uk",
+            ],
+        )
+        self.assertEqual(
+            [status["site"] for status in statuses],
+            ["community.quickfile.co.uk", "forum.manager.io", "community.quickfile.co.uk"],
+        )
 
     def test_collect_without_options_uses_default_site(self):
         captured: dict = {"urls": []}

@@ -74,19 +74,27 @@
     {
       "class": "public_practitioner_forum",
       "source_id": "discourse_public_json",
-      "name": "Discourse communities (public /search.json)",
-      "access": "Public read endpoint https://<site>/search.json (no auth). Site list is configurable.",
-      "terms_notes": "Discourse instances are self-hosted and their terms vary. Only public read endpoints are used; no authentication and no private endpoints. Each site must be checked by the owner for terms/robots before it is added to options.sites.",
+      "name": "Discourse communities (public browse feeds)",
+      "access": "Public read endpoints https://<site>/latest.json and /top.json (no auth). Site list is configurable.",
+      "terms_notes": "Discourse instances are self-hosted and their terms vary. The standard Discourse robots template disallows /search for generic crawlers (verified 2026-09-21), so this collector uses only the permitted browse feeds /latest.json and /top.json and filters topics locally against the query terms. Only public read endpoints are used; no authentication and no private endpoints. Each site must be checked by the owner for terms/robots before it is added to options.sites.",
       "rate_limit": "Instance-dependent; the spike's per-run request cap applies.",
-      "expected_signal": "Medium-high: buyer-side professional communities (accounting, legal, trades, operations) discuss manual workarounds and paid staff more than developer forums do.",
+      "expected_signal": "Medium-high: buyer-side professional communities (accounting, trades, e-commerce operations) discuss manual workarounds and paid staff more than developer forums do. Browse feeds are not query-driven, so recall depends on the query terms appearing in recent topic titles/excerpts.",
       "expected_volume": "Tens to hundreds of matching posts per query family, depending on the site list.",
       "cost": "GBP 0",
       "unattended_ok": true,
-      "enabled": false,
+      "enabled": true,
       "options": {
-        "sites": [],
+        "sites": [
+          "community.quickfile.co.uk",
+          "forum.manager.io",
+          "community.shopify.com"
+        ],
+        "browse_paths": [
+          "/latest.json",
+          "/top.json"
+        ],
         "site_rotation": "Query attempt i uses sites[i % len(sites)], so one family spreads across communities without extra HTTP requests. Item ids include the site because topic ids are only unique within an instance.",
-        "note": "Disabled until the owner approves specific sites. Add hostnames (e.g. 'community.example.org') to options.sites and set enabled true."
+        "note": "Enabled 2026-09-21 for three sites whose robots.txt permits /latest.json and /top.json and whose public feeds returned valid JSON. Add hostnames to options.sites only after checking that site's robots.txt and terms."
       }
     },
     {

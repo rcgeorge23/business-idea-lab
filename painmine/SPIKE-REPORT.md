@@ -95,7 +95,7 @@ limits and expected quality are documented per class in `painmine/sources.json`.
 | 11 | Integration/app marketplace reviews | disabled | Requires per-marketplace terms review |
 | 12 | Public spreadsheets/templates/checklists | disabled | Provenance/licensing risk |
 | 13 | Niche trade publications | disabled | Paywalls/republishing risk |
-| 14 | Discourse communities (public `/search.json`) | **implemented, disabled pending owner site approval** | Public read endpoint; each instance has its own terms/robots rules, so no site is enabled until the owner approves it. Added 2026-09-21 as a non-regulatory, buyer-side source class |
+| 14 | Discourse communities (public browse feeds) | **enabled 2026-09-21 for three sites** | The standard Discourse robots template disallows `/search` for generic crawlers (verified 2026-09-21), so the collector uses only the permitted `/latest.json` and `/top.json` browse feeds and filters topics locally. Enabled sites: `community.quickfile.co.uk`, `forum.manager.io`, `community.shopify.com` (all robots-permitted, valid JSON). Add sites only after checking robots/terms. |
 
 The four live classes were exercised in one run. `reddit_public_json` produced
 0 items across 15 scheduled query attempts (1 real HTTP call -> 403, then 14
@@ -134,6 +134,40 @@ cluster. The `"double entry" bookkeeping software` query was replaced with
 does not yet surface three independent buyer-side signals on one seam. That is
 the honest current state - precision improved, recall is now the binding
 constraint.
+
+**Updated 2026-09-21 (Discourse source).** A non-regulatory, buyer-side source
+class was added: `discourse_public_json`. Probing ~40 candidate communities
+showed every host that exposes a working public `/search.json` uses the standard
+Discourse robots template, whose `User-agent: *` block disallows `/search`; every
+host whose robots permits `/search` does not expose the endpoint. The collector
+therefore uses only the permitted browse feeds `/latest.json` and `/top.json`
+and filters topics locally against the query terms. Three sites are enabled
+(`community.quickfile.co.uk`, `forum.manager.io`, `community.shopify.com`), all
+robots-permitted and returning valid JSON. Sites rotate by query position like
+Stack Exchange. The default source list is now config-driven (every class marked
+`enabled` in `sources.json`), so enabling a class takes effect without a code
+change. A Discourse-only run returned 10 items from all three sites and one
+genuine buyer-side signal (a merchant describing manual purchase-order creation).
+Caveat: the 40-request budget is spent in source order
+(HN -> Stack Exchange -> GitHub -> Reddit -> Discourse), so in a full run Reddit
+and Discourse receive **zero** attempts; exercise them with `--sources` or raise
+the cap.
+
+**Updated 2026-09-21 (extraction recall + request cap).** Two changes after the
+first fair-budget run (Discourse + HN + Stack Exchange, 40 requests) produced 76
+raw items -> 26 signals -> 0 clusters. (1) The request cap is now 75, enough for
+three sources x 25 query attempts, so no source is starved when three are
+selected. (2) `extract.py` gained a short-excerpt path: Discourse blurbs are
+truncated by the platform at ~200-300 chars and often end mid-sentence, so a
+statement shorter than the 60-char floor is now accepted when a strong cue is
+present **and** the text names a system or a buyer role (`SHORT_EXCERPT_MIN_CHARS`
+= 30). The re-run (75 requests, same three sources) produced 104 raw items -> 56
+signals -> 0 clusters, with all three sources completing (69/75 requests, no
+stop). Extraction recall more than doubled, and the recovered Discourse signals
+include the manual purchase-order workflow. The binding constraint is now
+clustering recall, not collection or extraction: only 12 of 56 signals carry
+buyer substance (a role plus a system or workaround), and they spread across six
+role families, so no single seam reaches three independent sources in one run.
 
 ## 4. Bounded PoC run
 
@@ -304,9 +338,9 @@ assumption until the workflows actually run.
 ## 10. Cost controls and retention (Part 8)
 
 - Limits are file-driven (`painmine/limits.json`) and enforced in `Budget`:
-  requests 40, items/source 50, items total 240, min 1.0 s between requests,
+  requests 75, items/source 50, items total 240, min 1.0 s between requests,
   20 s request timeout, retries 1 per request (429/5xx and transport errors
-  only), LLM calls 6, input 12k/output 1.2k per call, total tokens 40k, USD
+  only), LLM calls 6, input 12k/output 1.2k per call, total tokens 150k, USD
   0.25, wall 420 s.
 - The PoC used 24/24 requests, 150/240 items, 43.84/420 s, USD 0.00.
 - **Updated 2026-09-21 (issue #13):** `fetch.py` now emits a run ledger with

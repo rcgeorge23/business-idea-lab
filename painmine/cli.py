@@ -84,6 +84,25 @@ def source_options(sources_path: str) -> dict[str, dict]:
     return options
 
 
+def enabled_sources(sources_path: str) -> list[str]:
+    """Source ids marked ``enabled: true`` in ``sources.json``.
+
+    The default source list is config-driven so that enabling a class in
+    ``sources.json`` (for example the Discourse browse collector) actually
+    takes effect without editing code. Falls back to the built-in
+    ``ENABLED_SOURCES`` tuple when the file has no usable class list.
+    """
+    data = read_json(sources_path, {}) or {}
+    enabled: list[str] = []
+    for entry in data.get("classes") or []:
+        if not isinstance(entry, dict):
+            continue
+        source_id = entry.get("source_id")
+        if source_id and entry.get("enabled") is True and source_id not in enabled:
+            enabled.append(source_id)
+    return enabled or list(ENABLED_SOURCES)
+
+
 def make_run_id() -> str:
     stamp = utcnow().strftime("%Y%m%dT%H%M%SZ")
     return f"pm-{stamp}-{sha1_hex(stamp + str(time.time()), 4)}"
@@ -128,7 +147,10 @@ def run_pipeline(args: argparse.Namespace) -> int:
         else None
     )
     queries = family_queries(args.sources_file, args.family)
-    sources = [s.strip() for s in args.sources.split(",") if s.strip()]
+    if args.sources.strip():
+        sources = [s.strip() for s in args.sources.split(",") if s.strip()]
+    else:
+        sources = enabled_sources(args.sources_file)
     collector_options = source_options(args.sources_file)
 
     meta = {
@@ -577,7 +599,11 @@ def build_parser() -> argparse.ArgumentParser:
     pipeline = sub.add_parser("pipeline", help="collect -> extract -> dedupe -> cluster -> rank -> observations")
     pipeline.add_argument("--out", required=True, help="output run directory")
     pipeline.add_argument("--family", default="a_manual_rekey", help="query family name, or 'all'")
-    pipeline.add_argument("--sources", default=",".join(ENABLED_SOURCES))
+    pipeline.add_argument(
+        "--sources",
+        default="",
+        help="comma-separated source ids; default is every class enabled in sources.json",
+    )
     pipeline.add_argument("--sources-file", default=DEFAULT_SOURCES)
     pipeline.add_argument("--limits", default=DEFAULT_LIMITS)
     pipeline.add_argument("--max-requests", type=int, default=0, help="lower the request cap for this run")

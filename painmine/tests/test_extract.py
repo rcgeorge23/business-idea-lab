@@ -150,6 +150,57 @@ class TestExtract(unittest.TestCase):
         self.assertEqual(reason, "")
         self.assertIsNotNone(signal)
 
+    def test_short_excerpt_with_system_and_cue_is_accepted(self):
+        """Discourse blurbs are truncated; a short cue + system still counts."""
+        item = {
+            "source_type": "discourse_public_json",
+            "source_id": "discourse:community.shopify.com:1",
+            "url": "https://community.shopify.com/t/1",
+            "title": "Purchase Orders and Transfers",
+            "text": (
+                "Purchase Orders and Transfers\n\n"
+                "Please make linked inventory transfers update automatically. "
+                "The current workflow requires duplicate manual edits in Shopify."
+            ),
+            "author": "merchant_mo",
+            "published_at": "2026-09-01",
+        }
+        signal, reason = extract_signal(item, LIMITS)
+        self.assertEqual(reason, "")
+        self.assertIsNotNone(signal)
+        self.assertIn("Shopify", signal["named_systems"])
+        self.assertGreaterEqual(len(signal["pain_statement"]), 30)
+
+    def test_short_excerpt_without_system_or_role_is_still_rejected(self):
+        """The short path must not admit generic chatter."""
+        item = {
+            "source_type": "discourse_public_json",
+            "source_id": "discourse:community.example.org:2",
+            "url": "https://community.example.org/t/2",
+            "title": "Hello",
+            "text": "I manually copy and paste things sometimes.",
+            "author": "anon",
+            "published_at": "2026-09-01",
+        }
+        signal, reason = extract_signal(item, LIMITS)
+        self.assertIsNone(signal)
+        self.assertEqual(reason, "statement_too_short")
+
+    def test_short_excerpt_without_strong_cue_is_rejected(self):
+        """A system name alone is not enough; a strong cue is required."""
+        item = {
+            "source_type": "discourse_public_json",
+            "source_id": "discourse:community.example.org:3",
+            "url": "https://community.example.org/t/3",
+            "title": "Shopify question",
+            "text": "Shopify is a hosted e-commerce platform used by many merchants.",
+            "author": "anon",
+            "published_at": "2026-09-01",
+        }
+        signal, reason = extract_signal(item, LIMITS)
+        self.assertIsNone(signal)
+        self.assertEqual(reason, "no_pain_cue")
+
 
 if __name__ == "__main__":
     unittest.main()

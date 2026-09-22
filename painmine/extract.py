@@ -277,6 +277,35 @@ def _statement_from(text: str) -> str:
     return truncate(sentence, 400)
 
 
+# Short, excerpt-style posts (e.g. Discourse topic blurbs, which are truncated
+# by the platform at ~200-300 chars and often end mid-sentence) frequently carry
+# a real buyer-side pain statement that is shorter than the default 60-char
+# floor. The 2026-09-21 full run showed 43 of 50 Discourse items rejected as
+# no_pain_cue and 3 as statement_too_short even though the raw excerpts named
+# concrete manual workflows (inventory/PO reconciliation, channel-fee tracking,
+# forced migrations). This path accepts a shorter statement when a strong cue
+# group is present AND the text names a system or a buyer role, so recall
+# improves without admitting generic chatter.
+SHORT_EXCERPT_MIN_CHARS = 30
+
+
+def _short_excerpt_statement(text: str, groups: dict[str, list[str]]) -> str:
+    """Statement for short excerpt-style posts, or '' if not eligible.
+
+    Eligible when a strong cue is present and the text names a system or a
+    buyer role. The statement is the best cue sentence (or the whole text when
+    no sentence boundary exists), truncated to the normal cap.
+    """
+    if not set(groups) & STRONG_GROUPS:
+        return ""
+    if not (named_systems(text) or infer_role(text)):
+        return ""
+    sentence = _best_sentence(text)
+    if not sentence:
+        sentence = strip_html(text).strip()
+    return truncate(sentence, 400)
+
+
 def _first_clue(text: str, group: str) -> str | None:
     for pattern, regex in _COMPILED[group]:
         sentence = first_sentence_containing(text, regex)
@@ -346,7 +375,14 @@ def extract_signal(item: dict, limits: dict) -> tuple[dict | None, str]:
     statement = _statement_from(text)
     min_chars = int(limits.get("extract", {}).get("min_statement_chars", 60))
     if len(statement) < min_chars:
-        return None, "statement_too_short"
+        # Short excerpt-style posts (Discourse blurbs) may still carry a real
+        # pain statement; accept a shorter one when a strong cue is present and
+        # the text names a system or buyer role.
+        short = _short_excerpt_statement(text, groups)
+        if len(short) >= SHORT_EXCERPT_MIN_CHARS:
+            statement = short
+        else:
+            return None, "statement_too_short"
     systems = named_systems(text)
     role = infer_role(text)
     workaround = _first_clue(text, "workaround") or _first_clue(text, "manual")

@@ -20,7 +20,7 @@ import urllib.request
 from typing import Any
 
 from .budget import Budget, BudgetExceeded
-from .util import read_jsonl, strip_html, truncate
+from .util import read_jsonl, strip_html, tokenize, truncate
 
 USER_AGENT = (
     "business-idea-lab-painmine-spike/0.1 "
@@ -386,54 +386,81 @@ def fetch_reddit(query: str, cap: int, budget: Budget) -> tuple[list[dict], dict
 
 DISCOURSE_DEFAULT_SITE = "discuss.python.org"
 
+# The standard Discourse robots template disallows /search, /my, /badges, /g,
+# /tag/*/l and the RSS feeds, but permits the browse endpoints below. Every
+# Discourse host that exposed a working /search.json was found to disallow it
+# in robots.txt (2026-09-21 probe), so this collector uses only the permitted
+# browse endpoints and filters locally instead of querying the search API.
+DISCOURSE_BROWSE_PATHS = ("/latest.json", "/top.json")
+
+
+def _discourse_topic_text(topic: dict) -> str:
+    """Best available body text for a topic-list entry."""
+    parts = [topic.get("title") or "", topic.get("excerpt") or ""]
+    return "\n\n".join(part for part in parts if str(part).strip())
+
 
 def fetch_discourse(
     query: str, cap: int, budget: Budget, site: str = DISCOURSE_DEFAULT_SITE
 ) -> tuple[list[dict], dict]:
-    """Public Discourse search (buyer-side communities, no auth).
+    """Public Discourse browse feed (buyer-side communities, no auth).
 
-    Discourse instances expose a public ``/search.json`` endpoint. Only public
-    read access is used: no authentication, no private endpoints. The class is
-    disabled in sources.json until the owner has checked each site's terms and
-    robots policy.
+    Uses only robots-permitted endpoints (``/latest.json`` and ``/top.json``);
+    the standard Discourse robots template disallows ``/search``, so this
+    collector browses recent/popular topics and filters them locally against
+    the query terms. Only public read access is used: no authentication, no
+    private endpoints. The class stays disabled in sources.json until the owner
+    approves specific sites.
     """
-    url = f"https://{site}/search.json?" + urllib.parse.urlencode({"q": query, "page": 1})
-    data, status = http_get_json(url, budget)
-    status["source_id"] = "discourse_public_json"
-    status["query"] = query
-    status["site"] = site
+    terms = [t for t in tokenize(query) if len(t) > 2]
     items: list[dict] = []
-    if not status.get("ok") or not isinstance(data, dict):
-        status["items"] = 0
-        return items, status
-    topics = {t.get("id"): t for t in (data.get("topics") or []) if isinstance(t, dict)}
-    for post in data.get("posts") or []:
-        if not isinstance(post, dict):
-            continue
-        topic = topics.get(post.get("topic_id")) or {}
-        title = topic.get("title") or post.get("topic_title") or ""
-        text = post.get("blurb") or post.get("cooked") or ""
-        if not str(text).strip():
-            continue
-        topic_id = post.get("topic_id")
-        post_number = post.get("post_number") or post.get("id")
-        items.append(
-            _raw_item(
-                "discourse_public_json",
-                f"discourse:{site}:{topic_id}:{post_number}",
-                f"https://{site}/t/{topic.get('slug') or 'topic'}/{topic_id}/{post_number}",
-                title,
-                text,
-                post.get("username"),
-                post.get("created_at"),
-                post.get("reply_count") or 0,
-                {"site": site, "topic_id": topic_id},
-            )
-        )
+    seen_topics: set = set()
+    last_status: dict = {}
+    for path in DISCOURSE_BROWSE_PATHS:
         if len(items) >= cap:
             break
-    status["items"] = len(items)
-    return items, status
+        url = f"https://{site}{path}"
+        data, status = http_get_json(url, budget)
+        status["source_id"] = "discourse_public_json"
+        status["query"] = query
+        status["site"] = site
+        status["path"] = path
+        last_status = status
+        if not status.get("ok") or not isinstance(data, dict):
+            status["items"] = 0
+            continue
+        topics = (data.get("topic_list") or {}).get("topics") or []
+        for topic in topics:
+            if not isinstance(topic, dict):
+                continue
+            topic_id = topic.get("id")
+            if topic_id in seen_topics:
+                continue
+            text = _discourse_topic_text(topic)
+            haystack = text.lower()
+            if terms and not any(term in haystack for term in terms):
+                continue
+            seen_topics.add(topic_id)
+            items.append(
+                _raw_item(
+                    "discourse_public_json",
+                    f"discourse:{site}:{topic_id}",
+                    f"https://{site}/t/{topic.get('slug') or 'topic'}/{topic_id}",
+                    topic.get("title") or "",
+                    text,
+                    topic.get("last_poster_username"),
+                    topic.get("created_at"),
+                    topic.get("reply_count") or 0,
+                    {"site": site, "topic_id": topic_id, "path": path},
+                )
+            )
+            if len(items) >= cap:
+                break
+        status["items"] = len(items)
+    if not last_status:
+        last_status = {"source_id": "discourse_public_json", "query": query, "site": site, "items": 0}
+    last_status["items"] = len(items)
+    return items, last_status
 
 
 COLLECTORS = {
@@ -460,7 +487,7 @@ def _attempt_kwargs(source_id: str, options: dict, index: int) -> dict:
     Rotating by query position spreads a family across the network without
     spending extra HTTP requests: attempt i uses sites[i % len(sites)].
     """
-    if source_id == "stack_exchange":
+    if source_id in ("stack_exchange", "discourse_public_json"):
         sites = options.get("sites") or []
         if sites:
             return {"site": sites[index % len(sites)]}
