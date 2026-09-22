@@ -6,7 +6,7 @@
   "slug": "aucly",
   "title": "Aucly: flat-fee online auction platform for UK schools, PTAs and charities",
   "state": "adversarially-researched",
-  "updated": "2026-09-21",
+  "updated": "2026-09-22",
   "dimensions": {
     "problem_severity_frequency": {
       "weight": 15,
@@ -42,11 +42,12 @@
     "distribution": {
       "weight": 10,
       "score": 2,
-      "confidence": "high",
+      "confidence": "medium",
       "evidence": [
-        "evidence/aucly/2026-09-21-seo-and-acquisition.md"
+        "evidence/aucly/2026-09-21-seo-and-acquisition.md",
+        "evidence/aucly/2026-09-22-acquisition-bot-correction.md"
       ],
-      "rationale": "Negative primary evidence: a substantial SEO investment produced 45 GSC clicks and 2,333 recorded visitors in the export window with 0 accounts, 0 auctions launched and £0 revenue; queries are brand-dominated. No unpaid channel has demonstrated it can reach organisers, so the plausible-only cap applies."
+      "rationale": "Primary evidence is inconclusive rather than negative: the recorded acquisition window shows 2,333 visitors and 0 accounts, but the owner states that traffic is largely bot-generated and the application counter is ~18x Cloudflare's bot-filtered 130 visits, so human reach is unmeasured. The recorded outcomes (0 accounts, 0 auctions launched, £0 revenue) and brand-dominated queries stand, and no unpaid channel has demonstrated it can reach organisers, so the plausible-only cap applies and the score stays 2. Confidence lowered from high to medium because the visitor denominator is contaminated."
     },
     "differentiation": {
       "weight": 10,
@@ -125,11 +126,12 @@
     },
     "non_paid_distribution": {
       "status": "unknown",
-      "note": "No unpaid channel has produced measurable accounts: the recorded export window shows 2,333 visitors and 0 accounts created. Direct outreach is untested.",
+      "note": "No unpaid channel has produced measurable accounts (0 accounts created, 0 auctions launched, £0 revenue). The recorded 2,333-visitor figure is largely bot traffic per the owner and is ~18x the bot-filtered Cloudflare count, so it is not a reliable human denominator: the channel is effectively untested rather than proven negative. Direct outreach is untested.",
       "evidence": [
-        "evidence/aucly/2026-09-21-seo-and-acquisition.md"
+        "evidence/aucly/2026-09-21-seo-and-acquisition.md",
+        "evidence/aucly/2026-09-22-acquisition-bot-correction.md"
       ],
-      "resolve_via": "aucly-channel-test: 20 direct unpaid contacts; proceeds only if at least 2 launch a real auction within 30 days at zero paid spend"
+      "resolve_via": "aucly-channel-test: 20 direct unpaid contacts; proceeds only if at least 2 launch a real auction within 30 days at zero paid spend; and re-pull acquisition metrics with bot filtering (Cloudflare bot score / user-agent exclusion) before judging any channel"
     },
     "defensible_wedge": {
       "status": "unknown",

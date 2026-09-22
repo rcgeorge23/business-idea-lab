@@ -68,11 +68,16 @@ and post-sale winner management; case-study social proof.
 
 ## Distribution
 
-Current evidence is negative: a sustained SEO effort (blog, landing pages)
-produced 45 GSC clicks and 2,333 recorded visitors in the export window with
-0 accounts, 0 auctions launched and £0 revenue, and most traffic is brand
-queries. No unpaid channel has demonstrated it reaches organisers. Direct
-outreach is untested and is the subject of the proposed experiment
+Current evidence (as recorded 2026-09-21) read as negative: a sustained SEO
+effort (blog, landing pages) produced 45 GSC clicks and 2,333 recorded visitors
+in the export window with 0 accounts, 0 auctions launched and £0 revenue, and
+most traffic is brand queries. **Correction (2026-09-22):** the owner states the
+2,333 visitors are largely bots, corroborated by Cloudflare's bot-filtered count
+of 130 visits versus the application counter's 2,333 (~18x gap). Human reach is
+therefore **unmeasured** and the channel is effectively untested rather than
+proven negative; the 0 accounts / 0 launches / £0 outcomes stand. No unpaid
+channel has yet demonstrated it reaches organisers. Direct outreach is untested
+and is the subject of the proposed experiment
 (`experiments/aucly-channel-test/plan.md`).
 
 ## Economics
@@ -103,7 +108,8 @@ commission on a £2,000+ auction.
 ## Adversarial case (strongest case this is wrong)
 
 Distribution is failing in the one channel that has been measured: after
-substantial SEO work, a recorded window of 2,333 visitors produced zero
+substantial SEO work, a recorded window of 2,333 visitors (largely bots per the
+2026-09-22 correction; human reach unmeasured) produced zero
 accounts, zero launches and zero revenue, and commercial queries have zero
 clicks. The category is occupied by entrenched providers with network effects
 and reputation, and free plans blunt the flat-fee wedge. The economics are
@@ -120,7 +126,7 @@ validation.
 |---|---|---|---|
 | A1 | Organisers feel enough pain with incumbents to switch | Unknown | win/loss questions in the channel test |
 | A2 | Flat fee is more attractive than commission to this buyer | Unknown | price-model reaction in the channel test |
-| A3 | Organisers can be reached without paid acquisition | Negative so far (0 accounts from 2,333 visitors) | aucly-channel-test |
+| A3 | Organisers can be reached without paid acquisition | Unmeasured (recorded traffic largely bots per 2026-09-22 correction; 0 accounts remain) | aucly-channel-test |
 | A4 | A volunteer can self-serve an auction with low support | Partially evidenced (Furzedown, Lingfield ran with limited help) | support load recorded per launch |
 | A5 | £60/£120 per auction yields workable contribution | Unknown | hosting/email cost + founder hours per auction |
 | A6 | Organisers return in a second year | Unknown | retention follow-up after experiment |
@@ -135,9 +141,22 @@ real auction within 30 days at zero paid spend. Cost bound: ~20 human hours,
 £0, 30 days. It tests the central assumption (unpaid distribution) and gives
 win/loss input on the wedge.
 
+## Locale expansion (2026-09-22)
+
+Assessed at the owner's request (Ireland, US, Australia, New Zealand) and recorded
+in `ideas/aucly/expansion-assessment.md` with evidence in
+`evidence/aucly/2026-09-22-locale-market-and-incumbents.md` and
+`evidence/aucly/2026-09-22-locale-regulation-and-tax.md`. Conclusion: **do not
+expand now** — the binding constraint is unpaid demand at home, and every locale
+already has a free or low-cost incumbent serving the same buyer. If pursued,
+Ireland ranks first as the cheapest discriminating probe, then Australia, New
+Zealand and the US. No scores or filters changed. Proposed conditional experiment:
+`experiments/aucly-ireland-demand/plan.md`.
+
 ## Decision log
 
 | Date | Change | Reason | Actor |
 |---|---|---|---|
 | 2025-07-30 | Build started (outside the lab) | No recorded screening artefact; recorded here for calibration | founder (historical) |
 | 2026-09-21 | Added to ledger as calibration case; scored 60.0; parked at `adversarially-researched`; experiment proposed | Issue #3: early commercial evidence but unproven sustainability; below threshold 65; remaining unknowns named in the proposed experiment | worker |
+| 2026-09-22 | Locale-expansion assessment recorded; held (no expansion); scores/filters unchanged; `aucly-ireland-demand` proposed | Owner-requested expansion assessment: free/low-cost incumbents in every locale plus an unsolved home channel make expansion unsupported now | worker |

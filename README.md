@@ -100,6 +100,15 @@ that does not match the expected shape is listed with a note rather than guessed
 at. The experiments table and each idea's experiment block also show the
 experiment hypothesis text.
 
+Every row in the **Score distribution** section is expandable: click a row to see
+that idea's proposed next step, if one has been defined. A row with a next step
+carries a small `next step` badge. The panel shows the linked experiment's status,
+central assumption, decision rule, kill condition, cost bound and approval state
+(so an experiment that is `proposed` and `awaiting owner approval` is obvious at a
+glance), plus any outstanding review status and an explicit `next_step` field on
+the idea entry if present. An idea with nothing defined shows `No next step
+defined.`
+
 The dashboard renders only what the machine-readable ledgers contain and shows
 `unknown` / `not recorded` honestly; it is a read-only view and never changes
 the ledger. It is skipped during `--dry-run`.

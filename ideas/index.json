@@ -396,13 +396,13 @@
       }
     },
     {
-      "id": "aucly",
-      "slug": "aucly",
-      "title": "Aucly: flat-fee online auction platform for UK schools, PTAs and charities",
-      "industry": "education-charities",
-      "state": "adversarially-researched",
-      "discovered": "2026-09-21",
-      "updated": "2026-09-21",
+    "id": "aucly",
+    "slug": "aucly",
+    "title": "Aucly: flat-fee online auction platform for UK schools, PTAs and charities",
+    "industry": "education-charities",
+    "state": "adversarially-researched",
+    "discovered": "2026-09-21",
+    "updated": "2026-09-22",
       "evidence_level": "Commercial evidence",
       "score": 60.0,
       "confidence": "medium",
@@ -430,12 +430,13 @@
           "no commission"
         ]
       },
-      "paths": {
-        "dir": "ideas/aucly",
-        "dossier": "ideas/aucly/dossier.md",
-        "decision": "ideas/aucly/decision.md",
-        "scorecard": "ideas/aucly/scorecard.json"
-      },
+    "paths": {
+      "dir": "ideas/aucly",
+      "dossier": "ideas/aucly/dossier.md",
+      "decision": "ideas/aucly/decision.md",
+      "scorecard": "ideas/aucly/scorecard.json",
+      "assessment": "ideas/aucly/expansion-assessment.md"
+    },
       "review": {
         "status": "not-required",
         "path": null

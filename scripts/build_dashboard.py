@@ -592,8 +592,87 @@ def render_portfolio(ideas_index, ideas, experiments_index, seeds_index, runs):
     return '<div class="charts">' + "\n".join(charts) + "</div>"
 
 
-def render_score_distribution(ideas):
-    """A simple horizontal strip showing each idea's score against the threshold."""
+def render_next_steps(entry, experiments_by_id):
+    """The proposed next step(s) for an idea, if any have been defined.
+
+    Sources, in order of preference:
+    - the linked experiment (status, central assumption, decision rule, cost bound, approval)
+    - the idea's review status when a review is outstanding
+    - an explicit 'next_step' field on the idea entry, if present
+    """
+    out = []
+    exp_ref = entry.get("experiment") or {}
+    exp_id = exp_ref.get("id")
+    exp = experiments_by_id.get(exp_id) if exp_id else None
+
+    if exp:
+        approval = exp.get("approval") or {}
+        cost = exp.get("cost_bound") or {}
+        granted = approval.get("granted")
+        status = exp.get("status") or "unknown"
+        if granted:
+            headline = f"Experiment <code>{esc_raw(exp_id)}</code> is <strong>{esc_raw(status)}</strong> (approval granted)."
+        elif approval.get("required"):
+            headline = (
+                f"Experiment <code>{esc_raw(exp_id)}</code> is <strong>{esc_raw(status)}</strong> "
+                "and <strong>awaiting owner approval</strong>."
+            )
+        else:
+            headline = f"Experiment <code>{esc_raw(exp_id)}</code> is <strong>{esc_raw(status)}</strong>."
+        out.append(f'<p class="next-headline">{headline}</p>')
+        rows = [
+            ("Central assumption", esc(exp.get("central_assumption"))),
+            ("Decision rule", esc(exp.get("decision_rule"))),
+            ("Kill condition", esc(exp.get("kill_condition"))),
+            (
+                "Cost bound",
+                esc_raw(
+                    f"GBP {cost.get('money_gbp')} / {cost.get('human_hours')} hours / "
+                    f"{cost.get('calendar_days')} days"
+                ),
+            ),
+            ("Approval", esc_raw(f"required={approval.get('required')} granted={approval.get('granted')}")),
+            ("Plan", esc(exp.get("plan"))),
+        ]
+        out.append('<table class="kv">')
+        for label, value in rows:
+            out.append(f"<tr><th>{esc_raw(label)}</th><td>{value}</td></tr>")
+        out.append("</table>")
+    elif exp_ref:
+        out.append(
+            f'<p class="next-headline">Experiment <code>{esc_raw(exp_id)}</code> is '
+            f'<strong>{esc_raw(exp_ref.get("status"))}</strong> (no index entry found).</p>'
+        )
+        out.append(
+            f'<table class="kv"><tr><th>Plan</th><td>{esc(exp_ref.get("plan"))}</td></tr></table>'
+        )
+
+    review = entry.get("review") or {}
+    review_status = review.get("status")
+    if review_status and review_status not in ("not-required", None):
+        out.append(
+            f'<p class="next-headline">Review status: <strong>{esc_raw(review_status)}</strong>'
+            + (f' — <code>{esc_raw(review.get("path"))}</code>' if review.get("path") else "")
+            + "</p>"
+        )
+
+    explicit = entry.get("next_step")
+    if explicit:
+        out.append(f'<p class="next-headline">{esc(explicit)}</p>')
+
+    if not out:
+        return '<p class="unknown">No next step defined.</p>'
+    return "\n".join(out)
+
+
+def render_score_distribution(ideas, experiments_by_id=None):
+    """A horizontal strip showing each idea's score against the threshold.
+
+    Each row is an expandable section that reveals the idea's proposed next
+    step(s) when any have been defined (a linked experiment, an outstanding
+    review, or an explicit next_step field).
+    """
+    experiments_by_id = experiments_by_id or {}
     scored = [i for i in ideas if i["entry"].get("score") is not None]
     if not scored:
         return '<p class="unknown">No scored ideas.</p>'
@@ -604,20 +683,29 @@ def render_score_distribution(ideas):
         score = entry.get("score") or 0
         pct = min(max(score, 0), 100)
         cls = "score-high" if score >= THRESHOLD else ("score-mid" if score >= 50 else "score-low")
+        slug = entry.get("slug") or entry.get("id") or "unknown"
+        next_steps = render_next_steps(entry, experiments_by_id)
+        has_next = "No next step defined." not in next_steps
+        badge = '<span class="next-badge">next step</span>' if has_next else ""
         out.append(
-            '<div class="score-row">'
-            f'<span class="score-name">{esc_raw(entry.get("title") or entry.get("slug"))}</span>'
+            '<details class="score-row">'
+            '<summary>'
+            f'<span class="score-name">{esc_raw(entry.get("title") or slug)}</span>'
+            f'{badge}'
             '<span class="score-track">'
             f'<span class="score-fill {cls}" style="width:{pct:.1f}%"></span>'
             f'<span class="score-threshold" style="left:{THRESHOLD}%"></span>'
             "</span>"
             f'<span class="score-value">{fmt_score(score)}</span>'
-            "</div>"
+            "</summary>"
+            f'<div class="score-next">{next_steps}</div>'
+            "</details>"
         )
     out.append("</div>")
     out.append(
         f'<p class="hint">The vertical marker is the validation-ready threshold ({THRESHOLD}). '
-        "Scores are desk-research scores, not market validation.</p>"
+        "Scores are desk-research scores, not market validation. "
+        "Expand a row to see the proposed next step for that idea, if one has been defined.</p>"
     )
     return "\n".join(out)
 
@@ -1199,7 +1287,17 @@ h4 { font-size: 14px; margin: 18px 0 8px; color: var(--accent); }
 .bar-fill { display: block; height: 100%; background: var(--accent); }
 .bar-count { width: 32px; text-align: right; flex: none; }
 .score-strip { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
-.score-row { display: flex; align-items: center; gap: 10px; margin: 7px 0; font-size: 13px; }
+details.score-row { margin: 7px 0; font-size: 13px; border-radius: 8px; }
+details.score-row > summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none; padding: 3px 4px; border-radius: 6px; }
+details.score-row > summary::-webkit-details-marker { display: none; }
+details.score-row > summary::before { content: "\\25B8"; color: var(--muted); flex: none; width: 12px; }
+details.score-row[open] > summary::before { content: "\\25BE"; }
+details.score-row > summary:hover { background: var(--panel-2); }
+.score-next { margin: 8px 0 10px 26px; padding: 10px 12px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 8px; }
+.score-next .next-headline { margin: 0 0 8px; }
+.score-next .next-headline:last-child { margin-bottom: 0; }
+.score-next table.kv { margin-top: 6px; }
+.next-badge { flex: none; font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 1px 7px; }
 .score-name { width: 260px; flex: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .score-track { flex: 1; height: 12px; background: var(--panel-2); border-radius: 6px; position: relative; overflow: hidden; }
 .score-fill { display: block; height: 100%; }
@@ -1285,7 +1383,7 @@ def build_html(ledger, root):
     parts.append("</section>")
 
     parts.append('<section id="scores"><h2>Score distribution</h2>')
-    parts.append(render_score_distribution(ideas))
+    parts.append(render_score_distribution(ideas, experiments_by_id))
     parts.append("</section>")
 
     parts.append('<section id="ideas"><h2>Ideas</h2>')

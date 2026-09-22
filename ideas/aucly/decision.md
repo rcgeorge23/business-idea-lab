@@ -227,8 +227,75 @@ in other verticals).
 
 Not applicable — Aucly has never been killed.
 
+## 2026-09-22 — Locale expansion assessment (owner-directed, run `20260922T100404Z-normal`)
+
+- **Question assessed:** the business value of expanding Aucly into another locale
+  — Ireland, the US, Australia or New Zealand — including cost, benefit, different
+  market conditions and different regulation.
+- **Decision:** **hold — do not expand now.** State unchanged
+  (`adversarially-researched`, parked). **Scores unchanged (60.0).** Recorded hard
+  filters unchanged (3 `pass`, 4 `unknown`, 0 `fail`). No new candidate was created:
+  a locale variant is the same buyer, problem and mechanism, so per
+  `method/discovery.md` duplicate rules it updates this idea rather than adding a
+  ledger entry.
+- **Why:** the binding constraint is unpaid demand, still unsolved at home (2,333
+  visitors → 0 accounts, 0 auctions, £0). Every locale examined already has a free
+  or low-cost incumbent serving the same buyer (Toko free for NZ schools;
+  Fundraising Solutions zero platform fee in IE; GalaBid free-with-tips in AU/NZ;
+  Auctria free tier in the US), and no locale-specific evidence of organiser
+  dissatisfaction was found. Expansion resets distribution to zero and adds
+  regulation/tax cost without addressing the known failure. Ireland ranks first if
+  expansion is ever pursued (cheapest discriminating probe), then Australia, then
+  New Zealand, then the US.
+- **Assessment document:** `ideas/aucly/expansion-assessment.md`.
+- **Evidence added this run:**
+  `evidence/aucly/2026-09-22-locale-market-and-incumbents.md`,
+  `evidence/aucly/2026-09-22-locale-regulation-and-tax.md`.
+- **Observation pool:** `observations/20260922T100404Z-normal.md` (20 observations,
+  10 regulatory / 10 non-regulatory, 0 promoted; false-negative audit upheld O20).
+- **Experiment proposed:** `aucly-ireland-demand` (awaiting human approval;
+  informative only in combination with `aucly-channel-test`, which remains the
+  cheapest decisive test for the idea's central assumption).
+- **No overwrite:** this section appends to, and does not replace, the 2026-09-21
+  record above.
+
+## 2026-09-22 — Post-run correction: acquisition traffic is largely non-human (run `20260922T100404Z-normal`)
+
+- **Correction:** the owner states (2026-09-22) that the 2,333 visitors in the
+  acquisition export are **mainly bots**. Recorded append-only in
+  `evidence/aucly/2026-09-22-acquisition-bot-correction.md` (register:
+  assumption, owner-supplied and unverified). Corroborating first-party detail:
+  the same source file records Cloudflare **130 visits** versus the application
+  export's **2,333 visitors** over near-identical windows (~18x), and GSC shows
+  only 45 clicks / 921 impressions, so the export cannot reflect 2,333 humans.
+- **Effect:** the earlier characterisation "negative primary evidence" is too
+  strong; the accurate reading is "human reach is unmeasured; the channel is
+  effectively untested". The recorded outcomes (0 accounts, 0 auctions launched,
+  **£0 revenue**) are unchanged, and **no unpaid channel has been demonstrated**.
+- **Scores/state:** **unchanged** — weighted total **60.0**; state
+  `adversarially-researched` (parked). Only `distribution.confidence` changed,
+  **high → medium** (score stays **2**); the
+  `non_paid_distribution` hard filter stays **unknown** (not `fail`).
+- **Statements superseded by this correction** (left in place, not silently
+  rewritten): the 2026-09-21 non_paid_distribution table row ("2,333 recorded
+  visitors → 0 accounts"); the calibration section's "- **Negative:** 0
+  accounts/launches/payments from the recorded 2,333 visitors"; and the
+  2026-09-22 locale-expansion bullet beginning "- **Why:** the binding
+  constraint is unpaid demand, still unsolved at home (2,333 visitors → 0
+  accounts...)". Each should now be read as "0 accounts/launches/revenue against
+  an unmeasured human base".
+- **Consequence for any channel work:** the application-level acquisition
+  endpoint counts bots and needs a bot filter (Cloudflare bot score, user-agent
+  or served-request exclusion, or a server-side filter) before it can adjudicate
+  any acquisition channel. The recommendation **not to expand locales** is
+  unchanged, because there is still no demonstrated UK channel to replicate.
+- **No overwrite:** this section appends to, and does not replace, the records
+  above.
+
 ## Decision log
 
 | Date | Change | Reason | Actor |
 |---|---|---|---|
 | 2026-09-21 | Added; scored 60.0; parked at `adversarially-researched`; experiment `aucly-channel-test` proposed | Issue #3 calibration: recognise early commercial evidence without over-claiming; name remaining unknowns in a cheap pre-fixed test | worker |
+| 2026-09-22 | Held (no expansion); scores and filters unchanged; locale-expansion assessment recorded; evidence added; `aucly-ireland-demand` proposed | Owner asked for an expansion cost/benefit/regulation assessment; evidence shows free low-cost incumbents in every locale plus an unsolved home channel, so expansion is unsupported now | worker |
+| 2026-09-22 | Post-run correction: acquisition traffic largely bots; `distribution` confidence high→medium (score stays 2); filter stays `unknown`; state/score unchanged (60.0) | Owner supplied the bot correction; evidence register corrected append-only per the evidence policy; no silent overwrite | worker |

@@ -142,6 +142,29 @@
         "human_hours": 12,
         "calendar_days": 21
       }
+    },
+    {
+      "id": "aucly-ireland-demand",
+      "idea_id": "aucly",
+      "title": "Ireland demand probe: does a flat-fee tool win despite free incumbents?",
+      "status": "proposed",
+      "created": "2026-09-22",
+      "updated": "2026-09-22",
+      "hypothesis": "If 20 Irish primary-school PTA organisers outside any network are approached directly with a locally relevant case study and free-tier setup help, then at least 2 will launch a real auction within 30 days at zero paid spend, because the offer removes setup friction and commission.",
+      "central_assumption": "Unmet demand exists in Ireland for a flat-fee, no-commission self-service school auction tool despite free or low-cost incumbents (Fundraising Solutions zero platform fee; iDonate.ie; GalaBid ROI), and a UK-run provider can reach Irish PTAs without paid acquisition.",
+      "kill_condition": "Zero of the 20 Irish organisations launch an auction within 30 days and the dominant response is that a free or low-cost platform already satisfies them - or that they do not run auctions.",
+      "decision_rule": "Only informative combined with aucly-channel-test. Expand-signal iff the UK test fails AND >=2 of 20 Irish contacts launch within 30 days at zero paid spend; do-not-expand if the UK test fails and <=1 launch; defer if the UK test succeeds (address the home market first); stop if 0 launch with free-incumbent objections; record as untested if legal/permission constraints block outreach.",
+      "plan": "experiments/aucly-ireland-demand/plan.md",
+      "results": null,
+      "approval": {
+        "required": true,
+        "granted": false
+      },
+      "cost_bound": {
+        "money_gbp": 0,
+        "human_hours": 20,
+        "calendar_days": 30
+      }
     }
   ]
 }
