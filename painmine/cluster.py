@@ -256,8 +256,15 @@ def cluster(signals: list[dict], limits: dict) -> list[dict]:
         clusters = clusters[:max_clusters]
 
     # A cluster must recur: isolate signals are not opportunity patterns.
+    # Diagnostic mode (2026-09-21): when the source portfolio cannot yet supply
+    # three independent sources on one seam, a lower bar lets us see whether any
+    # real seam exists at all. It is opt-in via limits.cluster.diagnostic_min_cluster_size
+    # and is recorded in LAST_STATS so a diagnostic run can never be mistaken for
+    # a normal one. Default behaviour is unchanged.
     min_size = int(cfg.get("min_cluster_size", 3))
-    clusters = [c for c in clusters if len(c["_members"]) >= min_size]
+    diagnostic_min_size = int(cfg.get("diagnostic_min_cluster_size", 0) or 0)
+    effective_min_size = diagnostic_min_size if 0 < diagnostic_min_size < min_size else min_size
+    clusters = [c for c in clusters if len(c["_members"]) >= effective_min_size]
 
     # Buyer-substance gate: a cluster of comments that merely share a literal
     # query phrase (for example "there has to be a better way") is not an
@@ -278,7 +285,7 @@ def cluster(signals: list[dict], limits: dict) -> list[dict]:
         non_commentary = [m for m in kept if not _is_commentary(m)]
         commentary_dropped += len(kept) - len(non_commentary)
         kept = non_commentary
-        if len(kept) >= min_size:
+        if len(kept) >= effective_min_size:
             group["_members"] = kept
             group["_vectors"] = [all_vectors.get(m["signal_id"], {}) for m in kept]
             group["_centroid"] = _centroid(group["_vectors"])
@@ -301,7 +308,7 @@ def cluster(signals: list[dict], limits: dict) -> list[dict]:
                 continue
             counts[key] += 1
             kept.append(member)
-        if len(kept) >= min_size:
+        if len(kept) >= effective_min_size:
             group["_members"] = kept
             group["_vectors"] = [all_vectors.get(m["signal_id"], {}) for m in kept]
             group["_centroid"] = _centroid(group["_vectors"])
@@ -366,6 +373,9 @@ def cluster(signals: list[dict], limits: dict) -> list[dict]:
             "dropped_commentary": commentary_dropped,
             "clusters_after_min_size": len(clusters),
             "max_members_per_thread": per_thread_cap,
+            "min_cluster_size": min_size,
+            "effective_min_cluster_size": effective_min_size,
+            "diagnostic_mode": effective_min_size != min_size,
         }
     )
     return result

@@ -115,8 +115,20 @@ class TestCli(unittest.TestCase):
         """Families must ask for spend/workarounds, not generic complaint chatter."""
         spend = cli.family_queries(SOURCES, "d_paid_workaround")
         self.assertTrue(any("pay" in q.lower() or "outsourc" in q.lower() for q in spend))
+        # The seam family names concrete operational seams (inventory/PO, channel
+        # fees, forced migrations, bulk-edit regressions, bank feeds) rather than
+        # generic "doesn't integrate" complaint phrasing, which moved to
+        # b_tooling_gap.
         seam = cli.family_queries(SOURCES, "e_unserved_seam")
-        self.assertTrue(any("integrat" in q.lower() for q in seam))
+        self.assertTrue(
+            any(
+                term in q.lower()
+                for q in seam
+                for term in ("purchase order", "channel fees", "sunset", "bulk edit", "bank feed")
+            )
+        )
+        gap = cli.family_queries(SOURCES, "b_tooling_gap")
+        self.assertTrue(any("integrat" in q.lower() for q in gap))
         every = cli.family_queries(SOURCES, "all")
         self.assertFalse(any('"double entry" excel' in q.lower() for q in every))
 

@@ -87,14 +87,15 @@
         "sites": [
           "community.quickfile.co.uk",
           "forum.manager.io",
-          "community.shopify.com"
+          "community.shopify.com",
+          "community.servicem8.com"
         ],
         "browse_paths": [
           "/latest.json",
           "/top.json"
         ],
         "site_rotation": "Query attempt i uses sites[i % len(sites)], so one family spreads across communities without extra HTTP requests. Item ids include the site because topic ids are only unique within an instance.",
-        "note": "Enabled 2026-09-21 for three sites whose robots.txt permits /latest.json and /top.json and whose public feeds returned valid JSON. Add hostnames to options.sites only after checking that site's robots.txt and terms."
+        "note": "Enabled 2026-09-21 for four sites whose robots.txt permits /latest.json and /top.json and whose public feeds returned valid JSON. community.servicem8.com added 2026-09-21 (field-service trade operators). Add hostnames to options.sites only after checking that site's robots.txt and terms."
       }
     },
     {
@@ -123,7 +124,7 @@
       "cost": "GBP 0",
       "unattended_ok": false,
       "enabled": false,
-      "blocked_reason": "Per-vendor ToS review required before any automated collection; deferred."
+      "blocked_reason": "Surveyed 2026-09-21: 20 vendor communities probed. Most are Cloudflare-blocked (myob, hubspot, sap: 403), login-walled (workday 401), or non-Discourse HTML (atlassian, servicenow, monday, clickup, freeagent). Only community.asana.com and community.spiceworks.com expose permitted Discourse browse feeds, but content is product announcements (Asana) and IT-pro chatter (Spiceworks) - not buyer-side operational pain. Remains disabled."
     },
     {
       "class": "public_job_ads",
@@ -179,7 +180,7 @@
       "cost": "GBP 0",
       "unattended_ok": false,
       "enabled": false,
-      "blocked_reason": "Site-by-site robots review required; deferred."
+      "blocked_reason": "Surveyed 2026-09-21: robots-permitted XenForo RSS feeds exist (contractortalk, electriciansforums, ukplumbersforums: /forums/-/index.rss, 200, robots only disallows /cgi-bin/ or account paths). Content is technical trade questions (wiring, boilers, permits); 0 of 80 recent items mentioned software/admin/quoting/invoicing terms. Not a software-seam source. Remains disabled."
     },
     {
       "class": "integration_marketplace_reviews",
@@ -193,7 +194,7 @@
       "cost": "GBP 0",
       "unattended_ok": false,
       "enabled": false,
-      "blocked_reason": "Deferred: access review needed."
+      "blocked_reason": "Surveyed 2026-09-21: Atlassian Marketplace has a public REST API but robots.txt disallows /rest/ (off-limits). Shopify App Store robots is permissive but review text is client-rendered (no server-side review HTML, no public JSON endpoint found; /api/* 404). HubSpot/Zapier/Chrome/Salesforce have no usable public review API. Remains disabled."
     },
     {
       "class": "public_spreadsheets_templates",
@@ -225,41 +226,41 @@
     }
   ],
   "query_families": {
-    "$comment": "Rotated across runs so we do not hammer the same queries. Each family is a list of literal search strings. Rewritten 2026-09-21: families now target spend, paid workarounds and named-system seams rather than generic complaint chatter, because widely-discussed pain is already monetised (see runs/20260921T122128Z-normal/issue-drafts-opportunity-quality.md).",
+    "$comment": "Rotated across runs so we do not hammer the same queries. Each family is a list of literal search strings. Rewritten 2026-09-21 (second pass): the first rewrite still pulled commentary because the phrases were generic complaints. These families are now anchored to named systems and concrete operational seams observed in real buyer-side posts (inventory/purchase-order reconciliation, channel-fee tracking, forced vendor migrations, bulk-edit workflow regressions, bank-feed reconciliation). See runs/20260921T122128Z-normal/issue-drafts-opportunity-quality.md.",
     "a_manual_rekey": [
-      "\"we still do this manually\" spreadsheet",
-      "\"copy and paste\" between systems every week",
-      "\"re-key\" data between systems",
-      "\"manually export\" csv import",
-      "\"reconcile\" bank transactions spreadsheet"
+      "\"copy and paste\" between Shopify and Excel",
+      "\"re-key\" invoices into accounting software",
+      "\"manually enter\" purchase orders inventory",
+      "\"export to CSV\" then import into",
+      "\"reconcile\" bank feed spreadsheet manually"
     ],
     "b_tooling_gap": [
-      "\"our current software doesn't\" integrate",
-      "\"wish it integrated with\" accounting",
-      "\"no api\" export csv workaround",
-      "\"there has to be a better way\" admin",
-      "\"is there software that\" handles"
+      "\"doesn't integrate with\" Shopify",
+      "\"no integration\" between Xero and",
+      "\"wish it integrated with\" QuickBooks",
+      "\"no API\" so we export CSV",
+      "\"sync\" between two systems manually"
     ],
     "c_cost_pain": [
-      "\"hours every week\" manual data entry",
-      "\"we pay someone to\" enter data",
-      "\"too expensive\" small business software",
-      "\"minimum contract\" software",
-      "\"enterprise plan\" feature locked"
+      "\"hours every week\" entering invoices",
+      "\"we pay someone to\" do data entry",
+      "\"too expensive\" per seat pricing",
+      "\"minimum contract\" accounting software",
+      "\"paying for\" software we barely use"
     ],
     "d_paid_workaround": [
-      "\"we pay a\" virtual assistant data entry",
-      "\"paying someone\" to copy data",
-      "\"hired a\" bookkeeper to reconcile",
-      "\"outsourced\" data entry spreadsheet",
+      "\"we pay a\" bookkeeper to reconcile",
+      "\"hired a\" virtual assistant data entry",
+      "\"outsourced\" bookkeeping reconciliation",
+      "\"paying someone\" to copy data between",
       "\"per seat\" pricing too expensive"
     ],
     "e_unserved_seam": [
-      "\"doesn't integrate with\" our accounting software",
-      "\"no integration\" between systems",
-      "\"we export to excel\" because",
-      "\"vendor won't\" add integration",
-      "\"manual workaround\" between two systems"
+      "\"inventory\" \"purchase order\" manual update",
+      "\"channel fees\" not tracked",
+      "\"being sunset\" replacement inventory app",
+      "\"bulk edit\" slower than before",
+      "\"bank feed\" reconciliation workaround"
     ]
   }
 }

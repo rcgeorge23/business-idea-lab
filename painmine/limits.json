@@ -22,7 +22,9 @@
     "min_cluster_size": 3,
     "similarity_threshold": 0.17,
     "key_terms": 8,
-    "max_members_per_thread": 3
+    "max_members_per_thread": 3,
+    "diagnostic_min_cluster_size": 0,
+    "$comment_diagnostic": "diagnostic_min_cluster_size is 0 (off) by default. Set it to 2 to run a diagnostic pass that surfaces two-member seams when the source portfolio cannot yet supply three independent sources on one seam. Diagnostic runs are flagged in report volumes.cluster_precision (diagnostic_mode true) and must never be treated as normal clustering output."
   },
   "llm": {
     "enabled": false,
