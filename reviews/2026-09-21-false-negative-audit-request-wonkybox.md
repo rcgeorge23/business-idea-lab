@@ -6,7 +6,9 @@
 - **Requested from:** ChatGPT (independent reviewer)
 - **Trigger:** review-policy false-negative audit - every 5th killed idea, sampling the oldest un-audited one
 - **Target idea:** `wonkybox` (killed 2026-09-20, kill #2; unaudited)
-- **Status:** `requested`
+- **Status:** `answered` — kill upheld by ChatGPT / GPT-5.6 Sol on 2026-09-21
+  (`reviews/2026-09-21-false-negative-audit-wonkybox-chatgpt.md`); no adjacent
+  seed created; calibration lesson recorded in `ideas/wonkybox/decision.md`.
 
 ## Why this audit is being raised
 

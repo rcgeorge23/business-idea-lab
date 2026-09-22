@@ -53,8 +53,23 @@ The incumbent's filings function as a natural experiment: if a well-capitalised 
   improves a small entrant's economics relative to the leader. Residual
   uncertainty: the evidence covers delivered boxes only, not pickup-only or B2B
   surplus channels.
-- Reviewer / date: pending — no reviewer response has been received; no verdict
-  is claimed.
+- Reviewer / date: **kill upheld** — ChatGPT / GPT-5.6 Sol, 2026-09-21, response
+  at `reviews/2026-09-21-false-negative-audit-wonkybox-chatgpt.md`. The reviewer
+  agreed the kill is correct on multiple independent grounds (occupied direct
+  position, weakened low-CAC assumption, persistent category-leader losses,
+  joint optimism) and that a pickup/community-hub model is a materially
+  different mechanism whose economics the reviewed evidence does not establish.
+  The reviewer also recorded one calibration lesson: category-leader losses are
+  strong negative evidence, not a universal impossibility proof, so the
+  decision wording above ("a small entrant will not either") is stronger than
+  the evidence warrants. The kill stands regardless.
+- Adjacent seed: **not created**. The reviewer advised against promoting a
+  pickup/community/B2B pivot on the current evidence, since no affirmative
+  indication of attractive economics or an underserved buyer exists. Such a
+  model should be captured as a fresh observation with its own provenance if
+  discovery independently surfaces evidence.
 - What new evidence would justify reopening: independently verifiable evidence
   that a structurally different distribution model (pickup, B2B, community hub)
-  reaches positive contribution per box at small scale.
+  reaches positive contribution per box at small scale, with credible repeat
+  purchase/retention and a plausible low-paid-acquisition route — evaluated as a
+  new proposition from scratch, not by changing this historical kill.

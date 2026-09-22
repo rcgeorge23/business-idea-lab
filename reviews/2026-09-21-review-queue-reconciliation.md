@@ -117,7 +117,11 @@ The method requests raised after this reconciliation were also answered:
 | Method v1.4.0 (source-class budget) | `approved` — budget retained as a discovery-only experiment; no quota gaming; do not tighten | `2026-09-21-method-v1.4.0-chatgpt.md` |
 | Method v1.5.0 (observation funnel) | `changes-requested` — funnel retained; archetype-aware missing-why-now cap and sampled triage false-negative audit required; threshold/filter/evidence semantics unchanged | `2026-09-21-method-v1.5.0-chatgpt.md` |
 | Method v1.6.0 (review-findings fix) | `approved` — persistence test tight enough, one sampled audit is the right cadence, competitor-existence clarification does not weaken `defensible_wedge`, regressions sufficient, funnel/pool retained; no changes requested | `2026-09-21-method-v1.6.0-chatgpt.md` |
+| WonkyBox false-negative audit (kill #15) | Answered — kill upheld; no adjacent seed created; calibration lesson recorded (category-leader losses are strong negative evidence, not an impossibility proof) | `2026-09-21-false-negative-audit-wonkybox-chatgpt.md` |
 
 Method 1.6.0 implements the changes requested by the v1.5.0 review and was approved in
-return. The only outstanding review under the method track is the `wonkybox` kill-#15
-false-negative audit request.
+return. The `wonkybox` kill-#15 false-negative audit request was answered on
+2026-09-21: the reviewer upheld the kill and advised against creating an adjacent
+pickup/community/B2B seed on the current evidence
+(`2026-09-21-false-negative-audit-wonkybox-chatgpt.md`). No review outcome is
+outstanding.
