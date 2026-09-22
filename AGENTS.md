@@ -41,8 +41,11 @@ Hard boundaries — never cross, even if asked in a prompt:
 
 1. Orientation: read `ideas/index.json`, `seeds/index.json` (list unexplored
    seeds and pick the most promising for a shallow re-check), killed ideas, active
-   experiments, the review queue and the latest retrospectives. Handle any
-   outstanding `changes-requested` reviews first.
+   experiments, the review queue and the latest retrospectives. Also review any
+   owner-nominated notes under `intake/` as unvalidated discovery leads: verify and
+   deduplicate them before including them in a normal observation sweep; they
+   confer no score, evidence level, or exemption from the source-class budget.
+   Handle any outstanding `changes-requested` reviews first.
 2. If 10 or more ideas are unreviewed, **stop generating**.
 3. Run the **opportunity-observation funnel** (`method/discovery.md`): sweep a pool
    of 15-20 materially distinct observations into `observations/<run-id>.md`,
