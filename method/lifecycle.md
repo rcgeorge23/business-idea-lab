@@ -74,6 +74,13 @@ archetype-aware (v1.6.0):
   mechanism explaining why the market has not adequately resolved the problem for the
   specified segment. A weak, absent or speculative persistence thesis leaves the cap in
   place. The thesis is not a scoring bonus and never upgrades a hard filter.
+- **Latent-opportunity candidates (v1.7.0):** a candidate promoted from a latent
+  observation (archetype C in `method/discovery.md`) is treated exactly like a
+  persistent-market-failure candidate for the why-now cap: no discontinuity is required
+  or invented, and the cap is lifted only by an evidence-backed persistence thesis
+  meeting both limbs. The latent route is a discovery-sourcing subtype, not a new
+  lifecycle state or evidence level, and it confers no automatic score or validation
+  status.
 
 ## Evidence levels
 

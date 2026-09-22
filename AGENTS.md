@@ -49,11 +49,15 @@ Hard boundaries — never cross, even if asked in a prompt:
 2. If 10 or more ideas are unreviewed, **stop generating**.
 3. Run the **opportunity-observation funnel** (`method/discovery.md`): sweep a pool
    of 15-20 materially distinct observations into `observations/<run-id>.md`,
-   mixing change-driven opportunities (each with an evidenced "why now?") and
+   mixing change-driven opportunities (each with an evidenced "why now?"),
    persistent market failures (answer "why does this problem still persist
    despite existing alternatives?"; never invent a discontinuity, and note that
    an evidence-backed persistence thesis - not the bare existence of competitors -
-   is what allows scoring without the missing-why-now cap). Bias the sweep
+   is what allows scoring without the missing-why-now cap), and latent-opportunity
+   hypotheses (a guarded route for evidenced but unarticulated buyer-benefit
+   hypotheses; admissible only with the six required fields in `method/discovery.md`
+   archetype C, and never a substitute for a buyer, mechanism, distribution route or
+   falsifiable test). Bias the sweep
    toward poor/expensive narrow incumbent software, manual re-keying workflows
    and awkward integrations, and seek practitioner/community evidence where
    feasible. Shallow-triage every observation, recording negative evidence and
@@ -136,7 +140,7 @@ A run leaves reviewable, committed-ready changes:
   `LAB_RUN_ID`; run `printenv LAB_RUN_ID` if unsure)
 
 The summary must state: the seed register review, observation-pool statistics
-(total observations, source mix, change-driven vs persistent split, triage
+(total observations, source mix, change-driven vs persistent vs latent split, triage
 rejections and principal reasons, promotions and why), source classes searched
 (regulatory vs non-regulatory, successful and unsuccessful), whether the
 source-class budget was satisfied and why, why-now quality, provenance

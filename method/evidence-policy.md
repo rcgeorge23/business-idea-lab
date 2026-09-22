@@ -32,6 +32,21 @@ evidence that it does. From v1.1.0:
 - the fact that a direct competitor already sells the proposed position is evidence
   *against* differentiation and must lower that dimension, not be ignored.
 
+**Latent-opportunity hypotheses (v1.7.0).** A hypothesis that a buyer would value a
+capability they have not asked for is admissible as an observation only when it names
+the buyer and their observed current behaviour, the newly possible capability and its
+mechanism, the inferred value (labelled as inference), the status quo and competitors,
+and a falsifiable assumption with a cheap test (see `method/discovery.md`, archetype C).
+Such a hypothesis:
+
+- may justify a **cheap test** without a pre-existing complaint or search query;
+- is **never** demand evidence, and never produces a hard-filter `pass` - missing
+  evidence stays `unknown` with a `resolve_via`;
+- does not lift any score cap, lower the threshold or redefine evidence levels;
+- still requires real target-buyer behaviour (payment, pre-order, meaningful
+  commitment, or an approved experiment with a pre-declared decision rule) before any
+  demand or commercial claim.
+
 ## Sources
 
 - Every material claim in `evidence/` carries: source name, URL or file path, access

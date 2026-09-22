@@ -37,11 +37,15 @@ be reviewed by the human owner before keeping them.
    - **3.1 Observation sweep.** Build a pool of 15-20 materially distinct opportunity
      observations, recorded in `observations/<run-id>.md` from
      `templates/observation/pool.md`. The 15-20 pool size is retained provisionally
-     (v1.6.0); do not increase it. Cover both archetypes: change-driven (conventional
-     evidenced why-now) and persistent market failure (no forced discontinuity; answer
-     "why does this problem still persist despite existing alternatives?" - never invent
-     a discontinuity, and note that an evidence-backed persistence thesis, not the bare
-     existence of competitors, is what allows scoring without the missing-why-now cap).
+     (v1.6.0); do not increase it. Cover all three archetypes: change-driven
+     (conventional evidenced why-now), persistent market failure (no forced
+     discontinuity; answer "why does this problem still persist despite existing
+     alternatives?" - never invent a discontinuity, and note that an evidence-backed
+     persistence thesis, not the bare existence of competitors, is what allows scoring
+     without the missing-why-now cap), and latent opportunity (v1.7.0 - a guarded route
+     for evidenced but unarticulated buyer-benefit hypotheses; admissible only with the
+     six required fields in `method/discovery.md` archetype C, and never a substitute
+     for a buyer, mechanism, distribution route or falsifiable test).
      Deliberately search poor/expensive narrow incumbent software, manual
      structured-data/re-keying workflows and awkward integrations between established
      systems, and seek practitioner/community evidence where feasible. Observations are
@@ -64,7 +68,10 @@ be reviewed by the human owner before keeping them.
      candidate, apply the two-part persistence thesis from `method/discovery.md`
      (continued pain/workaround despite alternatives AND a credible persistence
      mechanism); a weak, absent or speculative thesis leaves the missing-why-now cap in
-     place. The thesis is not a scoring bonus and never upgrades a hard filter.
+     place. The thesis is not a scoring bonus and never upgrades a hard filter. A
+     promoted latent-opportunity candidate (archetype C) is treated the same way for the
+     cap and is scored under the ordinary rules; the latent route confers no automatic
+     score or validation status.
    - **3.4 Triage false-negative audit.** After triage, independently re-check **exactly
      one** triage-rejected observation, favouring a promising/high-ambiguity rejection
      (relatively strong practitioner/problem evidence, rejected because an incumbent,
@@ -140,10 +147,10 @@ be reviewed by the human owner before keeping them.
     until a later run researches it from scratch.
 12. **Run summary.** Write `runs/<run-id>/summary.md`: what advanced, what was killed,
     what failed, what needs human input, limits hit, the funnel statistics (total
-    observations, source-class distribution, change-driven vs persistent split, number
-    rejected in shallow triage with principal reasons, observations promoted and why,
-    research cost / lookup usage), the triage false-negative audit (selected
-    observation, why, original reasoning, evidence checked, upheld/overturned,
+    observations, source-class distribution, change-driven vs persistent vs latent
+    split, number rejected in shallow triage with principal reasons, observations
+    promoted and why, research cost / lookup usage), the triage false-negative audit
+    (selected observation, why, original reasoning, evidence checked, upheld/overturned,
     implication for triage depth), the source classes searched
     (regulatory vs non-regulatory, successful and unsuccessful), the source-budget
     outcome (quota met or not, and why), the why-now quality of generated candidates,
@@ -151,7 +158,10 @@ be reviewed by the human owner before keeping them.
     second-order seam (and, for persistent-market-failure candidates, whether the
     persistence thesis is evidenced and which two-part test passed or failed), whether
     discovery is converging on less obvious opportunities or
-    repeating one class of rejection, and the review queue after the run. Update
+    repeating one class of rejection, and the review queue after the run. A run that
+    exercises the latent-opportunity route reports how many latent observations were
+    found, triaged, promoted and rejected, and why (zero promotions is acceptable).
+    Update
     `ideas/index.json` counters and `experiments/index.json`. Do not commit.
 
 ## Output contract

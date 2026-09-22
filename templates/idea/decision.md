@@ -13,15 +13,19 @@
 
 ## Why now? (discovery gate)
 
-- Archetype: `change-driven` | `persistent market failure`
+- Archetype: `change-driven` | `persistent market failure` | `latent opportunity`
 - What changed / when:
 - Why it materially improves the opportunity:
 - Strength: `strong` | `weak` | `absent`
-- Persistent-market-failure candidates only - persistence thesis (both limbs must be
-  evidenced for the missing-why-now cap to lift; record `unknown` where not):
+- Persistent-market-failure and latent-opportunity candidates only - persistence thesis
+  (both limbs must be evidenced for the missing-why-now cap to lift; record `unknown`
+  where not):
   - Limb 1, continued pain/workaround despite reachable alternatives: `pass` | `unknown` | `fail`
   - Limb 2, credible persistence mechanism: `pass` | `unknown` | `fail`
   - Net thesis quality: `strong` | `weak` | `absent`
+- Latent-opportunity candidates only - the six admissibility fields from
+  `method/discovery.md` archetype C, and confirmation that the value inference is an
+  inference, not demand evidence:
 - If `weak` or `absent`: why the candidate was generated anyway, and why it was kept
   or rejected.
 

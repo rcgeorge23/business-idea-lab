@@ -3,7 +3,7 @@
 - **Mode:** normal | dry-run | smoke
 - **Started / finished:** ISO-8601
 - **Agent / model:** idea-worker / opencode-go/deepseek-v4.1-flash
-- **Method version:** 1.6.0
+- **Method version:** 1.7.0
 - **Input / output revision:** `<sha>` / `<sha or 'uncommitted'>`
 - **Status:** success | failed | invalid-output | over-budget
 
@@ -18,11 +18,12 @@
 |---|---|
 | Observations in pool | n (target 15–20) |
 | Source-class distribution | ... |
-| Change-driven / persistent market failure | n / n |
+| Change-driven / persistent market failure / latent opportunity | n / n / n |
 | Rejected in shallow triage | n |
 | Principal triage rejection reasons | ... |
 | Promoted to full candidates | n (≤ 3) |
 | Promoted observations and why | O1 → candidate-x: ... |
+| Latent observations found / triaged / promoted / rejected | n / n / n / n (zero promotions acceptable) |
 
 **Pool file:** `observations/<run-id>.md`. Observations carry no score,
 confidence or evidence level, and triage survival confers no inherited

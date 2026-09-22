@@ -199,6 +199,9 @@ polished product proposition. Acceptable shapes include:
   automatable."
 - "A platform/API/product change has created a new operational task for an
   identifiable buyer."
+- "Buyers in segment X accept a costly routine as normal, and a newly available
+  capability could change it" (a **latent-opportunity hypothesis** - see archetype C;
+  admissible only with the six required fields).
 
 Do not create scorecards or dossiers for observations.
 
@@ -214,12 +217,13 @@ A run records its pool in `observations/<run-id>.md` (template:
   vendor, or secondary;
 - why it may represent an opportunity;
 - an obvious incumbent / free-alternative check;
-- whether it is **change-driven** or a **persistent market failure**;
+- whether it is **change-driven**, a **persistent market failure**, or a **latent
+  opportunity** (archetype C, which additionally requires the six admissibility fields);
 - the triage outcome and reason.
 
 Keep each row compact: the pool must fit comfortably inside one run's budget.
 
-### Two discovery archetypes
+### Three discovery archetypes
 
 **A. Change-driven.** Something changed and created or materially worsened the
 problem: regulation, platform/API/pricing/access change, product end-of-life, a new
@@ -277,6 +281,63 @@ weak or speculative, the cap stays. A persistence thesis never establishes
 upgrades a hard filter: `defensible_wedge` still fails where credible incumbents
 adequately occupy the exact proposed seam for the defined buyer. The existence of
 competing products is not by itself adequate occupation - see `### Shallow triage`.
+
+**C. Latent opportunity (v1.7.0).** Some worthwhile products change a behaviour the
+buyer currently accepts as normal. The buyer may not discuss a "problem" because they
+have not seen the alternative, so a sweep that only looks for articulated pain can
+under-source or prematurely reject these hypotheses. This archetype is a **guarded
+route**, not a relaxation of standards: "customers do not know they need it yet" is
+**never** a blanket defence for an unevidenced idea, and it does not lift any score cap,
+lower the threshold, redefine evidence levels or upgrade a hard filter.
+
+An observation may be recorded as a latent-opportunity hypothesis only if it names all
+of the following, each backed by dated observable evidence rather than model
+imagination:
+
+1. **The specific buyer/user and their current behaviour or constraint** - what they
+   actually do today, observed (a costly routine treated as normal, a workaround in a
+   neighbouring market, an accepted constraint), not inferred from a trend narrative.
+2. **The newly possible experience or capability and a concrete mechanism** - how it
+   changes time, cost, quality, access or outcomes, and by what means.
+3. **Why the buyer might value the difference despite not requesting it** - the
+   inference about value, labelled as inference, with the reasoning shown.
+4. **Why now, or an honest statement that no discontinuity is known.** A latent
+   hypothesis may have no favourable discontinuity; record `strength: "absent"` and do
+   not fabricate one. The missing-why-now cap applies exactly as for archetype B unless
+   an evidence-backed persistence thesis lifts it.
+5. **The existing substitute / status quo and direct or adjacent competitors** - what
+   the buyer uses instead today and what already exists.
+6. **The central falsifiable assumption and the cheapest behavioural test** that could
+   disconfirm it.
+
+Source material for latent hypotheses is hypothesis-generating, not proof of demand:
+observed adoption of adjacent tools, costly routines treated as normal, new
+distribution or technical capabilities, workarounds in neighbouring markets, and
+revealed behaviour when an alternative becomes available. Unsupported trend narratives
+and AI-generated enthusiasm are not evidence.
+
+**Evidence and gate semantics for latent hypotheses (v1.7.0).**
+
+- Enough evidence to justify a **cheap test** need not include a pre-existing complaint
+  or a search query for the proposed product. The admissibility test above is the bar
+  for recording the observation and for proposing a test.
+- **Demand and commercial validation still require real target-buyer behaviour**:
+  payment, a pre-order, a meaningful commitment, or an approved experiment with a
+  pre-declared decision rule. Interviews asking "would you use this?" and model opinions
+  do **not** suffice, and a latent hypothesis never advances on plausibility.
+- A latent hypothesis with **no buyer, no observable status quo, no plausible
+  distribution route or no decisive affordable test** is still rejected or parked.
+- Missing evidence stays `unknown` and is **never** upgraded to a hard-filter `pass`.
+  Do not silently lift score caps, lower the 65 threshold or redefine evidence levels.
+  If the scorecard cannot represent such a hypothesis honestly, that is a separate
+  reviewable method change with regression evidence - not something a run may do.
+- Expensive external validation, outreach, publication and spend still require human
+  approval under `method/experiment-rules.md`.
+
+A latent observation is recorded in the pool like any other, with its archetype marked
+`latent` and the six admissibility fields present; it is triaged and promoted under the
+same rules and limits as archetypes A and B. The archetype is a **subtype of discovery
+sourcing**, not a new lifecycle state or evidence level.
 
 ### Bias the sweep toward ugly persistent problems
 
@@ -420,3 +481,7 @@ without resurrecting the killed idea:
   whether its persistence thesis is evidenced (`strong` | `weak` | `absent`) and which
   two-part test it passed or failed; candidates that fail it score under the
   missing-why-now cap.
+- A run that exercises the latent-opportunity route (archetype C) reports how many
+  latent observations were found, triaged, promoted and rejected, and why. Zero
+  promotions is an acceptable outcome. A latent observation that fails triage but
+  contains an adjacent insight becomes a seed, like any other rejection.

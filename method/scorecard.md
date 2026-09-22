@@ -61,6 +61,15 @@ No-score rule: `null` when no evidence exists for the dimension. A score is neve
 inferred from another dimension's evidence, and a score is never raised because a
 hard-filter unknown "seems likely".
 
+**Latent-opportunity hypotheses (v1.7.0).** A candidate promoted from a latent
+observation (archetype C in `method/discovery.md`) is scored under exactly the same
+rules as any other candidate. The latent route changes *where observations come from*,
+not how they are scored: it does not lift a cap, lower the 65 threshold, redefine
+evidence levels, or upgrade a hard filter. A latent hypothesis with no buyer, no
+observable status quo, no plausible distribution or no decisive affordable test is
+rejected or parked like any other observation, and "the buyer does not know they need
+it yet" is never a substitute for evidence.
+
 ## Aggregate
 
 ```

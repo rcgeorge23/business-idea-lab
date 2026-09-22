@@ -23,7 +23,7 @@
 - Why this materially improves the opportunity now:
 - Have competitors already responded?
 - Strength: `strong` | `weak` | `absent`
-- Archetype: `change-driven` | `persistent market failure`
+- Archetype: `change-driven` | `persistent market failure` | `latent opportunity`
 
 For persistent-market-failure candidates, record the persistence thesis (it lifts the
 missing-why-now cap only when both limbs are affirmatively evidenced - see
@@ -34,6 +34,17 @@ missing-why-now cap only when both limbs are affirmatively evidenced - see
 - Credible mechanism explaining why the market has not adequately resolved the problem
   for this segment:
 - Persistence thesis quality: `strong` | `weak` | `absent`
+
+For latent-opportunity candidates (archetype C), record the six admissibility fields
+from `method/discovery.md` and state plainly that the value inference is an inference,
+not demand evidence:
+
+- Buyer/user and observed current behaviour or constraint:
+- Newly possible capability and concrete mechanism:
+- Why the buyer might value it despite not requesting it (inference):
+- Why now, or "no discontinuity known":
+- Existing substitute / status quo and competitors:
+- Central falsifiable assumption and cheapest behavioural test:
 
 ## Buyer
 

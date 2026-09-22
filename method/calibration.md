@@ -118,6 +118,73 @@ of the first run, so that the run exercises the real generation and kill path.
    `observations/20260921T091851Z-normal.md` and
    `retrospectives/2026-09-21-issue8-archetype-cap-regression.md`.
 
+## Named calibration examples for the latent route (v1.7.0, issue #16)
+
+These are **named calibration examples**, not fixtures with scores: they test that the
+latent-opportunity route (archetype C) admits an evidenced hypothesis without a prior
+complaint and still rejects attractive-but-vacuous "customers do not know they need it"
+ideas. They use dated evidence and avoid hindsight leakage (they are written from what
+was observable at the time, not from a known outcome).
+
+**L1 - plausible latent opportunity that should reach a cheap test without a prior
+complaint.** *Observed behaviour:* UK independent veterinary practices have for years
+sent laboratory results between their practice-management system and external labs by
+manual re-keying or PDF handling, and the profession has accepted this as normal
+(evidence: practitioner forum threads and lab integration guides, dated 2024-2026). *New
+capability and mechanism:* a standardised electronic exchange format (DIN EN 18029:2026-04,
+published April 2026) plus current document/LLM tooling makes a narrow conformance
+bridge newly buildable. *Inferred value:* less re-keying and fewer transcription errors
+for the practice, though no practitioner has asked for this specific product. *Why now:*
+the standard is dated April 2026. *Status quo and competitors:* manual re-keying, lab
+portals, and the practice-management incumbents' own integrations. *Central falsifiable
+assumption and cheapest test:* that practices will pay for a conformance bridge; the
+cheapest test is a small number of interviews asking whether a currently funded
+conformance or reference-list need exists, with a pre-declared decision rule. This
+example is admissible because all six fields are present and evidenced; it does **not**
+score as demand evidence and does not lift any cap. (It corresponds to the existing
+`vetlab-en18029-conformance` idea, which remains parked at `desk-screened` at 44.2 - the
+latent route does not change its score.)
+
+**V1 - attractive but vacuous latent idea that should fail/park.** "Busy parents would
+love an app that plans their week for them - they just do not know they need it yet."
+*Why it fails:* no specific buyer segment with an observed current behaviour, no
+concrete mechanism, no status quo analysis, no falsifiable assumption and no cheap test;
+the value claim is a trend narrative. It is rejected at triage for having no buyer, no
+observable status quo and no decisive affordable test - the six fields cannot be filled
+from evidence.
+
+**V2 - attractive but vacuous latent idea that should fail/park.** "Small businesses
+would pay for an AI that tells them which of their processes to automate - the demand is
+latent." *Why it fails:* the buyer is generic ("small businesses"), the current
+behaviour is not observed (no evidence of a costly routine being accepted as normal),
+the mechanism is unspecified, and the "latent demand" claim is an assertion that would
+require the very demand evidence it is trying to avoid. It is rejected at triage; the
+latent route does not admit it because "customers do not know they need it yet" is not a
+substitute for a buyer, mechanism, distribution route or falsifiable test.
+
+## Regression checks under method 1.7.0 (2026-09-22, issue #16)
+
+1. **Latent route is a sourcing addition, not a score input.** No score, evidence level
+   or hard-filter outcome can move because of it; the weights version stays 1.2.0 and
+   the threshold stays 65.
+2. **Killed fixtures remain rejected for the same reasons.** `shiftswap` (44.2),
+   `wonkybox` (36.8) and `grantscout` (55.8) were re-read against the new wording: the
+   latent route cannot rescue a candidate whose wedge is occupied, whose distribution is
+   paid, or whose margins are hostile, because those are unchanged hard-filter
+   failures/vetoes.
+3. **Parked fixtures remain parked.** `geonerd` (49.5), `reasonable-steps` (54.0),
+   `aucly` (60.0) and `vetlab-en18029-conformance` (44.2) are unchanged; the latent
+   route does not lift a cap or add evidence.
+4. **Aucly pre-launch re-read.** The 1.2.0-simulated assessment (49.5, parked at
+   `desk-screened`) remains internally consistent; the historical assessment file is not
+   rescored.
+5. **Named calibration examples L1, V1 and V2** (above) exercise the admit/reject
+   boundary: L1 is admissible with all six fields evidenced; V1 and V2 are rejected
+   because the six fields cannot be filled from evidence.
+6. **Bounded sweep exercise.** The route was exercised in one bounded normal observation
+   sweep (issue #17's school-software run); the counts of latent observations found,
+   triaged, promoted and rejected are recorded in that run's pool file and summary.
+
 ## Procedure
 
 1. Human owner triggers a normal run: `scripts/run.sh` (after reviewing a dry run with

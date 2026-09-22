@@ -21,7 +21,7 @@ Discovery expectations for this run (method 1.6.0):
   incumbent/free check, archetype, triage outcome) — no scorecards or dossiers for
   them, and no evidence level. Zero, one or two promotions are valid; never manufacture
   filler to fill slots.
-- Support both archetypes. Change-driven observations need a conventional evidenced
+- Support all three archetypes. Change-driven observations need a conventional evidenced
   "why now?". Persistent market failures do not need a discontinuity: answer "why does
   this problem still persist despite existing alternatives?" and never invent a
   justification — "could not establish" is an honest triage answer. The missing-why-now
@@ -29,6 +29,14 @@ Discovery expectations for this run (method 1.6.0):
   evidence-backed persistence thesis affirmatively shows BOTH continued pain/workaround
   despite reachable alternatives AND a credible persistence mechanism; evergreen-pain
   narratives and unsupported claims do not bypass it, and it is never a scoring bonus.
+  Latent-opportunity hypotheses (archetype C in `method/discovery.md`) are a guarded
+  route for evidenced but unarticulated buyer-benefit hypotheses: admissible only with
+  the six required fields (buyer and observed current behaviour; newly possible
+  capability and mechanism; inferred value labelled as inference; why now or an honest
+  "no discontinuity known"; status quo and competitors; central falsifiable assumption
+  and cheapest behavioural test). "Customers do not know they need it yet" is never a
+  substitute for a buyer, mechanism, distribution route or falsifiable test, and the
+  latent route lifts no cap, lowers no threshold and upgrades no hard filter.
 - Bias the sweep toward ugly persistent problems: poor/expensive narrow incumbent
   software, manual structured-data / spreadsheet / email / PDF re-keying, and awkward
   integrations between established systems. Seek practitioner/community evidence where
@@ -87,7 +95,8 @@ Discovery expectations for this run (method 1.6.0):
   no inherited positive evidence; each decision record must name the originating
   observation ID.
 - Record in the run summary: pool statistics (total observations, source mix,
-  change-driven vs persistent split, triage rejections and principal reasons, promotions
+  change-driven vs persistent vs latent split, triage rejections and principal reasons,
+  promotions
   and why), the triage false-negative audit result, the seed register review, source
   classes searched (regulatory vs
   non-regulatory, successful and unsuccessful), whether the source budget was satisfied

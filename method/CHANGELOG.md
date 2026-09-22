@@ -4,6 +4,89 @@ Every material change to the method bumps `method/VERSION` and is listed here wi
 review status. Review status values: `not-required` | `requested` | `changes-requested` |
 `approved` | `killed`. See `method/review-policy.md` (section "Method changes").
 
+## 1.7.0 - 2026-09-22
+
+Motivated by issue #16 ("Add a guarded discovery path for latent, unarticulated
+opportunities"). Method 1.6 is strong at articulated pain (complaints, manual
+workarounds, spend, persistent market failures) but some worthwhile products change a
+behaviour the buyer currently accepts as normal; the buyer may not discuss a "problem"
+because they have not seen the alternative, so a sweep that only looks for articulated
+pain can under-source or prematurely reject these hypotheses. This version adds a
+**guarded** latent-opportunity route. It is explicitly **not** a relaxation of
+validation standards: "customers do not know they need it yet" is never a blanket
+defence for an unevidenced idea, and the route lifts no score cap, lowers no threshold,
+redefines no evidence level and upgrades no hard filter.
+
+Changed (discovery sourcing only):
+
+- **`method/discovery.md`**: the archetype section is now "Three discovery archetypes"
+  and adds **C. Latent opportunity (v1.7.0)** - a guarded route for evidenced but
+  unarticulated buyer-benefit hypotheses. An observation is admissible as a latent
+  hypothesis only if it names all six required fields, each backed by dated observable
+  evidence: (1) the specific buyer/user and their observed current behaviour or
+  constraint; (2) the newly possible capability and a concrete mechanism; (3) why the
+  buyer might value the difference despite not requesting it (labelled as inference);
+  (4) why now, or an honest "no discontinuity known"; (5) the existing substitute /
+  status quo and direct or adjacent competitors; (6) the central falsifiable assumption
+  and the cheapest behavioural test. The section also states the evidence and gate
+  semantics: enough evidence to justify a cheap test need not include a pre-existing
+  complaint or search query; demand/commercial validation still requires real
+  target-buyer behaviour (payment, pre-order, meaningful commitment, or an approved
+  experiment with a pre-declared decision rule) with interviews and model opinions
+  insufficient; a latent hypothesis with no buyer, no observable status quo, no
+  plausible distribution or no decisive affordable test is still rejected or parked;
+  missing evidence stays `unknown` and is never upgraded to a hard-filter `pass`; and
+  expensive external validation, outreach, publication and spend still require human
+  approval. The observation-record and recording sections now include the latent
+  archetype and require a run that exercises the route to report how many latent
+  observations were found, triaged, promoted and rejected (zero promotions acceptable).
+- **`method/evidence-policy.md`**: new "Latent-opportunity hypotheses (v1.7.0)"
+  paragraph under "Plausibility is not evidence" - such a hypothesis may justify a cheap
+  test without a pre-existing complaint, is never demand evidence, never produces a
+  hard-filter `pass`, does not lift a cap or lower the threshold, and still requires
+  real target-buyer behaviour before any demand or commercial claim.
+- **`method/scorecard.md`**: new "Latent-opportunity hypotheses (v1.7.0)" note - a
+  candidate promoted from a latent observation is scored under exactly the same rules;
+  the route changes where observations come from, not how they are scored.
+- **`method/lifecycle.md`**: the why-now section now covers latent-opportunity
+  candidates - treated like persistent-market-failure candidates for the cap (no
+  discontinuity required or invented; lifted only by an evidence-backed persistence
+  thesis meeting both limbs), and the latent route is a discovery-sourcing subtype, not
+  a new lifecycle state or evidence level.
+- **`method/run-protocol.md`**: step 3.1 covers all three archetypes; step 3.3 notes a
+  promoted latent candidate is treated the same way for the cap; step 12 and the
+  summary requirements record the latent split and the latent-route counts.
+- **`AGENTS.md`, `scripts/prompts/lab-run.md`, `.opencode/agent/idea-worker.md`**: state
+  the latent route, its six admissibility fields and its non-relaxation.
+- **Templates**: `templates/observation/pool.md` gains the latent archetype in the
+  header and a six-field latent-observation block; `templates/run/summary.md` gains the
+  latent split and latent-route counts; `templates/idea/dossier.md` and
+  `templates/idea/decision.md` gain the latent archetype and the six admissibility
+  fields.
+
+Regression (issue #16): the change is a discovery-sourcing addition, not a score input,
+so no score, evidence level or hard-filter outcome can move because of it. The killed
+fixtures (shiftswap 44.2, wonkybox 36.8, grantscout 55.8) and the parked fixtures
+(geonerd 49.5, reasonable-steps 54.0, aucly 60.0, vetlab-en18029-conformance 44.2) were
+re-read against the new wording and nothing was revived: their failures remain unchanged
+hard-filter failures/vetoes, and the latent route cannot rescue a candidate whose wedge
+is occupied, whose distribution is paid, or whose margins are hostile. Aucly pre-launch
+(the 1.2.0-simulated 49.5 parked at desk-screened) remains internally consistent - a
+latent hypothesis is now recordable in place of a discontinuity but the limited
+pre-launch evidence still leaves the score below threshold and the state unchanged; the
+historical assessment file is not rescored. Named calibration examples were added to
+`method/calibration.md` (one plausible latent opportunity that should reach a cheap test
+without a prior complaint, and two attractive-but-vacuous "customers do not know they
+need it" ideas that should fail/park). The route was exercised in one bounded normal
+observation sweep (issue #17's school-software run) and the full ledger was audited for
+latent-opportunity false negatives (issue #16), with every reconsidered idea's outcome
+recorded.
+
+Review: `requested` - request written to
+`reviews/2026-09-22-method-v1.7.0-review-request.md`; awaiting the independent reviewer.
+Until the review lands the change is usable but stays marked `requested`, and any idea
+whose score depends on the new rules carries that fact in its review request.
+
 ## 1.6.0 - 2026-09-21
 
 Motivated by issue #8, implementing the independent review findings on 1.5.0

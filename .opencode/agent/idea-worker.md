@@ -43,10 +43,14 @@ method documents under `method/` are authoritative; do not edit them. Read
 shallowly re-check the most promising unexplored seeds, then run the
 **opportunity-observation funnel** — sweep 15-20 materially distinct observations into
 `observations/<run-id>.md` (mixing change-driven opportunities with evidenced
-"why now?" and persistent market failures answering "why does this problem still
+"why now?", persistent market failures answering "why does this problem still
 persist despite existing alternatives?" — where an evidence-backed persistence thesis
 meeting BOTH limbs of the test in `method/discovery.md` is what may lift the
-missing-why-now cap, never a bare claim of evergreen pain), bias the sweep toward
+missing-why-now cap, never a bare claim of evergreen pain — and latent-opportunity
+hypotheses, a guarded route for evidenced but unarticulated buyer-benefit hypotheses
+admissible only with the six required fields in `method/discovery.md` archetype C and
+never a substitute for a buyer, mechanism, distribution route or falsifiable test),
+bias the sweep toward
 poor/expensive narrow incumbent software, manual re-keying workflows and awkward
 integrations, seek practitioner/community evidence, shallow-triage every observation
 with recorded negative evidence (never treating competitor existence alone as wedge
