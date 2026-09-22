@@ -208,6 +208,17 @@ while IFS= read -r f; do
 done <<< "$CHANGED_FILES"
 python3 "$ROOT/scripts/finalize_run.py" "${FINALIZE_ARGS[@]}"
 
+# --- dashboard ---------------------------------------------------------------
+# Regenerate the browsable HTML summary of the ledger. In dry-run mode the
+# ledger copy is validated but the live dashboard is left untouched.
+if [ "$MODE" = "dry-run" ]; then
+    echo "dashboard:     skipped (dry-run)"
+else
+    python3 "$ROOT/scripts/build_dashboard.py" --root "$ROOT" --quiet \
+        && echo "dashboard:     dashboard.html" \
+        || echo "dashboard:     generation failed (ledger unchanged)" >&2
+fi
+
 # --- report ------------------------------------------------------------------
 echo
 echo "run id:        $RUN_ID"
