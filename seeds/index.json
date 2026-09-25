@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "method_version": "1.8.0",
-  "updated": "2026-09-22",
+  "method_version": "1.8.1",
+  "updated": "2026-09-25",
   "counts": {
-    "total": 12,
+    "total": 13,
     "by_status": {
       "dropped": 1,
       "promoted": 2,
-      "unexplored": 9
+      "unexplored": 10
     }
   },
   "seeds": [
@@ -179,6 +179,19 @@
       "evidence": [
         "observations/20260922T060326Z-normal.md",
         "seeds/land-control-data-intelligence.md"
+      ]
+    },
+    {
+      "id": "payer-care-invoice-reconciliation",
+      "slug": "payer-care-invoice-reconciliation",
+      "title": "Payer-side reconciliation of community-care provider invoices",
+      "origin_idea": "housing-repairs-invoice-sor-validation",
+      "observation": "Observation O4 in run 20260925T115959Z-normal: a Central London Community Healthcare NHS Trust invoice-account role reconciles care-service provider and local-authority statements across Oracle, CareTrack and other systems, handling aged queries, duplicates and mismatches through Excel and shared inboxes (job posted 2026-09-08). This is a rejected adjacent observation, not a researched business idea.",
+      "why_materially_different": "The nearest existing idea is provider-side housing-repair invoice-to-SOR validation. This seed is the payer-side workflow of matching community-care provider invoices and local-authority statements across NHS finance/care systems; it has a different payer, source records, exception patterns and likely procurement route. The origin_idea field is lineage/schema reference only: this seed inherits no score, evidence level, hard-filter result or favourable assumption and needs research from scratch.",
+      "recorded": "2026-09-25",
+      "status": "unexplored",
+      "evidence": [
+        "observations/20260925T115959Z-normal.md"
       ]
     }
   ]

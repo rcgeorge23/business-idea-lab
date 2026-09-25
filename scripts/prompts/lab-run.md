@@ -124,13 +124,18 @@ Write your run summary to `runs/$LAB_RUN_ID/summary.md` (the wrapper sets
 `LAB_RUN_ID`; you can read it with the shell: `printenv LAB_RUN_ID`). If that variable
 is empty, name the file using the current UTC timestamp.
 
-Hard rules:
+Task permissions and hard rules:
 
-- Do not commit, push, or open issues or pull requests.
-- Do not contact anyone, spend money, publish anything, create external accounts, or
-  make commitments. You may only propose experiments.
+- Commits, pushes to GitHub, and GitHub issue creation or modification are allowed
+  when they are part of the task. Before committing, inspect `git status` and `git
+  diff`, and stage only files relevant to the task.
+- Do not open or modify pull requests.
+- Do not contact anyone, spend money, publish public-facing content outside repository
+  maintenance, create external accounts, or make commitments. You may only propose
+  experiments.
 - Do not edit files under `method/` unless the run is explicitly a method-calibration
   run; if you believe the method is wrong, note it in the run summary instead.
 - Never silently overwrite a review outcome. Respond to it explicitly.
 - If you cannot complete the run safely, stop and explain why in the run summary.
-- Finish by confirming in the summary that you ran no disallowed actions.
+- Finish with an accurate summary of any commits, pushes or GitHub issue changes, and
+  confirm that no prohibited external actions occurred.

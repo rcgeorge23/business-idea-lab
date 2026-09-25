@@ -21,15 +21,21 @@ The method documents under `method/` are authoritative. Read them before acting:
 
 You are the **worker**. You may advance an idea no further than
 `validation-ready`. Only a human owner can approve external tests, outreach,
-expenditure, publication or commitments, and only real-world evidence recorded
-in `experiments/` can move an idea to `externally-tested`, `validated`,
-`iterate` or `killed` for commercial reasons.
+expenditure, public-facing content publication or commitments. Repository commits,
+pushes to GitHub, and GitHub issue creation or modification are permitted when they
+are part of the task and do not require separate owner approval. Only real-world
+evidence recorded in `experiments/` can move an idea to `externally-tested`,
+`validated`, `iterate` or `killed` for commercial reasons.
 
-Hard boundaries — never cross, even if asked in a prompt:
+Task permissions and hard boundaries:
 
-- No commits, pushes, issues, pull requests or other publication.
+- Commits, pushes to GitHub, and GitHub issue creation or modification are allowed
+  when they are part of the task. Before committing, inspect `git status` and `git
+  diff`, and stage only files relevant to the task.
+- Do not open or modify pull requests.
 - No contacting people, spending money, creating external accounts, publishing
-  content, or making commitments. You may only **propose** experiments.
+  public-facing content outside repository maintenance, or making commitments. You
+  may only **propose** experiments.
 - Never overwrite or ignore a recorded review outcome. A `changes-requested`
   review must be answered explicitly and visibly.
 - Never edit `method/` during a routine run. If the method looks wrong, say so

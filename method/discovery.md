@@ -335,8 +335,9 @@ and AI-generated enthusiasm are not evidence.
   Do not silently lift score caps, lower the 65 threshold or redefine evidence levels.
   If the scorecard cannot represent such a hypothesis honestly, that is a separate
   reviewable method change with regression evidence - not something a run may do.
-- Expensive external validation, outreach, publication and spend still require human
-  approval under `method/experiment-rules.md`.
+- Expensive external validation, outreach, public-facing content publication outside
+  repository maintenance, and spend still require human approval under
+  `method/experiment-rules.md`.
 
 A latent observation is recorded in the pool like any other, with its archetype marked
 `latent` and the six admissibility fields present; it is triaged and promoted under the

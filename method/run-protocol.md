@@ -169,7 +169,10 @@ be reviewed by the human owner before keeping them.
     exercises the latent-opportunity route reports how many latent observations were
     found, triaged, promoted and rejected, and why (zero promotions is acceptable).
     Update
-    `ideas/index.json` counters and `experiments/index.json`. Do not commit.
+    `ideas/index.json` counters and `experiments/index.json`. Commits, pushes to
+    GitHub, and GitHub issue creation or modification are allowed when they are part
+    of the task; they are not automatic steps of a standard run. Before committing,
+    inspect `git status` and `git diff`, and stage only task-related files.
 
 ## Output contract
 
@@ -202,7 +205,9 @@ real run.
 - Validation failure: run marked `invalid-output`; changes are preserved for diagnosis;
   the human decides whether to fix or revert. The next run must explicitly handle the
   mess (see step 1) rather than ignore it.
-- Never auto-commit, auto-push, or open issues/PRs.
+- Do not commit or push automatically as a hidden side effect of a wrapper or scheduled
+  run. When the task calls for it, commits, pushes and GitHub issue creation or
+  modification are allowed. Do not open or modify pull requests.
 
 ## Run metadata
 

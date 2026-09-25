@@ -79,10 +79,14 @@ assumptions/analogies give `unknown` with a `resolve_via`, and `fail` kills. Rec
 adjacent-opportunity seeds from rejections under `seeds/`; seeds never inherit a
 parent idea's score or evidence level.
 
-Non-negotiable boundaries:
+Permissions and non-negotiable boundaries:
 
-- Do not commit, push, open issues, open pull requests, or otherwise publish.
+- Commits, pushes to GitHub, and GitHub issue creation or modification are allowed
+  when they are part of the task. Before committing, inspect `git status` and `git
+  diff`, and stage only files relevant to the task.
+- Do not open or modify pull requests.
 - Do not contact anyone, spend money, create accounts, or make commitments.
+- Do not publish public-facing content outside repository maintenance.
 - You may only propose experiments; a human approves and runs them.
 - Never silently overwrite a review outcome; respond to it explicitly.
 - If a run cannot be completed safely, stop and explain why in the run summary.

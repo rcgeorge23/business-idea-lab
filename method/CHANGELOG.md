@@ -4,6 +4,22 @@ Every material change to the method bumps `method/VERSION` and is listed here wi
 review status. Review status values: `not-required` | `requested` | `changes-requested` |
 `approved` | `killed`. See `method/review-policy.md` (section "Method changes").
 
+## 1.8.1 - 2026-09-25
+
+**Changed (repository operations):**
+
+- The worker may commit and push repository changes to GitHub, and create or modify
+  GitHub issues, when those actions are part of the task. They are not automatic steps
+  of a standard or scheduled run; commits must include only task-related changes.
+- Pull request creation/modification and external activities such as outreach, spending,
+  and public-facing content publication remain outside the worker's authority.
+- Updated `AGENTS.md`, `.opencode/agent/idea-worker.md`,
+  `scripts/prompts/lab-run.md`, `README.md`, `method/lifecycle.md`,
+  `method/discovery.md`, and `method/experiment-rules.md` to match.
+
+**Review:** not-required - this operational permission change does not alter discovery,
+scoring, evidence, or lifecycle rules.
+
 ## 1.8.0 - 2026-09-22
 
 Motivated by the convergence escalation recorded across six consecutive funnel runs

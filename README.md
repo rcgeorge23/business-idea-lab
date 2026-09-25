@@ -113,9 +113,13 @@ The dashboard renders only what the machine-readable ledgers contain and shows
 `unknown` / `not recorded` honestly; it is a read-only view and never changes
 the ledger. It is skipped during `--dry-run`.
 
-The worker never commits, pushes, opens issues or PRs, contacts anyone, spends
-money, publishes, creates accounts, or makes commitments. It may only propose
-experiments. Review the diff when the run finishes and commit it yourself.
+The worker may commit and push repository changes to GitHub, and create or modify
+GitHub issues, when those actions are part of the task; no separate owner approval is
+required. Before committing, it inspects the worktree and stages only task-related
+files. It does not open or modify pull requests, contact anyone, spend money, create
+external accounts, publish public-facing content outside repository maintenance, or
+make commitments; it may only propose experiments. Review the diff when the run
+finishes.
 
 ## Reviewing a candidate
 
@@ -350,8 +354,7 @@ what closed each item is recorded in `reviews/2026-09-21-review-queue-reconcilia
   evidence levels, lifecycle gates and the funnel are unchanged; DeepSeek via
   OpenCode Go remains the only permitted inference provider, with no fallback.
   Scheduled GitHub Actions workflows (daily collect + weekly all-family) are
-  prepared and locally validated but have not been executed on GitHub, because
-  the worker neither commits nor pushes.
+  prepared and locally validated but have not been executed on GitHub.
 - GeoNerd is parked at `adversarially-researched` with score 49.5 (down from
   65.3 under the looser 1.0.0 semantics), an independent review requested
   (`reviews/2026-09-21-geonerd-review-request-v2.md`) and a proposed

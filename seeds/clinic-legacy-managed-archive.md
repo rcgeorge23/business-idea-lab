@@ -60,3 +60,4 @@ skill masquerading as a moat) by selling an ongoing retention obligation instead
 | Date | Outcome | Why | Link |
 |---|---|---|---|
 | 2026-09-21 | created | Surfaced during the `clinicdata-liberation` kill; recorded as a non-inheriting adjacent opportunity | this file |
+| 2026-09-25 | shallow re-check and false-negative audit upheld | Archive-Vault advertises physical healthcare records storage, scanning and retrieval for providers of any size; Stalis lists a £100,000-per-instance clinical/admin archive; NHS England says 23 suppliers hold closed legacy records; a Betsi Cadwaladr CDR procurement is an NHS-scale replacement, not evidence of independent-clinic demand. These supply signals do not alone prove satisfaction, but no small-clinic buyer, recurring paid need, retention obligation or willingness-to-pay evidence was found. Keep unexplored; this run's bounded check did not establish a candidate. | `observations/20260925T115959Z-normal.md` |

@@ -19,8 +19,8 @@ rank ideas; it cannot validate them.
    with no possible failing outcome is not an experiment.
 5. **Human approval first.** The worker may only propose. The human owner decides
    whether the experiment runs, and performs or authorises all outreach, spend,
-   publication and commitments. `approval.granted` must be `true` before any external
-   action.
+   public-facing content publication outside repository maintenance, and commitments.
+   `approval.granted` must be `true` before any external experiment action.
 6. **Benchmark effort threshold.** A proposed experiment whose projected effort exceeds
    `20 human-hours` or `GBP 100` requires an independent review request (see
    `method/review-policy.md`) before human approval.

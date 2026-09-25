@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "run_id": "20260925T115959Z-normal",
+  "mode": "normal",
+  "status": "success",
+  "started_at": "2026-09-25T11:59:59Z",
+  "finished_at": "2026-09-25T12:46:13Z",
+  "agent": "idea-worker",
+  "model": "openai/gpt-6-luna",
+  "method_version": "1.8.0",
+  "input_revision": "06006cd397e4a7773f194d68352667bbeff75e70",
+  "output_revision": "uncommitted",
+  "attempts": 1,
+  "timeout_seconds": 3600,
+  "max_cost_usd": 1.0,
+  "cost_usd": null,
+  "tokens": {
+    "input": null,
+    "output": null,
+    "total": null
+  },
+  "changed_files": [
+    "observations/20260925T115959Z-normal.md",
+    "runs/20260925T115959Z-normal/decision.md",
+    "runs/20260925T115959Z-normal/run.json",
+    "runs/20260925T115959Z-normal/summary.md",
+    "runs/20260925T115959Z-normal/validation.json",
+    "runs/index.jsonl",
+    "seeds/clinic-legacy-managed-archive.md",
+    "seeds/index.json",
+    "seeds/payer-care-invoice-reconciliation.md"
+  ],
+  "validation": {
+    "status": "pass",
+    "errors": []
+  },
+  "summary_path": "runs/20260925T115959Z-normal/summary.md"
+}

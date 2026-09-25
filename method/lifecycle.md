@@ -24,9 +24,12 @@ with their reason (including false-negative audits).
   and may record `killed` with a reason.
 - The worker MUST NOT set `externally-tested`, `validated` or `iterate` without
   human-recorded real-world evidence. It may only propose these transitions.
-- The human owner approves all external tests, outreach, expenditure, publication,
-  external account creation, and commitments. Approval is recorded in the experiment
-  record (`approval.granted`) before anything external happens.
+- The human owner approves all external tests, outreach, expenditure, public-facing
+  content publication outside repository maintenance, external account creation, and
+  commitments. Repository commits, pushes to GitHub, and GitHub issue creation or
+  modification are allowed when part of the task and do not need experiment approval.
+  Approval is recorded in the experiment record (`approval.granted`) before an
+  experiment's external activity happens.
 - A second model (e.g. ChatGPT) is a reviewer, not a validator. Its opinion is never
   market evidence and never advances an idea on its own; it can block or require
   changes to a proposed transition.
