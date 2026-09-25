@@ -42,15 +42,24 @@ method documents under `method/` are authoritative; do not edit them. Read
 `method/discovery.md` before generating candidates: review the seed register and
 shallowly re-check the most promising unexplored seeds, then run the
 **opportunity-observation funnel** — sweep 15-20 materially distinct observations into
-`observations/<run-id>.md` (mixing change-driven opportunities with evidenced
-"why now?", persistent market failures answering "why does this problem still
-persist despite existing alternatives?" — where an evidence-backed persistence thesis
-meeting BOTH limbs of the test in `method/discovery.md` is what may lift the
-missing-why-now cap, never a bare claim of evergreen pain — and latent-opportunity
-hypotheses, a guarded route for evidenced but unarticulated buyer-benefit hypotheses
-admissible only with the six required fields in `method/discovery.md` archetype C and
-never a substitute for a buyer, mechanism, distribution route or falsifiable test),
-bias the sweep toward
+`observations/<run-id>.md`. Consider all three archetypes, but record only
+evidence-supported observations; zero latent observations are valid. Change-driven
+observations need an evidenced "why now?"; persistent market failures answer "why does
+this problem still persist despite existing alternatives?" — only an evidence-backed
+persistence thesis meeting BOTH limbs of the test in `method/discovery.md` may lift the
+missing-why-now cap, never a bare claim of evergreen pain. Latent-opportunity hypotheses
+are a guarded route for evidenced but unarticulated buyer-benefit hypotheses, admissible
+only with the six required fields in `method/discovery.md` archetype C and never a
+substitute for a buyer, mechanism, distribution route or falsifiable test. Conduct and
+record at least one bounded latent-signal search pass during every normal
+sweep. Signal lenses describe what behavior to look for (shadow/manual work, delayed or
+skipped tasks, handoffs/reconciliation/cost shifting, recurring manual services or roles,
+newly feasible tasks); source classes describe where to look (workflow artifacts/
+instructions, jobs, service scopes/pricing, support discussions, release notes,
+procurement/tenders, trade reporting). Log lens, source class, focus/query, date and
+yield, including no-result or blocked searches; sweep searches may be reused. There is
+no latent-signal, observation or candidate quota, and an absence of complaints/results
+is not evidence of non-consumption or demand. Bias the sweep toward
 poor/expensive narrow incumbent software, manual re-keying workflows and awkward
 integrations, aim a meaningful share of the sweep at money-already-moving sources
 (v1.8.0: job ads describing repetitive admin, service/agency pricing, procurement and

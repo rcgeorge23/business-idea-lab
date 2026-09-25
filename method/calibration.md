@@ -185,6 +185,34 @@ substitute for a buyer, mechanism, distribution route or falsifiable test.
    sweep (issue #17's school-software run); the counts of latent observations found,
    triaged, promoted and rejected are recorded in that run's pool file and summary.
 
+## Regression checks under method 1.8.2 (2026-09-25, issue #20)
+
+1. **Search coverage is a procedure, not a quota.** A normal funnel run now records at
+   least one bounded latent-signal search pass, separating the behavior lens (what to
+   look for) from the source class (where to look), and logging focus/query, date and
+   yield including no-result or blocked searches. The pass may reuse sweep work and
+   creates no minimum signal, observation or candidate count.
+2. **O16 retrospective calibration.** The 2026-09-25 pool's O16 records a CLCH finance
+   job's invoice checks, provider/local-authority statement reconciliation, cross-system
+   work, Excel/shared-inbox handling and aged mismatches (NHS Jobs C9824-26-0797, posted
+   2026-09-08). This is direct evidence of staff behavior, not an authorized software
+   buyer, budget, product gap or distribution route. Rentari's cited invoice-line
+   capability is an adjacent US-housing example, not NHS validation. The pool's rejection
+   and zero promotions remain appropriate; the earlier 1.8.0 run did not log the new
+   deliberate pass and is not retroactively counted as satisfying this requirement.
+3. **Named latent examples retain their boundary.** L1 remains admissible as an evidenced
+   hypothesis that may justify a cheap test, with no score lift; it remains parked at
+   44.2. V1 and V2 remain rejected because their buyer, behavior/mechanism, status quo or
+   decisive test cannot be established; “customers do not know they need it yet” remains
+   unsupported. No score, evidence level, hard-filter result, threshold or lifecycle gate
+   changes under this discovery/recording update.
+4. **Prospective exercise.** No normal funnel run has yet exercised method 1.8.2. Future
+   normal runs must log the pass and its yield, including no-result; neither a search
+   result nor its absence establishes demand or non-consumption.
+5. **Method review requested.** The independent review request is
+   `reviews/2026-09-25-method-v1.8.2-review-request.md`; it remains requested until a
+   reviewer response is recorded.
+
 ## Procedure
 
 1. Human owner triggers a normal run: `scripts/run.sh` (after reviewing a dry run with
@@ -211,13 +239,14 @@ Calibration is complete when:
       versioned and review-requested.
 
 All five criteria were met by 2026-09-21 (issue #6 response reconciliation; see the
-status table). Later method reviews are now reconciled too: 1.4.0 was **approved** on
+status table). Later method reviews are tracked individually: 1.4.0 was **approved** on
 receipt of `reviews/2026-09-21-method-v1.4.0-chatgpt.md`; 1.5.0 was answered
 **`changes-requested`** (`reviews/2026-09-21-method-v1.5.0-chatgpt.md`) and method 1.6.0
-implements the requested changes with a new review requested (issue #8). That 1.6.0
-review has since been answered **`approved`** (`reviews/2026-09-21-method-v1.6.0-chatgpt.md`,
-no changes requested), so the only outstanding review is the `wonkybox` kill-#15
-false-negative audit; it does not block the calibration exit criteria.
+implements the requested changes. The 1.6.0 review was **approved**
+(`reviews/2026-09-21-method-v1.6.0-chatgpt.md`, no changes requested). Requests for
+methods 1.7.0 and 1.8.0 remain `requested` in the changelog, and the `wonkybox`
+kill-#15 false-negative audit also remains requested; none of these outcomes is
+overwritten here.
 
 ## Status
 
@@ -247,3 +276,4 @@ false-negative audit; it does not block the calibration exit criteria.
 | False-negative audit (kill #15) | worker + reviewer | requested | 2026-09-21 | `wonkybox` sampled (oldest unaudited); worker self-audit upheld the kill; request `reviews/2026-09-21-false-negative-audit-request-wonkybox.md`; no reviewer response yet |
 | Method 1.6.0 review-findings fix (issue #8) | worker | done | 2026-09-21 | Archetype-aware missing-why-now cap (persistence thesis, two-part test), sampled triage false-negative audit (one rejection per funnel run), competitor-existence clarification; funnel and pool retained at 15–20; scoring, threshold 65, `defensible_wedge`, evidence levels and lifecycle gates unchanged; review request `reviews/2026-09-21-method-v1.6.0-review-request.md` answered **`approved`** (`reviews/2026-09-21-method-v1.6.0-chatgpt.md`), no changes requested |
 | Method 1.6.0 regression + triage audit (issue #8) | worker | done | 2026-09-21 | Aucly pre-launch, `shiftswap`, `wonkybox`, `grantscout` re-read with nothing revived; first sampled triage audit O14 upheld on demonstrated incumbent occupation; recorded in `retrospectives/2026-09-21-issue8-archetype-cap-regression.md` and the v1.5 pool file |
+| Method 1.8.2 latent-signal search pass (issue #20) | worker | requested | 2026-09-25 | Bounded search pass and evidence labels added without a signal/candidate quota; retrospective O16 check preserves zero promotions; no score/filter/lifecycle change; review `reviews/2026-09-25-method-v1.8.2-review-request.md` requested; prospective run exercise pending |

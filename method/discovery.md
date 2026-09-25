@@ -216,7 +216,8 @@ A run records its pool in `observations/<run-id>.md` (template:
 
 - a concise problem/workflow statement;
 - the target user/buyer, if identifiable;
-- the source class it came from;
+- the source class it came from (the kind of material searched or used);
+- for latent hypotheses, the behavior-signal lens that prompted the search;
 - its evidence/source(s) and the evidence type — primary, practitioner/community,
   vendor, or secondary;
 - why it may represent an opportunity;
@@ -226,6 +227,36 @@ A run records its pool in `observations/<run-id>.md` (template:
 - the triage outcome and reason.
 
 Keep each row compact: the pool must fit comfortably inside one run's budget.
+
+### Bounded latent-signal search pass (v1.8.2)
+
+Every normal funnel run conducts and records at least one deliberate, bounded search
+pass for behavior that could motivate a latent-opportunity hypothesis. This is a search
+instruction, not a requirement to find or register a latent observation. It may reuse
+searches already made for the observation sweep; do not duplicate work just to create a
+separate count.
+
+Keep two concepts separate:
+
+| Search dimension | What it means | Examples |
+|---|---|---|
+| **Behavior-signal lens (what to look for)** | A pattern in current or newly possible behavior that may reveal an unarticulated benefit | Repeated shadow work or manual workarounds; work delayed, skipped or never attempted because of cost or complexity; handoffs, reconciliation, exceptions, duplicated effort or costs shifted to another party; recurring manual services or roles; a task newly feasible because of a capability or change |
+| **Source class (where to look)** | The kind of public or otherwise permitted material that can evidence a lens | Public workflow artifacts or instructions (forms, spreadsheets, manuals, integration guides); job descriptions; service scopes and pricing; practitioner/community or support discussions; incumbent release notes; public procurement/tender records; trade or professional reporting |
+
+Search one or more relevant lenses through appropriate source classes, within the run's
+existing lookup and cost limits. There is no requirement to search every lens, every
+source class, or every lens/source-class combination. Record the focus or query, date,
+source class, lens, and yield. Mark searches that were unavailable or blocked and say
+why; record a searched-but-empty result as **no usable result**, not as evidence that
+the behavior or an unmet need does not exist. A pass that reuses another sweep search
+must still identify its lens and yield in the pass log.
+
+The pass may return no result, an isolated behavior signal, or a signal already well
+served by alternatives. None creates a latent observation automatically. Absence of
+complaints, searches, or results is not evidence of non-consumption; observed behavior
+is a hypothesis-generating signal, not evidence of demand. A latent observation still
+requires all six archetype-C fields below, and a plausible benefit or novelty claim
+alone cannot establish demand, pass a hard filter, or justify promotion.
 
 ### Three discovery archetypes
 
@@ -295,20 +326,24 @@ route**, not a relaxation of standards: "customers do not know they need it yet"
 lower the threshold, redefine evidence levels or upgrade a hard filter.
 
 An observation may be recorded as a latent-opportunity hypothesis only if it names all
-of the following, each backed by dated observable evidence rather than model
-imagination:
+of the following. Factual claims must be backed by dated observable evidence; distinguish
+those observations from labelled inferences and assumptions rather than presenting a
+plausible mechanism or benefit as an observed fact:
 
 1. **The specific buyer/user and their current behaviour or constraint** - what they
    actually do today, observed (a costly routine treated as normal, a workaround in a
    neighbouring market, an accepted constraint), not inferred from a trend narrative.
-2. **The newly possible experience or capability and a concrete mechanism** - how it
-   changes time, cost, quality, access or outcomes, and by what means.
+2. **The newly possible experience or capability and a concrete mechanism** - cite the
+   dated evidence for the capability; label an unverified application or mechanism as
+   inference or assumption. State how it could change time, cost, quality, access or
+   outcomes, and by what means.
 3. **Why the buyer might value the difference despite not requesting it** - the
    inference about value, labelled as inference, with the reasoning shown.
 4. **Why now, or an honest statement that no discontinuity is known.** A latent
    hypothesis may have no favourable discontinuity; record `strength: "absent"` and do
-   not fabricate one. The missing-why-now cap applies exactly as for archetype B unless
-   an evidence-backed persistence thesis lifts it.
+   not fabricate one. Do not treat a search yielding no change as proof that no
+   discontinuity exists. The missing-why-now cap applies exactly as for archetype B
+   unless an evidence-backed persistence thesis lifts it.
 5. **The existing substitute / status quo and direct or adjacent competitors** - what
    the buyer uses instead today and what already exists.
 6. **The central falsifiable assumption and the cheapest behavioural test** that could
@@ -508,6 +543,11 @@ without resurrecting the killed idea:
 ## Recording
 
 - The run summary lists the source classes searched and what they yielded.
+- Every normal funnel run records a bounded latent-signal search pass in the observation
+  pool and run summary: behavior lens/lenses, source class/classes, search focus or
+  query, date, and yield, including no-result, blocked or unavailable searches. The
+  pass has no hit, observation or candidate quota; its completion does not imply that a
+  latent opportunity exists.
 - The run summary states which **money-already-moving sources** (v1.8.0) were searched
   and what they yielded, including unsuccessful searches, and whether the run found
   budget evidence or only complaint-forum evidence.
@@ -522,7 +562,7 @@ without resurrecting the killed idea:
   discovery — not to weaken the filter.
 - Rejected candidates keep their why-now analysis in the decision record.
 - A funnel run reports the observation pool: total observations, source-class
-  distribution, change-driven vs persistent-market-failure split, the number rejected
+  distribution, change-driven vs persistent-market-failure vs latent split, the number rejected
   during shallow triage with the principal reasons, the observations promoted and why,
   the triage false-negative audit (see `### Shallow triage`), and the research cost /
   lookup usage where available. The pool itself is written to
@@ -531,7 +571,7 @@ without resurrecting the killed idea:
   whether its persistence thesis is evidenced (`strong` | `weak` | `absent`) and which
   two-part test it passed or failed; candidates that fail it score under the
   missing-why-now cap.
-- A run that exercises the latent-opportunity route (archetype C) reports how many
-  latent observations were found, triaged, promoted and rejected, and why. Zero
-  promotions is an acceptable outcome. A latent observation that fails triage but
-  contains an adjacent insight becomes a seed, like any other rejection.
+- The run summary reports counts of latent observations found, triaged, promoted and
+  rejected, including zeros, and why. Zero latent observations or promotions are
+  acceptable. A latent observation that fails triage but contains an adjacent insight
+  becomes a seed, like any other rejection.

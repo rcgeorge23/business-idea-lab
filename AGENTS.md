@@ -55,7 +55,7 @@ Task permissions and hard boundaries:
 2. If 10 or more ideas are unreviewed, **stop generating**.
 3. Run the **opportunity-observation funnel** (`method/discovery.md`): sweep a pool
    of 15-20 materially distinct observations into `observations/<run-id>.md`,
-   mixing change-driven opportunities (each with an evidenced "why now?"),
+   consider change-driven opportunities (each with an evidenced "why now?"),
    persistent market failures (answer "why does this problem still persist
    despite existing alternatives?"; never invent a discontinuity, and note that
    an evidence-backed persistence thesis - not the bare existence of competitors -
@@ -63,7 +63,17 @@ Task permissions and hard boundaries:
    hypotheses (a guarded route for evidenced but unarticulated buyer-benefit
    hypotheses; admissible only with the six required fields in `method/discovery.md`
    archetype C, and never a substitute for a buyer, mechanism, distribution route or
-   falsifiable test). Bias the sweep
+   falsifiable test). Consider all three, but record only evidence-supported
+   observations; zero latent observations are valid. In every normal sweep, conduct
+   and record at least one bounded latent-signal search pass: signal lenses describe
+   what behavior to look for (repeated shadow work; delayed/skipped tasks; handoffs,
+   reconciliation or shifted costs; recurring manual services/roles; newly feasible
+   tasks), while source classes describe where to look (workflow artifacts/instructions,
+   jobs, service scopes or pricing, support discussions, release notes,
+   procurement/tenders, trade reporting). Record lens, source class, focus/query, date
+   and yield, including no-result or blocked searches; searches may be reused from the
+   sweep. This adds no signal, observation or candidate quota and no-result/complaint
+   absence is not evidence of non-consumption or demand. Bias the sweep
    toward poor/expensive narrow incumbent software, manual re-keying workflows
    and awkward integrations, and seek practitioner/community evidence where
    feasible. Shallow-triage every observation, recording negative evidence and
@@ -153,7 +163,8 @@ A run leaves reviewable, committed-ready changes:
 The summary must state: the seed register review, observation-pool statistics
 (total observations, source mix, change-driven vs persistent vs latent split, triage
 rejections and principal reasons, promotions and why), source classes searched
-(regulatory vs non-regulatory, successful and unsuccessful), whether the
+(regulatory vs non-regulatory, successful and unsuccessful), the latent-signal search
+pass and yield (including no-result), whether the
 source-class budget was satisfied and why, why-now quality, provenance
 (`seed:<slug>` | `fresh`), source class and originating observation ID per
 candidate, each candidate's second-order seam, whether discovery is converging

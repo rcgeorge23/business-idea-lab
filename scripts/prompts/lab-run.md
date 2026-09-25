@@ -12,7 +12,7 @@ Before doing anything else:
 3. Handle any outstanding `changes-requested` reviews first, then follow the run
    protocol in order, respecting every limit in it.
 
-Discovery expectations for this run (method 1.6.0):
+Discovery expectations for this run (method 1.8.2):
 
 - Run the opportunity-observation funnel. Before any candidate work, sweep a pool of
   15-20 materially distinct observations into `observations/<run-id>.md` using
@@ -21,7 +21,8 @@ Discovery expectations for this run (method 1.6.0):
   incumbent/free check, archetype, triage outcome) — no scorecards or dossiers for
   them, and no evidence level. Zero, one or two promotions are valid; never manufacture
   filler to fill slots.
-- Support all three archetypes. Change-driven observations need a conventional evidenced
+- Consider all three archetypes, but record only evidence-supported observations; zero
+  latent observations are valid. Change-driven observations need a conventional evidenced
   "why now?". Persistent market failures do not need a discontinuity: answer "why does
   this problem still persist despite existing alternatives?" and never invent a
   justification — "could not establish" is an honest triage answer. The missing-why-now
@@ -37,6 +38,19 @@ Discovery expectations for this run (method 1.6.0):
   and cheapest behavioural test). "Customers do not know they need it yet" is never a
   substitute for a buyer, mechanism, distribution route or falsifiable test, and the
   latent route lifts no cap, lowers no threshold and upgrades no hard filter.
+- During every normal observation sweep, conduct and record at least one deliberate,
+  bounded latent-signal search pass, even when it yields no usable result. Search lenses
+  describe **what behavior to look for** (shadow/repeated manual work; tasks delayed,
+  skipped or not attempted due to cost/complexity; handoffs, reconciliation, exceptions
+  or shifted costs; recurring manual services/roles; newly feasible tasks); source
+  classes describe **where to look** (public workflow artifacts/instructions, job
+  descriptions, service scopes/pricing, practitioner or support discussions, release
+  notes, procurement/tenders, trade/professional reporting). Log lens, source class,
+  focus/query, date and yield, including no-result, blocked or unavailable. Reuse sweep
+  searches where appropriate; do not search every lens/class combination and do not
+  impose a minimum signal, latent-observation or candidate count. A missing complaint or
+  search result is not evidence of non-consumption; an observed behavior is not demand,
+  and inferred benefit or novelty alone cannot pass a filter or justify promotion.
 - Bias the sweep toward ugly persistent problems: poor/expensive narrow incumbent
   software, manual structured-data / spreadsheet / email / PDF re-keying, and awkward
   integrations between established systems. Seek practitioner/community evidence where
@@ -105,7 +119,8 @@ Discovery expectations for this run (method 1.6.0):
 - Record in the run summary: pool statistics (total observations, source mix,
   change-driven vs persistent vs latent split, triage rejections and principal reasons,
   promotions
-  and why), the triage false-negative audit result, the seed register review, source
+  and why), the latent-signal search pass and its yield (including no-result), the triage
+  false-negative audit result, the seed register review, source
   classes searched (regulatory vs
   non-regulatory, successful and unsuccessful), whether the source budget was satisfied
   and why, why-now quality (strong | weak | absent) per candidate, provenance

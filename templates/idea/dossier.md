@@ -37,15 +37,17 @@ missing-why-now cap only when both limbs are affirmatively evidenced - see
 - Persistence thesis quality: `strong` | `weak` | `absent`
 
 For latent-opportunity candidates (archetype C), record the six admissibility fields
-from `method/discovery.md` and state plainly that the value inference is an inference,
-not demand evidence:
+from `method/discovery.md`. Cite dated evidence for factual observations, label each
+material claim as observation, inference or assumption, and state plainly that the value
+inference is not demand evidence. A proposed capability or mechanism that is not yet
+verified for this buyer must be labelled inference/assumption:
 
-- Buyer/user and observed current behaviour or constraint:
-- Newly possible capability and concrete mechanism:
-- Why the buyer might value it despite not requesting it (inference):
-- Why now, or "no discontinuity known":
-- Existing substitute / status quo and competitors:
-- Central falsifiable assumption and cheapest behavioural test:
+- Buyer/user and observed current behaviour or constraint (observation + dated source):
+- Newly possible capability and concrete mechanism (dated capability evidence; label unverified application):
+- Why the buyer might value it despite not requesting it (inference + evidence it rests on):
+- Why now, or "no discontinuity known" (dated evidence or explicitly unknown):
+- Existing substitute / status quo and competitors (dated evidence or explicitly unknown):
+- Central falsifiable assumption and cheapest behavioural test (assumption, not fact):
 
 ## Buyer
 

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "method_version": "1.8.1",
+  "method_version": "1.8.2",
   "updated": "2026-09-22",
   "limits": {
     "max_unreviewed_before_generation_stops": 10,

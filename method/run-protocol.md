@@ -37,7 +37,8 @@ be reviewed by the human owner before keeping them.
    - **3.1 Observation sweep.** Build a pool of 15-20 materially distinct opportunity
      observations, recorded in `observations/<run-id>.md` from
      `templates/observation/pool.md`. The 15-20 pool size is retained provisionally
-     (v1.6.0); do not increase it. Cover all three archetypes: change-driven
+     (v1.6.0); do not increase it. Consider all three archetypes, but record only
+     evidence-supported observations; zero latent observations are valid. Change-driven
      (conventional evidenced why-now), persistent market failure (no forced
      discontinuity; answer "why does this problem still persist despite existing
      alternatives?" - never invent a discontinuity, and note that an evidence-backed
@@ -46,6 +47,12 @@ be reviewed by the human owner before keeping them.
      for evidenced but unarticulated buyer-benefit hypotheses; admissible only with the
      six required fields in `method/discovery.md` archetype C, and never a substitute
      for a buyer, mechanism, distribution route or falsifiable test).
+     During this bounded sweep, conduct and log at least one deliberate latent-signal
+     search pass per `method/discovery.md`: record the behavior lens (what), source
+     class (where), focus/query, date and yield, including no-result or blocked
+     searches. The pass can reuse sweep searches; it has no minimum latent-observation
+     count or quota, and a missing complaint/search result is not evidence of
+     non-consumption or demand.
      Deliberately search poor/expensive narrow incumbent software, manual
      structured-data/re-keying workflows and awkward integrations between established
      systems, and seek practitioner/community evidence where feasible. Aim a meaningful
@@ -109,7 +116,8 @@ be reviewed by the human owner before keeping them.
    pool statistics (total observations, source mix, archetype split, triage rejections
    and principal reasons, promotions and why), the candidates' provenance, the class
    each candidate qualifies under and why, the originating observation ID, and whether
-   the budget was satisfied, for the run summary.
+   the budget was satisfied, for the run summary. Include the latent-signal search pass
+   (behavior lenses, source classes, focus/query, date and yield, including no-result).
 4. **Novelty / incumbent sanity check.** Before any deep research, run the screening
    checklist in `method/discovery.md` (exact product exists? multiple credible providers?
    wedge already a standard feature? adequate free/authoritative alternative? incumbent
@@ -165,9 +173,9 @@ be reviewed by the human owner before keeping them.
     second-order seam (and, for persistent-market-failure candidates, whether the
     persistence thesis is evidenced and which two-part test passed or failed), whether
     discovery is converging on less obvious opportunities or
-    repeating one class of rejection, and the review queue after the run. A run that
-    exercises the latent-opportunity route reports how many latent observations were
-    found, triaged, promoted and rejected, and why (zero promotions is acceptable).
+    repeating one class of rejection, and the review queue after the run. Report latent
+    observations found, triaged, promoted and rejected, including zeros, and why; the
+    required search pass does not require a latent observation.
     Update
     `ideas/index.json` counters and `experiments/index.json`. Commits, pushes to
     GitHub, and GitHub issue creation or modification are allowed when they are part
@@ -223,7 +231,7 @@ Every run writes `runs/<run-id>/run.json`:
   "finished_at": "ISO-8601",
   "agent": "idea-worker",
   "model": "opencode-go/deepseek-v4.1-flash",
-  "method_version": "1.6.0",
+  "method_version": "1.8.2",
   "input_revision": "git sha or 'none'",
   "output_revision": "git sha or 'none (uncommitted)'",
   "attempts": 1,

@@ -2,10 +2,11 @@
 
 - **Run:** <run-id>
 - **Date:** <YYYY-MM-DD>
-- **Method version:** 1.7.0
+- **Method version:** 1.8.2
 - **Pool size:** <n> (target 15–20)
 - **Archetype mix:** change-driven <n> / persistent market failure <n> / latent opportunity <n>
 - **Source mix:** regulatory <n> / non-regulatory <n>
+- **Latent-signal search pass:** completed <yes/no>
 - **Triage:** promoted <n> / rejected <n>
 
 An observation is not an idea: it records an evidenced problem, workflow,
@@ -13,25 +14,42 @@ dissatisfaction, market failure or change without a product proposition. Rows ar
 not scored, carry no evidence level, and confer no inherited positive evidence on
 any candidate later promoted from them (see `method/discovery.md`).
 
-| ID | Observation (problem / workflow) | Buyer | Source class | Reg? | Archetype | Evidence (source, date) | Type | Incumbent / free-alternative check | Triage | Triage reason |
-| -- | -------------------------------- | ----- | ----------- | ---- | --------- | ----------------------- | ---- | ---------------------------------- | ------ | ------------- |
-| O1 |  |  |  |  | change / persistent / latent |  | primary / practitioner / vendor / secondary |  | promote / reject |  |
+## Latent-signal search pass (required in every normal run)
+
+Record at least one deliberate, bounded search, including its yield even when there is
+no usable result. The lens is **what behavior to look for**; the source class is
+**where to look**. Searches made for the wider sweep may be reused. Do not fill every
+lens or lens/source-class combination, and do not create a latent observation to satisfy
+a quota. A no-result search or absence of complaints establishes neither that behavior
+is absent nor that buyer demand exists.
+
+| Behavior-signal lens (what) | Source class / source (where) | Focus or query | Search date | Yield (observation IDs, no usable result, or blocked/unavailable reason) |
+|---|---|---|---|---|
+| <e.g. repeated shadow work; delayed/skipped work; handoff/reconciliation; recurring manual service; newly feasible task> | <e.g. workflow instructions; job description; service scope/pricing; support discussion; release note; procurement> | | | |
+
+## Observations
+
+| ID | Observation (problem / workflow) | Buyer | Source class (where) | Signal lens (latent only; what) | Reg? | Archetype | Evidence (source, date) | Type | Incumbent / free-alternative check | Triage | Triage reason |
+| -- | -------------------------------- | ----- | -------------------- | ------------------------------- | ---- | --------- | ----------------------- | ---- | ---------------------------------- | ------ | ------------- |
+| O1 |  |  |  |  |  | change / persistent / latent |  | primary / practitioner / vendor / secondary |  | promote / reject |  |
 
 ### Latent-opportunity observations (archetype C)
 
-A latent observation is admissible only with all six fields below, each backed by dated
-observable evidence (see `method/discovery.md` archetype C). Record one block per latent
-observation; a latent observation missing any field is not admissible.
+A latent observation is admissible only with all six fields below (see
+`method/discovery.md` archetype C). Cite dated evidence for factual claims and label
+each claim as an observation, inference or assumption; do not dress a plausible
+mechanism or benefit as observed fact. Record one block per latent observation; a
+latent observation missing any field is not admissible.
 
-| Field | Value |
-|---|---|
-| Observation ID | |
-| Buyer/user and observed current behaviour or constraint | |
-| Newly possible capability and concrete mechanism | |
-| Why the buyer might value it despite not requesting it (inference) | |
-| Why now, or "no discontinuity known" | |
-| Existing substitute / status quo and competitors | |
-| Central falsifiable assumption and cheapest behavioural test | |
+| Required field | Claim (label observation / inference / assumption) | Dated source(s) and observed evidence |
+|---|---|---|
+| Observation ID | | |
+| Buyer/user and observed current behaviour or constraint | | |
+| Newly possible capability and concrete mechanism | | |
+| Why the buyer might value it despite not requesting it (inference) | | |
+| Why now, or "no discontinuity known" | | |
+| Existing substitute / status quo and competitors | | |
+| Central falsifiable assumption and cheapest behavioural test | | |
 
 ## Promoted observations
 
@@ -68,3 +86,7 @@ evidence checked; upheld or overturned; implication for triage depth.
 - A latent-opportunity observation (archetype C) is admissible only with the six
   required fields above; "customers do not know they need it yet" is never a
   substitute for a buyer, mechanism, distribution route or falsifiable test.
+- Every factual field in a latent block cites dated source evidence. The value claim is
+  explicitly an inference; an unverified buyer, mechanism or willingness-to-pay claim is
+  an assumption. Neither novelty nor inferred benefit is demand evidence or enough on
+  its own to pass a hard filter or promote an observation.

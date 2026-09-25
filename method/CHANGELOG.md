@@ -4,6 +4,44 @@ Every material change to the method bumps `method/VERSION` and is listed here wi
 review status. Review status values: `not-required` | `requested` | `changes-requested` |
 `approved` | `killed`. See `method/review-policy.md` (section "Method changes").
 
+## 1.8.2 - 2026-09-25
+
+Motivated by issue #20 and the CLCH payer-side invoice reconciliation observation
+O16 (`observations/20260925T115959Z-normal.md`). The observation showed that a job
+description can reveal repeated manual behavior without establishing software-budget
+authority, a product gap, or a reachable route. The existing latent route specified
+admissibility but did not ensure every normal sweep deliberately searched for these
+signals or recorded when that search found nothing.
+
+**Changed (discovery search and recording only):**
+
+- `method/discovery.md` and `method/run-protocol.md` require one bounded, logged
+  latent-signal search pass in every normal sweep, distinguishing behavior lenses
+  (what to look for) from source classes (where to look). Searches may be reused from
+  the pool; their focus/query, date, source class, lens and yield—including no-result,
+  blocked or unavailable searches—are recorded.
+- The pass imposes no signal, latent-observation or candidate quota and does not require
+  an exhaustive lens/source matrix. Absence of complaints/results is not evidence of
+  non-consumption; a behavior signal, plausible benefit or novelty claim is not demand
+  and cannot alone pass a filter or justify promotion.
+- Archetype C retains its same six fields and clarifies dated evidence for factual
+  claims plus explicit observation/inference/assumption labels. Observation/run
+  templates, idea templates, `observations/README.md`, `AGENTS.md`, the worker agent
+  instructions and run prompt now record the pass and preserve those distinctions.
+- Calibration documents the retrospective O16 boundary and preserves L1, V1 and V2
+  outcomes. Current ledgers and scorecards were updated only to the new method-version
+  metadata required by the validator; historical run records remain unchanged.
+
+**Regression:** this is search coverage and record quality, not a scoring or lifecycle
+change. Weights stay 1.2.0, threshold stays 65, the 15–20 observation pool and
+three-candidate maximum remain unchanged, as do the source-class budget, evidence
+levels, hard filters and lifecycle gates. L1 remains parked at 44.2; V1/V2 remain
+rejected; O16 remains a rejected hypothesis, not demand evidence or a promoted
+candidate. No normal run has yet exercised the new pass requirement.
+
+**Review:** requested - see
+`reviews/2026-09-25-method-v1.8.2-review-request.md`; awaiting independent review.
+
 ## 1.8.1 - 2026-09-25
 
 **Changed (repository operations):**

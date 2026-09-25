@@ -3,7 +3,7 @@
 - **Mode:** normal | dry-run | smoke
 - **Started / finished:** ISO-8601
 - **Agent / model:** idea-worker / opencode-go/deepseek-v4.1-flash
-- **Method version:** 1.7.0
+- **Method version:** 1.8.2
 - **Input / output revision:** `<sha>` / `<sha or 'uncommitted'>`
 - **Status:** success | failed | invalid-output | over-budget
 
@@ -19,6 +19,7 @@
 | Observations in pool | n (target 15–20) |
 | Source-class distribution | ... |
 | Change-driven / persistent market failure / latent opportunity | n / n / n |
+| Deliberate latent-signal search pass | completed yes/no; lenses and yield (including no-result) |
 | Rejected in shallow triage | n |
 | Principal triage rejection reasons | ... |
 | Promoted to full candidates | n (≤ 3) |
@@ -76,6 +77,7 @@ at least one previously underexplored non-regulatory class actually searched.
 | Money already moving: incumbent support forums / release notes | no | | |
 | Money already moving: trade press reporting spend or staffing | no | | |
 | Money already moving: bridge-role job descriptions | no | | |
+| Public workflow artifacts / instructions | no | | |
 
 **Money-already-moving outcome (v1.8.0):** [which of the above were searched, what
 they yielded including unsuccessful searches, and whether the run found budget
@@ -84,6 +86,20 @@ evidence or only complaint-forum evidence]
 **Source-budget outcome:** [met / not met — of N candidates, X non-regulatory,
 Y regulation-derived; previously underexplored class searched: ...; if not met,
 why, and why no filler candidates were manufactured]
+
+## Latent-signal search pass
+
+Every normal funnel run records at least one deliberate, bounded search pass. Keep the
+behavior-signal lens (what behavior to look for) distinct from the source class (where
+to look). This log records discovery coverage; it does not change candidate source-class
+budget accounting. Searches from the observation sweep may be reused. Do not fill all
+lenses or combinations, and do not impose a minimum number of signals or latent
+observations. Include unsuccessful, blocked and unavailable searches; a no-result or
+absence of complaints establishes neither absence of behavior nor buyer demand.
+
+| Behavior-signal lens (what) | Source class / source (where) | Focus or query | Date | Yield (observation IDs, no usable result, or reason blocked/unavailable) |
+|---|---|---|---|---|
+| <e.g. shadow work, delayed/skipped tasks, handoffs/reconciliation, paid manual role, newly feasible task> | <e.g. workflow instructions, job description, service pricing, support discussion, release note, procurement> | | | |
 
 ## Why-now quality
 

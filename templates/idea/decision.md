@@ -25,7 +25,9 @@
   - Net thesis quality: `strong` | `weak` | `absent`
 - Latent-opportunity candidates only - the six admissibility fields from
   `method/discovery.md` archetype C, and confirmation that the value inference is an
-  inference, not demand evidence:
+  inference, not demand evidence. Cite dated evidence for factual observations, label
+  unverified capability applications and buyer/payment claims as inference or
+  assumption, and do not treat missing search results as evidence of non-consumption:
 - If `weak` or `absent`: why the candidate was generated anyway, and why it was kept
   or rejected.
 

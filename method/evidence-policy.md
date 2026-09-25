@@ -46,6 +46,9 @@ Such a hypothesis:
 - still requires real target-buyer behaviour (payment, pre-order, meaningful
   commitment, or an approved experiment with a pre-declared decision rule) before any
   demand or commercial claim.
+- A search pass with no usable result, or no complaint found, does not establish that
+  the behavior is absent and does not establish demand. Search yield is discovery
+  coverage, not evidence of non-consumption or purchase intent.
 
 ## Sources
 
