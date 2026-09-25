@@ -55,4 +55,4 @@ parent rather than restating it.
 
 | Date | Outcome | Why | Link |
 |---|---|---|---|
-| - | - | - | - |
+| 2026-09-25 | unexplored | Fresh review of the official rollout, 2024 landlord survey, HMRC MTD guidance and current landlord-service/software offers did not establish paid unmet registration work, transaction volume or distribution. The official announcement does not confirm the fee or ongoing renewal burden. No evidence/score inherited; seed remains unexplored. | `observations/20260925T190044Z-normal.md` |
