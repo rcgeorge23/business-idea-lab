@@ -90,6 +90,12 @@ python3 scripts/build_dashboard.py            # writes dashboard.html at the rep
 python3 scripts/build_dashboard.py --out /tmp/ledger.html
 ```
 
+When a normal run is performed ad hoc without `scripts/run.sh`, the worker must
+run `python3 scripts/build_dashboard.py` after finalizing the run metadata and
+include the generated `dashboard.html` in the final diff. The dashboard is a
+generated, read-only view and must not be edited by hand. Dry-runs leave the live
+dashboard unchanged.
+
 The dashboard also surfaces the discovery trail that never became a scored idea,
 so early rejections stay visible: an **Intake** section listing each
 owner-nominated note and its hypotheses, and an **Observation pools** section

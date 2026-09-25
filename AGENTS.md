@@ -117,7 +117,11 @@ Task permissions and hard boundaries:
 11. Record any adjacent opportunity seeds (`seeds/`) surfaced by rejections; seeds
     never inherit the parent's score or evidence level.
 12. Write the run summary (including source classes and why-now quality) and list
-    what needs human input.
+    what needs human input. After run artifacts and metadata are finalized, regenerate
+    the root `dashboard.html` from the ledgers with
+    `python3 scripts/build_dashboard.py`. `scripts/run.sh` does this automatically;
+    an ad hoc/manual run must invoke the builder itself. Do not hand-edit the generated
+    dashboard, and inspect it in the final diff.
 
 Hard limits per run (see `method/run-protocol.md`): 3 new candidates, 1
 validation-ready advance, 8 evidence entries per idea, 40 web lookups, 120 agent
@@ -159,6 +163,8 @@ A run leaves reviewable, committed-ready changes:
 - an observation pool under `observations/<run-id>.md` for funnel runs
 - a run summary at `runs/$LAB_RUN_ID/summary.md` (the wrapper sets
   `LAB_RUN_ID`; run `printenv LAB_RUN_ID` if unsure)
+- the generated root `dashboard.html`, refreshed after every normal run (manual runs
+  must invoke `python3 scripts/build_dashboard.py`; `scripts/run.sh` does so itself)
 
 The summary must state: the seed register review, observation-pool statistics
 (total observations, source mix, change-driven vs persistent vs latent split, triage

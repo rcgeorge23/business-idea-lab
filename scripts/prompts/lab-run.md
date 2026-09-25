@@ -139,6 +139,12 @@ Write your run summary to `runs/$LAB_RUN_ID/summary.md` (the wrapper sets
 `LAB_RUN_ID`; you can read it with the shell: `printenv LAB_RUN_ID`). If that variable
 is empty, name the file using the current UTC timestamp.
 
+After the run artifacts and metadata are finalized, regenerate the root `dashboard.html`
+with `python3 scripts/build_dashboard.py`. The `scripts/run.sh` wrapper does this
+automatically; when operating ad hoc/manual, run the builder explicitly. Do not
+hand-edit this generated view. Check that `dashboard.html` is included in the final
+diff. A dry-run must leave the live dashboard untouched.
+
 Task permissions and hard rules:
 
 - Commits, pushes to GitHub, and GitHub issue creation or modification are allowed

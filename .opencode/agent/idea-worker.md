@@ -36,6 +36,12 @@ defined in `method/run-protocol.md`, leaving behind reviewable changes: updated
 dossiers, scorecards, evidence registers, decision records, experiment proposals
 and a run summary.
 
+After all run artifacts and metadata are finalized, regenerate the root `dashboard.html`
+with `python3 scripts/build_dashboard.py` on every normal run. `scripts/run.sh` already
+does this; if running ad hoc/manual without the wrapper, invoke the builder yourself.
+The dashboard is generated from the ledgers and run history: do not edit it by hand,
+and inspect its update in the final diff. Dry-runs leave the live dashboard untouched.
+
 Read `AGENTS.md` first. It contains your role, boundaries, the canonical limits,
 the hard rejection filters, the scorecard contract and the output contract. The
 method documents under `method/` are authoritative; do not edit them. Read
