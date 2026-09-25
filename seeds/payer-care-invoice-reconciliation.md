@@ -51,3 +51,4 @@ fresh evidence on these points.
 | Date | Outcome | Why | Link |
 |---|---|---|---|
 | 2026-09-25 | created as non-inheriting seed | Rejected O4 preserved the payer-side seam, which is materially different from contractor-side housing-repair invoice/SOR checks; buyer authority, incumbent adequacy and distribution remain unproved. | `observations/20260925T115959Z-normal.md` |
+| 2026-09-25 | shallow re-check; remains unexplored | Re-read the full CLCH job description and existing adjacent mechanism evidence. Paid reconciliation work is confirmed, but no authorized buyer, software budget, NHS-specific incumbent gap, permitted data path or distribution route is established. The false-negative audit was upheld; no score or evidence level is inherited. | `observations/20260925T150347Z-normal.md` (O17) |
