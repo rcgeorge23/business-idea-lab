@@ -54,3 +54,4 @@ the flat-fee matching wedge. During that review the following observation was re
 | Date | Status | Note |
 |---|---|---|
 | 2026-09-21 | unexplored | Recorded from the GrantScout kill; no research performed yet. |
+| 2026-09-25 | unexplored | Fresh shallow re-check found priced Tatton and EchoGrant application-support offers, but not transaction volume, unmet smaller-SME demand, product wedge or distribution. No parent score/evidence inherited. See `observations/20260925T163230Z-normal.md` O15–O16. |
