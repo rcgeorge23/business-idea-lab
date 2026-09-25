@@ -57,3 +57,4 @@ problem:
 | Date | Status | Note |
 |---|---|---|
 | 2026-09-21 | unexplored | Recorded from the WasteTrack kill; no research performed yet. |
+| 2026-09-25 | unexplored | Fresh re-check of current official sources confirms UK Article 18 exporter information duties after 2026-07-01, including notice-dependent destination evidence; EU DIWASS does not establish direct UK-exporter filing. LoadSnap now advertises a UK domestic DWT plus cross-border Annex VII workflow. No independent exporter workflow, paid notice-response gap, transaction volume or distribution route was established. The seed remains unexplored and inherits no score/evidence from `wastetrack`. See `observations/20260925T210741Z-normal.md` O1–O15. |
