@@ -33,6 +33,8 @@ High equipment spend, active communities, or a large hobby population would not 
 
 The owner suggested cycling or a similar high-disposable-income hobby. Cycling is therefore the next discovery frame, not a preselected business idea. Investigate actual consumer spend and paid services alongside a repeated workflow and existing tools; do not infer willingness to buy software from the price of bicycles or equipment.
 
+The follow-up cycling screen is now recorded in [`cycling and e-bike ownership`](2026-09-26-cycling-hobby-screen.md). It finds a higher occupational-class participation association, but not direct income or software demand; generic maintenance tracking is already occupied. Used e-bike battery-condition reporting remains an unvalidated research question only.
+
 ## Sources and search record
 
 - Sewing findings and citations: [`intake/2026-09-26-sewing-fit-memory.md`](2026-09-26-sewing-fit-memory.md).
