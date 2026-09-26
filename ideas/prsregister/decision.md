@@ -68,3 +68,22 @@ Human owner may audit. Audit question: did we underestimate a per-property,
 high-volume compliance burden for large agents? If rollout exposes agent-level
 penalties and no incumbent ships a bulk path, this kill could be a false
 negative.
+
+## Post-kill reassessment (2026-09-26; current-score rank among killed ideas: 2/5)
+
+Fresh evidence is registered at
+`evidence/prsregister/2026-09-26-killed-idea-reassessment.md`. The official
+announcement schedules a phased service launch from 2026-12-15 and states that
+all active landlords must register by 2027-11-14; it describes the core service
+as straightforward and does not confirm a fee. The checked regulations page is
+still a draft, with the operator’s fee set by relevant costs. Lettable currently
+advertises £19/£49/£99 monthly tiers and portfolio/bespoke agency features.
+
+The original generic readiness/pre-check product remains **killed**:
+`defensible_wedge` remains fail because the public register is free and an
+incumbent offers low-priced readiness and portfolio functions. The separately
+rechecked self-managing-landlord seed is not treated as evidence about agent-side
+operations. Historical score 59.0 and prior outcomes are unchanged; no rescore
+or state transition is made. Reopening would require a specific high-volume
+agent workflow missing from the final service and contracted CRM alternatives,
+with an evidenced separate budget and reachable channel.

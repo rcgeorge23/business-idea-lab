@@ -49,3 +49,24 @@ Discovery — the thing the idea would sell — is free from the authoritative s
 - Reviewer / date: n/a
 - Verdict: n/a
 - What new evidence would justify reopening: primary evidence that SMEs or accountants pay for grant *discovery/matching* rather than application support, or that the free government service is materially inadequate for a specific niche (e.g. a sector or region it does not cover).
+
+## Post-kill reassessment (2026-09-26; current-score rank among killed ideas: 4/5)
+
+Fresh evidence is registered at
+`evidence/grantscout/2026-09-26-killed-idea-reassessment.md`. The official
+Find government grants service remains free and visibly offers eligibility
+filters, saved searches and notifications while still labelled BETA; GovOwed
+continues to advertise the directly comparable flat-fee reports and annual
+accountant plan. Advertised prices are not verified sales. The related
+application-quality seed recheck did not establish evidence for this
+discovery/matching product and remains non-inheriting.
+
+The matched grant-discovery digest remains **killed**:
+`defensible_wedge` remains fail. No neglected grant segment, paid discovery
+workaround or reachable channel was demonstrated. No rescore or state change is
+made. Historical score reconciliation: the original decision’s 62.1 is the
+pre-v1.1.0 snapshot; commit `98c87acf` recalculated the scorecard under the
+then-current method to 55.8, which is the current index/scorecard value. Both
+dated records are preserved; neither is a new score from this reassessment.
+Reopening would require primary evidence that a defined buyer pays for a
+discovery/matching gap the government service and GovOwed do not address.

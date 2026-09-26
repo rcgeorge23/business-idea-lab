@@ -55,3 +55,22 @@ A real deadline attracted a complete competitive field before the deadline arriv
 - Reviewer / date: worker, 2026-09-21 (external review requested: `reviews/2026-09-21-false-negative-audit-request.md`)
 - Verdict: kill upheld for `packproof` on the same reasoning; only a specific underserved sub-duty would reopen it.
 - What new evidence would justify reopening: evidence that UK small producers/importers actively pay for PPWR/EPR tooling and that one settled duty is underserved.
+
+## Post-kill reassessment (2026-09-26; current-score rank among killed ideas: 5/5)
+
+Fresh evidence is registered at
+`evidence/packproof/2026-09-26-killed-idea-reassessment.md`. The European
+Commission confirms that PPWR generally applies from 2026-08-12 and that the
+Environmental Omnibus is still a proposal under consideration, not enacted
+law. PPWR Copilot continues to advertise UK-priced £49/£199/£499 tiers and a
+manual review offer. UK packaging EPR remains a separate regime with a free
+reporting service; it is not a substitute for EU PPWR duties.
+
+The broad small-brand PPWR dossier/label/declaration suite remains **killed**:
+`defensible_wedge` remains fail, with no specific settled duty, underserved
+buyer segment, paid workaround or reachable route established. The current
+offer confirms continued competitive supply, not sales or customer satisfaction.
+Historical score 53.0 and prior outcomes are unchanged; no rescore or state
+transition is made. Reopening would require evidence for a defined obligation
+and buyer segment that existing providers do not serve, alongside demonstrated
+payment and a credible non-paid channel.

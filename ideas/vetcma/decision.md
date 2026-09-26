@@ -71,3 +71,23 @@ question: did we kill a real business because a free tool was mistaken for a
 free *business*? A plausible audit path is to observe whether any of the free
 entrants converts to paid at scale; if VetGuard or pricebook.vet converts well,
 this kill was a false negative.
+
+## Post-kill reassessment (2026-09-26; current-score rank among killed ideas: 1/5)
+
+Fresh evidence is registered at
+`evidence/vetcma/2026-09-26-killed-idea-reassessment.md`. The CMA made the final
+Order on 2026-09-22; practice obligations phase later, generally June 2027 for
+larger practices and September 2027 for smaller ones. This corrects the old
+decision’s imprecise Order-deadline wording but does not reduce the real trigger.
+Provet now directly advertises estimates in the patient record through invoice
+and payment, including a vendor-selected UK practice testimonial. The adjacent
+`vet-estimate-bridge` seed was independently researched from scratch and dropped
+as framed in run `20260926T180413Z-normal`.
+
+The broad idea remains **killed**: the new date confirms urgency, not a distinct
+product wedge. `defensible_wedge` remains fail; no independent-practice paid gap,
+unsupported-PIMS segment or non-paid route has been evidenced. Historical score
+61.0 and all prior outcomes are unchanged; no rescore or state transition is
+made. Reopening would require a named practice/PIMS segment with a missing
+estimate-to-bill workflow, a current paid workaround or separate budget, and a
+reachable acquisition route.

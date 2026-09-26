@@ -86,3 +86,25 @@ cross-border green-list/DIWASS gap is preserved as a non-inheriting seed.
 - What new evidence would justify reopening: evidence that approved providers leave a
   specific receiver segment unserved at the deadline, or that free tiers reprice
   materially after October 2026.
+
+## Post-kill reassessment (2026-09-26; current-score rank among killed ideas: 3/5)
+
+Fresh evidence is registered at
+`evidence/wastetrack/2026-09-26-killed-idea-reassessment.md`. Current GOV.UK
+service guidance reports that manual entry was found time-consuming and
+encourages API integrations; the official software list is explicitly
+non-exhaustive and allows other products that pass 14 production scenarios. The
+service charges £26 per receiving organisation annually and expects spreadsheet
+fallback through at least October 2027. This sharpens the original evidence:
+there is a genuine workflow burden, but also a broad, open supplier ecosystem and
+a government-provided integration route.
+
+The receiver-side generic tracking idea remains **killed**:
+`defensible_wedge` remains fail. Burden alone does not establish willingness to
+pay a new entrant, and no unserved receiver segment, persistent exception after
+approved integrations, or reachable paid route was identified. The separate
+cross-border exporter seed is not evidence for this receiver-side idea.
+Historical score 58.9 and prior outcomes are unchanged; no rescore or state
+transition is made. Reopening would require a named receiver segment plus a
+specific recurring gap in approved/API-connected products and evidence of a
+paid workaround or budget.
