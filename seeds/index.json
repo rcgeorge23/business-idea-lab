@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "method_version": "1.8.2",
-  "updated": "2026-09-25",
+  "updated": "2026-09-26",
   "counts": {
     "total": 13,
     "by_status": {
-      "dropped": 1,
+      "dropped": 2,
       "promoted": 2,
-      "unexplored": 10
+      "unexplored": 9
     }
   },
   "seeds": [
@@ -63,9 +63,10 @@
       "observation": "The CMA draft Order requires written estimates for pathways likely to cost GBP500 or more and itemised bills, while independents on legacy PMS or dated websites may lack a fee-transparency workflow at the point of treatment; incumbents market bundled compliance suites rather than a bridge to existing systems.",
       "why_materially_different": "A narrow workflow/integration wedge tied to fee capture during treatment, not a price-list or compliance-suite product.",
       "recorded": "2026-09-21",
-      "status": "unexplored",
+      "status": "dropped",
       "evidence": [
-        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md"
+        "evidence/vetcma/2026-09-21-cma-order-and-incumbent-landscape.md",
+        "observations/20260926T180413Z-normal.md"
       ]
     },
     {

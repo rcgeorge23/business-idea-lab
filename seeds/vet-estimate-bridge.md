@@ -3,7 +3,7 @@
 - **Seed ID / slug:** vet-estimate-bridge
 - **Origin idea:** vetcma
 - **Recorded:** 2026-09-21
-- **Status:** unexplored
+- **Status:** dropped
 
 ## Observation
 
@@ -29,3 +29,9 @@ the one the killed candidate addressed.
 
 This seed does not inherit vetcma's score, confidence or evidence level. Any
 promotion requires its own research, dossier, evidence register and scorecard.
+
+## Outcome log
+
+| Date | Status | Outcome |
+|---|---|---|
+| 2026-09-26 | dropped | Fresh, non-inheriting recheck in `observations/20260926T180413Z-normal.md`. The final CMA Order confirms the trigger, but Provet directly advertises estimate-to-invoice/payment flow and adjacent PIMS/booking products cover related work. No independent-practice unmet workflow, distinct software buyer/budget or reachable early route was evidenced. Drop this narrow seed as framed; this does not establish that every CMA-related product is unnecessary. |
