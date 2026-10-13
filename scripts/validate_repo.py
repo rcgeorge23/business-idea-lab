@@ -13,10 +13,14 @@ import json
 import sys
 from pathlib import Path
 
-SCHEMA_VERSION = 1
-WEIGHTS_VERSION = "1.2.0"
+SCHEMA_VERSION_LEGACY = 1
+SCHEMA_VERSION = 2
+WEIGHTS_VERSION_LEGACY = "1.2.0"
+WEIGHTS_VERSION = "1.3.0"
 
-DIMENSIONS = {
+# Schema v1 (legacy, weights 1.2.0): ten dimensions, preserved for historic
+# scorecards exactly as they were recorded. Never rewrite a v1 card under v2.
+DIMENSIONS_V1 = {
     "problem_severity_frequency": 15,
     "buyer_budget_clarity": 15,
     "evidence_strength": 15,
@@ -28,12 +32,30 @@ DIMENSIONS = {
     "founder_fit": 5,
     "risk": 5,
 }
+# Schema v2 (current, weights 1.3.0): twelve dimensions. seo_discoverability and
+# self_service_fit are prominent under the 1.9.0 organic-search/self-service pivot;
+# differentiation is deliberately downweighted at idea stage.
+DIMENSIONS = {
+    "problem_severity_frequency": 12,
+    "buyer_budget_clarity": 12,
+    "evidence_strength": 12,
+    "seo_discoverability": 14,
+    "self_service_fit": 10,
+    "distribution": 5,
+    "founder_fit": 10,
+    "economics": 8,
+    "validation_speed_cost": 7,
+    "feasibility": 3,
+    "differentiation": 3,
+    "risk": 4,
+}
 GATING_DIMENSIONS = {"problem_severity_frequency", "buyer_budget_clarity", "evidence_strength"}
-MIN_SCORED_DIMENSIONS = 8
+MIN_SCORED_DIMENSIONS_V1 = 8
+MIN_SCORED_DIMENSIONS = 9
 THRESHOLD = 65
 MIN_GATING_SCORE = 3
 
-HARD_FILTERS = [
+HARD_FILTERS_V1 = [
     "economic_buyer",
     "painful_frequent_or_budgeted",
     "non_paid_distribution",
@@ -44,7 +66,18 @@ HARD_FILTERS = [
     "cheap_disconfirming_test",
     "not_all_optimistic",
 ]
+# Schema v2 adds three founder-fit / self-service gates (1.9.0).
+HARD_FILTERS = HARD_FILTERS_V1 + [
+    "seo_discoverable",
+    "self_serve_purchase",
+    "solo_operator_fit",
+]
 FILTER_STATUSES = {"pass", "unknown", "fail"}
+ARCHETYPES = {"change-driven", "persistent", "latent", "search-led"}
+SEO_PAGE_TYPES = {"organic", "ad", "forum", "gov", "ai_answer", "marketplace", "other"}
+AI_OVERVIEW_STATES = {"yes", "no", "unknown"}
+WHY_NOW_STRENGTHS = {"strong", "weak", "absent", "not-required"}
+RUN_MODES = {"normal", "dry-run", "smoke", "representative"}
 SEED_STATUSES = {"unexplored", "exploring", "promoted", "dropped"}
 
 STATES = {
@@ -172,11 +205,148 @@ def check_evidence_refs(report: Report, root: Path, refs, label: str) -> None:
             report.error(f"{label}: evidence path does not exist: {ref}")
 
 
-def recompute_aggregate(report: Report, dimensions: dict, label: str) -> dict:
+def parse_method_version(value: str) -> tuple[int, ...]:
+    try:
+        return tuple(int(part) for part in str(value).split("."))
+    except (TypeError, ValueError):
+        return ()
+
+
+def check_string(report: Report, value, label: str) -> None:
+    if not isinstance(value, str) or not value.strip():
+        report.error(f"{label}: expected a non-empty string")
+
+
+def check_string_list(report: Report, value, label: str, *, non_empty: bool = True) -> None:
+    if not isinstance(value, list) or (non_empty and not value):
+        report.error(f"{label}: expected {'a non-empty' if non_empty else 'a'} list of strings")
+        return
+    for i, item in enumerate(value):
+        if not isinstance(item, str) or not item.strip():
+            report.error(f"{label}[{i}]: expected a non-empty string")
+
+
+def check_seo_assessment(report: Report, sc: dict, label: str) -> None:
+    """Validate the required seo_assessment block (schema v2, method 1.9.0).
+
+    The block documents what was actually checked and dated. Missing evidence is
+    recorded as unknown/empty and listed in `unknowns`; invented volumes, rankings,
+    CPC or difficulty figures are never valid content.
+    """
+    seo = as_dict(report, sc.get("seo_assessment"), label)
+    required = [
+        "seed_queries",
+        "serp_landscape",
+        "organic_entry_feasibility",
+        "conversion_mechanics",
+        "traffic_to_revenue_scenarios",
+        "seo_risks",
+        "unknowns",
+    ]
+    if not require_keys(report, seo, required, label):
+        return
+    extra = set(seo) - set(required)
+    if extra:
+        report.error(f"{label}: unknown seo_assessment keys: {sorted(extra)}")
+
+    queries = seo.get("seed_queries")
+    if not isinstance(queries, list) or not queries:
+        report.error(f"{label}: seed_queries must be a non-empty list")
+    else:
+        for i, item in enumerate(queries):
+            qlabel = f"{label}: seed_queries[{i}]"
+            item = as_dict(report, item, qlabel)
+            require_keys(report, item, ["query", "intent_cluster", "demand_evidence"], qlabel)
+            check_string(report, item.get("query"), f"{qlabel}.query")
+            check_string(report, item.get("intent_cluster"), f"{qlabel}.intent_cluster")
+            evidence = item.get("demand_evidence")
+            if not isinstance(evidence, list) or not evidence:
+                report.error(f"{qlabel}.demand_evidence must be a non-empty list")
+            else:
+                for j, ev in enumerate(evidence):
+                    elabel = f"{qlabel}.demand_evidence[{j}]"
+                    ev = as_dict(report, ev, elabel)
+                    require_keys(report, ev, ["source", "date"], elabel)
+                    check_string(report, ev.get("source"), f"{elabel}.source")
+                    check_dated(report, ev.get("date"), f"{elabel}.date")
+                    if "volume_reported" in ev:
+                        check_string(report, ev.get("volume_reported"), f"{elabel}.volume_reported")
+                    if "notes" in ev:
+                        check_string(report, ev.get("notes"), f"{elabel}.notes")
+
+    serp = as_dict(report, seo.get("serp_landscape"), f"{label}: serp_landscape")
+    require_keys(
+        report, serp, ["checked_date", "queries_checked", "pages", "ai_overview_observed"],
+        f"{label}: serp_landscape",
+    )
+    check_dated(report, serp.get("checked_date"), f"{label}: serp_landscape.checked_date")
+    check_string_list(report, serp.get("queries_checked"), f"{label}: serp_landscape.queries_checked")
+    if serp.get("ai_overview_observed") not in AI_OVERVIEW_STATES:
+        report.error(
+            f"{label}: serp_landscape.ai_overview_observed must be one of {sorted(AI_OVERVIEW_STATES)}"
+        )
+    pages = serp.get("pages")
+    if not isinstance(pages, list):
+        report.error(f"{label}: serp_landscape.pages must be a list")
+    else:
+        for i, page in enumerate(pages):
+            plabel = f"{label}: serp_landscape.pages[{i}]"
+            page = as_dict(report, page, plabel)
+            require_keys(report, page, ["url", "type", "notes"], plabel)
+            check_string(report, page.get("url"), f"{plabel}.url")
+            if page.get("type") not in SEO_PAGE_TYPES:
+                report.error(f"{plabel}.type must be one of {sorted(SEO_PAGE_TYPES)}")
+            check_string(report, page.get("notes"), f"{plabel}.notes")
+
+    entry = as_dict(report, seo.get("organic_entry_feasibility"), f"{label}: organic_entry_feasibility")
+    require_keys(report, entry, ["assessment", "notes", "unknowns"], f"{label}: organic_entry_feasibility")
+    check_string(report, entry.get("assessment"), f"{label}: organic_entry_feasibility.assessment")
+    check_string(report, entry.get("notes"), f"{label}: organic_entry_feasibility.notes")
+    check_string_list(
+        report, entry.get("unknowns", []), f"{label}: organic_entry_feasibility.unknowns", non_empty=False
+    )
+
+    conv = as_dict(report, seo.get("conversion_mechanics"), f"{label}: conversion_mechanics")
+    require_keys(report, conv, ["path", "requirements", "notes"], f"{label}: conversion_mechanics")
+    check_string(report, conv.get("path"), f"{label}: conversion_mechanics.path")
+    check_string_list(
+        report, conv.get("requirements", []), f"{label}: conversion_mechanics.requirements", non_empty=False
+    )
+    check_string(report, conv.get("notes"), f"{label}: conversion_mechanics.notes")
+
+    scen = as_dict(report, seo.get("traffic_to_revenue_scenarios"), f"{label}: traffic_to_revenue_scenarios")
+    require_keys(
+        report, scen, ["assumptions_label", "conservative", "modest", "optimistic"],
+        f"{label}: traffic_to_revenue_scenarios",
+    )
+    for key in ("assumptions_label", "conservative", "modest", "optimistic"):
+        check_string(report, scen.get(key), f"{label}: traffic_to_revenue_scenarios.{key}")
+
+    risks = as_dict(report, seo.get("seo_risks"), f"{label}: seo_risks")
+    require_keys(
+        report, risks, ["zero_click_ai", "seasonality", "platform_dependency", "other"],
+        f"{label}: seo_risks",
+    )
+    for key in ("zero_click_ai", "seasonality", "platform_dependency", "other"):
+        check_string(report, risks.get(key), f"{label}: seo_risks.{key}")
+
+    unknowns = seo.get("unknowns")
+    if not isinstance(unknowns, list):
+        report.error(f"{label}: unknowns must be a list")
+    else:
+        for i, item in enumerate(unknowns):
+            ulabel = f"{label}: unknowns[{i}]"
+            item = as_dict(report, item, ulabel)
+            require_keys(report, item, ["item", "next_check"], ulabel)
+            check_string(report, item.get("item"), f"{ulabel}.item")
+            check_string(report, item.get("next_check"), f"{ulabel}.next_check")
+
+
+def recompute_aggregate(report: Report, dimensions: dict, table: dict, label: str) -> dict:
     scored_weight = 0
     raw = 0.0
     scored_dims = 0
-    for key, weight in DIMENSIONS.items():
+    for key, weight in table.items():
         dim = dimensions.get(key)
         if not isinstance(dim, dict):
             continue
@@ -212,12 +382,40 @@ def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_v
     ):
         return sc
 
-    if sc.get("schema_version") != SCHEMA_VERSION:
-        report.error(f"{label}: schema_version must be {SCHEMA_VERSION}")
-    if sc.get("method_version") != method_version:
-        report.error(f"{label}: method_version {sc.get('method_version')!r} != {method_version!r}")
-    if sc.get("weights_version") != WEIGHTS_VERSION:
-        report.error(f"{label}: weights_version must be {WEIGHTS_VERSION}")
+    schema_version = sc.get("schema_version")
+    if schema_version == SCHEMA_VERSION_LEGACY:
+        # Legacy scorecards keep their historic method_version (<= 1.8.2) and the
+        # weights-1.2.0 table; they are never rewritten under a later method.
+        dim_table, filter_list, min_scored = DIMENSIONS_V1, HARD_FILTERS_V1, MIN_SCORED_DIMENSIONS_V1
+        expected_weights = WEIGHTS_VERSION_LEGACY
+        card_method = str(sc.get("method_version") or "")
+        parsed = parse_method_version(card_method)
+        if not parsed or parsed > (1, 8, 2):
+            report.error(
+                f"{label}: schema_version 1 is legacy and only valid up to method 1.8.2; "
+                f"got method_version {card_method!r} (record a new schema v2 scorecard instead of "
+                "editing history)"
+            )
+    elif schema_version == SCHEMA_VERSION:
+        dim_table, filter_list, min_scored = DIMENSIONS, HARD_FILTERS, MIN_SCORED_DIMENSIONS
+        expected_weights = WEIGHTS_VERSION
+        if sc.get("method_version") != method_version:
+            report.error(f"{label}: method_version {sc.get('method_version')!r} != {method_version!r}")
+        if sc.get("archetype") not in ARCHETYPES:
+            report.error(f"{label}: schema_version 2 requires archetype in {sorted(ARCHETYPES)}")
+        if "seo_assessment" not in sc:
+            report.error(f"{label}: schema_version 2 requires a seo_assessment block")
+        else:
+            check_seo_assessment(report, sc, label)
+    else:
+        report.error(
+            f"{label}: schema_version must be {SCHEMA_VERSION_LEGACY} (legacy) or {SCHEMA_VERSION}"
+        )
+        return sc
+    if sc.get("weights_version") != expected_weights:
+        report.error(
+            f"{label}: weights_version must be {expected_weights} for schema_version {schema_version}"
+        )
     if sc.get("slug") != slug or sc.get("idea_id") != slug:
         report.error(f"{label}: slug/idea_id must match directory name '{slug}'")
     if sc.get("state") != entry.get("state"):
@@ -229,7 +427,7 @@ def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_v
 
     # Dimensions
     dims = as_dict(report, sc.get("dimensions"), label)
-    for key, weight in DIMENSIONS.items():
+    for key, weight in dim_table.items():
         dim = dims.get(key)
         if not isinstance(dim, dict):
             report.error(f"{label}: dimensions.{key} missing or not an object")
@@ -251,13 +449,13 @@ def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_v
             if not refs:
                 report.error(f"{label}: dimensions.{key} scored {score} with no evidence")
         check_evidence_refs(report, root, dim.get("evidence", []), f"{label}: dimensions.{key}")
-    extra = set(dims) - set(DIMENSIONS)
+    extra = set(dims) - set(dim_table)
     if extra:
         report.error(f"{label}: unknown dimensions: {sorted(extra)}")
 
     # Hard filters
     filters = as_dict(report, sc.get("hard_filters"), label)
-    for key in HARD_FILTERS:
+    for key in filter_list:
         item = filters.get(key)
         if not isinstance(item, dict):
             report.error(f"{label}: hard_filters.{key} missing or not an object")
@@ -277,7 +475,7 @@ def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_v
             resolve = item.get("resolve_via")
             if not isinstance(resolve, str) or not resolve.strip():
                 report.error(f"{label}: hard_filters.{key} is 'unknown' but has no resolve_via")
-    extra = set(filters) - set(HARD_FILTERS)
+    extra = set(filters) - set(filter_list)
     if extra:
         report.error(f"{label}: unknown hard filters: {sorted(extra)}")
 
@@ -294,7 +492,7 @@ def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_v
 
     # Aggregate
     agg = as_dict(report, sc.get("aggregate"), label)
-    computed = recompute_aggregate(report, dims, label)
+    computed = recompute_aggregate(report, dims, dim_table, label)
     for key in ("scored_weight", "raw_weighted_points", "weighted_total"):
         if agg.get(key) != computed[key]:
             report.error(
@@ -308,7 +506,7 @@ def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_v
 
     # State-dependent rules
     state = sc.get("state")
-    statuses = {k: (filters.get(k) or {}).get("status") for k in HARD_FILTERS}
+    statuses = {k: (filters.get(k) or {}).get("status") for k in filter_list}
     fails = [k for k, v in statuses.items() if v == "fail"]
     unknowns = [k for k, v in statuses.items() if v == "unknown"]
 
@@ -322,9 +520,9 @@ def check_scorecard(report: Report, root: Path, slug: str, entry: dict, method_v
     if state in ADVANCED_STATES:
         if computed["weighted_total"] is None or computed["weighted_total"] < THRESHOLD:
             report.error(f"{label}: state {state!r} requires weighted_total >= {THRESHOLD}")
-        if computed["scored_dimensions"] < MIN_SCORED_DIMENSIONS:
+        if computed["scored_dimensions"] < min_scored:
             report.error(
-                f"{label}: state {state!r} requires >= {MIN_SCORED_DIMENSIONS} scored dimensions "
+                f"{label}: state {state!r} requires >= {min_scored} scored dimensions "
                 f"(have {computed['scored_dimensions']})"
             )
         for key in GATING_DIMENSIONS:
@@ -483,8 +681,10 @@ def check_index(report: Report, root: Path, index: dict, method_version: str) ->
             if not isinstance(why_now.get(key), str) or not why_now.get(key, "").strip():
                 report.error(f"{label}: {slug}.why_now.{key} must be a non-empty string")
         strength = why_now.get("strength")
-        if strength not in {"strong", "weak", "absent"}:
-            report.error(f"{label}: {slug}.why_now.strength must be strong|weak|absent")
+        if strength not in WHY_NOW_STRENGTHS:
+            report.error(
+                f"{label}: {slug}.why_now.strength must be strong|weak|absent|not-required"
+            )
         changed_date = why_now.get("changed_date")
         if changed_date is not None:
             check_dated(report, changed_date, f"{label}: {slug}.why_now.changed_date")
@@ -657,7 +857,7 @@ def check_runs(report: Report, root: Path, method_version: str) -> None:
             report.error(f"runs/index.jsonl:{lineno}: duplicate run_id {run_id!r}")
         if isinstance(run_id, str):
             seen.add(run_id)
-        if run.get("mode") not in {"normal", "dry-run", "smoke"}:
+        if run.get("mode") not in RUN_MODES:
             report.error(f"runs/index.jsonl:{lineno}: illegal mode {run.get('mode')!r}")
         if run.get("status") not in {"success", "failed", "invalid-output", "over-budget"}:
             report.error(f"runs/index.jsonl:{lineno}: illegal status {run.get('status')!r}")

@@ -1,9 +1,12 @@
 # business-idea-lab
 
 A durable, evidence-driven loop for discovering and validating business ideas,
-run ad hoc with [OpenCode](https://opencode.ai) + DeepSeek. It exists to find
-ideas worth testing and to kill weak ones cheaply — not to generate volume. A
-run that advances nothing is a valid run.
+run ad hoc with [OpenCode](https://opencode.ai) + DeepSeek. Since method 1.9.0
+it is tuned for **self-service micro-SaaS**: discoverable through organic
+search, purchasable and deliverable self-service, and buildable and supportable
+by one solo developer part-time. It exists to find ideas worth testing and to
+kill weak ones cheaply — not to generate volume. A run that advances nothing is
+a valid run.
 
 - Method (authoritative): `method/` — lifecycle, evidence policy, scorecard,
   experiment rules, review policy, run protocol, calibration.
@@ -35,6 +38,12 @@ run that advances nothing is a valid run.
    python3 scripts/validate_repo.py --queue  # review queue + counters
    ```
 
+5. Run the unit tests for the validator and dashboard builder:
+
+   ```bash
+   python3 -m unittest discover -s tests -v
+   ```
+
 ## Running the loop
 
 One deterministic, non-interactive command runs the complete protocol:
@@ -53,12 +62,21 @@ limits):
 
 1. Handles any outstanding `changes-requested` review first.
 2. Stops generating if 10 or more ideas are unreviewed.
-3. Hunts discontinuities ("why now?") per `method/discovery.md`, generates at
-   most 3 materially distinct candidates, each with an evidenced `why_now`, and
-   records which source classes were searched.
-4. Runs the novelty/incumbent sanity check, then applies the 9 hard rejection
-   filters before deep research (`pass` needs cited evidence; assumptions and
-   analogies give `unknown` with a `resolve_via`; any `fail` kills).
+3. Runs the search-intent discovery funnel per `method/discovery.md`: from exact
+   seed queries and intent clusters follows query -> job/task -> existing
+   solutions -> neglected sub-niche -> paid self-service hypothesis, records a
+   qualified shortlist of 3-5 hypotheses (fewer when weak; zero valid; never
+   manufactured), shallow-triages them, and promotes at most 3 materially
+   distinct candidates with provenance (`seed:<slug>` or `fresh`), source class
+   and originating hypothesis/observation ID. Every sweep also runs a bounded
+   latent-signal search pass, aims a share of search at money-already-moving
+   sources, and re-checks exactly one triage rejection as the false-negative
+   audit.
+4. Runs the novelty/incumbent sanity check, then applies the 12 hard rejection
+   filters (the 9 general filters plus `seo_discoverable`, `self_serve_purchase`
+   and `solo_operator_fit`) before deep research (`pass` needs cited evidence;
+   assumptions and analogies give `unknown` with a `resolve_via`; any `fail`
+   kills).
 5. Researches survivors, runs an explicit adversarial review aimed at killing
    them, and updates the ledger, evidence registers, scorecards and decision
    records.
@@ -70,6 +88,25 @@ limits):
 8. Proposes the cheapest experiment that could disprove the central assumption.
 9. Writes the run summary to `runs/$LAB_RUN_ID/summary.md`.
 
+Limits per run are unchanged: at most 3 new candidates, at most 1 advance to
+`validation-ready`, at most 8 new evidence entries per idea, at most 40 web
+lookups, at most 120 agent steps, a USD 1.00 default cost bound and a 3600 s
+default timeout.
+
+Scoring (method 1.9.0) uses scorecard schema v2 and weights version 1.3.0: 12
+dimensions, including `seo_discoverability` (weight 14) and `self_service_fit`
+(weight 10). The `validation-ready` threshold stays 65; the gating dimensions
+`problem_severity_frequency`, `buyer_budget_clarity` and `evidence_strength`
+must each score at least 3; at least 9 of 12 dimensions must be scored; and no
+hard filter may `fail` (the 9 general filters plus `seo_discoverable`,
+`self_serve_purchase` and `solo_operator_fit`). Every new scorecard carries the
+required `seo_assessment` (seed queries and intent clusters, dated demand
+evidence, SERP landscape, organic-entry feasibility, conversion mechanics,
+assumption-labelled traffic-to-revenue scenarios, SEO risks, honest unknowns).
+Legacy schema-v1 cards (method <= 1.8.2, weights 1.2.0) keep their original scores, filters and
+decisions and are never rewritten or rescored; re-evaluating one is an explicit,
+opt-in re-triage that records a new verdict alongside the frozen original.
+
 Cost and retry bounds are documented in `method/run-protocol.md` and enforced
 where practical by `scripts/run.sh` (wall-clock timeout, post-run cost check,
 retry only when the tree is unchanged). Every run records timestamp, mode,
@@ -80,7 +117,12 @@ After finalising the run, `scripts/run.sh` regenerates `dashboard.html`, a
 single self-contained HTML summary of the whole ledger (portfolio statistics,
 score distribution against the 65 threshold, every idea's dimensions, hard
 filters, why-now, review and experiment, plus experiments, seeds and run
-history). Ideas are grouped by industry, using the controlled vocabulary
+history). Ideas are version-aware: schema-v2 cards render their 12 dimensions
+and 12 filters plus the `seo_assessment` block (seed queries, SERP landscape,
+organic-entry feasibility, conversion mechanics, scenarios, SEO risks and
+unknowns), while legacy schema-v1 cards render their historic 10 dimensions and
+9 filters exactly as recorded; mixed legacy v1 + v2 ledgers are expected during
+the transition. Ideas are grouped by industry, using the controlled vocabulary
 recorded on each idea as `industry` in `ideas/index.json` (see
 `INDUSTRIES` in `scripts/validate_repo.py`). Open it in any browser — it needs
 no server, network or JavaScript dependencies. Regenerate it on demand with:
@@ -193,6 +235,7 @@ The human owner runs experiments; results go into the repository:
 | `retrospectives/` | What the loop itself should learn |
 | `runs/` | Per-run metadata, usage, validation, summaries, dry-run diffs |
 | `templates/` | Templates for every artefact type |
+| `tests/` | Unit tests for the validator and dashboard builder (`python3 -m unittest discover -s tests -v`) |
 | `scripts/` | Validator, runner, usage extraction, review-request builder, dashboard builder |
 | `dashboard.html` | Generated browsable HTML summary of the ledger (regenerated by every run) |
 | `painmine/` | Issue #9 spike: bounded public pain-signal mining, dedupe, clustering, discovery-priority ranking and Method 1.6 observation export (see `painmine/SPIKE-REPORT.md`) |
@@ -222,12 +265,31 @@ endorsed. The method **1.4.0** request was answered **`approved`**
 (`reviews/2026-09-21-method-v1.4.0-chatgpt.md`) and the method **1.5.0** request was
 answered **`changes-requested`** (`reviews/2026-09-21-method-v1.5.0-chatgpt.md`);
 method 1.6.0 implements those changes and was itself answered **`approved`**
-(`reviews/2026-09-21-method-v1.6.0-chatgpt.md`, no changes requested). The only
-outstanding item is the `wonkybox` kill-#15 false-negative audit. The full backlog and
-what closed each item is recorded in `reviews/2026-09-21-review-queue-reconciliation.md`.
+(`reviews/2026-09-21-method-v1.6.0-chatgpt.md`, no changes requested). The
+`wonkybox` kill-#15 false-negative audit remains outstanding. Method reviews
+**1.7.0**, **1.8.0** and **1.8.2** are still `requested` (`reviews/`), and method
+**1.9.0** (2026-10-13, issue #21) is `requested` via
+`reviews/2026-10-13-method-v1.9.0-review-request.md`; all pending method reviews
+are tracked in `reviews/`. The full backlog and what closed each item so far is
+recorded in `reviews/2026-09-21-review-queue-reconciliation.md`.
 
 ## Status
 
+- Method 1.9.0 (2026-10-13, issue #21) pivots discovery to search-intent-first,
+  self-service micro-SaaS. A normal run records a qualified shortlist of 3-5
+  hypotheses (query -> job/task -> existing solutions -> neglected sub-niche ->
+  paid self-service hypothesis), shallow-triages them, and promotes at most 3
+  candidates. Search-led candidates (archetype D) record
+  `why_now.strength: not-required` and rest on the mandatory `seo_assessment` in
+  their new schema-v2 scorecard (weights 1.3.0, 12 dimensions, threshold 65,
+  gating dimensions >= 3, at least 9 of 12 scored, 12 hard filters including
+  `seo_discoverable`, `self_serve_purchase` and `solo_operator_fit`). All run
+  limits are unchanged (3 candidates, 1 validation-ready advance, 8 evidence
+  entries per idea, 40 lookups, 120 steps, USD 1.00, 3600 s). Legacy schema-v1
+  cards (method <= 1.8.2, weights 1.2.0) keep their historic scores and decisions
+  and are never rewritten; re-triage is opt-in only. Review request:
+  `reviews/2026-10-13-method-v1.9.0-review-request.md`; method reviews 1.7.0,
+  1.8.0 and 1.8.2 also remain pending. See `method/CHANGELOG.md` (1.9.0).
 - Method version 1.2.0 (2026-09-21): builds on 1.1.0 (discontinuity-first
   discovery with an evidenced `why now?` on every candidate, strict
   `pass`/`unknown`/`fail` hard-filter semantics, plausibility score caps,

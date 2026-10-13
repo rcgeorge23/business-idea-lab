@@ -3,10 +3,24 @@
 Method version: see `method/VERSION`. This file defines how candidates are found,
 screened for novelty, deduplicated, and how adjacent opportunities are preserved.
 
+Discovery is **search-intent-first** (v1.9.0). A normal run starts from the exact
+queries real people use to get a job done, identifies the underlying task, examines the
+pages and products ranking for those queries, looks for a neglected sub-niche with an
+evidenced underserved wedge, and forms a **paid self-service hypothesis** for it.
+Organic search is the primary acquisition channel; purchase and delivery must be
+self-service; and the operator is a solo, part-time developer who does not do sales
+calls, demos, custom integration work or procurement.
+
+The change/discontinuity route documented below remains fully valid as **one route**
+(archetypes A, B and C), not the default: search-led hypotheses (archetype D) are part
+of every normal sweep. Search volume alone never proves willingness to pay, and no
+volume, ranking, CPC, trend or difficulty figure may be invented: missing evidence is
+recorded as `unknown` with a low-cost next check.
+
 ## The discontinuity test
 
-The lab exists to find opportunities that a search for "problems" would miss. Every
-candidate must be able to complete this sentence with a specific, dated, cited change:
+A **change-driven** candidate must be able to complete this sentence with a specific,
+dated, cited change:
 
 > **This was not an attractive business three years ago, but it might be now because
 > ______ changed.**
@@ -18,6 +32,8 @@ explain why it creates or widens an opening now rather than at any time in the p
 
 Prefer changes that are hard to reverse, create urgency or compulsion, or invalidate an
 incumbent's position. Reject candidates whose only "why now" is a general trend.
+Search-led candidates (archetype D, below) are exempt from this test: evergreen search
+demand is evidenced by dated queries and SERPs, not by an invented discontinuity.
 
 ### Sources of change to investigate
 
@@ -36,7 +52,9 @@ incumbent's position. Reject candidates whose only "why now" is a general trend.
 
 A run need not cover every class, but it must search across several and record which
 classes it searched in the run summary. Rotating deliberately across classes is
-expected; repeatedly mining one class is a reason to justify the choice.
+expected; repeatedly mining one class is a reason to justify the choice. Under v1.9.0
+search-intent classes (query clusters and SERP page types) are searched every normal
+run; the change classes in this table are rotated alongside them.
 
 ## Second-order effects
 
@@ -69,9 +87,11 @@ dashboard/checklist/compliance product. The preference is not a requirement to i
 second-order opportunity where the evidence does not support one: if the direct
 first-order product is genuinely the best opportunity, record why the second-order
 options were weaker. What is not acceptable is promoting the obvious product without
-looking.
+looking. The same scrutiny applies to search-led sub-niches (v1.9.0): check whether the
+neglected wedge is an operational seam in what the ranking solutions cover, not a
+surface variation of the same product.
 
-## Why now?
+## Why now? (v1.9.0)
 
 Every candidate records `why_now` in `ideas/index.json` and a "Why now?" section in its
 dossier:
@@ -80,6 +100,7 @@ dossier:
 "why_now": {
   "changed": "what changed, in one sentence",
   "changed_date": "YYYY-MM-DD or YYYY-MM or 'announced'",
+  "strength": "strong | weak | absent | not-required",
   "evidence": ["evidence/<slug>/<file>.md or URL"],
   "why_it_matters": "why this materially improves the opportunity now",
   "competitors_responded": "none known | named incumbents already moved | unknown"
@@ -98,7 +119,13 @@ dossier:
   discontinuity (v1.6.0).** Instead they must carry an evidence-backed **persistence
   thesis** answering "why has this problem remained inadequately solved despite
   existing alternatives?". The cap is lifted only by the two-part requirement described
-  under `### Two discovery archetypes`.
+  under `### Four discovery archetypes (v1.9.0)`.
+- **Search-led candidates (archetype D, v1.9.0) record `strength: "not-required"`.** An
+  evergreen search-led niche does not need a contrived discontinuity: no change is
+  recorded and none may be invented. The search-intent basis goes in `why_it_matters`
+  and is cited in `evidence`, with the full dated query/SERP record in the scorecard's
+  `seo_assessment`. The missing-why-now cap does not apply. This exemption removes the
+  cap only - it is not a score bonus and it does not relax any evidence requirement.
 
 ## Novelty / incumbent sanity check
 
@@ -129,9 +156,9 @@ Seeds are an input to discovery, not a museum. At the start of every normal run,
    inherits the parent idea's score, evidence level, hard-filter results or favourable
    assumptions.
 4. Record provenance for every candidate: `seed:<seed-slug>` or `fresh`. A run is not
-   seed-only: fresh discontinuity hunting remains required, and seeds that do not
-   survive the shallow check stay seeds (update their status, or note in the run
-   summary why they remain `unexplored`).
+   seed-only: fresh discovery (search-led or change-driven) remains required, and seeds
+   that do not survive the shallow check stay seeds (update their status, or note in the
+   run summary why they remain `unexplored`).
 5. The candidate limit (3 per run) is unchanged; provenance does not add an allowance.
 
 ## Source-class budget
@@ -150,10 +177,11 @@ applies to every normal run (v1.4.0):
   gates and candidate/advancement limits are unchanged.
 - Regulatory sources remain valid (legislation, consultations, statutory deadlines,
   mandated formats). They simply must not consume the discovery budget by default.
-- Non-regulatory classes include: poor, expensive or unpopular narrow incumbent
-  software; repetitive professional/service work newly automatable with current AI;
-  software shutdown, end-of-life or forced-migration gaps; newly accessible APIs or
-  datasets; awkward integrations between established systems; recurring
+- Non-regulatory classes include (v1.9.0) search-intent evidence - named query clusters
+  and live SERP gaps showing an underserved job; plus poor, expensive or unpopular
+  narrow incumbent software; repetitive professional/service work newly automatable with
+  current AI; software shutdown, end-of-life or forced-migration gaps; newly accessible
+  APIs or datasets; awkward integrations between established systems; recurring
   spreadsheet/email/PDF/manual re-keying workflows; platform access, pricing or policy
   changes that create a new operational problem; underserved subsegments of an
   existing category; and (v1.8.0) money-already-moving sources - job advertisements
@@ -161,79 +189,170 @@ applies to every normal run (v1.4.0):
   procurement and tender records, incumbent support forums and release notes, trade
   press reporting spend or staffing, and job descriptions for roles that exist only to
   bridge two systems.
-- A candidate "qualifies" for its source class because of where its why-now came
-  from. Record the class and the reason in the run summary; a candidate whose primary
-  why-now is a mandate counts against the regulatory slot even if it also has a
+- A candidate "qualifies" for its source class because of where its primary discovery
+  evidence came from (for a change-driven candidate, where its why-now came from). A
+  search-led candidate sourced from query/SERP evidence qualifies as non-regulatory.
+  Record the class and the reason in the run summary; a candidate whose primary
+  evidence is a mandate counts against the regulatory slot even if it also has a
   second-order seam.
 - **Never manufacture weak candidates to satisfy the budget.** Fewer than three
   candidates is a valid run; killing every candidate is a valid run; advancing
   nothing is a valid run. If a class was searched and yielded nothing, record that
-  as a finding.
+  as a finding, including unsuccessful searches.
 - If the budget cannot be satisfied honestly (for example, a run where no
   non-regulatory class yields anything worth registering), that is itself a
   convergence signal to report — not a reason to relax the rule or promote filler.
 
-## Opportunity-observation funnel
+## Search-intent discovery funnel (v1.9.0)
 
-Discovery runs as a funnel, not as a search for three ideas:
+Discovery runs as a search-intent funnel, not as a search for three ideas and no longer
+against a 15-20 observation quota:
 
-> **15–20 raw opportunity observations → shallow triage → at most 3 full candidates
+> **3-5 qualified hypotheses → shallow triage → at most 3 full candidates
 > → the existing rigorous evaluation.**
 
-The funnel exists to search more of the opportunity space before committing research
-budget to a candidate. It changes the *shape of discovery only*: scoring, threshold,
+A normal run produces a shortlist of 3-5 materially distinct qualified hypotheses —
+fewer when the evidence is weak, and an honest zero is valid. If the sweep does not
+support five qualified hypotheses, record the shortfall rather than manufacturing
+filler. The funnel changes the *shape of discovery only*: scoring, threshold,
 hard-filter semantics, evidence levels, lifecycle gates and the candidate/advancement
-maxima are unchanged. Observations are not scored and carry no evidence level. The
-15–20 pool size is retained **provisionally** pending several empirical runs (v1.6.0);
-do not increase it.
+maxima are unchanged. Hypotheses are not scored and carry no evidence level.
 
-### What counts as an observation
+Every qualified hypothesis follows one chain:
 
-An observation is deliberately lighter than a business idea. It describes an evidenced
-problem, workflow, dissatisfaction, market failure or change, without requiring a
-polished product proposition. Acceptable shapes include:
+> **exact seed query/queries → the job/task behind the query → the existing solutions
+> ranking for it → a neglected sub-niche → a paid self-service hypothesis.**
 
+"Paid self-service" means the target buyer can find the product through organic search,
+sign up, pay and use it without a demo, call or hand-holding, and a solo part-time
+operator can deliver it at the modelled scale. A hypothesis that cannot produce a
+coherent self-service purchase and delivery path is weak by definition and is triaged
+out honestly (see `### Shallow triage`).
+
+The funnel's steps:
+
+1. **Sweep query-intent leads.** Aim for 3-5 qualified hypotheses; record only
+   evidence-supported ones. Each hypothesis starts from exact seed queries and follows
+   the chain above, recording at minimum the fields in `### Observation record (v1.9.0)`.
+   Zero latent observations are valid; never manufacture filler.
+2. **Shallow-triage every hypothesis.** Record negative evidence and the reason for
+   every rejection. Competitor existence alone is never treated as wedge failure (see
+   `### Shallow triage`).
+3. **Promote at most 3 materially distinct candidates.** Each promotion names its
+   originating observation ID, archetype, source class and why, and meets the
+   source-class budget. No candidate inherits positive evidence from triage survival or
+   from a seed (see `### Promotion`, `## Source-class budget`).
+4. **Run the triage false-negative audit.** Exactly one rejected hypothesis per normal
+   run is cheaply re-checked and recorded, favouring promising/high-ambiguity rejections
+   (see `#### Triage false-negative audit (v1.6.0)`).
+
+Every normal run also conducts a bounded latent-signal search pass as one lens within
+the sweep (see `### Bounded latent-signal search pass (v1.8.2)`).
+
+### What counts as an observation (v1.9.0)
+
+An observation is deliberately lighter than a business idea and remains
+evidence-cheap: no scorecard, dossier or evidence level is created for it. Under
+v1.9.0 the normal pool is the run's shortlist of 3-5 qualified hypotheses, each
+following the query-intent chain above. Record only hypotheses supported by the
+evidence actually gathered; a compliant search that yields no qualified hypothesis is
+recorded as such and is a valid run.
+
+Acceptable shapes include:
+
+- "People search `<exact query>` when they need to `<job>`; the pages ranking for it are
+  A, B and C, and none serves `<sub-niche>`" (search-led, archetype D).
 - "Small firms in segment X repeatedly export data from system A and manually re-key
-  it into system B."
+  it into system B" (archetype B or C, when evidenced).
 - "Organisations in niche Y pay disproportionately high annual fees for software they
-  use only a few times per year."
-- "Users of incumbent Z repeatedly complain about a specific workflow that remains
-  unresolved."
+  use only a few times per year" (archetype B).
 - "A repetitive professional service costing £N per case now appears technically
-  automatable."
+  automatable" (archetype A or B).
 - "A platform/API/product change has created a new operational task for an
-  identifiable buyer."
+  identifiable buyer" (archetype A).
 - "Buyers in segment X accept a costly routine as normal, and a newly available
   capability could change it" (a **latent-opportunity hypothesis** - see archetype C;
   admissible only with the six required fields).
 
 Do not create scorecards or dossiers for observations.
 
-### Observation record
+### Observation record (v1.9.0)
 
 A run records its pool in `observations/<run-id>.md` (template:
-`templates/observation/pool.md`). Each observation records at minimum:
+`templates/observation/pool.md`). A qualified hypothesis records at minimum:
 
-- a concise problem/workflow statement;
-- the target user/buyer, if identifiable;
-- the source class it came from (the kind of material searched or used);
-- for latent hypotheses, the behavior-signal lens that prompted the search;
-- its evidence/source(s) and the evidence type — primary, practitioner/community,
-  vendor, or secondary;
-- why it may represent an opportunity;
+- the exact seed query/queries and the intent cluster they belong to;
+- the job/task behind the query;
+- dated demand evidence: named sources with dates; a reported volume only where a
+  credible named source exists (tool and month), otherwise `unknown`;
+- the live SERP landscape where checked: named pages/competitors with dates across
+  organic, ads, forums, government, AI answers and marketplaces;
+- the neglected sub-niche and why the wedge may be underserved, including the negative
+  evidence found;
+- the paid self-service hypothesis (who pays, for what, and at what point in the search
+  journey);
+- the source class it came from and, for a latent hypothesis, the behavior-signal lens;
+- its archetype: change-driven, persistent market failure, latent opportunity, or
+  search-led;
+- the evidence/source(s) and evidence type — primary, practitioner/community, vendor,
+  or secondary;
 - an obvious incumbent / free-alternative check;
-- whether it is **change-driven**, a **persistent market failure**, or a **latent
-  opportunity** (archetype C, which additionally requires the six admissibility fields);
 - the triage outcome and reason.
 
-Keep each row compact: the pool must fit comfortably inside one run's budget.
+Keep each row compact: the pool must fit comfortably inside one run's budget. The full
+evidence standard for search-led work is in `### SEO evidence standard (v1.9.0)`.
+
+### SEO evidence standard (v1.9.0)
+
+Search-led discovery is only as good as the evidence recorded for it. This standard
+applies from the hypothesis record onward and, for promoted candidates, is captured in
+the scorecard's required `seo_assessment` block (see `method/scorecard.md`).
+
+- **Exact seed queries and intent clusters.** Record the literal query strings, grouped
+  into the job/intent cluster they represent. A remembered or paraphrased query list is
+  not evidence.
+- **Demand evidence, dated.** Each demand claim names its source and date. Report a
+  volume only where a credible named source exists (tool name and observation month);
+  otherwise record `unknown`. Never invent volumes, rankings, CPC, trends or difficulty
+  figures.
+- **SERP landscape checks.** Record what was actually seen on the results page for the
+  checked queries, with the check date: organic results, ads, forums, government pages,
+  AI answers/overviews and marketplaces, naming the specific pages and competitors.
+  Blocked or failed checks are recorded honestly as blocked/failed - never as absence
+  of demand.
+- **Organic entry feasibility (qualitative).** State how a new entrant could reach
+  these results without false precision: is the SERP dominated by institutions,
+  aggregators, stale or thin content that a small focused site could outserve? No
+  invented difficulty scores or ranking predictions.
+- **Conversion mechanics.** Describe the self-service path: search result → landing
+  page → signup → payment → use, naming what the path requires (pricing page, free
+  tool, trial) and anything that would block self-service (mandatory demo, onboarding
+  call, custom setup).
+- **Traffic-to-revenue scenarios are assumptions, not forecasts.** Record
+  conservative/modest/optimistic narratives with an explicit assumptions label; never
+  present them as expected outcomes and never invent traffic, conversion or revenue
+  numbers.
+- **SEO risks.** Record AI overviews / zero-click exposure, seasonality, platform/SERP
+  dependency, and any other SEO-specific risk.
+- **Unknowns with a next check.** Every unverified item is recorded as unknown with the
+  cheapest low-touch check that would settle it.
+
+Three rules constrain how this evidence may be used:
+
+1. **Search volume alone is not proof of willingness to pay.** Queries show intent to
+   solve something; they do not show that this buyer pays for this solution.
+2. **A blocked or failed SERP check is recorded as such** and is never evidence that no
+   competitor, demand or opportunity exists.
+3. **Recommendations must be falsifiable at low cost.** If an SEO claim cannot be
+   checked cheaply, or a hypothesis cannot name a cheap disconfirming test, it is
+   parked, not promoted.
 
 ### Bounded latent-signal search pass (v1.8.2)
 
-Every normal funnel run conducts and records at least one deliberate, bounded search
+Every normal run conducts and records at least one deliberate, bounded search
 pass for behavior that could motivate a latent-opportunity hypothesis. This is a search
 instruction, not a requirement to find or register a latent observation. It may reuse
-searches already made for the observation sweep; do not duplicate work just to create a
+searches already made for the hypothesis sweep; do not duplicate work just to create a
 separate count.
 
 Keep two concepts separate:
@@ -258,7 +377,11 @@ is a hypothesis-generating signal, not evidence of demand. A latent observation 
 requires all six archetype-C fields below, and a plausible benefit or novelty claim
 alone cannot establish demand, pass a hard filter, or justify promotion.
 
-### Three discovery archetypes
+### Four discovery archetypes (v1.9.0)
+
+Every hypothesis and candidate is labelled with exactly one archetype. The archetype is
+a discovery-sourcing label: it is not a lifecycle state and not an evidence level. The
+first three are the change/discontinuity routes; D is the v1.9.0 search-led route.
 
 **A. Change-driven.** Something changed and created or materially worsened the
 problem: regulation, platform/API/pricing/access change, product end-of-life, a new
@@ -316,6 +439,10 @@ weak or speculative, the cap stays. A persistence thesis never establishes
 upgrades a hard filter: `defensible_wedge` still fails where credible incumbents
 adequately occupy the exact proposed seam for the defined buyer. The existence of
 competing products is not by itself adequate occupation - see `### Shallow triage`.
+
+For **search-led** candidates (archetype D) the cap does not apply at all (v1.9.0):
+evergreen search demand is expected and `why_now.strength: "not-required"` is recorded.
+The exemption removes the cap only; it is not a scoring bonus.
 
 **C. Latent opportunity (v1.7.0).** Some worthwhile products change a behaviour the
 buyer currently accepts as normal. The buyer may not discuss a "problem" because they
@@ -376,8 +503,36 @@ and AI-generated enthusiasm are not evidence.
 
 A latent observation is recorded in the pool like any other, with its archetype marked
 `latent` and the six admissibility fields present; it is triaged and promoted under the
-same rules and limits as archetypes A and B. The archetype is a **subtype of discovery
+same rules and limits as the other archetypes. The archetype is a **subtype of discovery
 sourcing**, not a new lifecycle state or evidence level.
+
+**D. Search-led (v1.9.0).** The default route under the 1.9.0 pivot. Dated query/SERP
+evidence shows that people already search for a specific job, the pages ranking for
+those queries leave a neglected sub-niche, and a paid self-service product could serve
+it. This is an *intent-evidenced evergreen niche*: a discontinuity is neither required
+nor invented, and `why_now.strength` is recorded as `not-required` with the search
+evidence in the scorecard's `seo_assessment`.
+
+The search-led route changes where the hypothesis comes from; it is not a shortcut and
+not a score bonus. A search-led candidate must still satisfy all 12 hard filters -
+including `seo_discoverable`, `self_serve_purchase` and `solo_operator_fit` - pass the
+novelty/incumbent sanity check, and meet the same evidence requirements as any other
+candidate (see `### SEO evidence standard (v1.9.0)`). Search volume alone is not proof
+of willingness to pay, and a remembered or plausible query list without dated query/SERP
+evidence does not score. The route removes the missing-why-now cap only: no filter is
+relaxed, no evidence requirement is lowered, and no dimension is scored higher because
+the niche is evergreen.
+
+### Bias the sweep toward search intent (v1.9.0)
+
+Search-intent-first is the primary sourcing bias. Point the sweep at the queries buyers
+actually type for a job - "[job] software", "[task] tool", "[thing] template",
+"alternative to [incumbent]", "[task] for [segment]" - and follow the chain to the
+existing solutions and the neglected sub-niche. Record the exact query strings, not a
+paraphrase. The other biases below sharpen which niches to query, but they never
+replace query evidence; do not start from a change announcement and work backwards to a
+product unless the change route (archetypes A/B) is genuinely the stronger evidence.
+Runs may mix archetypes, and a run may be entirely search-led.
 
 ### Bias the sweep toward ugly persistent problems
 
@@ -407,7 +562,7 @@ least one mature incumbent, usually several, often with a free tier. The converg
 reviews recorded in `retrospectives/` escalated this to a sourcing/framing problem,
 not a filter problem.
 
-Method 1.8.0 therefore requires every normal funnel run to aim a meaningful share of
+Method 1.8.0 therefore requires every normal run to aim a meaningful share of
 its search effort at **money-already-moving sources** - sources where a buyer is
 already paying, hiring or procuring, rather than describing a problem:
 
@@ -432,7 +587,9 @@ still record the costly event, the current workaround, frequency, the incumbent
 response, the buyer and the reachable distribution, and it is still triaged and
 scored under exactly the same rules. This is a sourcing bias, not a scoring change:
 no cap is lifted, no threshold is lowered, no evidence level is redefined, and
-`defensible_wedge` is unchanged.
+`defensible_wedge` is unchanged. Under v1.9.0 it is a **secondary** sourcing bias
+within search-intent-first discovery: use it to find which niches and queries are worth
+the sweep, not as evidence by itself.
 
 A run that cannot find money-already-moving evidence for a seam should record that as
 a finding rather than falling back to complaint-forum observations and calling them
@@ -450,6 +607,8 @@ Triage eliminates observations where desk evidence already shows, for example:
   (technical availability to another, better-served segment does not count);
 - credible vendors demonstrably and adequately occupy the exact proposed seam for the
   defined buyer/segment;
+- the named queries show no self-service purchase intent or no reachable organic entry
+  for a new entrant, and no neglected sub-niche is evidenced (v1.9.0);
 - the problem is obviously one-shot with no attractive economics (unless a service
   business is intentionally being considered);
 - no plausible economic buyer exists;
@@ -475,14 +634,14 @@ contains an adjacent insight becomes a seed under `seeds/` rather than a candida
 
 #### Triage false-negative audit (v1.6.0)
 
-Triage makes most of the funnel's decisions, so every **normal funnel run** independently
-re-checks **exactly one triage-rejected observation** afterwards. This is a cheap
+Triage makes most of the funnel's decisions, so every **normal run** independently
+re-checks **exactly one triage-rejected hypothesis** afterwards. This is a cheap
 sample, not a second triage pass:
 
 - **Selection favours promising/high-ambiguity rejections**, not a uniform random draw:
-  prefer an observation with relatively strong practitioner/problem evidence that was
-  rejected because an incumbent, free alternative or crowded field appeared to occupy
-  the seam. Record why it was selected.
+  prefer a hypothesis with relatively strong practitioner/problem or query/SERP evidence
+  that was rejected because an incumbent, free alternative or crowded field appeared to
+  occupy the seam. Record why it was selected.
 - **The audit tests whether triage confused:**
   1. existence of competitors with adequate customer satisfaction;
   2. a feature with a complete solution;
@@ -490,14 +649,18 @@ sample, not a second triage pass:
   4. vendor claims with demonstrated capability;
   5. one-shot migration/service availability with attractive recurring product
      economics.
-- **Keep it cheap:** one observation and a bounded check roughly the cost of one
+- **Keep it cheap:** one hypothesis and a bounded check roughly the cost of one
   observation; no full candidate research, no re-opening every rejection.
-- **Record** in the run summary and the pool file: the observation selected; why it was
+- **Record** in the run summary and the pool file: the hypothesis selected; why it was
   selected; the original triage reasoning; the additional evidence checked; whether the
   rejection is upheld or overturned; and the implication for triage depth.
 - **A single overturn does not automatically change the method.** Repeated overturns are
   a signal to review triage depth (and possibly sampling) in a later method review; note
   the pattern rather than reacting to one case.
+- **Edge case:** if a run's triage rejected nothing (every shortlisted hypothesis was
+  promoted), there is no rejection to sample. The run must state that explicitly rather
+  than inventing one; this should be rare because the shortlist is 3-5 and promotion is
+  capped at 3.
 
 ### Promotion
 
@@ -505,15 +668,18 @@ At most **3** observations become full candidates. Favour observations with the
 strongest combination of: credible problem evidence; an identifiable buyer; a
 plausible route to payment; evidence that alternatives leave a meaningful gap; an
 inexpensive path to falsification; and reasonable fit for a small/bootstrapped
-business. Zero, one or two promotions are valid — never select candidates merely to
-fill three slots, and never promote filler to satisfy the source-class budget.
+business. A search-led hypothesis additionally needs dated query/SERP evidence and a
+credible self-service path. Zero, one or two promotions are valid — never select
+candidates merely to fill three slots, and never promote filler to satisfy the
+source-class budget.
 
 Once promoted, a candidate goes through the **existing full process unchanged**:
 fresh research, fingerprint/duplicate check, incumbent/novelty sanity check, evidence
-register, hard filters, scorecard, adversarial review, lifecycle decision, and at most
-one `validation-ready` advancement. Name the originating observation ID in the
-candidate's decision record. Surviving triage confers **no** inherited positive
-evidence of any kind.
+register, the 12 hard filters, a schema-v2 scorecard, adversarial review, lifecycle
+decision, and at most one `validation-ready` advancement. Name the originating
+observation ID, the archetype, the source class and why in the candidate's decision
+record, and record the second-order seam where one exists. Surviving triage confers
+**no** inherited positive evidence of any kind.
 
 ## Duplicate detection
 
@@ -528,6 +694,9 @@ seed in `seeds/index.json`:
 - a seed may only become a candidate after fresh research from scratch, with its own
   evidence and scorecard; it never inherits the parent's score or evidence level.
 
+For search-led candidates, an overlapping intent cluster with the same buyer and
+problem counts as a duplicate signal under the same test.
+
 ## Adjacent opportunity seeds
 
 Rejections often surface a better-adjacent proposition (e.g. "discovery is commoditised
@@ -540,33 +709,41 @@ without resurrecting the killed idea:
 - seeds carry **no** score, confidence or evidence level, and cannot be promoted without
   their own dossier, evidence and scorecard.
 
-## Recording
+## Recording (v1.9.0)
 
-- The run summary lists the source classes searched and what they yielded.
-- Every normal funnel run records a bounded latent-signal search pass in the observation
-  pool and run summary: behavior lens/lenses, source class/classes, search focus or
+- The run summary lists the source classes searched (regulatory vs non-regulatory,
+  successful and unsuccessful) and what they yielded.
+- The run summary reports the hypothesis shortlist: shortlist size (3-5 target; fewer
+  or zero valid), source mix, archetype split including search-led, the number rejected
+  in shallow triage with the principal reasons, and the hypotheses promoted and why.
+- The run summary records the triage false-negative audit: the rejected hypothesis
+  selected, why, the original reasoning, the additional evidence checked, whether the
+  rejection was upheld or overturned, and the implication for triage depth. A run whose
+  triage rejected nothing must say so explicitly.
+- Every normal run records a bounded latent-signal search pass in the observation pool
+  and run summary: behavior lens/lenses, source class/classes, search focus or
   query, date, and yield, including no-result, blocked or unavailable searches. The
   pass has no hit, observation or candidate quota; its completion does not imply that a
   latent opportunity exists.
 - The run summary states which **money-already-moving sources** (v1.8.0) were searched
   and what they yielded, including unsuccessful searches, and whether the run found
   budget evidence or only complaint-forum evidence.
-- The run summary states, for each generated candidate, whether its why-now is
-  evidenced (`strong` | `weak` | `absent`).
-- The run summary states each candidate's provenance (`seed:<seed-slug>` or `fresh`)
-  and, where a second-order seam exists, the seam the candidate addresses and why it
-  was preferred to the obvious first-order product.
+- The run summary states, for each generated candidate, whether its why-now is evidenced
+  (`strong` | `weak` | `absent` | `not-required`, the last for search-led candidates).
+- The run summary states each candidate's provenance (`seed:<seed-slug>` or `fresh`),
+  the source class it qualifies under and why, the originating observation ID, and,
+  where a second-order seam exists, the seam the candidate addresses and why it was
+  preferred to the obvious first-order product.
+- The run summary states whether the source-class budget was satisfied and why.
 - The run summary answers whether discovery appears to be converging on less obvious,
   better-defended opportunities, or repeatedly finding and rejecting the same class of
   candidate. A recurring cluster of `defensible_wedge` kills is a signal to review
   discovery — not to weaken the filter.
 - Rejected candidates keep their why-now analysis in the decision record.
-- A funnel run reports the observation pool: total observations, source-class
-  distribution, change-driven vs persistent-market-failure vs latent split, the number rejected
-  during shallow triage with the principal reasons, the observations promoted and why,
-  the triage false-negative audit (see `### Shallow triage`), and the research cost /
-  lookup usage where available. The pool itself is written to
-  `observations/<run-id>.md` and is never treated as scored evidence.
+- The run summary confirms that no manufactured observations or candidates were added;
+  zero promotions is a valid run.
+- The pool itself is written to `observations/<run-id>.md` and is never treated as
+  scored evidence.
 - For every promoted persistent-market-failure candidate the decision record states
   whether its persistence thesis is evidenced (`strong` | `weak` | `absent`) and which
   two-part test it passed or failed; candidates that fail it score under the

@@ -206,11 +206,52 @@ substitute for a buyer, mechanism, distribution route or falsifiable test.
    decisive test cannot be established; “customers do not know they need it yet” remains
    unsupported. No score, evidence level, hard-filter result, threshold or lifecycle gate
    changes under this discovery/recording update.
-4. **Prospective exercise.** No normal funnel run has yet exercised method 1.8.2. Future
-   normal runs must log the pass and its yield, including no-result; neither a search
+4. **Exercise recorded (2026-10-13).** Eight normal runs under method 1.8.2
+   (20260925T150347Z … 20260927T101528Z) each logged the bounded latent pass in both
+   their pool file and run summary, including blocked and no-result yields, with zero
+   admissible latent observations and zero latent promotions. The verification record is
+   `retrospectives/2026-10-13-issue20-latent-signal-verification.md`; neither a search
    result nor its absence establishes demand or non-consumption.
 5. **Method review requested.** The independent review request is
    `reviews/2026-09-25-method-v1.8.2-review-request.md`; it remains requested until a
+   reviewer response is recorded.
+
+## Regression checks under method 1.9.0 (2026-10-13, issue #21)
+
+1. **Scoring schema v2 applies to new scorecards only.** New candidates are scored at
+   schema 2 / weights 1.3.0 (12 dimensions, threshold 65, minimum 9 of 12 scored). All
+   20 legacy scorecards stay exactly as recorded at schema 1 / weights 1.2.0 / method
+   1.8.2 and continue to validate under the legacy branch; no historic score, decision,
+   review outcome or kill reason is rewritten. Re-triage is opt-in and additive.
+2. **The search-intent funnel replaces the 15–20 observation quota.** A normal run now
+   records a qualified shortlist of 3–5 search-intent hypotheses (fewer when the evidence
+   is weak; an honest zero is valid) and must not manufacture filler. Shared limits are
+   unchanged: at most 3 promoted candidates, 1 validation-ready advance, 8 evidence
+   entries per idea, 40 web lookups, 120 agent steps, USD 1.00 and 3600s.
+3. **SEO evidence standard.** Candidates record exact seed queries and intent clusters,
+   dated demand evidence, a live SERP landscape, qualitative organic-entry feasibility,
+   self-service conversion mechanics, assumption-labelled traffic-to-revenue scenarios
+   and SEO risks. Volumes, rankings, CPC, trends and difficulty are never invented;
+   blocked or unavailable checks are recorded as unknown with a low-cost next check, and
+   search volume alone is never treated as willingness to pay.
+4. **Three new hard filters, unchanged semantics.** `seo_discoverable`,
+   `self_serve_purchase` and `solo_operator_fit` join the nine general filters; any
+   `fail` kills, `pass` needs cited evidence, `unknown` needs a `resolve_via`.
+5. **The bounded latent-signal pass is retained unchanged** (v1.8.2 procedure), and the
+   L1/V1/V2 calibration outcomes and the 2026-10-13 exercise record are preserved.
+6. **Triage false-negative audit and source-class budget retained.** Exactly one
+   triage-rejected hypothesis is re-checked per normal run, and the 1.4.0 source-class
+   budget (at most 1 of 3 candidate slots regulation-derived, at least 2 non-regulatory,
+   at least 1 previously underexplored non-regulatory class searched) still applies.
+7. **Legacy re-triage is opt-in and additive** (`method/retriage.md`). A re-triage memo
+   never rewrites the historic scorecard, decision or review history; at least the
+   housing-repairs SOR candidate is re-assessed on founder-fit grounds in
+   `ideas/housing-repairs-invoice-sor-validation/retriage-2026-10-13.md`.
+8. **Representative demonstration.** A representative run under method 1.9.0 is recorded
+   with pool, summary and run metadata; owner-triggered dry-run/normal integration
+   remains a separate step.
+9. **Method review requested.** The independent review request is
+   `reviews/2026-10-13-method-v1.9.0-review-request.md`; it remains requested until a
    reviewer response is recorded.
 
 ## Procedure
@@ -244,7 +285,9 @@ receipt of `reviews/2026-09-21-method-v1.4.0-chatgpt.md`; 1.5.0 was answered
 **`changes-requested`** (`reviews/2026-09-21-method-v1.5.0-chatgpt.md`) and method 1.6.0
 implements the requested changes. The 1.6.0 review was **approved**
 (`reviews/2026-09-21-method-v1.6.0-chatgpt.md`, no changes requested). Requests for
-methods 1.7.0 and 1.8.0 remain `requested` in the changelog, and the `wonkybox`
+methods 1.7.0, 1.8.0 and 1.8.2 remain `requested` in the changelog (the 1.8.2 latent
+pass has since been exercised by eight normal runs; see the 2026-10-13 verification
+row), the method 1.9.0 pivot adds a new `requested` review, and the `wonkybox`
 kill-#15 false-negative audit also remains requested; none of these outcomes is
 overwritten here.
 
@@ -278,3 +321,4 @@ overwritten here.
 | Method 1.6.0 regression + triage audit (issue #8) | worker | done | 2026-09-21 | Aucly pre-launch, `shiftswap`, `wonkybox`, `grantscout` re-read with nothing revived; first sampled triage audit O14 upheld on demonstrated incumbent occupation; recorded in `retrospectives/2026-09-21-issue8-archetype-cap-regression.md` and the v1.5 pool file |
 | Method 1.8.2 latent-signal search pass (issue #20) | worker | requested | 2026-09-25 | Bounded search pass and evidence labels added without a signal/candidate quota; retrospective O16 check preserves zero promotions; no score/filter/lifecycle change; review `reviews/2026-09-25-method-v1.8.2-review-request.md` requested; prospective run exercise pending |
 | Method 1.8.2 latent pass exercised (issue #20 verification) | worker | done | 2026-10-13 | Eight post-1.8.2 normal runs (20260925T150347Z … 20260927T101528Z) each recorded the bounded pass in pool and summary, including blocked/no-result yields; zero admissible latent observations, zero latent promotions; verification `retrospectives/2026-10-13-issue20-latent-signal-verification.md`; independent review still requested (not a worker decision) |
+| Method 1.9.0 SEO-first self-service pivot (issue #21) | worker | requested | 2026-10-13 | Search-intent-first discovery (3–5 qualified hypotheses, honest zero valid); schema v2 weights 1.3.0 (12 dims, 12 filters, `seo_assessment`); version-aware validator with legacy v1 frozen; retained latent pass, triage audit and source-class budget; review `reviews/2026-10-13-method-v1.9.0-review-request.md` |

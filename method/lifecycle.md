@@ -64,7 +64,7 @@ ideas reach a cheap decisive test without inflating their desk evidence.
 Every candidate discovered under method >= 1.1.0 records an evidenced `why_now` in
 `ideas/index.json` and a "Why now?" section in its dossier (see `method/discovery.md`).
 A missing or unevidenced "why now?" does not by itself kill an idea. The cap is
-archetype-aware (v1.6.0):
+archetype-aware (v1.6.0; search-led exemption v1.9.0):
 
 - **Change-driven candidates:** at evidence level `Plausible` or `Promising` a missing
   or unevidenced why-now caps `differentiation` and `problem_severity_frequency` at 2
@@ -84,6 +84,11 @@ archetype-aware (v1.6.0):
   meeting both limbs. The latent route is a discovery-sourcing subtype, not a new
   lifecycle state or evidence level, and it confers no automatic score or validation
   status.
+- **Search-led candidates (archetype D, v1.9.0):** the missing-why-now cap does not
+  apply: evergreen search demand is expected, `why_now.strength: not-required` is
+  recorded, and the candidate is judged on the evidence recorded in its
+  `seo_assessment`. This is an exemption from the cap only — it is not a bonus, and it
+  neither lifts any other cap nor upgrades any hard filter.
 
 ## Evidence levels
 

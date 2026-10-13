@@ -8,6 +8,7 @@
 - **Created:** YYYY-MM-DD
 - **Updated:** YYYY-MM-DD
 - **Source:** how this candidate was generated (worker run ID or human)
+- **Scorecard:** schema v2 / weights 1.3.0 (legacy schema v1 exists only for cards recorded before method 1.9.0)
 
 ## One-sentence proposition
 
@@ -23,8 +24,13 @@
 - Evidence (dated source), and why the change is real rather than a trend:
 - Why this materially improves the opportunity now:
 - Have competitors already responded?
-- Strength: `strong` | `weak` | `absent`
-- Archetype: `change-driven` | `persistent market failure` | `latent opportunity`
+- Strength: `strong` | `weak` | `absent` | `not-required` (search-led only)
+- Archetype: `change-driven` | `persistent market failure` | `latent opportunity` | `search-led`
+
+For search-led candidates (v1.9.0), no contrived discontinuity is required: record
+`not-required`, point to the dated search-intent evidence in the SEO assessment below,
+and note that the exemption removes the missing-why-now cap only — it is not a score
+bonus and relaxes no evidence requirement.
 
 For persistent-market-failure candidates, record the persistence thesis (it lifts the
 missing-why-now cap only when both limbs are affirmatively evidenced - see
@@ -80,19 +86,53 @@ verified for this buyer must be labelled inference/assumption:
 
 If any check fails, state the reason to continue anyway:
 
+## SEO assessment (schema v2)
+
+Never invent volumes, rankings, CPC, trends or difficulty. Record `unknown` plus a
+low-cost next check wherever evidence is missing or a SERP check was blocked. Search
+volume alone is not proof of willingness to pay.
+
+- **Seed queries and intent clusters:** (exact query text; cluster label)
+- **Demand evidence (dated):** (source + date; reported volume only where credible,
+  otherwise `unknown`)
+- **SERP landscape (checked YYYY-MM-DD):**
+
+| Query | Page / competitor | Type (organic / ad / forum / gov / ai_answer / marketplace / other) | Notes |
+|---|---|---|---|
+| | | | |
+
+- **AI overviews observed:** yes | no | unknown
+- **Organic entry feasibility (qualitative, no false precision):** (assessment; what
+  could plausibly rank; unknowns)
+- **Conversion mechanics (self-service only):** (signup → payment → delivery path;
+  requirements; no demos, calls or hand-holding)
+- **Traffic-to-revenue scenarios (assumption-labelled):**
+  - Assumptions label:
+  - Conservative:
+  - Modest:
+  - Optimistic:
+- **SEO risks:** AI overviews / zero-click; seasonality; platform dependency; other
+- **Unknowns and low-cost next checks:** (item → next check)
+
 ## Distribution
 
-- Route to the first 10 buyers without paid acquisition:
+- Organic search entry (primary channel; see SEO assessment):
+- Route to the first buyers without paid acquisition or outreach:
 - Evidence: [link]
 
 ## Economics (assumptions labelled)
 
-- Price hypothesis:
+- Price hypothesis (self-service pricing):
 - Cost drivers:
+- Pricing vs organic traffic economics (conversion assumptions labelled):
 - Contribution margin at realistic scale:
 
 ## Founder fit
 
+- Self-service fit: can the product be bought and delivered without calls, demos,
+  onboarding or custom work? Evidence:
+- Solo-operator burden: build complexity, maintenance, support, external
+  dependencies, owner time:
 - Reach, skills, motivation (evidence only; `null` if unknown):
 
 ## Adversarial case (strongest case this is wrong)

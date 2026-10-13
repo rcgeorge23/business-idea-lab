@@ -1,14 +1,16 @@
 # AGENTS.md — operating instructions for this repository
 
 This repository is a durable, evidence-driven business idea discovery and
-validation loop, run ad hoc with OpenCode + DeepSeek. It exists to find ideas
-worth testing and to kill weak ones cheaply — not to generate volume. A run that
-advances nothing is a valid run.
+validation loop, run ad hoc with OpenCode + DeepSeek. Since method 1.9.0 it is
+tuned for **self-service micro-SaaS**: discoverable through organic search,
+purchasable and deliverable self-service, buildable and supportable by a solo
+developer part-time. It exists to find ideas worth testing and to kill weak ones
+cheaply — not to generate volume. A run that advances nothing is a valid run.
 
 The method documents under `method/` are authoritative. Read them before acting:
 
 - `method/lifecycle.md` — states, transitions, who may advance what
-- `method/discovery.md` — discontinuity hunting ("why now?"), change sources, novelty check, seeds
+- `method/discovery.md` — search-intent-first discovery (query → task → existing solutions → neglected sub-niche → paid self-service hypothesis), SEO evidence standard, why-now when it applies, seeds
 - `method/evidence-policy.md` — what counts as evidence, and what does not
 - `method/scorecard.md` — dimensions, weights, thresholds, hard filters
 - `method/experiment-rules.md` — experiment approval, execution, result recording
@@ -53,59 +55,66 @@ Task permissions and hard boundaries:
    confer no score, evidence level, or exemption from the source-class budget.
    Handle any outstanding `changes-requested` reviews first.
 2. If 10 or more ideas are unreviewed, **stop generating**.
-3. Run the **opportunity-observation funnel** (`method/discovery.md`): sweep a pool
-   of 15-20 materially distinct observations into `observations/<run-id>.md`,
-   consider change-driven opportunities (each with an evidenced "why now?"),
-   persistent market failures (answer "why does this problem still persist
-   despite existing alternatives?"; never invent a discontinuity, and note that
-   an evidence-backed persistence thesis - not the bare existence of competitors -
-   is what allows scoring without the missing-why-now cap), and latent-opportunity
-   hypotheses (a guarded route for evidenced but unarticulated buyer-benefit
-   hypotheses; admissible only with the six required fields in `method/discovery.md`
-   archetype C, and never a substitute for a buyer, mechanism, distribution route or
-   falsifiable test). Consider all three, but record only evidence-supported
-   observations; zero latent observations are valid. In every normal sweep, conduct
-   and record at least one bounded latent-signal search pass: signal lenses describe
-   what behavior to look for (repeated shadow work; delayed/skipped tasks; handoffs,
-   reconciliation or shifted costs; recurring manual services/roles; newly feasible
-   tasks), while source classes describe where to look (workflow artifacts/instructions,
-   jobs, service scopes or pricing, support discussions, release notes,
-   procurement/tenders, trade reporting). Record lens, source class, focus/query, date
-   and yield, including no-result or blocked searches; searches may be reused from the
-   sweep. This adds no signal, observation or candidate quota and no-result/complaint
-   absence is not evidence of non-consumption or demand. Bias the sweep
-   toward poor/expensive narrow incumbent software, manual re-keying workflows
-   and awkward integrations, and seek practitioner/community evidence where
-   feasible. Shallow-triage every observation, recording negative evidence and
-   the reason, then promote at most **3 materially distinct** candidates - zero,
-   one or two promotions are valid; never manufacture filler. For each promoted
-   candidate, prefer a second-order operational seam (manual handoff, re-keying,
-   reconciliation, exception handling, integration gap) to a generic
-   compliance/dashboard product, and apply the **source-class budget**: at least
-   2 of the 3 candidate slots must come from non-regulatory classes, at most 1
-   may be primarily regulation-derived, and at least one previously underexplored
-   non-regulatory class must actually be searched. Candidates come from fresh
-   discovery or from a seed re-checked and researched from scratch; runs are
-   never seed-only. Aim a meaningful share of the sweep at **money-already-moving
-   sources** (v1.8.0: job ads describing repetitive admin, service/agency pricing,
-   procurement and tender records, incumbent support forums and release notes, trade
-   press reporting spend or staffing, bridge-role job descriptions) and record what
-   they yielded, including unsuccessful searches. Record source classes searched
-   (regulatory vs
-   non-regulatory, including unsuccessful searches), pool statistics (total
-   observations, source mix, archetype split, triage rejections and principal
-   reasons, promotions and why), candidate provenance (`seed:<slug>` | `fresh`),
-   originating observation ID, the class each candidate qualifies under and why,
-   the budget outcome, and the run's **triage false-negative audit** (exactly one
-   triage-rejected observation, favouring promising/high-ambiguity rejections, cheaply
-   re-checked and recorded: selected, why, original reasoning, evidence checked,
+3. Run the **search-intent discovery funnel** (`method/discovery.md`): work from
+   exact seed queries and intent clusters, following the chain query → job/task →
+   existing solutions → neglected sub-niche → paid self-service hypothesis. Record
+   a qualified shortlist of **3-5 hypotheses** (fewer when the evidence is weak;
+   zero is valid — never manufacture hypotheses). For each hypothesis record the
+   exact queries, dated demand evidence, the live SERP landscape (named pages,
+   dates, ads/forums/gov/AI answers), a qualitative organic-entry assessment,
+   self-service conversion mechanics, assumption-labelled traffic-to-revenue
+   scenarios, SEO risks (AI overviews/zero-click, seasonality, platform
+   dependency), and honest unknowns with low-cost next checks. Never invent
+   volumes, rankings, CPC, trends or difficulty; a blocked or unavailable check is
+   recorded as unknown, not as evidence of absence, and search volume alone is
+   never proof of willingness to pay. Change-driven opportunities (each with an
+   evidenced "why now?") and persistent market failures (answer "why does this
+   problem still persist despite existing alternatives?"; an evidence-backed
+   persistence thesis — not the bare existence of competitors — is what allows
+   scoring without the missing-why-now cap) remain valid routes, but a search-led
+   evergreen niche needs no contrived discontinuity: its scorecard records
+   `strength: not-required` and rests on the SEO evidence instead. In every sweep,
+   also conduct and record at least one bounded latent-signal search pass: signal
+   lenses describe what behaviour to look for (repeated shadow work; delayed or
+   skipped tasks; handoffs, reconciliation or shifted costs; recurring manual
+   services or roles; newly feasible tasks), while source classes describe where to
+   look (workflow artifacts/instructions, jobs, service scopes or pricing, support
+   discussions, release notes, procurement/tenders, trade reporting). Record lens,
+   source class, focus/query, date and yield, including no-result or blocked
+   searches; searches may be reused from the sweep, and no-result/complaint absence
+   is not evidence of non-consumption or demand. Bias a meaningful share of the
+   sweep at **money-already-moving sources** (job ads describing repetitive admin,
+   service/agency pricing, procurement and tender records, incumbent support forums
+   and release notes, trade press reporting spend or staffing, bridge-role job
+   descriptions) and record what they yielded, including unsuccessful searches.
+   Shallow-triage every hypothesis, recording negative evidence and the reason,
+   then promote at most **3 materially distinct** candidates — zero, one or two
+   promotions are valid; never manufacture filler. Prefer a second-order
+   operational seam (manual handoff, re-keying, reconciliation, exception handling,
+   integration gap) to a generic compliance/dashboard product, and apply the
+   **source-class budget**: at least 2 of the 3 candidate slots must come from
+   non-regulatory classes, at most 1 may be primarily regulation-derived, and at
+   least one previously underexplored non-regulatory class must actually be
+   searched. Candidates come from fresh discovery or from a seed re-checked and
+   researched from scratch; runs are never seed-only. Record the source classes
+   searched (regulatory vs non-regulatory, including unsuccessful searches), the
+   shortlist statistics (hypotheses, source mix, archetype split, triage rejections
+   and principal reasons, promotions and why), candidate provenance
+   (`seed:<slug>` | `fresh`), each candidate's originating hypothesis/observation
+   ID, the class each candidate qualifies under and why, the budget outcome, and
+   the run's **triage false-negative audit** (exactly one triage-rejected
+   observation, favouring promising/high-ambiguity rejections, cheaply re-checked
+   and recorded: selected, why, original reasoning, evidence checked,
    upheld/overturned, implication for triage depth). Triage must not treat
    competitor existence alone as wedge failure.
 4. Run the novelty/incumbent sanity check before deep research.
-5. Apply the 9 hard rejection filters. `pass` needs cited evidence; assumptions
-   and analogies give `unknown` with a `resolve_via`; any `fail` kills.
-6. Research survivors: problem/buyer, alternatives, distribution, feasibility,
-   economics, risk, founder fit.
+5. Apply the 12 hard rejection filters (the 9 general filters plus
+   `seo_discoverable`, `self_serve_purchase` and `solo_operator_fit`). `pass` needs
+   cited evidence; assumptions and analogies give `unknown` with a `resolve_via`;
+   any `fail` kills.
+6. Research survivors: problem/buyer, alternatives, distribution (organic search
+   first), the SEO assessment, self-service purchase/delivery, solo-operator
+   burden, feasibility, economics, risk, founder fit.
 7. Run an explicit adversarial review whose goal is to kill the idea.
 8. Advance at most **1** idea to `validation-ready` per run, and only if the
    scorecard threshold and review policy are satisfied. Parked ideas may still
@@ -116,8 +125,8 @@ Task permissions and hard boundaries:
     Cost more than 20 human-hours or £100 requires a review request first.
 11. Record any adjacent opportunity seeds (`seeds/`) surfaced by rejections; seeds
     never inherit the parent's score or evidence level.
-12. Write the run summary (including source classes and why-now quality) and list
-    what needs human input. After run artifacts and metadata are finalized, regenerate
+12. Write the run summary (including source classes, SEO evidence quality and
+    why-now quality) and list what needs human input. After run artifacts and metadata are finalized, regenerate
     the root `dashboard.html` from the ledgers with
     `python3 scripts/build_dashboard.py`. `scripts/run.sh` does this automatically;
     an ad hoc/manual run must invoke the builder itself. Do not hand-edit the generated
@@ -129,12 +138,26 @@ steps, cost bound USD 1.00 by default, 3600s timeout.
 
 ## Hard rejection filters
 
-No clear economic buyer; no evidence of a painful/frequent problem or existing
-budget; no credible non-paid route to early buyers; commodity positioning with
-no defensible wedge; value requires network effects before it exists;
-implausible margins or disproportionate service burden; unacceptable legal,
-regulatory, privacy, trust or platform risk; no cheap test capable of
-disconfirming it; viability only if every optimistic assumption is true.
+The 9 general filters:
+
+- no clear economic buyer
+- no evidence of a painful/frequent problem or existing budget
+- no credible non-paid route to early buyers
+- commodity positioning with no defensible wedge
+- value requires network effects before it exists
+- implausible margins or disproportionate service burden
+- unacceptable legal, regulatory, privacy, trust or platform risk
+- no cheap test capable of disconfirming it
+- viability only if every optimistic assumption is true
+
+The 3 self-service gates added in method 1.9.0:
+
+- `seo_discoverable` — no evidenced organic-search route to buyers (exact queries,
+  dated demand evidence, observable SERP landscape, self-service purchase path).
+- `self_serve_purchase` — the business needs sales contact, demos, per-customer
+  hand-holding or manual delivery to sell or serve.
+- `solo_operator_fit` — build, support, maintenance or external dependencies
+  exceed what one solo operator can run part-time.
 
 Each filter is recorded with a status of `pass` | `unknown` | `fail` per
 `method/scorecard.md`. `pass` requires cited evidence; an assumption or analogy
@@ -160,19 +183,22 @@ A run leaves reviewable, committed-ready changes:
 - a decision record describing what changed and why
 - experiment proposals under `experiments/`
 - adjacent-opportunity seeds in `seeds/index.json` and `seeds/<slug>.md`
-- an observation pool under `observations/<run-id>.md` for funnel runs
+- a search-intent hypothesis pool under `observations/<run-id>.md` for funnel runs
+  (qualified shortlist, triage, latent pass, false-negative audit)
 - a run summary at `runs/$LAB_RUN_ID/summary.md` (the wrapper sets
   `LAB_RUN_ID`; run `printenv LAB_RUN_ID` if unsure)
 - the generated root `dashboard.html`, refreshed after every normal run (manual runs
   must invoke `python3 scripts/build_dashboard.py`; `scripts/run.sh` does so itself)
 
-The summary must state: the seed register review, observation-pool statistics
-(total observations, source mix, change-driven vs persistent vs latent split, triage
+The summary must state: the seed register review, hypothesis-shortlist statistics
+(hypotheses count, source mix, archetype split including search-led, triage
 rejections and principal reasons, promotions and why), source classes searched
 (regulatory vs non-regulatory, successful and unsuccessful), the latent-signal search
 pass and yield (including no-result), whether the
-source-class budget was satisfied and why, why-now quality, provenance
-(`seed:<slug>` | `fresh`), source class and originating observation ID per
+source-class budget was satisfied and why, SEO evidence quality (dated seed queries
+and SERP evidence, honest unknowns, no invented volumes/rankings/CPC/trends/
+difficulty), why-now quality or `not-required` for search-led candidates, provenance
+(`seed:<slug>` | `fresh`), source class and originating hypothesis/observation ID per
 candidate, each candidate's second-order seam, whether discovery is converging
 on less obvious opportunities, advances, kills, failed/abandoned experiments,
 decisions awaiting human input, and confirmation that no disallowed actions were

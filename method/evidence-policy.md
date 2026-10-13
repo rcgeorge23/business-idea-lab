@@ -66,8 +66,10 @@ Such a hypothesis:
 ## Scoring rule
 
 **No source, no score.** A dimension with no evidence scores `null` (not 0) and is
-excluded from the weighted aggregate; the exclusion is counted and reported. An idea
-scored on fewer than 8 of the 10 dimensions is never `validation-ready`.
+excluded from the weighted aggregate; the exclusion is counted and reported. Under the
+current schema (v2) an idea scored on fewer than 9 of the 12 dimensions is never
+`validation-ready`; legacy schema v1 cards keep their recorded rule of 8 of 10 (see
+`method/scorecard.md`).
 
 Scores are integers 0-5 and confidence is recorded separately per dimension:
 

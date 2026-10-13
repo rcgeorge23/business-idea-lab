@@ -25,7 +25,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", required=True)
     parser.add_argument("--run-id", required=True)
-    parser.add_argument("--mode", required=True, choices=["normal", "dry-run", "smoke"])
+    parser.add_argument(
+        "--mode", required=True, choices=["normal", "dry-run", "smoke", "representative"]
+    )
     parser.add_argument("--status", required=True, choices=["success", "failed", "invalid-output", "over-budget"])
     parser.add_argument("--started", required=True)
     parser.add_argument("--finished", required=True)

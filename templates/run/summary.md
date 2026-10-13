@@ -1,9 +1,9 @@
 # Run summary: <run-id>
 
-- **Mode:** normal | dry-run | smoke
+- **Mode:** normal | dry-run | smoke | representative
 - **Started / finished:** ISO-8601
 - **Agent / model:** idea-worker / opencode-go/deepseek-v4.1-flash
-- **Method version:** 1.8.2
+- **Method version:** 1.9.0
 - **Input / output revision:** `<sha>` / `<sha or 'uncommitted'>`
 - **Status:** success | failed | invalid-output | over-budget
 
@@ -12,23 +12,35 @@
 | Seed | Shallow re-check result | Action (candidate / stays seed / status change) |
 |---|---|---|
 
-## Opportunity observations
+## Search-intent hypotheses and observations
 
 | Metric | Value |
 |---|---|
-| Observations in pool | n (target 15–20) |
-| Source-class distribution | ... |
-| Change-driven / persistent market failure / latent opportunity | n / n / n |
+| Qualified hypotheses shortlisted | n (target 3–5; fewer when weak; zero valid) |
+| Exact seed queries / intent clusters recorded | ... |
+| Source-class distribution | regulatory n / non-regulatory n |
+| Change-driven / persistent / latent / search-led | n / n / n / n |
 | Deliberate latent-signal search pass | completed yes/no; lenses and yield (including no-result) |
 | Rejected in shallow triage | n |
 | Principal triage rejection reasons | ... |
 | Promoted to full candidates | n (≤ 3) |
-| Promoted observations and why | O1 → candidate-x: ... |
+| Promoted hypotheses and why (originating observation IDs) | H1 → candidate-x: ... |
 | Latent observations found / triaged / promoted / rejected | n / n / n / n (zero promotions acceptable) |
 
 **Pool file:** `observations/<run-id>.md`. Observations carry no score,
 confidence or evidence level, and triage survival confers no inherited
-positive evidence on a promoted candidate.
+positive evidence on a promoted candidate. Research promise, search opportunity
+and commercial validation are distinct registers: an evidenced search opportunity
+is not validated demand, and a promising mechanism is not paid usage.
+
+## SEO evidence quality (v1.9.0)
+
+Never invent volumes, rankings, CPC, trends or difficulty. A blocked or failed SERP
+check is not evidence of absent demand. Search volume alone is not proof of
+willingness to pay.
+
+| Candidate | Exact seed queries recorded | Demand evidence dated | SERP landscape checked (date) | Blocked checks recorded honestly | Unknowns have low-cost next checks | Volume treated as WTP? (must be no) |
+|---|---|---|---|---|---|---|
 
 ## Triage false-negative audit
 
@@ -71,6 +83,7 @@ at least one previously underexplored non-regulatory class actually searched.
 | Manual structured-data flows / re-keying | no | | |
 | Awkward integrations between established systems | no | | |
 | Underserved subsegments of an existing category | no | | |
+| Search-intent demand evidence (queries, SERP, ads) | no | | |
 | Money already moving: job ads describing repetitive admin | no | | |
 | Money already moving: service / agency pricing pages | no | | |
 | Money already moving: procurement / tender records | no | | |
@@ -79,9 +92,9 @@ at least one previously underexplored non-regulatory class actually searched.
 | Money already moving: bridge-role job descriptions | no | | |
 | Public workflow artifacts / instructions | no | | |
 
-**Money-already-moving outcome (v1.8.0):** [which of the above were searched, what
-they yielded including unsuccessful searches, and whether the run found budget
-evidence or only complaint-forum evidence]
+**Money-already-moving outcome:** [which of the above were searched, what they
+yielded including unsuccessful searches, and whether the run found budget evidence
+or only complaint-forum evidence]
 
 **Source-budget outcome:** [met / not met — of N candidates, X non-regulatory,
 Y regulation-derived; previously underexplored class searched: ...; if not met,
@@ -105,7 +118,8 @@ absence of complaints establishes neither absence of behavior nor buyer demand.
 
 For every promoted persistent-market-failure candidate, state whether the two-part
 persistence thesis is evidenced (`strong` | `weak` | `absent`) and which limb of the
-test passed or failed (see `method/discovery.md`).
+test passed or failed (see `method/discovery.md`). Search-led candidates record
+`not-required` and point to their SEO evidence instead.
 
 | Candidate | Archetype | Why now (one line) | Strength | Persistence thesis | Competitors responded |
 |---|---|---|---|---|---|

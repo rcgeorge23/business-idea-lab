@@ -33,10 +33,14 @@ import re
 import sys
 from datetime import datetime, timezone
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION_LEGACY = 1
+SCHEMA_VERSION = 2
 THRESHOLD = 65
 
-DIMENSION_ORDER = [
+# Schema v1 (legacy, weights 1.2.0): the ten historic dimensions, rendered exactly
+# as recorded. Schema v2 (weights 1.3.0) adds seo_discoverability and
+# self_service_fit. Cards are rendered against the table their own schema names.
+DIMENSION_ORDER_V1 = [
     "problem_severity_frequency",
     "buyer_budget_clarity",
     "evidence_strength",
@@ -49,10 +53,27 @@ DIMENSION_ORDER = [
     "risk",
 ]
 
+DIMENSION_ORDER_V2 = [
+    "problem_severity_frequency",
+    "buyer_budget_clarity",
+    "evidence_strength",
+    "seo_discoverability",
+    "self_service_fit",
+    "distribution",
+    "founder_fit",
+    "economics",
+    "validation_speed_cost",
+    "feasibility",
+    "differentiation",
+    "risk",
+]
+
 DIMENSION_LABELS = {
     "problem_severity_frequency": "Problem severity / frequency",
     "buyer_budget_clarity": "Buyer budget clarity",
     "evidence_strength": "Evidence strength",
+    "seo_discoverability": "SEO discoverability",
+    "self_service_fit": "Self-service fit",
     "distribution": "Distribution",
     "differentiation": "Differentiation",
     "validation_speed_cost": "Validation speed / cost",
@@ -68,7 +89,7 @@ GATING_DIMENSIONS = {
     "evidence_strength",
 }
 
-HARD_FILTER_ORDER = [
+HARD_FILTER_ORDER_V1 = [
     "economic_buyer",
     "painful_frequent_or_budgeted",
     "non_paid_distribution",
@@ -78,6 +99,13 @@ HARD_FILTER_ORDER = [
     "acceptable_risk",
     "cheap_disconfirming_test",
     "not_all_optimistic",
+]
+
+# Schema v2 adds three founder-fit / self-service gates (1.9.0).
+HARD_FILTER_ORDER_V2 = HARD_FILTER_ORDER_V1 + [
+    "seo_discoverable",
+    "self_serve_purchase",
+    "solo_operator_fit",
 ]
 
 HARD_FILTER_LABELS = {
@@ -90,6 +118,9 @@ HARD_FILTER_LABELS = {
     "acceptable_risk": "Acceptable risk",
     "cheap_disconfirming_test": "Cheap disconfirming test",
     "not_all_optimistic": "Not all-optimistic",
+    "seo_discoverable": "SEO discoverable",
+    "self_serve_purchase": "Self-serve purchase",
+    "solo_operator_fit": "Solo operator fit",
 }
 
 STATE_ORDER = [
@@ -480,6 +511,32 @@ def ordered_counts(counts, order):
     return rows
 
 
+def schema_version_of(scorecard):
+    """Schema version named by a scorecard; cards without one are legacy v1."""
+    if not scorecard:
+        return SCHEMA_VERSION_LEGACY
+    try:
+        return int(scorecard.get("schema_version", SCHEMA_VERSION_LEGACY))
+    except (TypeError, ValueError):
+        return SCHEMA_VERSION_LEGACY
+
+
+def as_dict(value):
+    return value if isinstance(value, dict) else {}
+
+
+def as_list(value):
+    return value if isinstance(value, list) else []
+
+
+def join_values(values):
+    """Join a list of values for display, or render 'not recorded' honestly."""
+    values = [v for v in as_list(values) if v not in (None, "")]
+    if not values:
+        return '<span class="unknown">not recorded</span>'
+    return ", ".join(esc(v) for v in values)
+
+
 # --------------------------------------------------------------------------
 # Rendering
 # --------------------------------------------------------------------------
@@ -714,10 +771,11 @@ def render_dimensions(scorecard):
     if not scorecard:
         return '<p class="unknown">No scorecard recorded.</p>'
     dimensions = scorecard.get("dimensions", {}) or {}
+    order = DIMENSION_ORDER_V2 if schema_version_of(scorecard) >= SCHEMA_VERSION else DIMENSION_ORDER_V1
     out = ['<table class="grid"><thead><tr>'
            "<th>Dimension</th><th>Weight</th><th>Score</th><th>Confidence</th>"
            "<th>Rationale</th><th>Evidence</th></tr></thead><tbody>"]
-    for key in DIMENSION_ORDER:
+    for key in order:
         dim = dimensions.get(key)
         if not isinstance(dim, dict):
             out.append(
@@ -748,10 +806,11 @@ def render_hard_filters(scorecard):
     if not scorecard:
         return '<p class="unknown">No scorecard recorded.</p>'
     filters = scorecard.get("hard_filters", {}) or {}
+    order = HARD_FILTER_ORDER_V2 if schema_version_of(scorecard) >= SCHEMA_VERSION else HARD_FILTER_ORDER_V1
     out = ['<table class="grid"><thead><tr>'
            "<th>Hard filter</th><th>Status</th><th>Note</th><th>Resolve via</th>"
            "<th>Evidence</th></tr></thead><tbody>"]
-    for key in HARD_FILTER_ORDER:
+    for key in order:
         flt = filters.get(key)
         if not isinstance(flt, dict):
             out.append(
@@ -778,6 +837,122 @@ def render_hard_filters(scorecard):
             "</tr>"
         )
     out.append("</tbody></table>")
+    return "\n".join(out)
+
+
+def _demand_evidence_html(entries):
+    """Render demand-evidence rows; missing or empty lists stay honest."""
+    parts = []
+    for entry in as_list(entries):
+        if not isinstance(entry, dict):
+            continue
+        bits = [esc(entry.get("source")), f"({esc(entry.get('date'))})"]
+        if entry.get("volume_reported"):
+            bits.append(f"volume: {esc(entry['volume_reported'])}")
+        if entry.get("notes"):
+            bits.append(esc(entry["notes"]))
+        parts.append(" ".join(bits))
+    if not parts:
+        return '<span class="unknown">not recorded</span>'
+    return "<br>".join(parts)
+
+
+def render_seo_assessment(scorecard):
+    """Render the schema-v2 seo_assessment block, honest about missing fields."""
+    if not scorecard:
+        return '<p class="unknown">No scorecard recorded.</p>'
+    seo = scorecard.get("seo_assessment")
+    if not isinstance(seo, dict) or not seo:
+        return '<p class="unknown">No SEO assessment recorded.</p>'
+    out = []
+
+    queries = as_list(seo.get("seed_queries"))
+    if queries:
+        out.append('<table class="grid"><thead><tr>'
+                   "<th>Seed query</th><th>Intent cluster</th><th>Demand evidence</th>"
+                   "</tr></thead><tbody>")
+        for item in queries:
+            if not isinstance(item, dict):
+                continue
+            out.append(
+                "<tr>"
+                f'<td>{esc(item.get("query"))}</td>'
+                f'<td>{esc(item.get("intent_cluster"))}</td>'
+                f'<td class="evidence">{_demand_evidence_html(item.get("demand_evidence"))}</td>'
+                "</tr>"
+            )
+        out.append("</tbody></table>")
+    else:
+        out.append('<p class="unknown">No seed queries recorded.</p>')
+
+    serp = as_dict(seo.get("serp_landscape"))
+    out.append('<table class="kv">')
+    for label, value in [
+        ("SERP checked date", esc(serp.get("checked_date"))),
+        ("Queries checked", join_values(serp.get("queries_checked"))),
+        ("AI overview observed", esc(serp.get("ai_overview_observed"))),
+    ]:
+        out.append(f"<tr><th>{esc_raw(label)}</th><td>{value}</td></tr>")
+    out.append("</table>")
+
+    pages = as_list(serp.get("pages"))
+    if pages:
+        out.append('<table class="grid"><thead><tr>'
+                   "<th>Page</th><th>Type</th><th>Notes</th></tr></thead><tbody>")
+        for page in pages:
+            if not isinstance(page, dict):
+                continue
+            out.append(
+                "<tr>"
+                f'<td>{esc(page.get("url"))}</td>'
+                f'<td>{esc(page.get("type"))}</td>'
+                f'<td class="rationale">{esc(page.get("notes"))}</td>'
+                "</tr>"
+            )
+        out.append("</tbody></table>")
+    else:
+        out.append('<p class="unknown">SERP pages: not recorded.</p>')
+
+    feasibility = as_dict(seo.get("organic_entry_feasibility"))
+    conversion = as_dict(seo.get("conversion_mechanics"))
+    scenarios = as_dict(seo.get("traffic_to_revenue_scenarios"))
+    risks = as_dict(seo.get("seo_risks"))
+    out.append('<table class="kv">')
+    for label, value in [
+        ("Organic entry feasibility", esc(feasibility.get("assessment"))),
+        ("Feasibility notes", esc(feasibility.get("notes"))),
+        ("Feasibility unknowns", join_values(feasibility.get("unknowns"))),
+        ("Conversion path", esc(conversion.get("path"))),
+        ("Conversion requirements", join_values(conversion.get("requirements"))),
+        ("Conversion notes", esc(conversion.get("notes"))),
+        ("Assumptions label", esc(scenarios.get("assumptions_label"))),
+        ("Conservative scenario", esc(scenarios.get("conservative"))),
+        ("Modest scenario", esc(scenarios.get("modest"))),
+        ("Optimistic scenario", esc(scenarios.get("optimistic"))),
+        ("Risk: zero-click / AI", esc(risks.get("zero_click_ai"))),
+        ("Risk: seasonality", esc(risks.get("seasonality"))),
+        ("Risk: platform dependency", esc(risks.get("platform_dependency"))),
+        ("Risk: other", esc(risks.get("other"))),
+    ]:
+        out.append(f"<tr><th>{esc_raw(label)}</th><td>{value}</td></tr>")
+    out.append("</table>")
+
+    unknowns = as_list(seo.get("unknowns"))
+    if unknowns:
+        out.append('<table class="grid"><thead><tr>'
+                   "<th>Unknown</th><th>Next check</th></tr></thead><tbody>")
+        for item in unknowns:
+            if not isinstance(item, dict):
+                continue
+            out.append(
+                "<tr>"
+                f'<td>{esc(item.get("item"))}</td>'
+                f'<td class="rationale">{esc(item.get("next_check"))}</td>'
+                "</tr>"
+            )
+        out.append("</tbody></table>")
+    else:
+        out.append('<p class="unknown">No SEO unknowns recorded.</p>')
     return "\n".join(out)
 
 
@@ -913,6 +1088,8 @@ def render_idea(item, experiments_by_id):
 
     state_cls = "state-killed" if state == "killed" else "state-live"
     score_cls = "score-high" if (score or 0) >= THRESHOLD else ("score-mid" if (score or 0) >= 50 else "score-low")
+    version = schema_version_of(scorecard)
+    schema_label = "legacy v1" if version == SCHEMA_VERSION_LEGACY else f"v{version}"
 
     out = [f'<details class="idea" id="idea-{esc_raw(slug)}">']
     out.append(
@@ -935,6 +1112,9 @@ def render_idea(item, experiments_by_id):
         ("Threshold", fmt_int(aggregate.get("threshold", THRESHOLD))),
         ("Meets threshold", esc(meets)),
         ("Confidence", esc(entry.get("confidence"))),
+        ("Schema version", esc_raw(schema_label)),
+        ("Weights version", esc((scorecard or {}).get("weights_version"))),
+        ("Method version", esc((scorecard or {}).get("method_version"))),
         ("Discovered", esc(entry.get("discovered"))),
         ("Updated", esc(entry.get("updated"))),
         ("Dossier", esc((entry.get("paths") or {}).get("dossier"))),
@@ -957,6 +1137,10 @@ def render_idea(item, experiments_by_id):
 
     out.append("<h4>Hard filters</h4>")
     out.append(render_hard_filters(scorecard))
+
+    if version >= SCHEMA_VERSION:
+        out.append("<h4>SEO assessment</h4>")
+        out.append(render_seo_assessment(scorecard))
 
     vetoes = (scorecard or {}).get("vetoes") or []
     out.append("<h4>Vetoes</h4>")
@@ -1387,7 +1571,7 @@ def build_html(ledger, root):
     parts.append("</section>")
 
     parts.append('<section id="ideas"><h2>Ideas</h2>')
-    parts.append('<p class="hint">Ideas are grouped by industry, then ordered by lifecycle state and score. Expand an idea to see its why-now, fingerprint, all ten scorecard dimensions, all nine hard filters, vetoes, review history and experiment.</p>')
+    parts.append('<p class="hint">Ideas are grouped by industry, then ordered by lifecycle state and score. Expand an idea to see its why-now, fingerprint, scorecard dimensions and hard filters (rendered for the schema version each card records), SEO assessment where recorded (schema v2), vetoes, review history and experiment.</p>')
     parts.append(render_ideas(ideas, experiments_by_id))
     parts.append("</section>")
 

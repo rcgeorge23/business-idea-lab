@@ -1,7 +1,7 @@
 {
-  "schema_version": 1,
-  "method_version": "1.8.2",
-  "updated": "2026-09-27",
+  "schema_version": 2,
+  "method_version": "1.9.0",
+  "updated": "2026-10-13",
   "counts": {
     "total": 14,
     "by_status": {

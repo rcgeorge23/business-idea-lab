@@ -4,6 +4,90 @@ Every material change to the method bumps `method/VERSION` and is listed here wi
 review status. Review status values: `not-required` | `requested` | `changes-requested` |
 `approved` | `killed`. See `method/review-policy.md` (section "Method changes").
 
+## 1.9.0 - 2026-10-13
+
+Motivated by issue #21 (pivot to SEO-first, self-service micro-SaaS discovery). The
+owner's acquisition constraints - organic search as the primary channel, self-service
+signup and payment, no demos or per-customer hand-holding, buildable and supportable
+by one solo developer part-time - made the previous change-driven/regulatory posture a
+poor fit: many runs produced evidence-rich observations but no route to a buyer the
+owner could reach without outbound sales. This release replaces the observation-quota
+funnel with a search-intent-first shortlist, makes SEO discoverability, self-service
+purchase/delivery and solo-operator fit explicit gates, and versions the scorecard so
+new search-led cards are scored on the new bases while every historic score and
+decision is preserved unchanged.
+
+**Changed (discovery and scoring):**
+
+- `method/discovery.md` and `method/run-protocol.md` now lead with the search-intent
+  funnel: exact seed queries and intent clusters -> job/task -> existing solutions ->
+  neglected sub-niche -> paid self-service hypothesis. Each normal run records a
+  qualified shortlist of 3-5 hypotheses (fewer when the evidence is weak; zero is
+  valid; never manufactured), each with exact queries, dated demand evidence, the live
+  SERP landscape (named pages, dates, ads/forums/gov/AI answers), a qualitative
+  organic-entry assessment, self-service conversion mechanics, assumption-labelled
+  traffic-to-revenue scenarios and SEO risks. The 15-20 observation sweep target is
+  retired; the pool file records the shortlist, triage, latent pass and false-negative
+  audit.
+- Search-led evergreen opportunities need no contrived discontinuity: a fourth
+  archetype D (search-led) records `why_now.strength: not-required`, resting on the
+  SEO evidence instead. The missing-why-now cap applies only to archetypes A/B/C; the
+  exemption removes the cap and never adds a bonus. Change-driven (A),
+  persistent-market-failure (B) and latent (C) routes remain valid with their existing
+  evidence standards.
+- Every new scorecard carries a required `seo_assessment` block (exact seed queries
+  and intent clusters, dated demand evidence, SERP landscape, organic-entry
+  feasibility, conversion mechanics, assumption-labelled traffic-to-revenue
+  scenarios, SEO risks and honest unknowns with low-cost next checks). Volumes,
+  rankings, CPC, trends and difficulty must never be invented; a blocked or
+  unavailable check is recorded as unknown, not as absence, and search volume alone
+  is not willingness to pay.
+- The bounded latent-signal search pass (1.8.2), the triage false-negative audit, the
+  source-class budget and the money-already-moving sourcing bias are retained. The
+  shortlist/triage sequence still promotes at most three materially distinct
+  candidates per run and prefers second-order operational seams to generic
+  compliance/dashboard products.
+
+**Changed (scorecard schema v2, weights 1.3.0):**
+
+- New scorecards use schema 2, weights 1.3.0, with 12 dimensions: the three gating
+  dimensions (problem 12, buyer 12, evidence 12) plus seo_discoverability 14,
+  self_service_fit 10, distribution 5, founder_fit 10, economics 8,
+  validation_speed_cost 7, feasibility 3, differentiation 3 and risk 4. The
+  validation-ready floor moves to 9 of 12 dimensions scored; threshold (65), gating
+  minimum (3) and confidence rules are unchanged.
+- Three self-service gates join the nine general hard filters: `seo_discoverable`,
+  `self_serve_purchase` and `solo_operator_fit` (12 in total; any fail kills; pass
+  needs cited evidence; unknown needs a resolve_via).
+- Schema v1 cards are frozen: the 20 historic scorecards keep schema 1, weights 1.2.0
+  and method 1.8.2 with their original scores, reviews and decisions. They are never
+  rewritten or rescored; any re-evaluation happens through a separately labelled,
+  opt-in re-triage that shows the new verdict against the frozen original.
+
+**Changed (tooling, templates and operations):**
+
+- `scripts/validate_repo.py` (and the new `tests/` suite) validate both schema
+  versions: legacy cards must satisfy the v1 rules and may not claim method 1.9.0;
+  new cards must satisfy v2 including `seo_assessment`. `scripts/build_dashboard.py`
+  and `scripts/build_review_request.py` render both versions and the SEO block;
+  `scripts/finalize_run.py` gains the `representative` run mode used for manual or
+  representative runs.
+- Templates, `AGENTS.md`, the worker agent instructions and the run prompt now carry
+  the search-intent fields, the v2 scorecard and the SEO evidence standard.
+- Ledger metadata (ideas, seeds, experiments) moved to method 1.9.0 and schema 2;
+  historic run records remain unchanged.
+
+**Regression:** scoring semantics change only for cards created from now on.
+Threshold, gating minimum, evidence levels, lifecycle states, limits (3 candidates,
+1 validation-ready advance, 8 evidence entries per idea, 40 lookups, 120 steps,
+USD 1.00, 3600s) and review/approval rules are unchanged. All 20 legacy cards still
+validate under the frozen v1 branch, and calibration retains the 1.4.0-1.8.2 outcomes
+(GeoNerd 49.5, Aucly 60.0, L1 44.2, V1/V2 rejected) alongside the new v1.9.0
+regression checks.
+
+**Review:** requested - see `reviews/2026-10-13-method-v1.9.0-review-request.md`;
+awaiting independent review.
+
 ## 1.8.2 - 2026-09-25
 
 Motivated by issue #20 and the CLCH payer-side invoice reconciliation observation

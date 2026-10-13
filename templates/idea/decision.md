@@ -13,10 +13,14 @@
 
 ## Why now? (discovery gate)
 
-- Archetype: `change-driven` | `persistent market failure` | `latent opportunity`
-- What changed / when:
+- Archetype: `change-driven` | `persistent market failure` | `latent opportunity` | `search-led`
+- What changed / when (search-led: record `not-required` and point to the search-intent evidence):
 - Why it materially improves the opportunity:
-- Strength: `strong` | `weak` | `absent`
+- Strength: `strong` | `weak` | `absent` | `not-required`
+- Search-led candidates only (v1.9.0): no contrived discontinuity is required. Summarise
+  the search-intent evidence (exact seed queries, dated demand evidence, SERP check date)
+  and link the scorecard `seo_assessment`. The missing-why-now cap does not apply, and the
+  exemption is not a score bonus and relaxes no evidence requirement.
 - Persistent-market-failure and latent-opportunity candidates only - persistence thesis
   (both limbs must be evidenced for the missing-why-now cap to lift; record `unknown`
   where not):
@@ -44,9 +48,14 @@
 | acceptable_risk | unknown | |
 | cheap_disconfirming_test | unknown | |
 | not_all_optimistic | unknown | |
+| seo_discoverable | unknown | |
+| self_serve_purchase | unknown | |
+| solo_operator_fit | unknown | |
 
 Status values are `pass` | `unknown` | `fail`; see `method/scorecard.md`. `unknown`
-entries name what would resolve them in the scorecard's `resolve_via`.
+entries name what would resolve them in the scorecard's `resolve_via`. The last three
+filters are the founder-fit / self-service gates introduced in method 1.9.0; a `fail`
+on any filter kills the candidate.
 
 ## Evidence considered
 
@@ -55,7 +64,8 @@ decision.>
 
 ## Scores
 
-<Weighted total, threshold, per-dimension summary; link `scorecard.json`.>
+<Weighted total, threshold, per-dimension summary; link `scorecard.json`. New cards use
+schema v2 (weights 1.3.0); legacy schema-v1 cards keep their historic scores untouched.>
 
 ## Review
 
