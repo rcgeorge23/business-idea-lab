@@ -66,3 +66,4 @@ competitive position (the filing incumbents are not data publishers).
 | Date | Outcome | Why | Link |
 |---|---|---|---|
 | 2026-09-22 | created | Surfaced as an adjacent opportunity from the O10 rejection; recorded as a non-inheriting seed rather than a candidate | this file |
+| 2026-09-27 | shallow re-check; remains unexplored | HMLR news updated 2026-07-08 confirms the regulations were made on 2026-06-08, the digital submission service starts 2027-04-06, and the public dataset is expected from April 2028 at least monthly. This establishes the statutory timeline but not a buyer's recurring search workflow or willingness to pay. Dataset fields, licence/API, commercial alternatives and buyer practices remain unresolved; no evidence or score is inherited from `propident`. | `observations/20260927T051926Z-normal.md` O13 |

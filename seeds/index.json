@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "method_version": "1.8.2",
-  "updated": "2026-09-26",
+  "updated": "2026-09-27",
   "counts": {
-    "total": 13,
+    "total": 14,
     "by_status": {
       "dropped": 2,
       "promoted": 2,
-      "unexplored": 9
+      "unexplored": 10
     }
   },
   "seeds": [
@@ -193,6 +193,21 @@
       "status": "unexplored",
       "evidence": [
         "observations/20260925T115959Z-normal.md"
+      ]
+    },
+    {
+      "id": "awaab-hazard-response-clock",
+      "slug": "awaab-hazard-response-clock",
+      "title": "Awaab Phase 2 hazard-response clock and contractor handoff",
+      "origin_idea": "housing-repairs-invoice-sor-validation",
+      "observation": "O5 in observations/20260927T101528Z-normal.md: MHCLG Phase 2 guidance describes hazard-awareness, investigation, tenant communication and remedial-work deadlines for social landlords, with an expected 2026-11-30 application date.",
+      "why_materially_different": "This is a time-critical hazard intake and response workflow across social landlords and repair contractors, distinct from housing invoice-to-SOR price validation and payer-side community-care invoice reconciliation. The origin link is lineage only; no score, evidence level, state or conclusion is inherited.",
+      "recorded": "2026-09-27",
+      "status": "unexplored",
+      "evidence": [
+        "observations/20260927T101528Z-normal.md",
+        "https://www.gov.uk/government/publications/awaabs-law-phase-2-guidance-for-social-housing-landlords/awaabs-law-phase-2-guidance-for-social-landlords",
+        "https://www.gov.uk/government/publications/awaabs-law-phase-2-hazards-guidance-for-social-landlords"
       ]
     }
   ]
